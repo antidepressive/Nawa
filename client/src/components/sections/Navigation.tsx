@@ -1,0 +1,107 @@
+import { useState } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { Globe, Menu, X } from 'lucide-react';
+
+export const Navigation = () => {
+  const { language, toggleLanguage, t } = useLanguage();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navItems = [
+    { key: 'nav.home', href: '#home' },
+    { key: 'nav.about', href: '#about' },
+    { key: 'nav.programs', href: '#programs' },
+    { key: 'nav.impact', href: '#impact' },
+    { key: 'nav.contact', href: '#contact' }
+  ];
+
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xl">N</span>
+              </div>
+              <div>
+                <h1 className="font-montserrat font-bold text-xl text-primary">NAWA</h1>
+                <p className="text-xs text-gray-600 -mt-1">AlAthr</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-8">
+              {navItems.map((item, index) => (
+                <button
+                  key={item.key}
+                  onClick={() => scrollToSection(item.href)}
+                  className={`${
+                    index === 0 
+                      ? 'text-primary border-b-2 border-accent' 
+                      : 'text-gray-700 hover:text-primary'
+                  } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2`}
+                >
+                  {t(item.key)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Language Toggle & CTA */}
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={toggleLanguage}
+              className="text-sm text-gray-600 hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center"
+              aria-label="Switch language"
+            >
+              <Globe className="w-4 h-4 mr-1" />
+              <span>{t('nav.switchToArabic')}</span>
+            </button>
+            <button
+              onClick={() => scrollToSection('#contact')}
+              className="bg-accent text-text-dark px-6 py-2 rounded-lg font-semibold text-sm hover:bg-yellow-400 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+            >
+              {t('nav.becomeaSponsor')}
+            </button>
+
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-100">
+              {navItems.map((item) => (
+                <button
+                  key={item.key}
+                  onClick={() => scrollToSection(item.href)}
+                  className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md w-full text-left transition-colors duration-200"
+                >
+                  {t(item.key)}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+};
