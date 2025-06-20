@@ -69,7 +69,7 @@ export const Navigation = () => {
               aria-label="Switch language"
             >
               <Globe className="w-4 h-4 mr-1" />
-              <span>{t('nav.switchToArabic')}</span>
+              <span className="ml-[9px] mr-[9px]">{t('nav.switchToArabic')}</span>
             </button>
             <button
               onClick={() => scrollToSection('#contact')}
