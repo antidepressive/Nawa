@@ -104,7 +104,7 @@ export const translations = {
     'nav.programs': 'برامجنا',
     'nav.impact': 'الأثر',
     'nav.contact': 'تواصل معنا',
-    'nav.becomeaSponsor': 'كن راعياً',
+    'nav.becomeaSponsor': 'كن شريكنا',
     'nav.switchToArabic': 'English',
     
     // Hero Section
@@ -131,7 +131,7 @@ export const translations = {
     'programs.career.description': 'برنامج تطوير مهني شامل يقدم التدريب الشخصي والإرشاد الصناعي والمسارات المباشرة للتوظيف مع شركائنا من القطاع الخاص.',
     'programs.conferences.title': 'مؤتمرات نواة',
     'programs.conferences.description': 'مؤتمرات عالمية المستوى تجمع قادة الفكر العالميين ورجال الأعمال والشباب السعودي لتجارب تحويلية.',
-    'programs.mun.title': 'جمعية محاكاة الأمم المتحدة السعودية',
+    'programs.mun.title': 'المؤسسة السعودية لمحاكاة الأمم المتحدة',
     'programs.mun.description': 'برامج محاكاة الأمم المتحدة تطور المهارات الدبلوماسية والوعي العالمي وقدرات القيادة من خلال محاكاة المفاوضات الدولية.',
     'programs.learnMore': 'اعرف المزيد',
     'programs.sponsorPrograms': 'ارع برامجنا',
@@ -144,7 +144,7 @@ export const translations = {
     'contact.title': 'تواصل معنا',
     'contact.subtitle': 'هل أنت مستعد للشراكة معنا؟ دعونا نناقش كيف يمكننا خلق تأثير ذو معنى معاً.',
     'contact.letsConnect': 'دعونا نتواصل',
-    'contact.description': 'سواء كنت مهتماً بفرص الرعاية أو الشراكات أو معرفة المزيد عن تأثيرنا، نحن نحب أن نسمع منك. فريقنا مستعد لاستكشاف كيف يمكننا العمل معاً لتمكين الشباب السعودي.',
+    'contact.description': 'ابوابنا مفتوحة للجميع! سواء كانت استشارة، فكرة، او شراكة نواة جاهزة لحصاد مستقبلكم.',
     'contact.address': 'العنوان',
     'contact.addressValue': '7915 طريق الملك عبد العزيز، حي النهضة، جدة 23523',
     'contact.phone': 'الهاتف',
@@ -180,7 +180,7 @@ export const translations = {
     'cta.description': 'انضم إلى مهمتنا لتمكين الشباب السعودي والمساهمة في أهداف رؤية 2030 الطموحة.',
     
     // Partners
-    'partners.title': 'شركاؤنا',
+    'partners.title': 'شركاء النجاح',
     'partners.subtitle': 'موثوق من قبل المؤسسات الرائدة في المملكة العربية السعودية',
     
     // Form Options
