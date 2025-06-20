@@ -116,7 +116,7 @@ export const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-text-dark mb-1">{t('contact.phone')}</h4>
-                  <p className="text-gray-600">{t('contact.phoneValue')}</p>
+                  <p className="text-gray-600 arabic-numbers">{t('contact.phoneValue')}</p>
                 </div>
               </div>
 

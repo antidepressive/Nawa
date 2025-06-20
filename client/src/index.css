@@ -129,6 +129,15 @@
   background-color: #FFF9E6;
 }
 
+/* Arabic number formatting */
+.arabic-numbers {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+}
+
 /* Hero video overlay */
 .hero-video::before {
   content: '';
