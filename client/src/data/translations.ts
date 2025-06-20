@@ -7,7 +7,7 @@ export const translations = {
     'nav.impact': 'Impact',
     'nav.contact': 'Contact',
     'nav.becomeaSponsor': 'Become a Sponsor',
-    'nav.switchToArabic': 'العربية',
+    'nav.switchToArabic': 'Arabic',
     
     // Hero Section
     'hero.title': 'Empowering Saudi Youth to Rise',
