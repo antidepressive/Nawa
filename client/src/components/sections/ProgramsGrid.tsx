@@ -21,7 +21,7 @@ export const ProgramsGrid = () => {
   };
 
   return (
-    <section id="programs" className="py-20 bg-white">
+    <section id="programs" className="py-20 bg-white/90 backdrop-blur-sm">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title={t('programs.title')}

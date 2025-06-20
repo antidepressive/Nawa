@@ -59,6 +59,12 @@
 
   body {
     @apply bg-background text-foreground;
+    background-image: url('/attached_assets/background_1750437988819.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
   }
 }
 
