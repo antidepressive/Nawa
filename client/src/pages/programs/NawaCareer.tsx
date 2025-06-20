@@ -1,5 +1,8 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../../components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import { Link } from 'wouter';
+import backgroundImage from '@assets/background_1750437485135.png';
 
 export default function NawaCareer() {
   const { t } = useLanguage();
@@ -14,14 +17,32 @@ export default function NawaCareer() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Banner */}
-      <section className="bg-gradient-to-r from-primary to-blue-600 text-white py-20">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="font-montserrat font-bold text-4xl md:text-5xl mb-6">
-            {t('programs.career.title')}
-          </h1>
-          <p className="text-xl max-w-3xl mx-auto">
-            {t('programs.career.description')}
-          </p>
+      <section className="text-white py-20 relative overflow-hidden">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+        ></div>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-blue-600/80"></div>
+        <div className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Back to Home Button */}
+          <div className="mb-8">
+            <Link href="/">
+              <Button variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Button>
+            </Link>
+          </div>
+          <div className="text-center">
+            <h1 className="font-montserrat font-bold text-4xl md:text-5xl mb-6">
+              {t('programs.career.title')}
+            </h1>
+            <p className="text-xl max-w-3xl mx-auto">
+              {t('programs.career.description')}
+            </p>
+          </div>
         </div>
       </section>
 
