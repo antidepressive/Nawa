@@ -60,55 +60,28 @@
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+  
+  /* Hide scrollbar for all browsers */
+  body::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
   }
 }
 
-/* 
- * Global Overlay Scrollbar System
- * - Slim blue thumb (6px wide, 8px border radius)
- * - No track, no arrows, no reserved space
- * - Semi-transparent blue overlay
- * - Applied globally to all scrollable elements
- */
-
-/* WebKit/Blink browsers (Chrome, Safari, Edge) */
-*::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-*::-webkit-scrollbar-track {
+/* Hide scrollbar completely */
+::-webkit-scrollbar {
+  width: 0px;
   background: transparent;
 }
 
-*::-webkit-scrollbar-thumb {
-  background: rgba(0, 82, 204, 0.6);
-  border-radius: 8px;
-  border: none;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 82, 204, 0.8);
-}
-
-*::-webkit-scrollbar-thumb:active {
-  background: rgba(0, 82, 204, 1);
-}
-
-*::-webkit-scrollbar-button {
-  display: none;
-  width: 0;
-  height: 0;
-}
-
-*::-webkit-scrollbar-corner {
+::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* Firefox scrollbar styling */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 82, 204, 0.6) transparent;
+::-webkit-scrollbar-thumb {
+  background: transparent;
 }
 
 /* Custom utility classes */
@@ -279,7 +252,10 @@ html {
   scroll-behavior: smooth;
 }
 
-
+/* Firefox scrollbar hiding */
+html {
+  scrollbar-width: none;
+}
 
 /* Full width and height utilities */
 .full-width {
