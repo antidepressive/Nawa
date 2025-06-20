@@ -21,9 +21,8 @@ export const Hero = () => {
       ></div>
       {/* Overlay Gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="font-montserrat md:text-6xl lg:text-7xl text-white mb-6 animate-fade-in font-extrabold text-[96px]">
+        <h1 className="font-montserrat md:text-6xl lg:text-7xl text-white mb-6 animate-fade-in font-extrabold text-[96px] ml-[-60px] mr-[-60px]">
           {t('hero.title')}
         </h1>
         <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto animate-fade-in">

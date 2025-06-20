@@ -10,7 +10,7 @@ export const translations = {
     'nav.switchToArabic': 'Arabic',
     
     // Hero Section
-    'hero.title': 'At the Core of Change.',
+    'hero.title': 'Drop a seed with Nawa, and see your future transform a nation.',
     'hero.subtitle': 'We form the nucleus where Saudi youth grow into leaders.',
     'hero.downloadDeck': 'Download Sponsor Deck',
     'hero.bookCall': 'Book a Call',
@@ -27,7 +27,7 @@ export const translations = {
     'stats.partners': 'Corporate partners 10+',
     
     // Programs
-    'programs.title': 'Our Programs',
+    'programs.title': 'Our Seeds of Impact',
     'programs.subtitle': 'Three interconnected pathways designed to develop comprehensive leadership skills and create lasting impact in Saudi Arabia\'s youth development landscape.',
     'programs.career.title': 'NAWA Career',
     'programs.career.description': 'Comprehensive career development program offering personalized coaching, industry mentorship, and direct pathways to employment with our corporate partners.',
@@ -108,7 +108,7 @@ export const translations = {
     'nav.switchToArabic': 'English',
     
     // Hero Section
-    'hero.title': 'في قلب التغيير.',
+    'hero.title': 'اغرس بذرة مع نواة، وشاهد مستقبلك يحوّل الوطن.',
     'hero.subtitle': 'نشكل النواة التي ينمو فيها الشباب السعودي ليصبحوا قادة',
     'hero.downloadDeck': 'تحميل ملف الرعاية',
     'hero.bookCall': 'احجز مكالمة',
@@ -125,7 +125,7 @@ export const translations = {
     'stats.partners': '10+ شريك من الشركات',
     
     // Programs
-    'programs.title': 'برامجنا',
+    'programs.title': 'بذور أثرنا',
     'programs.subtitle': 'ثلاث مسارات مترابطة مصممة لتطوير مهارات القيادة الشاملة وخلق تأثير دائم في مشهد تطوير الشباب السعودي.',
     'programs.career.title': 'نواة المهنة',
     'programs.career.description': 'برنامج تطوير مهني شامل يقدم التدريب الشخصي والإرشاد الصناعي والمسارات المباشرة للتوظيف مع شركائنا من القطاع الخاص.',
