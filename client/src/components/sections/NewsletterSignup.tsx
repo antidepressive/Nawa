@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useToast } from '../../hooks/use-toast';
+import backgroundImage from '@assets/background_1750437485135.png';
 
 export const NewsletterSignup = () => {
   const { t } = useLanguage();
@@ -45,8 +46,15 @@ export const NewsletterSignup = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-r from-primary to-blue-600 text-white w-full">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
+    <section className="py-16 text-white w-full relative overflow-hidden">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      ></div>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-blue-600/80"></div>
+      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="font-montserrat font-bold text-3xl md:text-4xl mb-4">
             {t('newsletter.title')}
