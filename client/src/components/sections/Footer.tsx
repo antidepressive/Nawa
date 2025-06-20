@@ -1,5 +1,5 @@
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Linkedin, Twitter, Instagram, Youtube, Download, Handshake } from 'lucide-react';
+import { Linkedin, Twitter, Instagram, Youtube } from 'lucide-react';
 
 export const Footer = () => {
   const { t } = useLanguage();
@@ -11,42 +11,8 @@ export const Footer = () => {
     }
   };
 
-  const scrollToContact = () => scrollToSection('#contact');
-
   return (
-    <>
-      {/* CTA Banner */}
-      <section className="py-16 bg-accent text-text-dark">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-montserrat font-bold text-3xl md:text-4xl mb-4">
-            {t('cta.title')}
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            {t('cta.description')}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={scrollToContact}
-              className="bg-primary text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 inline-flex items-center justify-center"
-            >
-              <Handshake className="w-5 h-5 mr-2" />
-              {t('nav.becomeaSponsor')}
-            </button>
-            <a
-              href="/assets/nawa-sponsor.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-text-dark px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 inline-flex items-center justify-center"
-            >
-              <Download className="w-5 h-5 mr-2" />
-              {t('hero.downloadDeck')}
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-text-dark text-white py-16">
+    <footer className="bg-text-dark text-white py-16">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             {/* Brand */}
@@ -199,6 +165,5 @@ export const Footer = () => {
           </div>
         </div>
       </footer>
-    </>
   );
 };
