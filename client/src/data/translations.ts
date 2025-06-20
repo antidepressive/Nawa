@@ -10,8 +10,8 @@ export const translations = {
     'nav.switchToArabic': 'Arabic',
     
     // Hero Section
-    'hero.title': 'Empowering Saudi Youth to Rise',
-    'hero.subtitle': 'Experiential programs that turn ambition into real-world skills.',
+    'hero.title': 'At the Core of Change.',
+    'hero.subtitle': 'Empowering Saudi Youth to Rise',
     'hero.downloadDeck': 'Download Sponsor Deck',
     'hero.bookCall': 'Book a Call',
     
@@ -108,8 +108,8 @@ export const translations = {
     'nav.switchToArabic': 'English',
     
     // Hero Section
-    'hero.title': 'نمكّن الشباب السعودي للارتقاء والتميز',
-    'hero.subtitle': 'برامج عملية تحوّل طموح الشباب إلى مهارات واقعية.',
+    'hero.title': 'في قلب التغيير.',
+    'hero.subtitle': 'نمكّن الشباب السعودي للارتقاء والتميز',
     'hero.downloadDeck': 'تحميل ملف الرعاية',
     'hero.bookCall': 'احجز مكالمة',
     
