@@ -4,8 +4,8 @@ export const ElevatorPitch = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-16 bg-gradient-to-br from-bg-light to-white w-full">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
+    <section className="py-16 bg-gradient-to-br from-bg-light to-white">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="font-montserrat font-bold text-3xl md:text-4xl text-primary mb-8">
             {t('pitch.title')}
