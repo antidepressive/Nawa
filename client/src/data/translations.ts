@@ -13,7 +13,7 @@ export const translations = {
     'hero.title': 'Drop a seed with Nawa, and see your future transform a nation.',
     'hero.subtitle': 'We form the nucleus where Saudi youth grow into leaders.',
     'hero.downloadDeck': 'Download Sponsor Deck',
-    'hero.bookCall': 'Book a Call',
+    'hero.bookCall': 'Start your Development Journey',
     
     // Elevator Pitch
     'pitch.title': 'Transforming Saudi Arabia\'s Youth Potential',
@@ -32,7 +32,7 @@ export const translations = {
     'programs.career.title': 'NAWA Career',
     'programs.career.description': 'Comprehensive career development program offering personalized coaching, industry mentorship, and direct pathways to employment with our corporate partners.',
     'programs.conferences.title': 'NAWA Conferences',
-    'programs.conferences.description': 'World-class Leadership & Entrepreneurship Forum (LEF) bringing together global thought leaders, entrepreneurs, and Saudi youth for transformative experiences.',
+    'programs.conferences.description': 'World-class conferences bringing together global thought leaders, entrepreneurs, and Saudi youth for transformative experiences.',
     'programs.mun.title': 'Saudi MUN Association',
     'programs.mun.description': 'Model United Nations programs developing diplomatic skills, global awareness, and leadership capabilities through simulation of international negotiations.',
     'programs.learnMore': 'Learn More',
@@ -82,7 +82,7 @@ export const translations = {
     'cta.description': 'Join our mission to empower Saudi youth and contribute to Vision 2030\'s ambitious goals.',
     
     // Partners
-    'partners.title': 'Our Partners & Sponsors',
+    'partners.title': 'Our Partners',
     'partners.subtitle': 'Trusted by leading organizations across Saudi Arabia',
     
     // Form Options
@@ -111,7 +111,7 @@ export const translations = {
     'hero.title': 'اغرس بذرة مع نواة، وشاهد مستقبلك يحوّل الوطن.',
     'hero.subtitle': 'نشكل النواة التي ينمو فيها الشباب السعودي ليصبحوا قادة',
     'hero.downloadDeck': 'تحميل ملف الرعاية',
-    'hero.bookCall': 'احجز مكالمة',
+    'hero.bookCall': 'ابدأ رحلة تطويرك',
     
     // Elevator Pitch
     'pitch.title': 'تحويل إمكانات الشباب السعودي',
@@ -125,12 +125,12 @@ export const translations = {
     'stats.partners': '10+ شريك من الشركات',
     
     // Programs
-    'programs.title': 'بذور أثرنا',
+    'programs.title': 'بذور الأثر',
     'programs.subtitle': 'ثلاث مسارات مترابطة مصممة لتطوير مهارات القيادة الشاملة وخلق تأثير دائم في مشهد تطوير الشباب السعودي.',
     'programs.career.title': 'نواة المهنة',
     'programs.career.description': 'برنامج تطوير مهني شامل يقدم التدريب الشخصي والإرشاد الصناعي والمسارات المباشرة للتوظيف مع شركائنا من القطاع الخاص.',
     'programs.conferences.title': 'مؤتمرات نواة',
-    'programs.conferences.description': 'منتدى القيادة وريادة الأعمال عالمي المستوى يجمع قادة الفكر العالميين ورجال الأعمال والشباب السعودي لتجارب تحويلية.',
+    'programs.conferences.description': 'مؤتمرات عالمية المستوى تجمع قادة الفكر العالميين ورجال الأعمال والشباب السعودي لتجارب تحويلية.',
     'programs.mun.title': 'جمعية محاكاة الأمم المتحدة السعودية',
     'programs.mun.description': 'برامج محاكاة الأمم المتحدة تطور المهارات الدبلوماسية والوعي العالمي وقدرات القيادة من خلال محاكاة المفاوضات الدولية.',
     'programs.learnMore': 'اعرف المزيد',
@@ -180,7 +180,7 @@ export const translations = {
     'cta.description': 'انضم إلى مهمتنا لتمكين الشباب السعودي والمساهمة في أهداف رؤية 2030 الطموحة.',
     
     // Partners
-    'partners.title': 'شركاؤنا ورعاتنا',
+    'partners.title': 'شركاؤنا',
     'partners.subtitle': 'موثوق من قبل المؤسسات الرائدة في المملكة العربية السعودية',
     
     // Form Options

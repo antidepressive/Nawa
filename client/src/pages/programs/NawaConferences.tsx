@@ -33,7 +33,7 @@ export default function NawaConferences() {
               Program Overview
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-              NAWA Conferences brings world-class Leadership & Entrepreneurship Forums to Saudi Arabia, featuring global thought leaders, successful entrepreneurs, and inspiring speakers. Our events create transformative experiences that ignite innovation and leadership among Saudi youth.
+              NAWA Conferences brings world-class forums to Saudi Arabia, featuring global thought leaders, successful entrepreneurs, and inspiring speakers. Our events create transformative experiences that ignite innovation and leadership among Saudi youth.
             </p>
           </div>
 

@@ -62,6 +62,20 @@
   }
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0052CC;
+  border-radius: 8px;
+}
+
 /* Custom utility classes */
 .font-montserrat {
   font-family: 'Montserrat', sans-serif;

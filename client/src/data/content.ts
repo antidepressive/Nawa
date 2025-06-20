@@ -50,7 +50,7 @@ export const testimonialsData = [
     name: 'Fatima Al-Zahra',
     position: 'Founder, TechRise Saudi',
     image: 'https://images.unsplash.com/photo-1494790108755-2616b9c4a9f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200',
-    quote: 'Speaking at LEF was a turning point in my entrepreneurial journey. The platform gave me confidence and connected me with investors who believed in my vision.'
+    quote: 'Speaking at our conferences was a turning point in my entrepreneurial journey. The platform gave me confidence and connected me with investors who believed in my vision.'
   },
   {
     id: 3,
@@ -63,15 +63,11 @@ export const testimonialsData = [
 
 export const partnersData = [
   'SMA',
+  'Voyage',
   'Edad',
-  'DAH',
-  'UBT',
-  'KFUPM',
-  'Nahda Academy',
-  'Waad Academy',
-  'Dar Al Fikr',
-  'Alandalus International Schools',
-  'Ideagen'
+  'Ideagen',
+  'Delos Arabia',
+  'The Loukoumi Make A Difference Foundation'
 ];
 
 export const statsData = [
