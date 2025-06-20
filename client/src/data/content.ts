@@ -68,8 +68,7 @@ export const partnersData = [
 ];
 
 export const statsData = [
-  { value: 5000, label: 'stats.participants' },
-  { value: 50, label: 'stats.conferences' },
-  { value: 100, label: 'stats.partners' },
-  { value: 8, label: 'stats.years' }
+  { value: 15000, label: 'stats.students' },
+  { value: 20, label: 'stats.conferences' },
+  { value: 10, label: 'stats.partners' }
 ];

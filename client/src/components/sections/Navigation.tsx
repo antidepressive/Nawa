@@ -29,12 +29,13 @@ export const Navigation = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">N</span>
-              </div>
+              <img 
+                src="/assets/nawa-logo.svg" 
+                alt="Nawa Logo" 
+                className="w-10 h-10"
+              />
               <div>
-                <h1 className="font-montserrat font-bold text-xl text-primary">NAWA</h1>
-                <p className="text-xs text-gray-600 -mt-1">AlAthr</p>
+                <h1 className="font-montserrat font-bold text-xl text-primary">Nawa</h1>
               </div>
             </div>
           </div>

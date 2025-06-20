@@ -3,7 +3,6 @@ import { Hero } from '../components/sections/Hero';
 import { ElevatorPitch } from '../components/sections/ElevatorPitch';
 import { StatsCounters } from '../components/sections/StatsCounters';
 import { ProgramsGrid } from '../components/sections/ProgramsGrid';
-import { TestimonialSlider } from '../components/sections/TestimonialSlider';
 import { SponsorMarquee } from '../components/sections/SponsorMarquee';
 import { NewsletterSignup } from '../components/sections/NewsletterSignup';
 import { Contact } from '../components/sections/Contact';
@@ -18,7 +17,6 @@ export default function Home() {
       <ElevatorPitch />
       <StatsCounters />
       <ProgramsGrid />
-      <TestimonialSlider />
       <SponsorMarquee />
       <NewsletterSignup />
       <Contact />

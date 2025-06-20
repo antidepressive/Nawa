@@ -11,7 +11,7 @@ export const translations = {
     
     // Hero Section
     'hero.title': 'Empowering Saudi Youth to Rise',
-    'hero.subtitle': 'Building tomorrow\'s leaders through innovative career development, world-class conferences, and transformative educational experiences aligned with Vision 2030.',
+    'hero.subtitle': 'Experiential programs that turn ambition into real-world skills.',
     'hero.downloadDeck': 'Download Sponsor Deck',
     'hero.bookCall': 'Book a Call',
     
@@ -22,10 +22,9 @@ export const translations = {
     'pitch.paragraph3': 'Our corporate partnership model ensures sustainable impact while providing sponsors with meaningful engagement opportunities, brand visibility, and direct access to Saudi Arabia\'s most promising young talent.',
     
     // Stats
-    'stats.participants': 'Participants Trained',
-    'stats.conferences': 'Conferences Held',
-    'stats.partners': 'Corporate Partners',
-    'stats.years': 'Years Active',
+    'stats.students': 'Reached 15 000+ students',
+    'stats.conferences': 'Conferences hosted 20+',
+    'stats.partners': 'Corporate partners 10+',
     
     // Programs
     'programs.title': 'Our Programs',
@@ -103,7 +102,7 @@ export const translations = {
     
     // Hero Section
     'hero.title': 'نمكّن الشباب السعودي للارتقاء والتميز',
-    'hero.subtitle': 'نبني قادة المستقبل من خلال التطوير المهني المبتكر والمؤتمرات العالمية والتجارب التعليمية التحويلية المتماشية مع رؤية 2030.',
+    'hero.subtitle': 'برامج عملية تحوّل طموح الشباب إلى مهارات واقعية.',
     'hero.downloadDeck': 'تحميل ملف الرعاية',
     'hero.bookCall': 'احجز مكالمة',
     
@@ -114,10 +113,9 @@ export const translations = {
     'pitch.paragraph3': 'يضمن نموذج شراكتنا مع الشركات تأثيراً مستداماً مع توفير فرص تفاعل ذات معنى للرعاة، وإظهار العلامة التجارية، والوصول المباشر لأكثر المواهب السعودية الشابة واعداً.',
     
     // Stats
-    'stats.participants': 'المشاركون المدربون',
-    'stats.conferences': 'المؤتمرات المقامة',
-    'stats.partners': 'الشركاء من القطاع الخاص',
-    'stats.years': 'سنوات النشاط',
+    'stats.students': 'وصلنا إلى 15000+ طالب',
+    'stats.conferences': 'استضفنا 20+ مؤتمر',
+    'stats.partners': '10+ شريك من الشركات',
     
     // Programs
     'programs.title': 'برامجنا',

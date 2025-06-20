@@ -47,7 +47,7 @@ export const StatsCounters = () => {
     <section ref={sectionRef} className="py-20 bg-primary text-white relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-primary to-blue-600"></div>
       <div className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           {statsData.map((stat, index) => (
             <div key={index} className="animate-counter">
               <div className="text-4xl md:text-5xl font-bold text-accent mb-2">
