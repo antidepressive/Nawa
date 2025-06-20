@@ -45,8 +45,8 @@ export const NewsletterSignup = () => {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-r from-primary to-blue-600 text-white">
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 bg-gradient-to-r from-primary to-blue-600 text-white section-extended">
+      <div className="content-wrapper">
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="font-montserrat font-bold text-3xl md:text-4xl mb-4">
             {t('newsletter.title')}
