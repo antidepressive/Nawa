@@ -11,7 +11,7 @@ export const translations = {
     
     // Hero Section
     'hero.title': 'At the Core of Change.',
-    'hero.subtitle': 'Empowering Saudi Youth to Rise',
+    'hero.subtitle': 'We form the nucleus where Saudi youth grow into leaders.',
     'hero.downloadDeck': 'Download Sponsor Deck',
     'hero.bookCall': 'Book a Call',
     
@@ -109,7 +109,7 @@ export const translations = {
     
     // Hero Section
     'hero.title': 'في قلب التغيير.',
-    'hero.subtitle': 'نمكّن الشباب السعودي للارتقاء والتميز',
+    'hero.subtitle': 'نشكل النواة التي ينمو فيها الشباب السعودي ليصبحوا قادة',
     'hero.downloadDeck': 'تحميل ملف الرعاية',
     'hero.bookCall': 'احجز مكالمة',
     
