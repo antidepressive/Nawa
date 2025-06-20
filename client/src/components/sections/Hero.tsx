@@ -12,9 +12,9 @@ export const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-primary">
-      {/* Background - Solid Blue Color */}
-      <div className="absolute inset-0"></div>
+    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#003d99' }}>
+      {/* Background - Darker Blue with Bottom Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
 
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="font-montserrat font-bold text-4xl md:text-6xl lg:text-7xl text-white mb-6 animate-fade-in">
