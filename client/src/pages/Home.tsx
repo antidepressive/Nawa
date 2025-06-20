@@ -5,7 +5,6 @@ import { StatsCounters } from '../components/sections/StatsCounters';
 import { ProgramsGrid } from '../components/sections/ProgramsGrid';
 import { SponsorMarquee } from '../components/sections/SponsorMarquee';
 import { NewsletterSignup } from '../components/sections/NewsletterSignup';
-import { StayInTouch } from '../components/sections/StayInTouch';
 import { Contact } from '../components/sections/Contact';
 import { Footer } from '../components/sections/Footer';
 import { ScrollToTop } from '../components/ui/ScrollToTop';
@@ -26,7 +25,6 @@ export default function Home() {
       <ProgramsGrid />
       <SponsorMarquee />
       <NewsletterSignup />
-      <StayInTouch />
       <Contact />
       <Footer />
       <ScrollToTop />
