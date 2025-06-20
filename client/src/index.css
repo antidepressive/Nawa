@@ -57,19 +57,11 @@
     @apply border-border;
   }
 
-  html {
-    background-image: url('/background.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    min-height: 100vh;
-  }
-
-  body {
+  html, body {
     @apply text-foreground;
-    background: transparent;
-    min-height: 100vh;
+    background: linear-gradient(135deg, #001a66 0%, #003399 25%, #0052cc 50%, #003399 75%, #001a66 100%) !important;
+    background-attachment: fixed !important;
+    min-height: 100vh !important;
   }
 }
 
