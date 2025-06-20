@@ -60,28 +60,43 @@
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-  }
-  
-  /* Hide scrollbar for all browsers */
-  body::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
+    scrollbar-width: thin; /* Firefox - thin scrollbar */
+    scrollbar-color: rgba(0, 82, 204, 0.8) transparent; /* Firefox - thumb and track colors */
   }
 }
 
-/* Hide scrollbar completely */
+/* Custom overlay scrollbar with no track */
 ::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+  width: 8px;
+  position: absolute;
+  z-index: 9999;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
+  border: none;
+  margin: 0;
 }
 
 ::-webkit-scrollbar-thumb {
+  background: rgba(0, 82, 204, 0.8);
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 82, 204, 1);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+/* Ensure scrollbar doesn't take up space */
+html {
+  overflow-y: overlay;
 }
 
 /* Custom utility classes */
@@ -252,9 +267,10 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Firefox scrollbar hiding */
+/* Firefox scrollbar styling */
 html {
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 82, 204, 0.8) transparent;
 }
 
 /* Full width and height utilities */
