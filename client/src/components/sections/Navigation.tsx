@@ -27,24 +27,24 @@ export const Navigation = () => {
   return (
     <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm w-full">
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <div className="flex items-center space-x-3">
-              <img 
-                src={Nawa_Logo} 
-                alt="Nawa Logo" 
-                className="w-10 h-10"
-              />
-              <div>
-                <h1 className="font-montserrat font-bold text-xl text-primary ml-[9px] mr-[9px]">Nawa</h1>
-              </div>
+        <div className="flex items-center h-16">
+          {/* Brand Block - Always on left */}
+          <div className="flex-shrink-0 flex items-center gap-3">
+            <img 
+              src={Nawa_Logo} 
+              alt="Nawa Logo" 
+              className="w-10 h-10"
+            />
+            <div>
+              <h1 className="font-montserrat font-bold text-xl text-primary">
+                {language === 'ar' ? 'نواة' : 'Nawa'}
+              </h1>
             </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="flex items-baseline space-x-8 text-center ml-[25px] mr-[25px]">
+          {/* Navigation Menu - Center */}
+          <div className="flex-1 flex justify-center">
+            <div className="hidden md:flex items-baseline">
               {navItems.map((item, index) => (
                 <button
                   key={item.key}
@@ -53,7 +53,8 @@ export const Navigation = () => {
                     index === 0 
                       ? 'text-primary border-b-2 border-accent' 
                       : 'text-gray-700 hover:text-primary'
-                  } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 ml-[17px] mr-[17px]`}
+                  } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2`}
+                  style={{ marginInline: '17px' }}
                 >
                   {t(item.key)}
                 </button>
@@ -61,15 +62,15 @@ export const Navigation = () => {
             </div>
           </div>
 
-          {/* Language Toggle & CTA */}
-          <div className="flex items-center space-x-4">
+          {/* Action Block - Always on right */}
+          <div className="flex-shrink-0 flex items-center gap-4">
             <button
               onClick={toggleLanguage}
-              className="text-sm text-gray-600 hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center ml-[5px] mr-[5px]"
+              className="text-sm text-gray-600 hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center"
               aria-label="Switch language"
             >
               <Globe className="w-4 h-4 mr-1" />
-              <span className="ml-[9px] mr-[9px]">{t('nav.switchToArabic')}</span>
+              <span>{t('nav.switchToArabic')}</span>
             </button>
             <button
               onClick={() => scrollToSection('#contact')}
