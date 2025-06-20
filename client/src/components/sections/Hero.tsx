@@ -14,13 +14,15 @@ export const Hero = () => {
   return (
     <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <div className="absolute inset-0">
-        <img
-          src="/assets/background.png"
-          alt="Blue gradient background"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'url(/assets/background.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      ></div>
       {/* Overlay Gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
 
