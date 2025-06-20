@@ -92,6 +92,10 @@ export const translations = {
     'form.interest.other': 'Other',
     'form.interest.select': 'Select your interest',
     'form.messagePlaceholder': 'Tell us about your interest in partnering with NAWA AlAthr...',
+
+    // Legal Pages
+    'privacy.title': 'Privacy Policy',
+    'terms.title': 'Terms of Service',
   },
   ar: {
     // Navigation
@@ -186,5 +190,9 @@ export const translations = {
     'form.interest.other': 'أخرى',
     'form.interest.select': 'اختر اهتمامك',
     'form.messagePlaceholder': 'أخبرنا عن اهتمامك بالشراكة مع نواة الأثر...',
+
+    // Legal Pages
+    'privacy.title': 'سياسة الخصوصية',
+    'terms.title': 'شروط الخدمة',
   }
 };

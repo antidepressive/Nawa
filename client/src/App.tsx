@@ -9,6 +9,11 @@ import { initGA } from "./lib/analytics";
 import { useAnalytics } from "./hooks/use-analytics";
 import Home from "./pages/Home";
 import NotFound from "@/pages/not-found";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import NawaCareer from "./pages/programs/NawaCareer";
+import NawaConferences from "./pages/programs/NawaConferences";
+import SaudiMunAssociation from "./pages/programs/SaudiMunAssociation";
 
 function Router() {
   // Track page views when routes change
@@ -17,6 +22,11 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/terms-of-service" component={TermsOfService} />
+      <Route path="/programs/nawa-career" component={NawaCareer} />
+      <Route path="/programs/nawa-conferences" component={NawaConferences} />
+      <Route path="/programs/saudi-mun-association" component={SaudiMunAssociation} />
       <Route component={NotFound} />
     </Switch>
   );
