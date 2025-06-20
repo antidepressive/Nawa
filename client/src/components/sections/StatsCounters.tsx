@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { statsData } from '../../data/content';
+import backgroundImage from '@assets/background_1750437485135.png';
 
 export const StatsCounters = () => {
   const { t } = useLanguage();
@@ -44,8 +45,12 @@ export const StatsCounters = () => {
   }, [isVisible]);
 
   return (
-    <section ref={sectionRef} className="py-20 bg-primary text-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-primary to-blue-600"></div>
+    <section ref={sectionRef} className="py-20 text-white relative overflow-hidden">
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      ></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/40"></div>
       <div className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           {statsData.map((stat, index) => (
