@@ -13,8 +13,19 @@ export const NewsletterSignup = () => {
     setIsSubmitting(true);
 
     try {
-      // TODO: Implement Mailchimp API integration
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to subscribe');
+      }
+
+      const result = await response.json();
       
       toast({
         title: "Success!",

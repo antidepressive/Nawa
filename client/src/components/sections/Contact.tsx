@@ -40,10 +40,19 @@ export const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // TODO: Implement form submission to API route or Netlify forms
-      // TODO: Send sponsorship deck email
-      // TODO: HubSpot webhook integration
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      const result = await response.json();
       
       toast({
         title: "Message Sent!",

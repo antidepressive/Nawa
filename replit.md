@@ -48,7 +48,9 @@ NAWA AlAthr is a comprehensive Saudi youth development platform that empowers yo
 
 ### Database Schema
 - **Users Table**: Basic user authentication structure
-- **Schema Definition**: Drizzle ORM with Zod integration
+- **Contact Submissions**: Stores contact form data with name, organization, email, phone, interest area, and message
+- **Newsletter Subscriptions**: Stores email addresses for newsletter subscribers
+- **Schema Definition**: Drizzle ORM with Zod integration and PostgreSQL backend
 - **Type Safety**: Full TypeScript support with inferred types
 
 ## Data Flow
@@ -118,6 +120,7 @@ NAWA AlAthr is a comprehensive Saudi youth development platform that empowers yo
 Changelog:
 - June 20, 2025. Initial setup and complete bilingual website implementation
 - June 20, 2025. Brand updates: Changed "NAWA AlAthr" to "Nawa", implemented custom logo, updated hero subtitle, modified stats counters, removed testimonials section, updated partner logos
+- June 20, 2025. Database integration: Added PostgreSQL database with contact form submissions and newsletter subscriptions storage, implemented API endpoints for form handling
 ```
 
 ## User Preferences
