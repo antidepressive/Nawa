@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Globe, Menu, X } from 'lucide-react';
 
+import Nawa_Logo from "@assets/Nawa Logo.png";
+
 export const Navigation = () => {
   const { language, toggleLanguage, t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,7 +32,7 @@ export const Navigation = () => {
           <div className="flex-shrink-0">
             <div className="flex items-center space-x-3">
               <img 
-                src="/assets/nawa-logo-new.png" 
+                src={Nawa_Logo} 
                 alt="Nawa Logo" 
                 className="w-10 h-10"
               />
