@@ -106,7 +106,7 @@ export const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-text-dark mb-1">{t('contact.address')}</h4>
-                  <p className="text-gray-600">King Fahd Road, Riyadh 12345<br />Kingdom of Saudi Arabia</p>
+                  <p className="text-gray-600">{t('contact.addressValue')}</p>
                 </div>
               </div>
 
@@ -116,7 +116,7 @@ export const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-text-dark mb-1">{t('contact.phone')}</h4>
-                  <p className="text-gray-600">+966 11 234 5678</p>
+                  <p className="text-gray-600">{t('contact.phoneValue')}</p>
                 </div>
               </div>
 
@@ -126,12 +126,12 @@ export const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-text-dark mb-1">{t('contact.email')}</h4>
-                  <p className="text-gray-600">partnerships@nawaalathr.org</p>
+                  <p className="text-gray-600">{t('contact.emailValue')}</p>
                 </div>
               </div>
 
               <a
-                href="https://wa.me/966112345678"
+                href="https://wa.me/966538104164"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
@@ -141,15 +141,19 @@ export const Contact = () => {
               </a>
             </div>
 
-            {/* Google Maps Placeholder */}
+            {/* Google Maps */}
             <div className="aspect-video bg-gray-200 rounded-xl overflow-hidden">
-              <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                <div className="text-center text-gray-600">
-                  <MapPin className="w-12 h-12 mx-auto mb-4" />
-                  <p className="font-semibold">Interactive Map</p>
-                  <p className="text-sm">Google Maps Integration</p>
-                </div>
-              </div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3710.6234567890123!2d39.12345678!3d21.54321098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s7915%20King%20Abdul%20Aziz%20Rd%2C%20An%20Nahdah%20District%2C%20Jeddah%2023523!5e0!3m2!1sen!2ssa!4v1234567890123!5m2!1sen!2ssa"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="rounded-xl"
+                title="Nawa Location"
+              />
             </div>
           </div>
 

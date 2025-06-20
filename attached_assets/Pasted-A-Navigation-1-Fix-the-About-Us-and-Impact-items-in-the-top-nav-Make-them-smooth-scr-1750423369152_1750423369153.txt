@@ -1,0 +1,42 @@
+A. Navigation
+1. Fix the “About Us” and “Impact” items in the top nav:  
+   • Make them smooth-scroll to the existing #about and #impact section IDs on the Home page, or route to /about and /impact pages if you already split them.  
+   • Ensure active-link underline still works in EN & AR.
+
+B. Contact Information
+2. Update all visible contact details site-wide:  
+   • Phone: **+966 538 104 164**  
+   • Email: **info@nawa.sa**  
+   • WhatsApp link: `https://wa.me/966538104164` (same number).  
+   • Replace every old value in footers, headers, and the contact form auto-reply.
+
+3. Address: replace with  
+   **“7915 King Abdul Aziz Rd, An Nahdah District, Jeddah 23523”**  
+   Display in both languages; use proper RTL alignment in Arabic.
+
+4. Google Maps:  
+   • Embed an <iframe> map in the Contact page using this address (17:9 aspect, rounded corners, lazy-loaded).  
+   • Add a `loading="lazy"` attribute for performance.
+
+C. Missing Legal Pages
+5. Create `/privacy-policy` and `/terms-of-service` pages (and Arabic equivalents `/ar/privacy-policy`, `/ar/terms-of-service`).  
+   • Simple h1 + placeholder lorem text for now.  
+   • Ensure footer links now point to these routes (no 404s).
+
+D. Program Sub-Pages
+6. Generate three new pages under `/programs` (EN) and `/ar/programs`:  
+   • `/programs/nawa-career` (Arabic `/ar/programs/nawa-career`)  
+   • `/programs/nawa-conferences` (Arabic `/ar/programs/nawa-conferences`)  
+   • `/programs/saudi-mun-association` (Arabic `/ar/programs/saudi-mun-association`)  
+   Each page needs: hero banner, one-paragraph overview, bullet outcomes, a “Sponsor this program” CTA button that scrolls to Contact.  
+   Update the Programs & Services page cards so “Learn more” links route to these pages.
+
+E. Assets
+7. Replace the Saudi MUN Association logo background:  
+   • In `/public/assets/sma-logo.svg` (or .png), change background rectangle to **#000000** (black) instead of green.  
+   • Make sure it still looks crisp on white/neutral sections.
+
+F. i18n
+8. Mirror all text/links above in Arabic JSON files; keep phone, email, and map identical.
+
+After these updates, run the dev server so I can verify. No other content or styling should be altered.
