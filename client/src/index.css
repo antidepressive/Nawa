@@ -64,56 +64,46 @@
 }
 
 /* 
- * Global Overlay Scrollbar System
- * - Slim blue thumb (6px wide, 8px border radius)
- * - No track, no arrows, no reserved space
- * - Semi-transparent blue overlay
- * - Cross-browser support
- * 
- * To scope to a single container, replace * with your selector:
- * .my-container::-webkit-scrollbar { ... }
+ * Minimal Overlay Scrollbar - Thumb Only
+ * Completely removes track, arrows, and background
  */
 
-/* WebKit/Blink browsers (Chrome, Safari, Edge) */
-*::-webkit-scrollbar {
+/* Hide default scrollbars completely first */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Then apply custom overlay scrollbar only where needed */
+.scrollable-content::-webkit-scrollbar {
   width: 6px;
-  height: 6px;
 }
 
-*::-webkit-scrollbar-track {
+.scrollable-content::-webkit-scrollbar-track {
   background: transparent;
-  border: none;
 }
 
-*::-webkit-scrollbar-thumb {
+.scrollable-content::-webkit-scrollbar-thumb {
   background: rgba(0, 82, 204, 0.6);
   border-radius: 8px;
   border: none;
-  min-height: 20px;
 }
 
-*::-webkit-scrollbar-thumb:hover {
+.scrollable-content::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 82, 204, 0.8);
 }
 
-*::-webkit-scrollbar-thumb:active {
-  background: rgba(0, 82, 204, 1);
-}
-
-/* Remove scrollbar arrows completely */
-*::-webkit-scrollbar-button {
+.scrollable-content::-webkit-scrollbar-button {
   display: none;
-  width: 0;
-  height: 0;
 }
 
-*::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-/* Ensure scrollbar is overlay (doesn't take space) */
-html {
-  overflow: overlay;
+.scrollable-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 82, 204, 0.6) transparent;
 }
 
 /* Custom utility classes */
@@ -284,10 +274,31 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Firefox scrollbar styling */
-* {
+/* Apply overlay scrollbar to body for main page scrolling */
+body {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 82, 204, 0.6) transparent;
+}
+
+body::-webkit-scrollbar {
+  width: 6px;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: rgba(0, 82, 204, 0.6);
+  border-radius: 8px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 82, 204, 0.8);
+}
+
+body::-webkit-scrollbar-button {
+  display: none;
 }
 
 /* Full width and height utilities */

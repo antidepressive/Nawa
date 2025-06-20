@@ -2,7 +2,7 @@ export const ScrollbarDemo = () => {
   return (
     <div className="p-6 bg-gray-50 rounded-lg">
       <h3 className="font-semibold text-lg mb-4">Overlay Scrollbar Demo</h3>
-      <div className="h-32 overflow-y-auto bg-white p-4 rounded border">
+      <div className="h-32 overflow-y-auto bg-white p-4 rounded border scrollable-content">
         <p>This is a scrollable container to demonstrate the overlay scrollbar.</p>
         <p className="mt-2">The scrollbar appears as a slim blue thumb on top of the content.</p>
         <p className="mt-2">No track, no arrows, no reserved space.</p>
