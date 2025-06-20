@@ -64,44 +64,49 @@
 }
 
 /* 
- * Minimal Overlay Scrollbar - Thumb Only
- * Completely removes track, arrows, and background
+ * Global Overlay Scrollbar System
+ * - Slim blue thumb (6px wide, 8px border radius)
+ * - No track, no arrows, no reserved space
+ * - Semi-transparent blue overlay
+ * - Applied globally to all scrollable elements
  */
 
-/* Hide default scrollbars completely first */
-html {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-html::-webkit-scrollbar {
-  display: none;
-}
-
-/* Then apply custom overlay scrollbar only where needed */
-.scrollable-content::-webkit-scrollbar {
+/* WebKit/Blink browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
-.scrollable-content::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.scrollable-content::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background: rgba(0, 82, 204, 0.6);
   border-radius: 8px;
   border: none;
 }
 
-.scrollable-content::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 82, 204, 0.8);
 }
 
-.scrollable-content::-webkit-scrollbar-button {
-  display: none;
+*::-webkit-scrollbar-thumb:active {
+  background: rgba(0, 82, 204, 1);
 }
 
-.scrollable-content {
+*::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox scrollbar styling */
+* {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 82, 204, 0.6) transparent;
 }
@@ -274,32 +279,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Apply overlay scrollbar to body for main page scrolling */
-body {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 82, 204, 0.6) transparent;
-}
 
-body::-webkit-scrollbar {
-  width: 6px;
-}
-
-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-body::-webkit-scrollbar-thumb {
-  background: rgba(0, 82, 204, 0.6);
-  border-radius: 8px;
-}
-
-body::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 82, 204, 0.8);
-}
-
-body::-webkit-scrollbar-button {
-  display: none;
-}
 
 /* Full width and height utilities */
 .full-width {

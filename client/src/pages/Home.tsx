@@ -8,7 +8,6 @@ import { NewsletterSignup } from '../components/sections/NewsletterSignup';
 import { Contact } from '../components/sections/Contact';
 import { Footer } from '../components/sections/Footer';
 import { ScrollToTop } from '../components/ui/ScrollToTop';
-import { ScrollbarDemo } from '../components/ui/ScrollbarDemo';
 
 export default function Home() {
   return (
@@ -25,11 +24,6 @@ export default function Home() {
       </section>
       <ProgramsGrid />
       <SponsorMarquee />
-      <div className="py-8 bg-gray-100">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <ScrollbarDemo />
-        </div>
-      </div>
       <NewsletterSignup />
       <Contact />
       <Footer />
