@@ -53,7 +53,7 @@ export const Navigation = () => {
                     index === 0 
                       ? 'text-primary border-b-2 border-accent' 
                       : 'text-gray-700 hover:text-primary'
-                  } px-3 py-2 text-sm font-medium ml-[17px] mr-[17px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2`}
+                  } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 ml-[17px] mr-[17px]`}
                 >
                   {t(item.key)}
                 </button>
