@@ -12,15 +12,9 @@ export const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Video/Image */}
-      <div className="absolute inset-0 hero-video">
-        <img
-          src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080"
-          alt="Saudi youth engaged in educational activities"
-          className="w-full h-full object-cover"
-        />
-      </div>
+    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-primary">
+      {/* Background - Solid Blue Color */}
+      <div className="absolute inset-0"></div>
 
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="font-montserrat font-bold text-4xl md:text-6xl lg:text-7xl text-white mb-6 animate-fade-in">
