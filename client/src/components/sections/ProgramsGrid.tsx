@@ -11,7 +11,7 @@ const iconMap = {
 };
 
 export const ProgramsGrid = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
@@ -47,10 +47,10 @@ export const ProgramsGrid = () => {
                     {t(`programs.${program.id}.description`)}
                   </p>
                   <ul className="space-y-2 mb-8 text-sm text-gray-600">
-                    {program.features.map((feature, index) => (
+                    {(language === 'ar' && program.featuresAr ? program.featuresAr : program.features).map((feature, index) => (
                       <li key={index} className="flex items-center">
                         <Check className="w-4 h-4 text-accent mr-2 flex-shrink-0" />
-                        {feature}
+                        <span className={language === 'ar' ? 'arabic-numbers' : ''}>{feature}</span>
                       </li>
                     ))}
                   </ul>

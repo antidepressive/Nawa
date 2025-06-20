@@ -9,6 +9,12 @@ export const programsData = [
       'Industry Mentorship Program', 
       'Job Placement Assistance',
       'Skills Development Workshops'
+    ],
+    featuresAr: [
+      'تدريب مهني شخصي ١:١',
+      'برنامج الإرشاد الصناعي',
+      'مساعدة في التوظيف',
+      'ورش تطوير المهارات'
     ]
   },
   {
@@ -21,6 +27,12 @@ export const programsData = [
       'Networking Opportunities',
       'Workshop Sessions', 
       'Innovation Showcases'
+    ],
+    featuresAr: [
+      'متحدثون عالميون',
+      'فرص التواصل',
+      'جلسات ورش العمل',
+      'عروض الابتكار'
     ]
   },
   {
@@ -33,6 +45,12 @@ export const programsData = [
       'Public Speaking Development',
       'International Conferences',
       'Cultural Exchange'
+    ],
+    featuresAr: [
+      'التدريب الدبلوماسي',
+      'تطوير الخطابة العامة',
+      'المؤتمرات الدولية',
+      'التبادل الثقافي'
     ]
   }
 ];

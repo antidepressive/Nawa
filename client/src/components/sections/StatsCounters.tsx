@@ -4,7 +4,7 @@ import { statsData } from '../../data/content';
 import backgroundImage from '@assets/background_1750437485135.png';
 
 export const StatsCounters = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const [counts, setCounts] = useState(statsData.map(() => 0));
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -55,7 +55,7 @@ export const StatsCounters = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           {statsData.map((stat, index) => (
             <div key={index} className="animate-counter">
-              <div className="text-4xl md:text-5xl font-bold text-accent mb-2">
+              <div className={`text-4xl md:text-5xl font-bold text-accent mb-2 ${language === 'ar' ? 'arabic-numbers' : ''}`}>
                 {counts[index].toLocaleString()}
               </div>
               <div className="text-lg font-medium">{t(stat.label)}</div>
