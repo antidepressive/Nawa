@@ -37,7 +37,7 @@ export const Navigation = () => {
                 className="w-10 h-10"
               />
               <div>
-                <h1 className="font-montserrat font-bold text-xl text-primary">Nawa</h1>
+                <h1 className="font-montserrat font-bold text-xl text-primary ml-[9px] mr-[9px]">نواة</h1>
               </div>
             </div>
           </div>
