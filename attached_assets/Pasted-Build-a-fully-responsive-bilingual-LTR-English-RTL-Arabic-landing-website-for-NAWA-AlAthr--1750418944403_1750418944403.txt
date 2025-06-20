@@ -1,0 +1,87 @@
+Build a *fully responsive*, bilingual (LTR English ↔ RTL Arabic) landing website for **NAWA AlAthr (شركة نواة الأثر)** aimed at corporate sponsors and partners.
+
+==============================
+1️⃣  Global Requirements
+==============================
+• Framework/Stack: Next.js 14 + Tailwind CSS + i18n routing (en/ar).  
+• Design tokens  
+  - Colors:  ─ primary #0052CC (Royal Blue)  ─ accent #FFC857 (Gold)  ─ bg #FFFFFF  ─ text-dark #212121  
+  - Fonts (load from Google):  ─ English H1-H3 = ‘Montserrat’ 700/600  ─ English body = ‘Inter’ 400/500  ─ Arabic H1-H3 = ‘Cairo’ 700/600  ─ Arabic body = ‘Tajawal’ 400/500  
+• Layout grid: max-w-screen-xl, 1.5 rem section-gap, 2xl rounded cards, soft shadow.  
+• Persistent elements  
+  - Sticky top nav with EN/AR toggle and a highlighted CTA button **“Become a Sponsor”** (scrolls to contact form).  
+  - Footer with quick links, social icons (LinkedIn, X/Twitter, Instagram, YouTube), © 2025 notice, Privacy + Terms links.  
+• SEO/meta tags (title, description, OpenGraph) per page.  
+• WCAG 2.1 AA: semantic HTML, alt text, focus outlines.  
+• Performance: images in /public optimized + Next/Image, lazy-load video.  
+• GA-4 placeholder script and environment variable for key.  
+
+==============================
+2️⃣  Top-Level Navigation
+==============================
+Home | About Us | Programs & Services | Impact | Contact  
+(Language toggle on far right; active link underline animation.)
+
+==============================
+3️⃣  Page Specifications
+==============================
+
+🔹 **Home (الرئيسية)**  
+• Hero section: fullscreen video banner (looping montage of youth programs); overlay headline “Empowering Saudi youth to rise.” + secondary AR headline. Two CTA buttons: **Download Sponsor Deck** (link to /assets/nawa-sponsor.pdf) & **Book a Call** (#contact).  
+• 3-sentence elevator pitch paragraph.  
+• Animated counters (JS intersection observer) for: Participants trained, Conferences held, Corporate partners, Years active.  
+• “Our Programs” cards grid (3 cards) with icon, short blurb, “Learn more” link to anchor IDs in Programs page.  
+• Impact testimonial slider (image + quote).  
+• Rolling sponsor/partner logo marquee.  
+• Simple Mailchimp embed “Stay in touch” (email field).  
+• Secondary CTA banner repeating “Become a Sponsor”.
+
+🔹 **About Us (من نحن)**  
+• Mission - Vision - Values list with icons.  
+• Horizontal timeline of founding story milestones (scroll reveal).  
+• Leadership grid (photo, name, title, LinkedIn).  
+• Governance & advisory board accordion.  
+• “How we support Vision 2030” infographic (SVG).  
+• Download button for Company-Profile.pdf.
+
+🔹 **Programs & Services (برامجنا)**  
+Intro paragraph + diagram showing 3 interconnected branches.  
+Accordion or sub-tabs:  
+  1. **NAWA Career** – overview, sample career tracks list, outcomes stats, sponsor opportunities table.  
+  2. **NAWA Conferences** – LEF description, highlight video embed, upcoming edition card with date/location, sponsorship tiers table.  
+  3. **Saudi MUN Association** – history paragraph, annual conference calendar table, delegate-training bullets, school-licensing CTA.  
+Each sub-section ends with a “Sponsor this Program” button (scroll to contact form).
+
+🔹 **Impact (الأثر)**  
+• Interactive charts: participants/year (bar), gender split (doughnut). Use Recharts.  
+• Alumni success stories carousel (photo, name, placement).  
+• Media-coverage logo grid (clickable).  
+• UN SDG badges (inline SVG icons).  
+• Button: **Download Impact Report** (/assets/impact-2025.pdf).
+
+🔹 **Contact (تواصل معنا)**  
+• Two-column layout: left = intro text + WhatsApp API link + address with embedded Google Map; right = contact form.  
+• Form fields: Name*, Organization, Email*, Phone, Interest (drop-down: Sponsorship | Partnership | Media | Other), Message*.  
+• Form validation, Netlify forms or API route handler, success toast.  
+• After submit: auto-email sends sponsorship deck (PDF) & HubSpot webhook (env vars).
+
+==============================
+4️⃣  Utility Components
+==============================
+• LanguageContext + hook for dir, font-family swap.  
+• “Scroll to top” button.  
+• Reusable SectionHeading component (title + subtitle + seed-line motif icon).  
+
+==============================
+5️⃣  Assets & Placeholders
+==============================
+• Place all PDFs in /public/assets.  
+• Use Unsplash placeholders tagged “Saudi youth education” until real photos provided.  
+• Replace LOGO-STRIP with <ul class=\"flex gap-8 opacity-60 grayscale hover:grayscale-0\">…</ul> using temp SVG logos.  
+
+==============================
+6️⃣  Deliverables
+==============================
+• Complete Next.js project with pages, components, styles.  
+• README.md with setup & i18n editing instructions.  
+• Deployed preview link (Replit web server). 
