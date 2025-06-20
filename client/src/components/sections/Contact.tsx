@@ -80,8 +80,8 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-50">
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-20 bg-gray-50 w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title={t('contact.title')}
           subtitle={t('contact.subtitle')}
