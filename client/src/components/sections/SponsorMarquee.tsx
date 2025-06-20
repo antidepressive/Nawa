@@ -5,8 +5,8 @@ export const SponsorMarquee = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-16 bg-white border-t border-gray-100 section-extended">
-      <div className="content-wrapper">
+    <section className="py-16 bg-white border-t border-gray-100">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-montserrat font-bold text-2xl md:text-3xl text-primary mb-4">
             {t('partners.title')}
