@@ -52,11 +52,13 @@ export const Footer = () => {
             {/* Brand */}
             <div className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">N</span>
-                </div>
+                <img 
+                  src="/assets/nawa-logo.svg" 
+                  alt="Nawa Logo" 
+                  className="w-12 h-12"
+                />
                 <div>
-                  <h1 className="font-montserrat font-bold text-2xl text-white">NAWA AlAthr</h1>
+                  <h1 className="font-montserrat font-bold text-2xl text-white">Nawa</h1>
                   <p className="text-gray-400 text-sm">شركة نواة الأثر</p>
                 </div>
               </div>

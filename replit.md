@@ -116,7 +116,8 @@ NAWA AlAthr is a comprehensive Saudi youth development platform that empowers yo
 
 ```
 Changelog:
-- June 20, 2025. Initial setup
+- June 20, 2025. Initial setup and complete bilingual website implementation
+- June 20, 2025. Brand updates: Changed "NAWA AlAthr" to "Nawa", implemented custom logo, updated hero subtitle, modified stats counters, removed testimonials section, updated partner logos
 ```
 
 ## User Preferences

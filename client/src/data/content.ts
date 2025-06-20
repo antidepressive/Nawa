@@ -59,12 +59,16 @@ export const testimonialsData = [
 ];
 
 export const partnersData = [
-  'Aramco',
-  'SABIC', 
-  'STC',
-  'NEOM',
-  'PIF',
-  'Almarai'
+  'SMA',
+  'Edad',
+  'DAH',
+  'UBT',
+  'KFUPM',
+  'Nahda Academy',
+  'Waad Academy',
+  'Dar Al Fikr',
+  'Alandalus International Schools',
+  'Ideagen'
 ];
 
 export const statsData = [
