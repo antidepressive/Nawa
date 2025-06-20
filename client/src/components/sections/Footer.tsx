@@ -16,7 +16,7 @@ export const Footer = () => {
   return (
     <>
       {/* CTA Banner */}
-      <section className="py-16 bg-accent/90 backdrop-blur-sm text-text-dark">
+      <section className="py-16 bg-accent text-text-dark">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-montserrat font-bold text-3xl md:text-4xl mb-4">
             {t('cta.title')}
@@ -46,7 +46,7 @@ export const Footer = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-text-dark/90 backdrop-blur-sm text-white py-16">
+      <footer className="bg-text-dark text-white py-16">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             {/* Brand */}

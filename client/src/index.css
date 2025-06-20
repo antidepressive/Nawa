@@ -57,11 +57,8 @@
     @apply border-border;
   }
 
-  html, body {
-    @apply text-foreground;
-    background: linear-gradient(135deg, #001a66 0%, #003399 25%, #0052cc 50%, #003399 75%, #001a66 100%) !important;
-    background-attachment: fixed !important;
-    min-height: 100vh !important;
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
