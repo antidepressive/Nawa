@@ -13,9 +13,15 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <Hero />
-      <ElevatorPitch />
-      <StatsCounters />
+      <section id="home">
+        <Hero />
+      </section>
+      <section id="about">
+        <ElevatorPitch />
+      </section>
+      <section id="impact">
+        <StatsCounters />
+      </section>
       <ProgramsGrid />
       <SponsorMarquee />
       <NewsletterSignup />

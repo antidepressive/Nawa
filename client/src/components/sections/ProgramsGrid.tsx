@@ -2,6 +2,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { SectionHeading } from '../ui/SectionHeading';
 import { programsData } from '../../data/content';
 import { Rocket, Users, Globe, Check, ArrowRight, Handshake } from 'lucide-react';
+import { Link } from 'wouter';
 
 const iconMap = {
   rocket: Rocket,
@@ -53,18 +54,13 @@ export const ProgramsGrid = () => {
                       </li>
                     ))}
                   </ul>
-                  <button
-                    onClick={() => {
-                      const element = document.querySelector(`#${program.id}-details`);
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
+                  <Link 
+                    href={`/programs/${program.url}`}
                     className="inline-flex items-center text-primary font-semibold hover:text-blue-700 transition-colors group focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
                   >
                     {t('programs.learnMore')}
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             );

@@ -189,10 +189,10 @@ export const Footer = () => {
           <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">{t('footer.copyright')}</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/privacy" className="text-gray-400 hover:text-accent text-sm transition-colors duration-200">
+              <a href="/privacy-policy" className="text-gray-400 hover:text-accent text-sm transition-colors duration-200">
                 {t('footer.privacy')}
               </a>
-              <a href="/terms" className="text-gray-400 hover:text-accent text-sm transition-colors duration-200">
+              <a href="/terms-of-service" className="text-gray-400 hover:text-accent text-sm transition-colors duration-200">
                 {t('footer.terms')}
               </a>
             </div>

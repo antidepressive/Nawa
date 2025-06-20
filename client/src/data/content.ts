@@ -1,6 +1,7 @@
 export const programsData = [
   {
     id: 'career',
+    url: 'nawa-career',
     icon: 'rocket',
     gradient: 'from-blue-600 to-blue-700',
     features: [
@@ -12,6 +13,7 @@ export const programsData = [
   },
   {
     id: 'conferences',
+    url: 'nawa-conferences',
     icon: 'users',
     gradient: 'from-yellow-500 to-yellow-600',
     features: [
@@ -23,6 +25,7 @@ export const programsData = [
   },
   {
     id: 'mun',
+    url: 'saudi-mun-association',
     icon: 'globe',
     gradient: 'from-green-500 to-emerald-600',
     features: [
