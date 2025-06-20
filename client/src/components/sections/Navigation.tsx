@@ -29,13 +29,13 @@ export const Navigation = () => {
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16">
           {/* Brand Block - Always on left */}
-          <div className="flex-shrink-0 flex items-center gap-3">
+          <div className="flex-shrink-0 flex items-center">
             <img 
               src={Nawa_Logo} 
               alt="Nawa Logo" 
               className="w-10 h-10"
             />
-            <div>
+            <div className={language === 'ar' ? 'mr-3' : 'ml-3'}>
               <h1 className="font-montserrat font-bold text-xl text-primary">
                 {language === 'ar' ? 'نواة' : 'Nawa'}
               </h1>
@@ -44,7 +44,7 @@ export const Navigation = () => {
 
           {/* Navigation Menu - Center */}
           <div className="flex-1 flex justify-center">
-            <div className="hidden md:flex items-baseline">
+            <div className="hidden md:flex items-baseline gap-8">
               {navItems.map((item, index) => (
                 <button
                   key={item.key}
@@ -53,8 +53,7 @@ export const Navigation = () => {
                     index === 0 
                       ? 'text-primary border-b-2 border-accent' 
                       : 'text-gray-700 hover:text-primary'
-                  } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2`}
-                  style={{ marginInline: '17px' }}
+                  } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 whitespace-nowrap`}
                 >
                   {t(item.key)}
                 </button>
@@ -69,7 +68,7 @@ export const Navigation = () => {
               className="text-sm text-gray-600 hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center"
               aria-label="Switch language"
             >
-              <Globe className="w-4 h-4 mr-1" />
+              <Globe className={`w-4 h-4 ${language === 'ar' ? 'ml-1' : 'mr-1'}`} />
               <span>{t('nav.switchToArabic')}</span>
             </button>
             <button
