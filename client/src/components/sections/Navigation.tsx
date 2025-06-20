@@ -44,7 +44,7 @@ export const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
+            <div className="ml-10 flex items-baseline space-x-8 text-center">
               {navItems.map((item, index) => (
                 <button
                   key={item.key}
