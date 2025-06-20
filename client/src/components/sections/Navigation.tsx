@@ -65,7 +65,7 @@ export const Navigation = () => {
           <div className="flex items-center space-x-4">
             <button
               onClick={toggleLanguage}
-              className="text-sm text-gray-600 hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center"
+              className="text-sm text-gray-600 hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center ml-[5px] mr-[5px]"
               aria-label="Switch language"
             >
               <Globe className="w-4 h-4 mr-1" />
