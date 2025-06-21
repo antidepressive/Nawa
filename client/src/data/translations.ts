@@ -98,7 +98,7 @@ export const translations = {
 
     // Partners
     "partners.title": "Our Partners",
-    "partners.subtitle": "Trusted by leading organizations across Saudi Arabia",
+    "partners.subtitle": "Trusted by leading organizations across the globe.",
 
     // Form Options
     "form.interest.sponsorship": "Sponsorship",
