@@ -208,7 +208,25 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-33.33%);
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-seamless {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
@@ -226,6 +244,46 @@
 
 .animate-scroll {
   animation: scroll 20s linear infinite;
+}
+
+.animate-scroll-seamless {
+  animation: scroll-seamless 20s linear infinite;
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 20s linear infinite;
+}
+
+/* Marquee styles for seamless infinite scroll */
+.marquee-content {
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1rem;
+  animation: marquee 20s linear infinite;
+  width: fit-content;
+}
+
+@media (min-width: 640px) {
+  .marquee-track {
+    gap: 2rem;
+  }
+}
+
+.marquee-item {
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Focus styles for accessibility */
