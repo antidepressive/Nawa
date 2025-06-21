@@ -28,7 +28,7 @@ export const ProgramsGrid = () => {
           subtitle={t('programs.subtitle')}
         />
 
-        <div className="grid md:grid-cols-3 gap-8 mt-[0px] mb-[0px] ml-[160px] mr-[160px]">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto justify-items-center">
           {programsData.map((program) => {
             const IconComponent = iconMap[program.icon as keyof typeof iconMap];
             return (
@@ -37,8 +37,10 @@ export const ProgramsGrid = () => {
                 className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full"
               >
                 <div className="p-8 flex flex-col flex-grow">
-                  <div className={`w-16 h-16 bg-gradient-to-br ${program.gradient} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className="w-8 h-8 text-white" />
+                  <div className="flex justify-center mb-6">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${program.gradient} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                      <IconComponent className="w-8 h-8 text-white" />
+                    </div>
                   </div>
                   <h3 className="font-montserrat font-bold text-2xl text-primary mb-4 text-center">
                     {t(`programs.${program.id}.title`)}
