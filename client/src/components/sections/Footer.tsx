@@ -19,7 +19,7 @@ export const Footer = () => {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             {/* Brand */}
-            <div className="md:col-span-2">
+            <div className="md:col-span-2 ml-[25px] mr-[25px] mt-[-10px] mb-[-10px] pt-[0px] pb-[0px] pl-[25px] pr-[25px] text-left">
               <div className="flex items-center space-x-3 mb-6">
                 <img 
                   src={NawaLogo} 
