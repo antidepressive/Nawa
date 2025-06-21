@@ -59,7 +59,7 @@ export const translations = {
       "Whether you're interested in sponsorship opportunities, partnerships, or learning more about our impact, we'd love to hear from you. Our team is ready to explore how we can work together to empower Saudi youth.",
     "contact.address": "Address",
     "contact.addressValue":
-      "7915 King Abdul Aziz Rd, An Nahdah District, Jeddah 23523",
+      "7915 King Abdul Aziz Road, An Nahdah District, Jeddah 23523",
     "contact.phone": "Phone",
     "contact.phoneValue": "+966 538 104 164",
     "contact.email": "Email",
@@ -171,9 +171,9 @@ export const translations = {
     "contact.description":
       "ابوابنا مفتوحة للجميع! سواء كانت استشارة، فكرة، او شراكة نواة جاهزة لحصاد مستقبلكم.",
     "contact.address": "العنوان",
-    "contact.addressValue": "7915 طريق الملك عبد العزيز، حي النهضة، جدة 23523",
+    "contact.addressValue": "طريق الملك عبد العزيز، حي النهضة، جدة 23523",
     "contact.phone": "الهاتف",
-    "contact.phoneValue": "+٩٦٦٥٣٨١٠٤١٦٤",
+    "contact.phoneValue": "+966 538 104 164",
     "contact.email": "البريد الإلكتروني",
     "contact.emailValue": "info@nawa.sa",
     "contact.whatsapp": "تواصل عبر واتساب",
