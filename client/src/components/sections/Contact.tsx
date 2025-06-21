@@ -154,7 +154,7 @@ export const Contact = () => {
               </p>
             </div>
 
-            <div className="space-y-8 mt-[32px] mb-[32px] flex flex-col items-center">
+            <div className="space-y-8 mt-[32px] mb-[32px] flex flex-col items-center ml-[0px] mr-[0px] pt-[0px] pb-[0px] pl-[103px] pr-[103px]">
               <div className={`flex items-start ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Phone className="w-5 h-5 text-primary" />
