@@ -195,7 +195,7 @@ export const Contact = () => {
 
           {/* Contact Form */}
           <div className="bg-white rounded-2xl shadow-xl p-8">
-            <h3 className="font-montserrat font-bold text-2xl text-primary mb-6">
+            <h3 className="font-montserrat font-bold text-2xl text-primary mb-6 text-center">
               {t("contact.formTitle")}
             </h3>
 
