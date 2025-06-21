@@ -40,7 +40,7 @@ export const ProgramsGrid = () => {
                   <div className={`w-16 h-16 bg-gradient-to-br ${program.gradient} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <IconComponent className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="font-montserrat font-bold text-2xl text-primary mb-4">
+                  <h3 className="font-montserrat font-bold text-2xl text-primary mb-4 text-center">
                     {t(`programs.${program.id}.title`)}
                   </h3>
                   <p className={`text-gray-600 mb-6 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
