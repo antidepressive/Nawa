@@ -106,7 +106,7 @@ export const Contact = () => {
               </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 mt-[30px] mb-[30px]">
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <MapPin className="w-5 h-5 text-primary" />

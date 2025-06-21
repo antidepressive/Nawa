@@ -133,7 +133,7 @@ export const Footer = () => {
           </div>
 
           <div className="border-t border-gray-300 mt-12 pt-8 flex flex-col md:flex-row justify-center items-center">
-            <p className="text-white text-sm">{t('footer.copyright')}</p>
+            <p className="text-white text-[18px]">{t('footer.copyright')}</p>
           </div>
         </div>
       </footer>
