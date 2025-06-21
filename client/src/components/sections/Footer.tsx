@@ -1,6 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Linkedin, Twitter, Instagram, Youtube } from 'lucide-react';
 import NawaLogo from '@assets/Nawa Logo.png';
+import FooterBackground from '@assets/background_1750437347589.png';
 
 export const Footer = () => {
   const { t } = useLanguage();
@@ -13,7 +14,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-background py-16 w-full">
+    <footer className="py-16 w-full relative" style={{ backgroundImage: `url(${FooterBackground})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             {/* Brand */}
