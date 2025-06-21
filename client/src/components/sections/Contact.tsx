@@ -36,13 +36,60 @@ export const Contact = () => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Partial<FormData>>({});
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    const phoneRegex = /^\+966[5-9]\d{8}$/;
+    return phoneRegex.test(phone);
+  };
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    const newErrors: Partial<FormData> = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    
+    if (formData.phone && !validatePhone(formData.phone)) {
+      newErrors.phone = "Phone number must be in format +966xxxxxxxxx";
+    }
+    
+    if (!formData.interest) {
+      newErrors.interest = "Please select your area of interest";
+    }
+    
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -75,6 +122,7 @@ export const Contact = () => {
         interest: "",
         message: "",
       });
+      setErrors({});
     } catch (error) {
       toast({
         title: "Error",
@@ -173,7 +221,11 @@ export const Contact = () => {
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     required
                     disabled={isSubmitting}
+                    className={errors.name ? "border-red-500" : ""}
                   />
+                  {errors.name && (
+                    <p className="text-red-500 text-sm">{errors.name}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="organization">
@@ -200,7 +252,11 @@ export const Contact = () => {
                     onChange={(e) => handleInputChange("email", e.target.value)}
                     required
                     disabled={isSubmitting}
+                    className={errors.email ? "border-red-500" : ""}
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm">{errors.email}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">{t("contact.phone")}</Label>
@@ -209,20 +265,26 @@ export const Contact = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
+                    placeholder="+966xxxxxxxxx"
                     disabled={isSubmitting}
+                    className={errors.phone ? "border-red-500" : ""}
                   />
+                  {errors.phone && (
+                    <p className="text-red-500 text-sm">{errors.phone}</p>
+                  )}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="interest">{t("contact.interest")}</Label>
+                <Label htmlFor="interest">{t("contact.interest")} *</Label>
                 <Select
                   value={formData.interest}
                   onValueChange={(value) =>
                     handleInputChange("interest", value)
                   }
+                  required
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className={errors.interest ? "border-red-500" : ""}>
                     <SelectValue placeholder={t("form.interest.select")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -240,6 +302,9 @@ export const Contact = () => {
                     </SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.interest && (
+                  <p className="text-red-500 text-sm">{errors.interest}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -252,7 +317,11 @@ export const Contact = () => {
                   placeholder={t("form.messagePlaceholder")}
                   required
                   disabled={isSubmitting}
+                  className={errors.message ? "border-red-500" : ""}
                 />
+                {errors.message && (
+                  <p className="text-red-500 text-sm">{errors.message}</p>
+                )}
               </div>
 
               <Button
