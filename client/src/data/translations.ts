@@ -115,38 +115,49 @@ export const translations = {
 
     // Program Pages - NAWA Career
     "career.heroTitle": "NAWA Career Development Program",
-    "career.heroDescription": "NAWA Career is our flagship professional development program designed to bridge the gap between education and industry. Through personalized coaching, industry mentorship, and direct pathways to employment, we prepare Saudi youth for successful careers aligned with Vision 2030 goals.",
+    "career.heroDescription":
+      "NAWA Career is our flagship professional development program designed to bridge the gap between education and industry. Through personalized coaching, industry mentorship, and direct pathways to employment, we prepare Saudi youth for successful careers aligned with Vision 2030 goals.",
     "career.outcomesTitle": "Key Outcomes",
-    "career.outcome1": "Enhanced employability skills and professional competencies",
-    "career.outcome2": "Direct connections with industry leaders and potential employers",
-    "career.outcome3": "Personalized career coaching and professional development plans",
-    "career.outcome4": "Practical experience through internships and project-based learning",
+    "career.outcome1":
+      "Enhanced employability skills and professional competencies",
+    "career.outcome2":
+      "Direct connections with industry leaders and potential employers",
+    "career.outcome3":
+      "Personalized career coaching and professional development plans",
+    "career.outcome4":
+      "Practical experience through internships and project-based learning",
     "career.sponsorTitle": "Sponsor This Program",
-    "career.sponsorDescription": "Partner with us to shape the future workforce of Saudi Arabia and gain direct access to top talent.",
+    "career.sponsorDescription":
+      "Partner with us to shape the future workforce of Saudi Arabia and gain direct access to top talent.",
     "career.sponsorButton": "Become a Program Sponsor",
 
     // Program Pages - NAWA Conferences
     "conferences.heroTitle": "NAWA Conferences",
-    "conferences.heroDescription": "World-class conferences bringing together global thought leaders, entrepreneurs, and Saudi youth for transformative experiences that inspire innovation and drive meaningful change.",
+    "conferences.heroDescription":
+      "World-class conferences bringing together global thought leaders, entrepreneurs, and Saudi youth for transformative experiences that inspire innovation and drive meaningful change.",
     "conferences.outcomesTitle": "Conference Features",
     "conferences.outcome1": "International speakers and industry experts",
     "conferences.outcome2": "Networking opportunities with professionals",
     "conferences.outcome3": "Interactive workshop sessions and masterclasses",
     "conferences.outcome4": "Innovation showcases and startup exhibitions",
     "conferences.sponsorTitle": "Sponsor Our Conferences",
-    "conferences.sponsorDescription": "Gain visibility among Saudi's most promising young professionals and entrepreneurs while supporting transformative events.",
+    "conferences.sponsorDescription":
+      "Gain visibility among Saudi's most promising young professionals and entrepreneurs while supporting transformative events.",
     "conferences.sponsorButton": "Become a Conference Sponsor",
 
     // Program Pages - Saudi MUN Association
     "mun.heroTitle": "Saudi MUN Association",
-    "mun.heroDescription": "Model United Nations programs developing diplomatic skills, global awareness, and leadership capabilities through simulation of international negotiations and diplomatic processes.",
+    "mun.heroDescription":
+      "Model United Nations programs developing diplomatic skills, global awareness, and leadership capabilities through simulation of international negotiations and diplomatic processes.",
     "mun.outcomesTitle": "Program Benefits",
     "mun.outcome1": "Comprehensive diplomatic training and protocol education",
     "mun.outcome2": "Public speaking and presentation skills development",
-    "mun.outcome3": "Participation in international conferences and delegations",
+    "mun.outcome3":
+      "Participation in international conferences and delegations",
     "mun.outcome4": "Cultural exchange and global networking opportunities",
     "mun.sponsorTitle": "Support Diplomatic Education",
-    "mun.sponsorDescription": "Help develop the next generation of Saudi diplomats and global leaders through comprehensive MUN programs.",
+    "mun.sponsorDescription":
+      "Help develop the next generation of Saudi diplomats and global leaders through comprehensive MUN programs.",
     "mun.sponsorButton": "Sponsor MUN Programs",
   },
   ar: {
@@ -168,9 +179,9 @@ export const translations = {
     // Elevator Pitch
     "pitch.title": "تحويل إمكانات الشباب السعودي",
     "pitch.paragraph1":
-      "تقف شركة نواة الأثر كمنظمة رائدة في تطوير الشباب السعودي الى قادة الغد، بإيصالهم الى القادة والمؤثرين في مختلف القطاعات ببرامج مؤثرة تشكل الجيل القادم من القادة والمبدعين.",
+      "تقف شركة نواة الأثر كمنظمة رائدة في تطوير الشباب السعودي الى قادة الغد، بإيصالهم الى القادة والمؤثرين في مختلف القطاعات ببرامج مؤثرة تشكل الجيل القادم من القادة والمبدعين",
     "pitch.paragraph2":
-      "من خلال مبادراتنا الثلاث الرئيسية - نواة المهنية، مؤتمرات نواة، ومؤسسة محاكاة الأمم المتحدة السعودية - أنشأنا نظاماً شاملاً يسد الفجوة بين التعليم والصناعة، ويعد الشباب السعودي لتحديات المستقبل.",
+      "من خلال مبادراتنا الثلاث الرئيسية - نواة المهنية، مؤتمرات نواة، ومؤسسة محاكاة الأمم المتحدة السعودية - أنشأنا نظاماً شاملاً يسد الفجوة بين التعليم والصناعة، ويعد الشباب السعودي لتحديات المستقبل",
     "pitch.paragraph3":
       "يضمن نموذج شراكتنا مع الشركات تأثيراً مستداماً مع توفير فرص تفاعل ذات معنى للرعاة، وإظهار العلامة التجارية، والوصول المباشر لأكثر المواهب السعودية الشابة واعداً.",
 
@@ -182,16 +193,16 @@ export const translations = {
     // Programs
     "programs.title": "بذور الأثر",
     "programs.subtitle":
-      "ثلاث مسارات مترابطة مصممة لتطوير مهارات القيادة الشاملة وخلق تأثير دائم في مشهد تطوير الشباب السعودي.",
+      "ثلاث مسارات مترابطة مصممة لتطوير مهارات القيادة الشاملة وخلق تأثير دائم في مشهد تطوير الشباب السعودي",
     "programs.career.title": "نواة المهنية",
     "programs.career.description":
       "برنامج تطوير مهني شامل يقدم التدريب الشخصي والإرشاد من خبراء الصناعة والمسارات المباشرة للتوظيف مع شركائنا من القطاع الخاص",
     "programs.conferences.title": "مؤتمرات نواة",
     "programs.conferences.description":
-      "مؤتمرات عالمية المستوى تجمع قادة الفكر العالميين ورجال الأعمال والشباب السعودي لتجارب تحويلية.",
+      "مؤتمرات عالمية المستوى تجمع قادة الفكر العالميين ورجال الأعمال والشباب السعودي لتجارب تحويلية",
     "programs.mun.title": "المؤسسة السعودية لمحاكاة الأمم المتحدة",
     "programs.mun.description":
-      "برامج محاكاة الأمم المتحدة تطور المهارات الدبلوماسية والوعي العالمي وقدرات القيادة من خلال محاكاة المفاوضات الدولية.",
+      "برامج محاكاة الأمم المتحدة تطور المهارات الدبلوماسية والوعي العالمي وقدرات القيادة من خلال محاكاة المفاوضات الدولية",
     "programs.learnMore": "اعرف المزيد",
     "programs.sponsorPrograms": "ارع برامجنا",
 
@@ -202,10 +213,10 @@ export const translations = {
     // Contact
     "contact.title": "تواصل معنا",
     "contact.subtitle":
-      "هل أنت مستعد للشراكة معنا؟ دعونا نناقش كيف يمكننا خلق تأثير ذو معنى معاً.",
+      "هل أنت مستعد للشراكة معنا؟ دعونا نناقش كيف يمكننا خلق تأثير ذو معنى معاً",
     "contact.letsConnect": "دعونا نتواصل",
     "contact.description":
-      "ابوابنا مفتوحة للجميع! سواء كانت استشارة، فكرة، او شراكة نواة جاهزة لحصاد مستقبلكم.",
+      "ابوابنا مفتوحة للجميع! سواء كانت استشارة، فكرة، او شراكة نواة جاهزة لحصاد مستقبلكم",
     "contact.address": "العنوان",
     "contact.addressValue": "طريق الملك عبد العزيز، حي النهضة، جدة 23523",
     "contact.phone": "الهاتف",
@@ -220,7 +231,7 @@ export const translations = {
     "contact.message": "الرسالة",
     "contact.send": "إرسال الرسالة",
     "contact.autoEmail":
-      "بعد الإرسال، ستتلقى تلقائياً ملف الرعاية الخاص بنا عبر البريد الإلكتروني.",
+      "بعد الإرسال، ستتلقى تلقائياً ملف الرعاية الخاص بنا عبر البريد الإلكتروني",
 
     // Newsletter
     "newsletter.title": "ابق على تواصل",
@@ -228,21 +239,21 @@ export const translations = {
       "احصل على التحديثات حول برامجنا وفعالياتنا وفرص الشراكة",
     "newsletter.placeholder": "أدخل عنوان بريدك الإلكتروني",
     "newsletter.subscribe": "اشترك",
-    "newsletter.privacy": "نحن نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت.",
+    "newsletter.privacy": "نحن نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت",
 
     // Footer
     "footer.description":
-      "تمكين الشباب السعودي من خلال البرامج المبتكرة والمؤتمرات عالمية المستوى والشراكات ذات المعنى التي تدفع رؤية 2030 إلى الأمام.",
+      "تمكين الشباب السعودي من خلال البرامج المبتكرة والمؤتمرات عالمية المستوى والشراكات ذات المعنى التي تدفع رؤية 2030 إلى الأمام",
     "footer.quickLinks": "روابط سريعة",
     "footer.ourPrograms": "برامجنا",
-    "footer.copyright": "© 2025 نواة الأثر. جميع الحقوق محفوظة.",
+    "footer.copyright": "© 2025 نواة الأثر. جميع الحقوق محفوظة",
     "footer.privacy": "سياسة الخصوصية",
     "footer.terms": "شروط الخدمة",
 
     // CTA
     "cta.title": "هل أنت مستعد لإحداث تأثير؟",
     "cta.description":
-      "انضم إلى مهمتنا لتمكين الشباب السعودي والمساهمة في أهداف رؤية 2030 الطموحة.",
+      "انضم إلى مهمتنا لتمكين الشباب السعودي والمساهمة في أهداف رؤية 2030 الطموحة",
 
     // Partners
     "partners.title": "شركاء النجاح",
@@ -255,7 +266,7 @@ export const translations = {
     "form.interest.media": "إعلام",
     "form.interest.other": "أخرى",
     "form.interest.select": "اختر اهتمامك",
-    "form.messagePlaceholder": "أخبرنا عن اهتمامك بالشراكة مع نواة الأثر...",
+    "form.messagePlaceholder": "أخبرنا عن اهتمامك بالشراكة مع نواة الأثر",
 
     // Legal Pages
     "privacy.title": "سياسة الخصوصية",
@@ -263,38 +274,46 @@ export const translations = {
 
     // Program Pages - NAWA Career
     "career.heroTitle": "نظرة عامة على البرنامج",
-    "career.heroDescription": "برنامج ناوة كاريير هو برنامجنا الرئيسي للتطوير المهني المصمم لسد الفجوة بين التعليم وسوق العمل. من خلال التدريب الشخصي، والإرشاد من خبراء الصناعة، ومسارات التوظيف المباشرة، نعد شباب المملكة لمسيرات مهنية ناجحة تتوافق مع أهداف رؤية 2030.",
+    "career.heroDescription":
+      "برنامج ناوة كاريير هو برنامجنا الرئيسي للتطوير المهني المصمم لسد الفجوة بين التعليم وسوق العمل. من خلال التدريب الشخصي، والإرشاد من خبراء الصناعة، ومسارات التوظيف المباشرة، نعد شباب المملكة لمسيرات مهنية ناجحة تتوافق مع أهداف رؤية 2030",
     "career.outcomesTitle": "النتائج الرئيسية",
     "career.outcome1": "تطوير المهارات القابلة للتوظيف والكفاءات المهنية",
-    "career.outcome2": "بناء روابط مباشرة مع قادة القطاعات وأصحاب العمل المحتملين",
+    "career.outcome2":
+      "بناء روابط مباشرة مع قادة القطاعات وأصحاب العمل المحتملين",
     "career.outcome3": "توجيه مهني شخصي وخطط للتطوير المهني المخصصة",
-    "career.outcome4": "خبرة عملية عبر برامج التدريب والتعلّم القائم على المشاريع",
+    "career.outcome4":
+      "خبرة عملية عبر برامج التدريب والتعلّم القائم على المشاريع",
     "career.sponsorTitle": "رعاية هـذا البرنامج",
-    "career.sponsorDescription": "شاركنا في تشكيل قوى العمل المستقبلية للمملكة، واستفد من الوصول المباشر إلى أفضل المواهب السعودية.",
+    "career.sponsorDescription":
+      "شاركنا في تشكيل قوى العمل المستقبلية للمملكة، واستفد من الوصول المباشر إلى أفضل المواهب السعودية",
     "career.sponsorButton": "كن راعياً للبرنامج",
 
     // Program Pages - NAWA Conferences
     "conferences.heroTitle": "مؤتمرات نواة",
-    "conferences.heroDescription": "مؤتمرات عالمية المستوى تجمع قادة الفكر العالميين ورجال الأعمال والشباب السعودي لتجارب تحويلية تلهم الابتكار وتدفع التغيير ذا المعنى.",
+    "conferences.heroDescription":
+      "مؤتمرات عالمية المستوى تجمع قادة الفكر العالميين ورجال الأعمال والشباب السعودي لتجارب تحويلية تلهم الابتكار وتدفع التغيير ذا المعنى",
     "conferences.outcomesTitle": "مميزات المؤتمرات",
     "conferences.outcome1": "متحدثون عالميون وخبراء في الصناعة",
     "conferences.outcome2": "فرص التواصل مع المحترفين",
     "conferences.outcome3": "جلسات ورش عمل تفاعلية وفصول رئيسية",
     "conferences.outcome4": "عروض الابتكار ومعارض الشركات الناشئة",
     "conferences.sponsorTitle": "ارع مؤتمراتنا",
-    "conferences.sponsorDescription": "احصل على ظهور بين أكثر الشباب السعودي المحترفين ورجال الأعمال واعداً مع دعم الفعاليات التحويلية.",
+    "conferences.sponsorDescription":
+      "احصل على ظهور بين أكثر الشباب السعودي المحترفين ورجال الأعمال واعداً مع دعم الفعاليات التحويلية",
     "conferences.sponsorButton": "كن راعياً للمؤتمرات",
 
     // Program Pages - Saudi MUN Association
     "mun.heroTitle": "المؤسسة السعودية لمحاكاة الأمم المتحدة",
-    "mun.heroDescription": "برامج محاكاة الأمم المتحدة تطور المهارات الدبلوماسية والوعي العالمي وقدرات القيادة من خلال محاكاة المفاوضات الدولية والعمليات الدبلوماسية.",
+    "mun.heroDescription":
+      "برامج محاكاة الأمم المتحدة تطور المهارات الدبلوماسية والوعي العالمي وقدرات القيادة من خلال محاكاة المفاوضات الدولية والعمليات الدبلوماسية",
     "mun.outcomesTitle": "فوائد البرنامج",
     "mun.outcome1": "التدريب الدبلوماسي الشامل وتعليم البروتوكول",
     "mun.outcome2": "تطوير مهارات الخطابة العامة والعرض",
     "mun.outcome3": "المشاركة في المؤتمرات الدولية والوفود",
     "mun.outcome4": "التبادل الثقافي وفرص التواصل العالمي",
     "mun.sponsorTitle": "دعم التعليم الدبلوماسي",
-    "mun.sponsorDescription": "ساعد في تطوير الجيل القادم من الدبلوماسيين السعوديين والقادة العالميين من خلال برامج محاكاة الأمم المتحدة الشاملة.",
+    "mun.sponsorDescription":
+      "ساعد في تطوير الجيل القادم من الدبلوماسيين السعوديين والقادة العالميين من خلال برامج محاكاة الأمم المتحدة الشاملة",
     "mun.sponsorButton": "ارع برامج محاكاة الأمم المتحدة",
   },
 };
