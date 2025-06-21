@@ -149,7 +149,7 @@ export const Contact = () => {
               <h3 className="font-montserrat font-bold text-2xl text-primary mb-6 text-left">
                 {t("contact.letsConnect")}
               </h3>
-              <p className="text-gray-600 text-lg leading-relaxed mb-8 text-right">
+              <p className="text-gray-600 text-lg leading-relaxed mb-8">
                 {t("contact.description")}
               </p>
             </div>
