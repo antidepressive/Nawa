@@ -18,13 +18,15 @@ export const SponsorMarquee = () => {
           {partnersData.map((partner, index) => (
             <div
               key={`${partner.name}-${index}`}
-              className="flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300"
+              className="flex-shrink-0 transition-all duration-300"
             >
-              <div className="w-24 h-24 bg-white rounded-full border border-gray-200 flex items-center justify-center hover:shadow-lg transition-all duration-300 p-3">
+              <div className={`w-24 h-24 bg-white rounded-full border border-gray-200 flex items-center justify-center hover:shadow-lg transition-all duration-300 ${
+                partner.name === 'Edad' || partner.name === 'LMDF' ? 'p-4' : 'p-3'
+              }`}>
                 <img 
                   src={partner.logo} 
                   alt={partner.name}
-                  className="w-full h-full object-contain rounded-full"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
