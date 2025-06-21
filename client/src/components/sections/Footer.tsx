@@ -26,11 +26,11 @@ export const Footer = () => {
                   className="w-12 h-12"
                 />
                 <div>
-                  <h1 className="font-montserrat font-bold text-2xl text-gray-800">Nawa</h1>
-                  <p className="text-gray-700 text-sm">شركة نواة الأثر</p>
+                  <h1 className="font-montserrat font-bold text-2xl text-white">Nawa</h1>
+                  <p className="text-white text-sm">شركة نواة الأثر</p>
                 </div>
               </div>
-              <p className="text-gray-800 leading-relaxed mb-6 max-w-md">
+              <p className="text-white leading-relaxed mb-6 max-w-md">
                 {t('footer.description')}
               </p>
               <div className="flex space-x-4">
@@ -67,12 +67,12 @@ export const Footer = () => {
 
             {/* Quick Links */}
             <div>
-              <h3 className="font-montserrat font-bold text-lg mb-4 text-gray-800">{t('footer.quickLinks')}</h3>
+              <h3 className="font-montserrat font-bold text-lg mb-4 text-white">{t('footer.quickLinks')}</h3>
               <ul className="space-y-2">
                 <li>
                   <button
                     onClick={() => scrollToSection('#home')}
-                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('nav.home')}
                   </button>
@@ -80,7 +80,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#about')}
-                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('nav.about')}
                   </button>
@@ -89,7 +89,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#impact')}
-                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('nav.impact')}
                   </button>
@@ -97,7 +97,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#contact')}
-                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('nav.contact')}
                   </button>
@@ -107,12 +107,12 @@ export const Footer = () => {
 
             {/* Programs */}
             <div>
-              <h3 className="font-montserrat font-bold text-lg mb-4 text-gray-800">{t('footer.ourPrograms')}</h3>
+              <h3 className="font-montserrat font-bold text-lg mb-4 text-white">{t('footer.ourPrograms')}</h3>
               <ul className="space-y-2">
                 <li>
                   <button
                     onClick={() => scrollToSection('#career-details')}
-                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('programs.career.title')}
                   </button>
@@ -120,7 +120,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#conferences-details')}
-                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('programs.conferences.title')}
                   </button>
@@ -128,7 +128,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#mun-details')}
-                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('programs.mun.title')}
                   </button>
@@ -138,8 +138,8 @@ export const Footer = () => {
             </div>
           </div>
 
-          <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-center items-center">
-            <p className="text-gray-400 text-sm">{t('footer.copyright')}</p>
+          <div className="border-t border-gray-300 mt-12 pt-8 flex flex-col md:flex-row justify-center items-center">
+            <p className="text-white text-sm">{t('footer.copyright')}</p>
           </div>
         </div>
       </footer>
