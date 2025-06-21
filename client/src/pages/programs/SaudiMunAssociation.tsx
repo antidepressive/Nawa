@@ -1,17 +1,22 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../../components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import backgroundImage from '@assets/background_1750437485135.png';
 
 export default function SaudiMunAssociation() {
   const { t, language } = useLanguage();
+  const [, setLocation] = useLocation();
 
-  const scrollToContact = () => {
-    const element = document.querySelector('#contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const navigateToContact = () => {
+    setLocation('/');
+    // Use setTimeout to ensure navigation completes before scrolling
+    setTimeout(() => {
+      const element = document.querySelector('#contact');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   return (
@@ -99,7 +104,7 @@ export default function SaudiMunAssociation() {
             <p className="text-gray-600 mb-6">
               {t('mun.sponsorDescription')}
             </p>
-            <Button onClick={scrollToContact} size="lg" className="bg-primary hover:bg-primary/90">
+            <Button onClick={navigateToContact} size="lg" className="bg-primary hover:bg-primary/90">
               {t('mun.sponsorButton')}
             </Button>
           </div>
