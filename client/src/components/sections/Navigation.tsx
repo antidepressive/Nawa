@@ -36,7 +36,7 @@ export const Navigation = () => {
               className="w-10 h-10"
             />
             <div className={language === 'ar' ? 'mr-3' : 'ml-3'}>
-              <h1 className="font-montserrat font-bold text-xl text-primary ml-[6px] mr-[6px]">
+              <h1 className="font-montserrat font-bold text-xl text-primary ml-[12px] mr-[12px]">
                 {language === 'ar' ? 'نواة' : 'Nawa'}
               </h1>
             </div>
