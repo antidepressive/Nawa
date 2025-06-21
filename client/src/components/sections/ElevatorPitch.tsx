@@ -11,7 +11,7 @@ export const ElevatorPitch = () => {
             {t('pitch.title')}
           </h2>
           <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
-            <p>{t('pitch.paragraph1')}</p>
+            <p>Nawa stands as Saudi Arabia's premier youth development organization, connecting corporate partners with impactful programs that shape the next generation of leaders and innovators.</p>
             <p>{t('pitch.paragraph2')}</p>
             <p>{t('pitch.paragraph3')}</p>
           </div>
