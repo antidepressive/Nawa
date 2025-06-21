@@ -28,21 +28,21 @@ export const ProgramsGrid = () => {
           subtitle={t('programs.subtitle')}
         />
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto justify-items-center">
           {programsData.map((program) => {
             const IconComponent = iconMap[program.icon as keyof typeof iconMap];
             return (
               <div
                 key={program.id}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full"
+                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full w-full max-w-sm"
               >
-                <div className="p-8 flex flex-col flex-grow">
+                <div className="p-4 sm:p-6 lg:p-8 flex flex-col flex-grow">
                   <div className="flex justify-center mb-6">
                     <div className={`w-16 h-16 bg-gradient-to-br ${program.gradient} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                       <IconComponent className="w-8 h-8 text-white" />
                     </div>
                   </div>
-                  <h3 className="font-montserrat font-bold text-2xl text-primary mb-4 text-center">
+                  <h3 className="font-montserrat font-bold text-lg sm:text-xl lg:text-2xl text-primary mb-4 text-center">
                     {t(`programs.${program.id}.title`)}
                   </h3>
                   <p className={`text-gray-600 mb-6 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
@@ -72,7 +72,7 @@ export const ProgramsGrid = () => {
         <div className="text-center mt-12">
           <button
             onClick={scrollToContact}
-            className="inline-flex items-center bg-primary text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+            className="inline-flex items-center bg-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
           >
             <Handshake className="w-5 h-5 mr-2" />
             {t('programs.sponsorPrograms')}

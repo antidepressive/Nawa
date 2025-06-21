@@ -38,13 +38,13 @@ export const TestimonialSlider = () => {
             >
               {testimonialsData.map((testimonial) => (
                 <div key={testimonial.id} className="w-full flex-shrink-0">
-                  <div className="glass-card rounded-2xl p-8 md:p-12 text-center shadow-xl">
+                  <div className="glass-card rounded-2xl p-6 sm:p-8 md:p-12 text-center shadow-xl">
                     <img
                       src={testimonial.image}
                       alt={testimonial.name}
-                      className="w-24 h-24 rounded-full mx-auto mb-6 object-cover border-4 border-accent"
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto mb-4 sm:mb-6 object-cover border-4 border-accent"
                     />
-                    <blockquote className="text-xl md:text-2xl text-gray-700 mb-6 italic leading-relaxed">
+                    <blockquote className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-4 sm:mb-6 italic leading-relaxed">
                       "{testimonial.quote}"
                     </blockquote>
                     <div className="text-primary font-semibold text-lg">{testimonial.name}</div>

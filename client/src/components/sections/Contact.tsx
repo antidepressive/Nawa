@@ -154,7 +154,7 @@ export const Contact = () => {
               </p>
             </div>
 
-            <div className="space-y-8 mt-[32px] mb-[32px] flex flex-col items-center ml-[0px] mr-[0px] pt-[0px] pb-[0px] pl-[103px] pr-[103px]">
+            <div className="space-y-8 mt-[32px] mb-[32px] flex flex-col items-center px-4 sm:px-8 lg:px-[103px]">
               <div className={`flex items-start ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Phone className="w-5 h-5 text-primary" />
@@ -194,13 +194,13 @@ export const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8">
             <h3 className="font-montserrat font-bold text-2xl text-primary mb-6 text-center">
               {t("contact.formTitle")}
             </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="name">{t("contact.name")} *</Label>
                   <Input
@@ -230,7 +230,7 @@ export const Contact = () => {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="email">{t("contact.email")} *</Label>
                   <Input

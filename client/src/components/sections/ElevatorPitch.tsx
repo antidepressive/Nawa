@@ -7,10 +7,10 @@ export const ElevatorPitch = () => {
     <section className="py-16 bg-gradient-to-br from-bg-light to-white w-full">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
-          <h2 className="font-montserrat font-bold text-3xl md:text-4xl text-primary mb-8">
+          <h2 className="font-montserrat font-bold text-2xl sm:text-3xl md:text-4xl text-primary mb-6 sm:mb-8">
             {t('pitch.title')}
           </h2>
-          <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
+          <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-gray-700 leading-relaxed">
             <p>Nawa stands as Saudi Arabia's premier youth development organization, connecting corporate partners with impactful programs that shape the next generation of leaders and innovators.</p>
             <p>{t('pitch.paragraph2')}</p>
             <p>{t('pitch.paragraph3')}</p>
