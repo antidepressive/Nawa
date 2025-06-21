@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
 
   useEffect(() => {
     // Fetch pre-converted HTML file from /public
-    fetch("/assets/privacy-policy.html")
+    fetch("/assets/privacy_policy.html")
       .then((res) => res.text())
       .then(setHtml)
       .catch(console.error);
