@@ -31,7 +31,7 @@ export const Contact = () => {
     name: "",
     organization: "",
     email: "",
-    phone: "",
+    phone: "+966",
     interest: "",
     message: "",
   });
@@ -49,7 +49,19 @@ export const Contact = () => {
   };
 
   const handleInputChange = (field: keyof FormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (field === "phone") {
+      // Ensure phone always starts with +966 and only accept digits after
+      let phoneValue = value;
+      if (!phoneValue.startsWith("+966")) {
+        phoneValue = "+966" + phoneValue.replace(/^\+966/, "").replace(/\D/g, "");
+      } else {
+        // Keep +966 and only allow digits after it
+        phoneValue = "+966" + phoneValue.substring(4).replace(/\D/g, "");
+      }
+      setFormData((prev) => ({ ...prev, [field]: phoneValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    }
     
     // Clear error when user starts typing
     if (errors[field]) {
@@ -118,7 +130,7 @@ export const Contact = () => {
         name: "",
         organization: "",
         email: "",
-        phone: "",
+        phone: "+966",
         interest: "",
         message: "",
       });
@@ -253,7 +265,7 @@ export const Contact = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
-                    placeholder="+966xxxxxxxxx"
+                    placeholder="+966"
                     disabled={isSubmitting}
                     className={errors.phone ? "border-red-500" : ""}
                   />
