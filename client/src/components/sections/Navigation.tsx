@@ -25,7 +25,7 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-gradient-to-r from-primary/80 to-blue-600/80 backdrop-blur-md shadow-sm w-full">
+    <nav className="absolute top-0 z-50 bg-transparent w-full">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16">
           {/* Brand Block - Always on left */}
@@ -91,7 +91,7 @@ export const Navigation = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gradient-to-r from-primary/90 to-blue-600/90 border-t border-white/20">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-black/30 backdrop-blur-sm border-t border-white/20">
               {navItems.map((item) => (
                 <button
                   key={item.key}
