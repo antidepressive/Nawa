@@ -48,9 +48,9 @@ export default function SaudiMunAssociation() {
 
       {/* Program Overview */}
       <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
           <div className="mb-12">
-            <h2 className="font-montserrat font-bold text-3xl text-primary mb-6">
+            <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
               {language === 'ar' ? 'نظرة عامة على البرنامج' : 'Program Overview'}
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
@@ -63,12 +63,12 @@ export default function SaudiMunAssociation() {
 
           {/* Program Outcomes */}
           <div className="mb-12">
-            <h3 className="font-montserrat font-bold text-2xl text-primary mb-6">
+            <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
               {language === 'ar' ? 'النتائج الرئيسـيــة' : 'Key Outcomes'}
             </h3>
             <ul className="space-y-4">
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
+              <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
                   {language === 'ar' 
                     ? 'تعزيز مهارات الدبلوماسية والتفاوض عبر محاكاة واقعية'
@@ -76,8 +76,8 @@ export default function SaudiMunAssociation() {
                   }
                 </span>
               </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
+              <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
                   {language === 'ar' 
                     ? 'زيادة الوعي العالمي وفهم العلاقات الدولية'
@@ -85,8 +85,8 @@ export default function SaudiMunAssociation() {
                   }
                 </span>
               </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
+              <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
                   {language === 'ar' 
                     ? 'تنمية مهارات التفكير النقدي والإلقاء أمام الجمهور'
@@ -94,8 +94,8 @@ export default function SaudiMunAssociation() {
                   }
                 </span>
               </li>
-              <li className="flex items-start">
-                <div className="w-2 h-2 bg-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
+              <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
                   {language === 'ar' 
                     ? 'تطوير القدرات القيادية من خلال رئاسة اللجان وأدوار الوفود'
@@ -107,8 +107,8 @@ export default function SaudiMunAssociation() {
           </div>
 
           {/* Sponsor CTA */}
-          <div className="text-center bg-gray-50 rounded-xl p-8">
-            <h3 className="font-montserrat font-bold text-2xl text-primary mb-4">
+          <div className={`bg-gray-50 rounded-xl p-8 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
+            <h3 className={`font-bold text-2xl text-primary mb-4 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
               {language === 'ar' ? 'رعاية هـذا البرنامج' : 'Sponsor This Program'}
             </h3>
             <p className="text-gray-600 mb-6">
