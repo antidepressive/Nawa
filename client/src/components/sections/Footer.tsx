@@ -13,7 +13,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-text-dark py-16 w-full">
+    <footer className="bg-background py-16 w-full">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             {/* Brand */}
