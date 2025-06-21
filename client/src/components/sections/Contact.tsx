@@ -25,7 +25,7 @@ interface FormData {
 }
 
 export const Contact = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -149,18 +149,18 @@ export const Contact = () => {
               <h3 className="font-montserrat font-bold text-2xl text-primary mb-6 text-center">
                 {t("contact.letsConnect")}
               </h3>
-              <p className="text-gray-600 text-lg leading-relaxed mb-8">
+              <p className={`text-gray-600 text-lg leading-relaxed mb-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                 {t("contact.description")}
               </p>
             </div>
 
-            <div className="space-y-8 mt-[32px] mb-[32px]">
-              <div className="flex items-start space-x-4">
+            <div className="space-y-8 mt-[32px] mb-[32px] flex flex-col items-center">
+              <div className={`flex items-start ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Phone className="w-5 h-5 text-primary" />
                 </div>
-                <div>
-                  <h4 className="font-semibold text-text-dark mb-1">
+                <div className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  <h4 className={`font-semibold text-text-dark mb-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                     {t("contact.phone")}
                   </h4>
                   <p className="text-gray-600 arabic-numbers">
@@ -169,12 +169,12 @@ export const Contact = () => {
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4">
+              <div className={`flex items-start ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5 text-primary" />
                 </div>
-                <div>
-                  <h4 className="font-semibold text-text-dark mb-1">
+                <div className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  <h4 className={`font-semibold text-text-dark mb-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                     {t("contact.email")}
                   </h4>
                   <p className="text-gray-600">{t("contact.emailValue")}</p>
@@ -185,9 +185,9 @@ export const Contact = () => {
                 href="https://wa.me/966538104164"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                className={`inline-flex items-center bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}
               >
-                <MessageSquare className="w-5 h-5 mr-2" />
+                <MessageSquare className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
                 {t("contact.whatsapp")}
               </a>
             </div>
