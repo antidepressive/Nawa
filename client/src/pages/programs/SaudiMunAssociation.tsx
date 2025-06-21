@@ -2,11 +2,16 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../../components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
+import { useEffect } from 'react';
 import backgroundImage from '@assets/background_1750437485135.png';
 
 export default function SaudiMunAssociation() {
   const { t, language } = useLanguage();
   const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const navigateToContact = () => {
     setLocation('/');
