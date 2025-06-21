@@ -25,7 +25,7 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm w-full">
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-primary/80 to-blue-600/80 backdrop-blur-md shadow-sm w-full">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16">
           {/* Brand Block - Always on left */}
@@ -36,7 +36,7 @@ export const Navigation = () => {
               className="w-10 h-10"
             />
             <div className={language === 'ar' ? 'mr-3' : 'ml-3'}>
-              <h1 className="font-montserrat text-primary font-extrabold text-[24px] ml-[13px] mr-[13px]">
+              <h1 className="font-montserrat text-white font-extrabold text-[24px] ml-[13px] mr-[13px]">
                 {language === 'ar' ? 'نواة' : 'Nawa'}
               </h1>
             </div>
@@ -51,8 +51,8 @@ export const Navigation = () => {
                   onClick={() => scrollToSection(item.href)}
                   className={`${
                     index === 0 
-                      ? 'text-primary border-b-2 border-accent' 
-                      : 'text-gray-700 hover:text-primary'
+                      ? 'text-white border-b-2 border-accent' 
+                      : 'text-white/80 hover:text-white'
                   } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 whitespace-nowrap`}
                 >
                   {t(item.key)}
@@ -65,7 +65,7 @@ export const Navigation = () => {
           <div className="flex-shrink-0 flex items-center gap-4">
             <button
               onClick={toggleLanguage}
-              className="text-sm text-gray-600 hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center"
+              className="text-sm text-white/80 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center"
               aria-label="Switch language"
             >
               <Globe className={`w-4 h-4 ${language === 'ar' ? 'ml-1' : 'mr-1'}`} />
@@ -81,7 +81,7 @@ export const Navigation = () => {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              className="md:hidden p-2 rounded-md text-white/80 hover:text-white focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
             >
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -91,12 +91,12 @@ export const Navigation = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-100">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gradient-to-r from-primary/90 to-blue-600/90 border-t border-white/20">
               {navItems.map((item) => (
                 <button
                   key={item.key}
                   onClick={() => scrollToSection(item.href)}
-                  className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md w-full text-left transition-colors duration-200"
+                  className="block px-3 py-2 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-md w-full text-left transition-colors duration-200"
                 >
                   {t(item.key)}
                 </button>
