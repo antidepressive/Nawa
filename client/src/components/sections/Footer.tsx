@@ -56,13 +56,7 @@ export const Footer = () => {
                 >
                   <Instagram className="w-5 h-5" />
                 </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 hover:bg-primary rounded-lg flex items-center justify-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-gray-900 text-[#ffffff] bg-[#008dff]"
-                  aria-label="YouTube"
-                >
-                  <Youtube className="w-5 h-5" />
-                </a>
+
               </div>
             </div>
 
@@ -70,14 +64,7 @@ export const Footer = () => {
             <div>
               <h3 className="font-montserrat font-bold text-lg mb-4 text-white">{t('footer.quickLinks')}</h3>
               <ul className="space-y-2">
-                <li>
-                  <button
-                    onClick={() => scrollToSection('#home')}
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
-                  >
-                    {t('nav.home')}
-                  </button>
-                </li>
+                
                 <li>
                   <button
                     onClick={() => scrollToSection('#about')}
