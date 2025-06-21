@@ -1,5 +1,6 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Linkedin, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Link } from 'wouter';
 import NawaLogo from '@assets/Nawa Logo.png';
 import FooterBackground from '@assets/background_1750437347589.png';
 
@@ -110,28 +111,28 @@ export const Footer = () => {
               <h3 className="font-montserrat font-bold text-lg mb-4 text-white">{t('footer.ourPrograms')}</h3>
               <ul className="space-y-2">
                 <li>
-                  <button
-                    onClick={() => scrollToSection('#career-details')}
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                  <Link
+                    href="/programs/nawa-career"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent block"
                   >
                     {t('programs.career.title')}
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={() => scrollToSection('#conferences-details')}
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                  <Link
+                    href="/programs/nawa-conferences"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent block"
                   >
                     {t('programs.conferences.title')}
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={() => scrollToSection('#mun-details')}
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                  <Link
+                    href="/programs/saudi-mun-association"
+                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent block"
                   >
                     {t('programs.mun.title')}
-                  </button>
+                  </Link>
                 </li>
                 
               </ul>
