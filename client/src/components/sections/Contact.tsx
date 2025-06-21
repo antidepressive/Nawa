@@ -148,7 +148,7 @@ export const Contact = () => {
             <div>
               <h3 className="font-montserrat font-bold text-2xl text-primary mb-6 text-right">
                 {t("contact.letsConnect")}
-              </h3></div>
+              </h3>
               <p className="text-gray-600 text-lg leading-relaxed mb-8">
                 {t("contact.description")}
               </p>
