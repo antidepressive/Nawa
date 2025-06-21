@@ -5,7 +5,7 @@ import { Link } from 'wouter';
 import backgroundImage from '@assets/background_1750437485135.png';
 
 export default function SaudiMunAssociation() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
@@ -31,7 +31,7 @@ export default function SaudiMunAssociation() {
             <Link href="/">
               <Button variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
+                {language === 'ar' ? 'العودة إلى الرئيسية' : 'Back to Home'}
               </Button>
             </Link>
           </div>
@@ -51,34 +51,57 @@ export default function SaudiMunAssociation() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
             <h2 className="font-montserrat font-bold text-3xl text-primary mb-6">
-              Program Overview
+              {language === 'ar' ? 'نظرة عامة على البرنامج' : 'Program Overview'}
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-              The Saudi MUN Association develops the next generation of diplomatic leaders through immersive Model United Nations experiences. Our programs simulate international negotiations, fostering global awareness, critical thinking, and diplomatic skills essential for Saudi Arabia's growing role on the world stage.
+              {language === 'ar' 
+                ? 'تُطوِّر المؤسسة السعودية لمحاكاة الأمم المتحدة الجيلَ القادم من القادة الدبلوماسيين من خلال تجارب محاكاة الأمم المتحدة الغامرة. تُحاكي برامجنا المفاوضات الدولية، فتُنمِّي الوعي العالمي، والتفكير النقدي، ومهارات الدبلوماسية الضرورية لدور المملكة المتنامي على الساحة الدولية.'
+                : 'The Saudi MUN Association develops the next generation of diplomatic leaders through immersive Model United Nations experiences. Our programs simulate international negotiations, fostering global awareness, critical thinking, and diplomatic skills essential for Saudi Arabia\'s growing role on the world stage.'
+              }
             </p>
           </div>
 
           {/* Program Outcomes */}
           <div className="mb-12">
             <h3 className="font-montserrat font-bold text-2xl text-primary mb-6">
-              Key Outcomes
+              {language === 'ar' ? 'النتائج الرئيسـيــة' : 'Key Outcomes'}
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start">
                 <div className="w-2 h-2 bg-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                <span className="text-gray-700">Enhanced diplomatic and negotiation skills through realistic simulations</span>
+                <span className="text-gray-700">
+                  {language === 'ar' 
+                    ? 'تعزيز مهارات الدبلوماسية والتفاوض عبر محاكاة واقعية'
+                    : 'Enhanced diplomatic and negotiation skills through realistic simulations'
+                  }
+                </span>
               </li>
               <li className="flex items-start">
                 <div className="w-2 h-2 bg-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                <span className="text-gray-700">Increased global awareness and understanding of international relations</span>
+                <span className="text-gray-700">
+                  {language === 'ar' 
+                    ? 'زيادة الوعي العالمي وفهم العلاقات الدولية'
+                    : 'Increased global awareness and understanding of international relations'
+                  }
+                </span>
               </li>
               <li className="flex items-start">
                 <div className="w-2 h-2 bg-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                <span className="text-gray-700">Development of critical thinking and public speaking abilities</span>
+                <span className="text-gray-700">
+                  {language === 'ar' 
+                    ? 'تنمية مهارات التفكير النقدي والإلقاء أمام الجمهور'
+                    : 'Development of critical thinking and public speaking abilities'
+                  }
+                </span>
               </li>
               <li className="flex items-start">
                 <div className="w-2 h-2 bg-primary rounded-full mt-3 mr-4 flex-shrink-0"></div>
-                <span className="text-gray-700">Leadership capabilities through committee chair and delegation roles</span>
+                <span className="text-gray-700">
+                  {language === 'ar' 
+                    ? 'تطوير القدرات القيادية من خلال رئاسة اللجان وأدوار الوفود'
+                    : 'Leadership capabilities through committee chair and delegation roles'
+                  }
+                </span>
               </li>
             </ul>
           </div>
@@ -86,13 +109,16 @@ export default function SaudiMunAssociation() {
           {/* Sponsor CTA */}
           <div className="text-center bg-gray-50 rounded-xl p-8">
             <h3 className="font-montserrat font-bold text-2xl text-primary mb-4">
-              Sponsor This Program
+              {language === 'ar' ? 'رعاية هـذا البرنامج' : 'Sponsor This Program'}
             </h3>
             <p className="text-gray-600 mb-6">
-              Support the development of Saudi Arabia's future diplomatic leaders and global representatives.
+              {language === 'ar' 
+                ? 'ادعم إعداد قادة المملكة الدبلوماسيين وممثليها العالميين في المستقبل.'
+                : 'Support the development of Saudi Arabia\'s future diplomatic leaders and global representatives.'
+              }
             </p>
             <Button onClick={scrollToContact} size="lg" className="bg-primary hover:bg-primary/90">
-              Become a MUN Sponsor
+              {language === 'ar' ? 'كن راعياً لبرامج نموذج الأمم المتحدة' : 'Become a MUN Sponsor'}
             </Button>
           </div>
         </div>
