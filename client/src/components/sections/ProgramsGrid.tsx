@@ -28,7 +28,7 @@ export const ProgramsGrid = () => {
           subtitle={t('programs.subtitle')}
         />
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 mt-[0px] mb-[0px] ml-[160px] mr-[160px]">
           {programsData.map((program) => {
             const IconComponent = iconMap[program.icon as keyof typeof iconMap];
             return (
