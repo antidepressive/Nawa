@@ -57,7 +57,7 @@ export const NewsletterSignup = () => {
       <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="font-montserrat font-bold text-3xl md:text-4xl mb-4">
-            {t('newsletter.title')}
+            Stay in the loop
           </h2>
           <p className="text-xl text-white/90 mb-8">
             {t('newsletter.description')}
