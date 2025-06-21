@@ -112,6 +112,42 @@ export const translations = {
     // Legal Pages
     "privacy.title": "Privacy Policy",
     "terms.title": "Terms of Service",
+
+    // Program Pages - NAWA Career
+    "career.heroTitle": "NAWA Career Development Program",
+    "career.heroDescription": "NAWA Career is our flagship professional development program designed to bridge the gap between education and industry. Through personalized coaching, industry mentorship, and direct pathways to employment, we prepare Saudi youth for successful careers aligned with Vision 2030 goals.",
+    "career.outcomesTitle": "Key Outcomes",
+    "career.outcome1": "Enhanced employability skills and professional competencies",
+    "career.outcome2": "Direct connections with industry leaders and potential employers",
+    "career.outcome3": "Personalized career coaching and professional development plans",
+    "career.outcome4": "Practical experience through internships and project-based learning",
+    "career.sponsorTitle": "Sponsor This Program",
+    "career.sponsorDescription": "Partner with us to shape the future workforce of Saudi Arabia and gain direct access to top talent.",
+    "career.sponsorButton": "Become a Program Sponsor",
+
+    // Program Pages - NAWA Conferences
+    "conferences.heroTitle": "NAWA Conferences",
+    "conferences.heroDescription": "World-class conferences bringing together global thought leaders, entrepreneurs, and Saudi youth for transformative experiences that inspire innovation and drive meaningful change.",
+    "conferences.outcomesTitle": "Conference Features",
+    "conferences.outcome1": "International speakers and industry experts",
+    "conferences.outcome2": "Networking opportunities with professionals",
+    "conferences.outcome3": "Interactive workshop sessions and masterclasses",
+    "conferences.outcome4": "Innovation showcases and startup exhibitions",
+    "conferences.sponsorTitle": "Sponsor Our Conferences",
+    "conferences.sponsorDescription": "Gain visibility among Saudi's most promising young professionals and entrepreneurs while supporting transformative events.",
+    "conferences.sponsorButton": "Become a Conference Sponsor",
+
+    // Program Pages - Saudi MUN Association
+    "mun.heroTitle": "Saudi MUN Association",
+    "mun.heroDescription": "Model United Nations programs developing diplomatic skills, global awareness, and leadership capabilities through simulation of international negotiations and diplomatic processes.",
+    "mun.outcomesTitle": "Program Benefits",
+    "mun.outcome1": "Comprehensive diplomatic training and protocol education",
+    "mun.outcome2": "Public speaking and presentation skills development",
+    "mun.outcome3": "Participation in international conferences and delegations",
+    "mun.outcome4": "Cultural exchange and global networking opportunities",
+    "mun.sponsorTitle": "Support Diplomatic Education",
+    "mun.sponsorDescription": "Help develop the next generation of Saudi diplomats and global leaders through comprehensive MUN programs.",
+    "mun.sponsorButton": "Sponsor MUN Programs",
   },
   ar: {
     // Navigation
@@ -149,7 +185,7 @@ export const translations = {
       "ثلاث مسارات مترابطة مصممة لتطوير مهارات القيادة الشاملة وخلق تأثير دائم في مشهد تطوير الشباب السعودي.",
     "programs.career.title": "نواة المهنية",
     "programs.career.description":
-      "برنامج تطوير مهني شامل يقدم التدريب الشخصي والإرشاد الصناعي والمسارات المباشرة للتوظيف مع شركائنا من القطاع الخاص.",
+      "برامج تطويرية مهنية شاملة تقدم التدريب الشخصي والإرشاد الصناعي والمسارات المباشرة للتوظيف مع شركائنا من القطاع الخاص.",
     "programs.conferences.title": "مؤتمرات نواة",
     "programs.conferences.description":
       "مؤتمرات عالمية المستوى تجمع قادة الفكر العالميين ورجال الأعمال والشباب السعودي لتجارب تحويلية.",
@@ -224,5 +260,41 @@ export const translations = {
     // Legal Pages
     "privacy.title": "سياسة الخصوصية",
     "terms.title": "شروط الخدمة",
+
+    // Program Pages - NAWA Career
+    "career.heroTitle": "برنامج نواة المهنية للتطوير الوظيفي",
+    "career.heroDescription": "يُعدّ نواة المهنية رائدَ مبادراتنا في التطوير المهني، إذ يهدف إلى سدّ الفجوة بين التعليم وسوق العمل. من خلال الإرشاد الشخصي، والمُعَـايَشة مع خبراء الصناعة، ومسارات التوظيف المباشرة، نُعِدّ الشباب السعودي لمسارات مهنية ناجحة تتماشى مع مستهدفات رؤية 2030.",
+    "career.outcomesTitle": "النتائج الرئيسية",
+    "career.outcome1": "تطوير المهارات القابلة للتوظيف والكفاءات المهنية",
+    "career.outcome2": "بناء روابط مباشرة مع قادة القطاعات وأصحاب العمل المحتملين",
+    "career.outcome3": "توجيه مهني شخصي وخطط تطوير احترافية مفصّلة",
+    "career.outcome4": "خبرة عملية عبر برامج التدريب والتعلّم القائم على المشاريع",
+    "career.sponsorTitle": "رعاية هـذا البرنامج",
+    "career.sponsorDescription": "شاركنا في تشكيل قوى العمل المستقبلية للمملكة، واستفد من الوصول المباشر إلى أفضل المواهب السعودية.",
+    "career.sponsorButton": "كن راعياً للبرنامج",
+
+    // Program Pages - NAWA Conferences
+    "conferences.heroTitle": "مؤتمرات نواة",
+    "conferences.heroDescription": "مؤتمرات عالمية المستوى تجمع قادة الفكر العالميين ورجال الأعمال والشباب السعودي لتجارب تحويلية تلهم الابتكار وتدفع التغيير ذا المعنى.",
+    "conferences.outcomesTitle": "مميزات المؤتمرات",
+    "conferences.outcome1": "متحدثون عالميون وخبراء في الصناعة",
+    "conferences.outcome2": "فرص التواصل مع المحترفين",
+    "conferences.outcome3": "جلسات ورش عمل تفاعلية وفصول رئيسية",
+    "conferences.outcome4": "عروض الابتكار ومعارض الشركات الناشئة",
+    "conferences.sponsorTitle": "ارع مؤتمراتنا",
+    "conferences.sponsorDescription": "احصل على ظهور بين أكثر الشباب السعودي المحترفين ورجال الأعمال واعداً مع دعم الفعاليات التحويلية.",
+    "conferences.sponsorButton": "كن راعياً للمؤتمرات",
+
+    // Program Pages - Saudi MUN Association
+    "mun.heroTitle": "المؤسسة السعودية لمحاكاة الأمم المتحدة",
+    "mun.heroDescription": "برامج محاكاة الأمم المتحدة تطور المهارات الدبلوماسية والوعي العالمي وقدرات القيادة من خلال محاكاة المفاوضات الدولية والعمليات الدبلوماسية.",
+    "mun.outcomesTitle": "فوائد البرنامج",
+    "mun.outcome1": "التدريب الدبلوماسي الشامل وتعليم البروتوكول",
+    "mun.outcome2": "تطوير مهارات الخطابة العامة والعرض",
+    "mun.outcome3": "المشاركة في المؤتمرات الدولية والوفود",
+    "mun.outcome4": "التبادل الثقافي وفرص التواصل العالمي",
+    "mun.sponsorTitle": "دعم التعليم الدبلوماسي",
+    "mun.sponsorDescription": "ساعد في تطوير الجيل القادم من الدبلوماسيين السعوديين والقادة العالميين من خلال برامج محاكاة الأمم المتحدة الشاملة.",
+    "mun.sponsorButton": "ارع برامج محاكاة الأمم المتحدة",
   },
 };

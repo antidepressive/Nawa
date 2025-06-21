@@ -48,9 +48,9 @@ export const ProgramsGrid = () => {
                   </p>
                   <ul className="space-y-2 mb-8 text-sm text-gray-600 flex-grow">
                     {(language === 'ar' && program.featuresAr ? program.featuresAr : program.features).map((feature, index) => (
-                      <li key={index} className="flex items-center">
-                        <Check className="w-4 h-4 text-accent mr-2 flex-shrink-0" />
-                        <span className={language === 'ar' ? 'arabic-numbers' : ''}>{feature}</span>
+                      <li key={index} className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                        <Check className={`w-4 h-4 text-accent flex-shrink-0 mt-0.5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                        <span className={language === 'ar' ? 'arabic-numbers text-right' : ''}>{feature}</span>
                       </li>
                     ))}
                   </ul>

@@ -51,56 +51,41 @@ export default function SaudiMunAssociation() {
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
           <div className="mb-12">
             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {language === 'ar' ? 'نظرة عامة على البرنامج' : 'Program Overview'}
+              {t('mun.heroTitle')}
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-              {language === 'ar' 
-                ? 'تُطوِّر المؤسسة السعودية لمحاكاة الأمم المتحدة الجيلَ القادم من القادة الدبلوماسيين من خلال تجارب محاكاة الأمم المتحدة الغامرة. تُحاكي برامجنا المفاوضات الدولية، فتُنمِّي الوعي العالمي، والتفكير النقدي، ومهارات الدبلوماسية الضرورية لدور المملكة المتنامي على الساحة الدولية.'
-                : 'The Saudi MUN Association develops the next generation of diplomatic leaders through immersive Model United Nations experiences. Our programs simulate international negotiations, fostering global awareness, critical thinking, and diplomatic skills essential for Saudi Arabia\'s growing role on the world stage.'
-              }
+              {t('mun.heroDescription')}
             </p>
           </div>
 
           {/* Program Outcomes */}
           <div className="mb-12">
             <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {language === 'ar' ? 'النتائج الرئيسـيــة' : 'Key Outcomes'}
+              {t('mun.outcomesTitle')}
             </h3>
             <ul className="space-y-4">
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {language === 'ar' 
-                    ? 'تعزيز مهارات الدبلوماسية والتفاوض عبر محاكاة واقعية'
-                    : 'Enhanced diplomatic and negotiation skills through realistic simulations'
-                  }
+                  {t('mun.outcome1')}
                 </span>
               </li>
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {language === 'ar' 
-                    ? 'زيادة الوعي العالمي وفهم العلاقات الدولية'
-                    : 'Increased global awareness and understanding of international relations'
-                  }
+                  {t('mun.outcome2')}
                 </span>
               </li>
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {language === 'ar' 
-                    ? 'تنمية مهارات التفكير النقدي والإلقاء أمام الجمهور'
-                    : 'Development of critical thinking and public speaking abilities'
-                  }
+                  {t('mun.outcome3')}
                 </span>
               </li>
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {language === 'ar' 
-                    ? 'تطوير القدرات القيادية من خلال رئاسة اللجان وأدوار الوفود'
-                    : 'Leadership capabilities through committee chair and delegation roles'
-                  }
+                  {t('mun.outcome4')}
                 </span>
               </li>
             </ul>
@@ -109,16 +94,13 @@ export default function SaudiMunAssociation() {
           {/* Sponsor CTA */}
           <div className={`bg-gray-50 rounded-xl p-8 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
             <h3 className={`font-bold text-2xl text-primary mb-4 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {language === 'ar' ? 'رعاية هـذا البرنامج' : 'Sponsor This Program'}
+              {t('mun.sponsorTitle')}
             </h3>
             <p className="text-gray-600 mb-6">
-              {language === 'ar' 
-                ? 'ادعم إعداد قادة المملكة الدبلوماسيين وممثليها العالميين في المستقبل.'
-                : 'Support the development of Saudi Arabia\'s future diplomatic leaders and global representatives.'
-              }
+              {t('mun.sponsorDescription')}
             </p>
             <Button onClick={scrollToContact} size="lg" className="bg-primary hover:bg-primary/90">
-              {language === 'ar' ? 'كن راعياً لبرامج نموذج الأمم المتحدة' : 'Become a MUN Sponsor'}
+              {t('mun.sponsorButton')}
             </Button>
           </div>
         </div>

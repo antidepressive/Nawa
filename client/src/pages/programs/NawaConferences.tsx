@@ -51,56 +51,41 @@ export default function NawaConferences() {
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
           <div className="mb-12">
             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {language === 'ar' ? 'نظرة عامة على البرنامج' : 'Program Overview'}
+              {t('conferences.heroTitle')}
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-              {language === 'ar' 
-                ? 'تقدّم مؤتمرات نواة منتديات عالمية المستوى إلى المملكة العربية السعودية، حيث تستضيف مفكّرين دوليين، وروّاد أعمال ناجحين، ومتحدثين ملهمين. تصنع فعالياتنا تجارب تحولية تُشعل شرارة الابتكار والقيادة لدى الشباب السعودي.'
-                : 'NAWA Conferences brings world-class forums to Saudi Arabia, featuring global thought leaders, successful entrepreneurs, and inspiring speakers. Our events create transformative experiences that ignite innovation and leadership among Saudi youth.'
-              }
+              {t('conferences.heroDescription')}
             </p>
           </div>
 
           {/* Program Outcomes */}
           <div className="mb-12">
             <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {language === 'ar' ? 'النتائج الرئيسـيــة' : 'Key Outcomes'}
+              {t('conferences.outcomesTitle')}
             </h3>
             <ul className="space-y-4">
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {language === 'ar' 
-                    ? 'الاطلاع على أفضل الممارسات العالمية في القيادة وريادة الأعمال'
-                    : 'Exposure to global best practices in leadership and entrepreneurship'
-                  }
+                  {t('conferences.outcome1')}
                 </span>
               </li>
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {language === 'ar' 
-                    ? 'فرص للتواصل مع قادة القطاعات وروّاد الأعمال الناجحين'
-                    : 'Networking opportunities with industry leaders and successful entrepreneurs'
-                  }
+                  {t('conferences.outcome2')}
                 </span>
               </li>
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {language === 'ar' 
-                    ? 'تنمية المهارات القيادية وترسيخ العقلية الريادية'
-                    : 'Enhanced leadership skills and entrepreneurial mindset development'
-                  }
+                  {t('conferences.outcome3')}
                 </span>
               </li>
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {language === 'ar' 
-                    ? 'إلهام وتحفيز المشاركين على اتباع مسارات مهنية مبتكرة'
-                    : 'Inspiration and motivation to pursue innovative career paths'
-                  }
+                  {t('conferences.outcome4')}
                 </span>
               </li>
             </ul>
@@ -109,16 +94,13 @@ export default function NawaConferences() {
           {/* Sponsor CTA */}
           <div className={`bg-gray-50 rounded-xl p-8 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
             <h3 className={`font-bold text-2xl text-primary mb-4 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {language === 'ar' ? 'رعاية هـذا البرنامج' : 'Sponsor This Program'}
+              {t('conferences.sponsorTitle')}
             </h3>
             <p className="text-gray-600 mb-6">
-              {language === 'ar' 
-                ? 'أبرز علامتك التجارية أمام آلاف الشباب السعوديين الطموحين وضع شركتك في موقع الريادة في تنمية الشباب.'
-                : 'Showcase your brand to thousands of ambitious Saudi youth and position your company as a leader in youth development.'
-              }
+              {t('conferences.sponsorDescription')}
             </p>
             <Button onClick={scrollToContact} size="lg" className="bg-primary hover:bg-primary/90">
-              {language === 'ar' ? 'كن راعياً للمؤتمرات' : 'Become a Conference Sponsor'}
+              {t('conferences.sponsorButton')}
             </Button>
           </div>
         </div>
