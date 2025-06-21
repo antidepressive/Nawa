@@ -132,30 +132,13 @@ export const Footer = () => {
                     {t('programs.mun.title')}
                   </button>
                 </li>
-                <li>
-                  <a
-                    href="/assets/impact-2025.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
-                  >
-                    Impact Report
-                  </a>
-                </li>
+                
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-center items-center">
             <p className="text-gray-400 text-sm">{t('footer.copyright')}</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/privacy-policy" className="text-gray-400 hover:text-accent text-sm transition-colors duration-200">
-                {t('footer.privacy')}
-              </a>
-              <a href="/terms-of-service" className="text-gray-400 hover:text-accent text-sm transition-colors duration-200">
-                {t('footer.terms')}
-              </a>
-            </div>
           </div>
         </div>
       </footer>
