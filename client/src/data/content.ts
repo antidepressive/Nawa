@@ -1,3 +1,9 @@
+import smaLogo from '@assets/partnerr-logos/sma.jpeg';
+import edadLogo from '@assets/partnerr-logos/edad.jpeg';
+import ideagenLogo from '@assets/partnerr-logos/ideagen.jpeg';
+import delosLogo from '@assets/partnerr-logos/delos.jpeg';
+import lmdfLogo from '@assets/partnerr-logos/lmdf.jpg';
+
 export const programsData = [
   {
     id: 'career',
@@ -80,12 +86,26 @@ export const testimonialsData = [
 ];
 
 export const partnersData = [
-  'SMA',
-  'Voyage',
-  'Edad',
-  'Ideagen',
-  'Delos Arabia',
-  'The Loukoumi Make A Difference Foundation'
+  {
+    name: 'SMA',
+    logo: smaLogo
+  },
+  {
+    name: 'Edad',
+    logo: edadLogo
+  },
+  {
+    name: 'Ideagen',
+    logo: ideagenLogo
+  },
+  {
+    name: 'Delos Arabia',
+    logo: delosLogo
+  },
+  {
+    name: 'LMDF',
+    logo: lmdfLogo
+  }
 ];
 
 export const statsData = [

@@ -14,19 +14,21 @@ export const SponsorMarquee = () => {
           <p className="text-gray-600">{t('partners.subtitle')}</p>
         </div>
 
-        <div className="overflow-hidden">
-          <div className="flex space-x-12 animate-marquee">
-            {[...partnersData, ...partnersData].map((partner, index) => (
-              <div
-                key={`${partner}-${index}`}
-                className="flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300"
-              >
-                <div className="w-32 h-16 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors duration-300">
-                  <span className="text-gray-500 font-semibold text-sm">{partner}</span>
-                </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 justify-items-center">
+          {partnersData.map((partner, index) => (
+            <div
+              key={`${partner.name}-${index}`}
+              className="flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300"
+            >
+              <div className="w-24 h-24 bg-white rounded-full border border-gray-200 flex items-center justify-center hover:shadow-lg transition-all duration-300 p-3">
+                <img 
+                  src={partner.logo} 
+                  alt={partner.name}
+                  className="w-full h-full object-contain rounded-full"
+                />
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
