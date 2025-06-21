@@ -43,7 +43,7 @@ export const ProgramsGrid = () => {
                   <h3 className="font-montserrat font-bold text-2xl text-primary mb-4">
                     {t(`programs.${program.id}.title`)}
                   </h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">
+                  <p className="text-gray-600 mb-6 leading-relaxed text-right">
                     {t(`programs.${program.id}.description`)}
                   </p>
                   <ul className="space-y-2 mb-8 text-sm text-gray-600 flex-grow">
