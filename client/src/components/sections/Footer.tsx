@@ -84,14 +84,7 @@ export const Footer = () => {
                     {t('nav.about')}
                   </button>
                 </li>
-                <li>
-                  <button
-                    onClick={() => scrollToSection('#programs')}
-                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
-                  >
-                    {t('nav.programs')}
-                  </button>
-                </li>
+                
                 <li>
                   <button
                     onClick={() => scrollToSection('#impact')}
