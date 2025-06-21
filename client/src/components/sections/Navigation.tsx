@@ -65,10 +65,13 @@ export const Navigation = () => {
           <div className="flex-shrink-0 flex items-center gap-2 sm:gap-4">
             <button
               onClick={toggleLanguage}
-              className="text-xs sm:text-sm text-white/80 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center"
+              className="text-xs sm:text-sm text-white/80 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center px-2 py-1"
               aria-label="Switch language"
             >
-              <Globe className={`w-3 h-3 sm:w-4 sm:h-4 ${language === 'ar' ? 'ml-1' : 'mr-1'}`} />
+              <Globe className={`w-3 h-3 sm:w-4 sm:h-4 ${language === 'ar' ? 'ml-1' : 'mr-1'} hidden sm:inline`} />
+              <span className="sm:hidden">
+                {language === 'ar' ? 'English' : 'العربية'}
+              </span>
               <span className="hidden sm:inline">{t('nav.switchToArabic')}</span>
             </button>
             <button
