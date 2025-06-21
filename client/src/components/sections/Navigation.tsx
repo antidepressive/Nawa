@@ -73,7 +73,7 @@ export const Navigation = () => {
             </button>
             <button
               onClick={() => scrollToSection('#contact')}
-              className="bg-accent text-text-dark px-6 py-2 rounded-lg font-semibold text-sm hover:bg-yellow-400 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              className="bg-accent text-text-dark px-6 py-2 rounded-lg font-semibold text-sm hover:bg-yellow-400 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 min-w-[140px]"
             >
               {t('nav.becomeaSponsor')}
             </button>
