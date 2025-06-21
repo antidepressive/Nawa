@@ -203,6 +203,15 @@
   }
 }
 
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 .animate-fade-in {
   animation: fade-in 0.6s ease-in-out;
 }
@@ -213,6 +222,10 @@
 
 .animate-counter {
   animation: counter 2s ease-out;
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
 }
 
 /* Focus styles for accessibility */
