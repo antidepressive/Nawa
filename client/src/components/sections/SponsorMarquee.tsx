@@ -35,10 +35,11 @@ export const SponsorMarquee = () => {
         <div className="mt-12 sm:mt-16">
           <div className="relative overflow-hidden">
             <div className="flex animate-scroll">
+              {/* First set */}
               <div className="flex space-x-4 sm:space-x-8 shrink-0">
                 {['Dar Al-Hekma', 'Dar Al-Fikr', 'Al-Andalus International School', 'Al-Furat International Schools', 'Waad Academy'].map((school, index) => (
                   <div
-                    key={`${school}-${index}`}
+                    key={`${school}-1-${index}`}
                     className="flex-shrink-0 bg-gradient-to-r from-primary/5 to-accent/10 rounded-lg px-3 sm:px-6 py-2 sm:py-4 border border-primary/20 hover:border-primary/40 transition-all duration-300"
                   >
                     <span className="text-primary font-semibold text-sm sm:text-lg whitespace-nowrap">
@@ -47,11 +48,24 @@ export const SponsorMarquee = () => {
                   </div>
                 ))}
               </div>
-              {/* Duplicate for seamless loop */}
+              {/* Second set */}
               <div className="flex space-x-4 sm:space-x-8 shrink-0 ml-4 sm:ml-8">
                 {['Dar Al-Hekma', 'Dar Al-Fikr', 'Al-Andalus International School', 'Al-Furat International Schools', 'Waad Academy'].map((school, index) => (
                   <div
-                    key={`${school}-duplicate-${index}`}
+                    key={`${school}-2-${index}`}
+                    className="flex-shrink-0 bg-gradient-to-r from-primary/5 to-accent/10 rounded-lg px-3 sm:px-6 py-2 sm:py-4 border border-primary/20 hover:border-primary/40 transition-all duration-300"
+                  >
+                    <span className="text-primary font-semibold text-sm sm:text-lg whitespace-nowrap">
+                      {school}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              {/* Third set */}
+              <div className="flex space-x-4 sm:space-x-8 shrink-0 ml-4 sm:ml-8">
+                {['Dar Al-Hekma', 'Dar Al-Fikr', 'Al-Andalus International School', 'Al-Furat International Schools', 'Waad Academy'].map((school, index) => (
+                  <div
+                    key={`${school}-3-${index}`}
                     className="flex-shrink-0 bg-gradient-to-r from-primary/5 to-accent/10 rounded-lg px-3 sm:px-6 py-2 sm:py-4 border border-primary/20 hover:border-primary/40 transition-all duration-300"
                   >
                     <span className="text-primary font-semibold text-sm sm:text-lg whitespace-nowrap">
