@@ -26,7 +26,7 @@ export const SponsorMarquee = () => {
                 <img 
                   src={partner.logo} 
                   alt={partner.name}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain rounded-full"
                 />
               </div>
             </div>
