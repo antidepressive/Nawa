@@ -34,9 +34,9 @@ export const ProgramsGrid = () => {
             return (
               <div
                 key={program.id}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100"
+                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full"
               >
-                <div className="p-8">
+                <div className="p-8 flex flex-col flex-grow">
                   <div className={`w-16 h-16 bg-gradient-to-br ${program.gradient} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <IconComponent className="w-8 h-8 text-white" />
                   </div>
@@ -46,7 +46,7 @@ export const ProgramsGrid = () => {
                   <p className="text-gray-600 mb-6 leading-relaxed">
                     {t(`programs.${program.id}.description`)}
                   </p>
-                  <ul className="space-y-2 mb-8 text-sm text-gray-600">
+                  <ul className="space-y-2 mb-8 text-sm text-gray-600 flex-grow">
                     {(language === 'ar' && program.featuresAr ? program.featuresAr : program.features).map((feature, index) => (
                       <li key={index} className="flex items-center">
                         <Check className="w-4 h-4 text-accent mr-2 flex-shrink-0" />
@@ -56,7 +56,7 @@ export const ProgramsGrid = () => {
                   </ul>
                   <Link 
                     href={`/programs/${program.url}`}
-                    className="inline-flex items-center text-primary font-semibold hover:text-blue-700 transition-colors group focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+                    className="inline-flex items-center text-primary font-semibold hover:text-blue-700 transition-colors group focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 mt-auto"
                   >
                     {t('programs.learnMore')}
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

@@ -55,7 +55,7 @@ export default function NawaCareer() {
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
               {language === 'ar' 
-                ? 'يُعدّ نواة المهنية رائدَ مبادراتنا في التطوير المهني، إذ يهدف إلى سدّ الفجوة بين التعليم وسوق العمل. من خلال الإرشاد الشخصي، والمُعَـايَشة مع خبراء الصناعة، ومسارات التوظيف المباشرة، نُعِدّ الشباب السعودي لمسارات مهنية ناجحة تتماشى مع مستهدفات رؤية 2030.'
+                ? 'تُعدّ نواة المهنية رائدةَ مبادراتنا في التطوير المهني، إذ تهدف إلى سدّ الفجوة بين التعليم وسوق العمل. من خلال الإرشاد الشخصي، والمُعَـايَشة مع خبراء الصناعة، ومسارات التوظيف المباشرة، نُعِدّ الشباب السعودي لمسارات مهنية ناجحة تتماشى مع مستهدفات رؤية 2030.'
                 : 'NAWA Career is our flagship professional development program designed to bridge the gap between education and industry. Through personalized coaching, industry mentorship, and direct pathways to employment, we prepare Saudi youth for successful careers aligned with Vision 2030 goals.'
               }
             </p>
