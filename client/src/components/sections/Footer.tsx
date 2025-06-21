@@ -1,5 +1,6 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Linkedin, Twitter, Instagram, Youtube } from 'lucide-react';
+import NawaLogo from '@assets/Nawa Logo.png';
 
 export const Footer = () => {
   const { t } = useLanguage();
@@ -12,23 +13,23 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-text-dark text-white py-16 w-full">
+    <footer className="bg-text-dark py-16 w-full">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             {/* Brand */}
             <div className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-6">
                 <img 
-                  src="/assets/nawa-logo.svg" 
+                  src={NawaLogo} 
                   alt="Nawa Logo" 
                   className="w-12 h-12"
                 />
                 <div>
-                  <h1 className="font-montserrat font-bold text-2xl text-white">Nawa</h1>
-                  <p className="text-gray-400 text-sm">شركة نواة الأثر</p>
+                  <h1 className="font-montserrat font-bold text-2xl text-gray-800">Nawa</h1>
+                  <p className="text-gray-700 text-sm">شركة نواة الأثر</p>
                 </div>
               </div>
-              <p className="text-gray-300 leading-relaxed mb-6 max-w-md">
+              <p className="text-gray-800 leading-relaxed mb-6 max-w-md">
                 {t('footer.description')}
               </p>
               <div className="flex space-x-4">
@@ -65,12 +66,12 @@ export const Footer = () => {
 
             {/* Quick Links */}
             <div>
-              <h3 className="font-montserrat font-bold text-lg mb-4">{t('footer.quickLinks')}</h3>
+              <h3 className="font-montserrat font-bold text-lg mb-4 text-gray-800">{t('footer.quickLinks')}</h3>
               <ul className="space-y-2">
                 <li>
                   <button
                     onClick={() => scrollToSection('#home')}
-                    className="text-gray-300 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('nav.home')}
                   </button>
@@ -78,7 +79,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#about')}
-                    className="text-gray-300 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('nav.about')}
                   </button>
@@ -86,7 +87,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#programs')}
-                    className="text-gray-300 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('nav.programs')}
                   </button>
@@ -94,7 +95,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#impact')}
-                    className="text-gray-300 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('nav.impact')}
                   </button>
@@ -102,7 +103,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#contact')}
-                    className="text-gray-300 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('nav.contact')}
                   </button>
@@ -112,12 +113,12 @@ export const Footer = () => {
 
             {/* Programs */}
             <div>
-              <h3 className="font-montserrat font-bold text-lg mb-4">{t('footer.ourPrograms')}</h3>
+              <h3 className="font-montserrat font-bold text-lg mb-4 text-gray-800">{t('footer.ourPrograms')}</h3>
               <ul className="space-y-2">
                 <li>
                   <button
                     onClick={() => scrollToSection('#career-details')}
-                    className="text-gray-300 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('programs.career.title')}
                   </button>
@@ -125,7 +126,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#conferences-details')}
-                    className="text-gray-300 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('programs.conferences.title')}
                   </button>
@@ -133,7 +134,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#mun-details')}
-                    className="text-gray-300 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     {t('programs.mun.title')}
                   </button>
@@ -143,7 +144,7 @@ export const Footer = () => {
                     href="/assets/impact-2025.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className="text-gray-700 hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
                   >
                     Impact Report
                   </a>
