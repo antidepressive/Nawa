@@ -122,6 +122,7 @@ Changelog:
 - June 20, 2025. Brand updates: Changed "NAWA AlAthr" to "Nawa", implemented custom logo, updated hero subtitle, modified stats counters, removed testimonials section, updated partner logos
 - June 20, 2025. Database integration: Added PostgreSQL database with contact form submissions and newsletter subscriptions storage, implemented API endpoints for form handling
 - June 20, 2025. Major site updates: Updated logo to new blue Arabic calligraphy design, fixed navigation smooth scrolling, updated contact info (+966 538 104 164, info@nawa.sa), added new Jeddah address with Google Maps, created legal pages and program sub-pages with proper routing
+- June 21, 2025. SEO and branding updates: Updated all page titles to "Nawa - نَوَاة", implemented favicon with blue Arabic calligraphy logo, updated meta descriptions and Open Graph tags with "Planting today, the leaders of tomorrow" tagline for improved social media sharing
 ```
 
 ## User Preferences
