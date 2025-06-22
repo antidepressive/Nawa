@@ -27,7 +27,7 @@ export const Navigation = () => {
   return (
     <nav className="absolute top-0 z-50 bg-transparent w-full">
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16">
+        <div className="relative flex items-center h-16">
           {/* Brand Block - Always on left */}
           <div className="flex-shrink-0 flex items-center">
             <img 
@@ -42,9 +42,9 @@ export const Navigation = () => {
             </div>
           </div>
 
-          {/* Navigation Menu - Center */}
-          <div className="flex-1 flex justify-center">
-            <div className="hidden md:flex items-baseline gap-8">
+          {/* Navigation Menu - Absolutely centered */}
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <div className="hidden md:flex items-baseline gap-8 ml-[0px] mr-[0px] pl-[0px] pr-[0px] mt-[0px] mb-[0px] pt-[0px] pb-[0px] text-justify">
               {navItems.map((item, index) => (
                 <button
                   key={item.key}
@@ -62,10 +62,10 @@ export const Navigation = () => {
           </div>
 
           {/* Action Block - Always on right */}
-          <div className="flex-shrink-0 flex items-center gap-2 sm:gap-4">
+          <div className="flex-shrink-0 flex items-center gap-2 sm:gap-4 ml-auto">
             <button
               onClick={toggleLanguage}
-              className="text-xs sm:text-sm text-white/80 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center px-2 py-1"
+              className="text-xs sm:text-sm text-white/80 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 flex items-center px-2 py-1 ml-[0px] mr-[0px] pl-[0px] pr-[0px] mt-[0px] mb-[0px] pt-[0px] pb-[0px] text-justify"
               aria-label="Switch language"
             >
               <Globe className={`w-3 h-3 sm:w-4 sm:h-4 ${language === 'ar' ? 'ml-1' : 'mr-1'} hidden sm:inline`} />
