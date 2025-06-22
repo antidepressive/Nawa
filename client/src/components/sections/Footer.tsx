@@ -69,34 +69,95 @@ export const Footer = () => {
             {/* Quick Links */}
             <div className={language === 'ar' ? 'text-right' : 'text-left'}>
               <h3 className={`font-montserrat font-bold text-lg mb-4 text-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>{t('footer.quickLinks')}</h3>
-              <ul className={`space-y-2 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                
-                <li>
-                  <button
-                    onClick={() => scrollToSection('#about')}
-                    className={`text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent ${language === 'ar' ? 'text-right w-full' : 'text-left'}`}
-                  >
-                    {t('nav.about')}
-                  </button>
-                </li>
-                
-                <li>
-                  <button
-                    onClick={() => scrollToSection('#impact')}
-                    className={`text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent ${language === 'ar' ? 'text-right w-full' : 'text-left'}`}
-                  >
-                    {t('nav.impact')}
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => scrollToSection('#contact')}
-                    className={`text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent ${language === 'ar' ? 'text-right w-full' : 'text-left'}`}
-                  >
-                    {t('nav.contact')}
-                  </button>
-                </li>
-              </ul>
+              {language === 'ar' ? (
+                // Arabic RTL order: الرئيسية، من نحن، الأثر، برامجنا، تواصل معنا
+                <ul className="space-y-2 text-right">
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#home')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-right w-full"
+                    >
+                      {t('nav.home')}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#about')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-right w-full"
+                    >
+                      {t('nav.about')}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#impact')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-right w-full"
+                    >
+                      {t('nav.impact')}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#programs')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-right w-full"
+                    >
+                      {t('nav.programs')}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#contact')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-right w-full"
+                    >
+                      {t('nav.contact')}
+                    </button>
+                  </li>
+                </ul>
+              ) : (
+                // English LTR order: Home, About, Impact, Programs, Contact
+                <ul className="space-y-2 text-left">
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#home')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-left"
+                    >
+                      {t('nav.home')}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#about')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-left"
+                    >
+                      {t('nav.about')}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#impact')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-left"
+                    >
+                      {t('nav.impact')}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#programs')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-left"
+                    >
+                      {t('nav.programs')}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => scrollToSection('#contact')}
+                      className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-left"
+                    >
+                      {t('nav.contact')}
+                    </button>
+                  </li>
+                </ul>
+              )}
             </div>
 
             {/* Programs */}
