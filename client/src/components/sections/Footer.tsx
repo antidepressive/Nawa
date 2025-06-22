@@ -5,7 +5,7 @@ import NawaLogo from '@assets/Nawa Logo.png';
 import FooterBackground from '@assets/background_1750437347589.png';
 
 export const Footer = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
@@ -67,14 +67,14 @@ export const Footer = () => {
             </div>
 
             {/* Quick Links */}
-            <div>
-              <h3 className="font-montserrat font-bold text-lg mb-4 text-white">{t('footer.quickLinks')}</h3>
-              <ul className="space-y-2">
+            <div className={language === 'ar' ? 'text-right' : 'text-left'}>
+              <h3 className={`font-montserrat font-bold text-lg mb-4 text-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>{t('footer.quickLinks')}</h3>
+              <ul className={`space-y-2 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                 
                 <li>
                   <button
                     onClick={() => scrollToSection('#about')}
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className={`text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent ${language === 'ar' ? 'text-right w-full' : 'text-left'}`}
                   >
                     {t('nav.about')}
                   </button>
@@ -83,7 +83,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#impact')}
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className={`text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent ${language === 'ar' ? 'text-right w-full' : 'text-left'}`}
                   >
                     {t('nav.impact')}
                   </button>
@@ -91,7 +91,7 @@ export const Footer = () => {
                 <li>
                   <button
                     onClick={() => scrollToSection('#contact')}
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent"
+                    className={`text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent ${language === 'ar' ? 'text-right w-full' : 'text-left'}`}
                   >
                     {t('nav.contact')}
                   </button>
@@ -100,13 +100,13 @@ export const Footer = () => {
             </div>
 
             {/* Programs */}
-            <div>
-              <h3 className="font-montserrat font-bold text-lg mb-4 text-white">{t('footer.ourPrograms')}</h3>
-              <ul className="space-y-2">
+            <div className={language === 'ar' ? 'text-right' : 'text-left'}>
+              <h3 className={`font-montserrat font-bold text-lg mb-4 text-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>{t('footer.ourPrograms')}</h3>
+              <ul className={`space-y-2 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                 <li>
                   <Link
                     href="/programs/nawa-career"
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent block"
+                    className={`text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent block ${language === 'ar' ? 'text-right' : 'text-left'}`}
                   >
                     {t('programs.career.title')}
                   </Link>
@@ -114,7 +114,7 @@ export const Footer = () => {
                 <li>
                   <Link
                     href="/programs/nawa-conferences"
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent block"
+                    className={`text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent block ${language === 'ar' ? 'text-right' : 'text-left'}`}
                   >
                     {t('programs.conferences.title')}
                   </Link>
@@ -122,7 +122,7 @@ export const Footer = () => {
                 <li>
                   <Link
                     href="/programs/saudi-mun-association"
-                    className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent block"
+                    className={`text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent block ${language === 'ar' ? 'text-right' : 'text-left'}`}
                   >
                     {t('programs.mun.title')}
                   </Link>
