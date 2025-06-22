@@ -167,41 +167,43 @@ export const Contact = () => {
             </div>
 
             <div className="space-y-8 mt-[32px] mb-[32px] flex flex-col items-center px-4 sm:px-8 lg:px-[103px]">
-              <div className={`flex items-start ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="flex flex-col items-center text-center w-full max-w-sm">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mb-3">
                   <Phone className="w-5 h-5 text-primary" />
                 </div>
-                <div className={language === 'ar' ? 'text-right' : 'text-left'}>
-                  <h4 className={`font-semibold text-text-dark mb-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                <div className="text-center">
+                  <h4 className="font-semibold text-text-dark mb-1 text-center">
                     {t("contact.phone")}
                   </h4>
-                  <p className="text-gray-600 arabic-numbers">
+                  <p className="text-gray-600 arabic-numbers text-center">
                     {t("contact.phoneValue")}
                   </p>
                 </div>
               </div>
 
-              <div className={`flex items-start ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="flex flex-col items-center text-center w-full max-w-sm">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mb-3">
                   <Mail className="w-5 h-5 text-primary" />
                 </div>
-                <div className={language === 'ar' ? 'text-right' : 'text-left'}>
-                  <h4 className="flex items-start space-x-4 w-full max-w-sm mt-[0px] mb-[0px] ml-[0px] mr-[0px] pl-[51px] pr-[51px] text-center">
+                <div className="text-center">
+                  <h4 className="font-semibold text-text-dark mb-1 text-center">
                     {t("contact.email")}
                   </h4>
-                  <p className="text-gray-600 pl-[51px] pr-[51px]">{t("contact.emailValue")}</p>
+                  <p className="text-gray-600 text-center">{t("contact.emailValue")}</p>
                 </div>
               </div>
 
-              <a
-                href="https://wa.me/966538104164"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`inline-flex items-center bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}
-              >
-                <MessageSquare className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
-                {t("contact.whatsapp")}
-              </a>
+              <div className="flex justify-center w-full">
+                <a
+                  href="https://wa.me/966538104164"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}
+                >
+                  <MessageSquare className={`w-5 h-5 ${language === 'ar' ? 'ml-2' : 'mr-2'}`} />
+                  {t("contact.whatsapp")}
+                </a>
+              </div>
             </div>
           </div>
 
