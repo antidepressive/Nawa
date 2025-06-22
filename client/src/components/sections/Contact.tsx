@@ -167,7 +167,7 @@ export const Contact = () => {
             </div>
 
             <div className="space-y-8 mt-[32px] mb-[32px] flex flex-col items-center px-4 sm:px-8 lg:px-[103px]">
-              <div className={`flex items-center justify-center ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
+              <div className={`flex items-center justify-center ${language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'} w-full max-w-sm`}>
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Phone className="w-5 h-5 text-primary" />
                 </div>
@@ -181,7 +181,7 @@ export const Contact = () => {
                 </div>
               </div>
 
-              <div className={`flex items-center justify-center ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
+              <div className={`flex items-center justify-center ${language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'} w-full max-w-sm`}>
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5 text-primary" />
                 </div>
