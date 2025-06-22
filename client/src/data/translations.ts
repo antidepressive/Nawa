@@ -19,7 +19,7 @@ export const translations = {
     // Elevator Pitch
     "pitch.title": "Transforming Saudi Arabia's Youth Potential",
     "pitch.paragraph1":
-      "NAWA AlAthr stands as Saudi Arabia's premier youth development organization, connecting corporate partners with impactful programs that shape the next generation of leaders and innovators.",
+      "Nawa stands as Saudi Arabia's leading youth development organization, connecting corporate partners and students with impactful programs that shape the next generation of leaders and innovators.",
     "pitch.paragraph2":
       "Through our three flagship initiatives—NAWA Career, NAWA Conferences, and the Saudi MUN Association—we've created a comprehensive ecosystem that bridges the gap between education and industry, preparing young Saudis for the challenges of tomorrow.",
     "pitch.paragraph3":
