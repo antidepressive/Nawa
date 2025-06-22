@@ -167,29 +167,29 @@ export const Contact = () => {
             </div>
 
             <div className="space-y-8 mt-[32px] mb-[32px] flex flex-col items-center px-4 sm:px-8 lg:px-[103px]">
-              <div className="flex flex-col items-center text-center w-full max-w-sm">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mb-3">
+              <div className={`flex items-center justify-center ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Phone className="w-5 h-5 text-primary" />
                 </div>
-                <div className="text-center">
-                  <h4 className="font-semibold text-text-dark mb-1 text-center">
+                <div className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  <h4 className={`font-semibold text-text-dark mb-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                     {t("contact.phone")}
                   </h4>
-                  <p className="text-gray-600 arabic-numbers text-center">
+                  <p className={`text-gray-600 arabic-numbers ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                     {t("contact.phoneValue")}
                   </p>
                 </div>
               </div>
 
-              <div className="flex flex-col items-center text-center w-full max-w-sm">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 mb-3">
+              <div className={`flex items-center justify-center ${language === 'ar' ? 'space-x-reverse space-x-4' : 'space-x-4'} w-full max-w-sm`}>
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5 text-primary" />
                 </div>
-                <div className="text-center">
-                  <h4 className="font-semibold text-text-dark mb-1 text-center">
+                <div className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  <h4 className={`font-semibold text-text-dark mb-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                     {t("contact.email")}
                   </h4>
-                  <p className="text-gray-600 text-center">{t("contact.emailValue")}</p>
+                  <p className={`text-gray-600 ${language === 'ar' ? 'text-right' : 'text-left'}`}>{t("contact.emailValue")}</p>
                 </div>
               </div>
 
