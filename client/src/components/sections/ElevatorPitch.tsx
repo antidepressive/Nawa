@@ -11,7 +11,7 @@ export const ElevatorPitch = () => {
             {t('pitch.title')}
           </h2>
           <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-gray-700 leading-relaxed">
-            <p>Nawa stands as Saudi Arabia's premier youth development organization, connecting corporate partners with impactful programs that shape the next generation of leaders and innovators.</p>
+            <p>تعد نواة المنظمة الرائدة في المملكة العربية السعودية لتنمية الشباب، تصل الشركاء من قطاع الأعمال الى قادة الغد، بإيصالهم الى القادة والمؤثرين في مختلف القطاعات, ببرامج مؤثرة تسهم في صناعة جيل جديد من القادة والمبتكرين</p>
             <p>{t('pitch.paragraph2')}</p>
             <p>{t('pitch.paragraph3')}</p>
           </div>
