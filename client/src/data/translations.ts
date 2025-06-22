@@ -53,7 +53,7 @@ export const translations = {
     // Contact
     "contact.title": "Get in Touch",
     "contact.subtitle":
-      "Ready to partner with us? Let's discuss how we can create meaningful impact together.",
+      "Our doors are open to everyone! Whether you need a consultation, have an idea, or seek a partnership, Nawa is ready to harvest your future...",
     "contact.letsConnect": "Let's Connect",
     "contact.description":
       "Whether you're interested in sponsorship opportunities, partnerships, or learning more about our impact, we'd love to hear from you. Our team is ready to explore how we can work together to empower Saudi youth.",
@@ -213,7 +213,7 @@ export const translations = {
     // Contact
     "contact.title": "تواصل معنا",
     "contact.subtitle":
-      "هل أنت مستعد للشراكة معنا؟ دعونا نناقش كيف يمكننا خلق تأثير ذو معنى معاً",
+      "ابوابنا مفتوحة للجميع! سواء كانت استشارة، فكرة، او شراكة. نواة جاهزة لحصاد مستقبلكم.",
     "contact.letsConnect": "دعونا نتواصل",
     "contact.description":
       "ابوابنا مفتوحة للجميع! سواء كانت استشارة، فكرة، او شراكة نواة جاهزة لحصاد مستقبلكم",
