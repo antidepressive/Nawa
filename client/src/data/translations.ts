@@ -247,6 +247,7 @@ export const translations = {
       "تمكين الشباب السعودي من خلال البرامج المبتكرة والمؤتمرات عالمية المستوى والشراكات ذات المعنى التي تدفع رؤية 2030 إلى الأمام",
     "footer.quickLinks": "روابط سريعة",
     "footer.ourPrograms": "برامجنا",
+    "footer.contact": "تواصل معنا",
     "footer.copyright": "© 2025 نواة الأثر. جميع الحقوق محفوظة",
     "footer.privacy": "سياسة الخصوصية",
     "footer.terms": "شروط الخدمة",
