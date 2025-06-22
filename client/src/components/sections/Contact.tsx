@@ -186,7 +186,7 @@ export const Contact = () => {
                   <Mail className="w-5 h-5 text-primary" />
                 </div>
                 <div className={language === 'ar' ? 'text-right' : 'text-left'}>
-                  <h4 className={`font-semibold text-text-dark mb-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                  <h4 className="flex items-start space-x-4 w-full max-w-sm mt-[0px] mb-[0px] ml-[0px] mr-[0px] pl-[51px] pr-[51px] text-center">
                     {t("contact.email")}
                   </h4>
                   <p className="text-gray-600">{t("contact.emailValue")}</p>
