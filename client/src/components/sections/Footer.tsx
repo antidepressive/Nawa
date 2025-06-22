@@ -1,5 +1,5 @@
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Linkedin, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Linkedin, Twitter, Instagram, Youtube, Phone, Mail, MessageSquare } from 'lucide-react';
 import { Link } from 'wouter';
 import NawaLogo from '@assets/Nawa Logo.png';
 import FooterBackground from '@assets/background_1750437347589.png';
@@ -17,7 +17,7 @@ export const Footer = () => {
   return (
     <footer className="py-16 w-full relative" style={{ backgroundImage: `url(${FooterBackground})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-5 gap-8">
             {/* Brand */}
             <div className="md:col-span-2 ml-[25px] mr-[25px] mt-[-10px] mb-[-10px] pt-[0px] pb-[0px] pl-[25px] pr-[25px] text-left">
               <div className="flex items-center space-x-3 mb-6">
@@ -190,6 +190,32 @@ export const Footer = () => {
                 </li>
                 
               </ul>
+            </div>
+
+            {/* Contact Information */}
+            <div className={`${language === 'ar' ? 'text-right order-1' : 'text-left order-3'}`}>
+              <h3 className={`font-montserrat font-bold text-lg mb-4 text-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>{t('footer.contact')}</h3>
+              <div className="space-y-3">
+                <div className={`flex items-center ${language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
+                  <Phone className="w-4 h-4 text-white flex-shrink-0" />
+                  <span className="text-white text-sm">+966 538 104 164</span>
+                </div>
+                <div className={`flex items-center ${language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
+                  <Mail className="w-4 h-4 text-white flex-shrink-0" />
+                  <span className="text-white text-sm">info@nawa.sa</span>
+                </div>
+                <div className={`flex items-center ${language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
+                  <MessageSquare className="w-4 h-4 text-white flex-shrink-0" />
+                  <a 
+                    href="https://wa.me/966538104164"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-accent transition-colors duration-200 text-sm"
+                  >
+                    WhatsApp Us
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 

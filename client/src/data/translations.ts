@@ -87,6 +87,7 @@ export const translations = {
       "Empowering Saudi youth through innovative programs, world-class conferences, and meaningful partnerships that drive Vision 2030 forward.",
     "footer.quickLinks": "Quick Links",
     "footer.ourPrograms": "Our Programs",
+    "footer.contact": "Contact Us",
     "footer.copyright": "© 2025 NAWA. All rights reserved.",
     "footer.privacy": "Privacy Policy",
     "footer.terms": "Terms of Service",
