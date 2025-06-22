@@ -189,7 +189,7 @@ export const Contact = () => {
                   <h4 className="flex items-start space-x-4 w-full max-w-sm mt-[0px] mb-[0px] ml-[0px] mr-[0px] pl-[51px] pr-[51px] text-center">
                     {t("contact.email")}
                   </h4>
-                  <p className="text-gray-600">{t("contact.emailValue")}</p>
+                  <p className="text-gray-600 pl-[51px] pr-[51px]">{t("contact.emailValue")}</p>
                 </div>
               </div>
 
