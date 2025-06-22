@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Navigation } from '../components/sections/Navigation';
 import { Hero } from '../components/sections/Hero';
 import { ElevatorPitch } from '../components/sections/ElevatorPitch';
@@ -10,6 +11,9 @@ import { Footer } from '../components/sections/Footer';
 import { ScrollToTop } from '../components/ui/ScrollToTop';
 
 export default function Home() {
+  useEffect(() => {
+    document.title = 'Nawa - نَوَاة';
+  }, []);
   return (
     <>
       <Navigation />

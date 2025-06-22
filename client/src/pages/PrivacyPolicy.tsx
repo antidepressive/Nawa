@@ -6,6 +6,7 @@ export default function PrivacyPolicy() {
   const [html, setHtml] = useState("");
 
   useEffect(() => {
+    document.title = 'Nawa - نَوَاة';
     // Fetch pre-converted HTML file from /public
     fetch("/assets/privacy_policy.html")
       .then((res) => res.text())

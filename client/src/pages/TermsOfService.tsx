@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function TermsOfService() {
   const { t } = useLanguage();
+
+  useEffect(() => {
+    document.title = 'Nawa - نَوَاة';
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">

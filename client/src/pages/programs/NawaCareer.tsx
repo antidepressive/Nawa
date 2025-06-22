@@ -10,6 +10,7 @@ export default function NawaCareer() {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
+    document.title = 'Nawa - نَوَاة';
     window.scrollTo(0, 0);
   }, []);
 
