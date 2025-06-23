@@ -109,6 +109,7 @@ export default function ConsultingTrainingProgram() {
                     size="lg" 
                     variant="outline"
                     className="border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 text-lg font-semibold"
+                    onClick={() => window.open('https://forms.gle/7NQp3AcjNsHqg5Bt9', '_blank', 'noopener,noreferrer')}
                   >
                     {language === 'ar' ? 'سجل الآن' : 'Register Now'}
                   </Button>
@@ -230,6 +231,7 @@ export default function ConsultingTrainingProgram() {
             <Button 
               size="lg" 
               className="bg-white/10 backdrop-blur-sm border border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold"
+              onClick={() => window.open('https://forms.gle/7NQp3AcjNsHqg5Bt9', '_blank', 'noopener,noreferrer')}
             >
               {language === 'ar' ? 'سجل الآن' : 'Register Now'}
             </Button>

@@ -127,6 +127,7 @@ Changelog:
 - June 23, 2025. New program page: Added Consulting Training Program (CTP) page featuring 12-day intensive bootcamp in Jeddah, connected "Start your Development Journey" hero button to CTP page, implemented comprehensive program information with bilingual support
 - June 23, 2025. CTP page updates: Applied nawa-background.png to hero section and footer backgrounds, removed "(CTP)" text from program name, removed "Learn More" button leaving only "Register Now", removed Arabic text from partners section, added back to home navigation button, aligned industry leaders grid layout, added curriculum overview buttons linking to CTP-NAWA.pdf, implemented comprehensive RTL text alignment for Arabic content including feature cards and bullet points
 - June 23, 2025. Career page enhancement: Added "Current Programs" section to NAWA career page featuring the CTP program with detailed description, key features, and action buttons linking to the full program page
+- June 23, 2025. CTP registration integration: Connected all "Register Now" buttons for CTP program to Google Forms registration link (https://forms.gle/7NQp3AcjNsHqg5Bt9) with secure noopener/noreferrer attributes
 ```
 
 ## User Preferences

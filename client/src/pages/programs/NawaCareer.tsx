@@ -153,7 +153,11 @@ export default function NawaCareer() {
                         {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
                       </Button>
                     </Link>
-                    <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
+                    <Button 
+                      variant="outline" 
+                      className="border-primary text-primary hover:bg-primary hover:text-white"
+                      onClick={() => window.open('https://forms.gle/7NQp3AcjNsHqg5Bt9', '_blank', 'noopener,noreferrer')}
+                    >
                       {language === 'ar' ? 'سجل الآن' : 'Register Now'}
                     </Button>
                   </div>
