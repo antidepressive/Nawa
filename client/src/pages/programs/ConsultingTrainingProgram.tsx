@@ -32,8 +32,7 @@ export default function ConsultingTrainingProgram() {
   const partners = [
     'KPMG',
     'Pure Consulting', 
-    'TAM',
-    'والمزيد من الشركات الرائدة'
+    'TAM'
   ];
 
   return (
