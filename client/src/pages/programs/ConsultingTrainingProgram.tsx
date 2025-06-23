@@ -233,8 +233,7 @@ export default function ConsultingTrainingProgram() {
             </Button>
             <Button 
               size="lg" 
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold flex items-center gap-2"
+              className="bg-white/10 backdrop-blur-sm border border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold flex items-center gap-2"
               onClick={() => window.open(ctpPdf, '_blank')}
             >
               <Download className="w-5 h-5" />
