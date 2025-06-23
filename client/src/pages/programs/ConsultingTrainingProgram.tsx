@@ -1,12 +1,12 @@
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb, ArrowLeft, Download } from 'lucide-react';
+import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb, ArrowLeft, Download, Globe } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Link } from 'wouter';
 import nawaBackground from '@assets/nawa-background.png';
 import ctpPdf from '@assets/CTP-NAWA.pdf';
 
 export default function ConsultingTrainingProgram() {
-  const { t, language } = useLanguage();
+  const { t, language, toggleLanguage } = useLanguage();
 
   const features = [
     {
@@ -46,8 +46,8 @@ export default function ConsultingTrainingProgram() {
       >
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="max-w-6xl mx-auto relative z-10">
-          {/* Back to Home Button */}
-          <div className="mb-8">
+          {/* Back to Home Button and Language Toggle */}
+          <div className="mb-8 flex justify-between items-center">
             <Link href="/">
               <Button 
                 variant="ghost" 
@@ -57,6 +57,14 @@ export default function ConsultingTrainingProgram() {
                 {language === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}
               </Button>
             </Link>
+            <Button 
+              variant="ghost" 
+              className="text-white hover:bg-white/20 flex items-center gap-2"
+              onClick={toggleLanguage}
+            >
+              <Globe className="w-4 h-4" />
+              {language === 'ar' ? 'EN' : 'العربية'}
+            </Button>
           </div>
           <div className="text-center mb-16">
             <h1 className="font-montserrat font-bold text-4xl md:text-6xl text-white mb-6">

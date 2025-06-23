@@ -1,12 +1,12 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../../components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Globe } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
 import backgroundImage from '@assets/background_1750437485135.png';
 
 export default function NawaConferences() {
-  const { t, language } = useLanguage();
+  const { t, language, toggleLanguage } = useLanguage();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
@@ -37,14 +37,22 @@ export default function NawaConferences() {
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-blue-600/80"></div>
         <div className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Back to Home Button */}
-          <div className="mb-8">
+          {/* Back to Home Button and Language Toggle */}
+          <div className="mb-8 flex justify-between items-center">
             <Link href="/">
               <Button variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 {language === 'ar' ? 'العودة إلى الرئيسية' : 'Back to Home'}
               </Button>
             </Link>
+            <Button 
+              variant="outline" 
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+              onClick={toggleLanguage}
+            >
+              <Globe className="w-4 h-4 mr-2" />
+              {language === 'ar' ? 'EN' : 'العربية'}
+            </Button>
           </div>
           <div className="text-center">
             <h1 className="font-montserrat font-bold text-4xl md:text-5xl mb-6">
