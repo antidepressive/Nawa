@@ -3,6 +3,7 @@ import { Linkedin, Twitter, Instagram, Youtube, Phone, Mail, MessageSquare } fro
 import { Link } from 'wouter';
 import NawaLogo from '@assets/Nawa Logo.png';
 import FooterBackground from '@assets/background_1750437347589.png';
+import companiesBg from '../../assets/companies-bg.png';
 
 export const Footer = () => {
   const { t, language } = useLanguage();
@@ -15,8 +16,9 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="py-16 w-full relative" style={{ backgroundImage: `url(${FooterBackground})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+    <footer className="py-16 w-full relative overflow-hidden" style={{ backgroundImage: `url(${companiesBg})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+        <div className="absolute inset-0 bg-blue-900/85 backdrop-blur-sm"></div>
+        <div className="w-full px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid md:grid-cols-6 gap-8">
             {/* Brand */}
             <div className="md:col-span-2 ml-[25px] mr-[25px] mt-[-10px] mb-[-10px] pt-[0px] pb-[0px] pl-[25px] pr-[25px] text-left">

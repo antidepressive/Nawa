@@ -56,13 +56,7 @@ export const ProgramsGrid = () => {
                       </li>
                     ))}
                   </ul>
-                  <Link 
-                    href={`/programs/${program.url}`}
-                    className="inline-flex items-center text-primary font-semibold hover:text-blue-700 transition-colors group focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 mt-auto"
-                  >
-                    {t('programs.learnMore')}
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Link>
+
                 </div>
               </div>
             );

@@ -1,6 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb } from 'lucide-react';
 import { Button } from '../../components/ui/button';
+import companiesBg from '../../assets/companies-bg.png';
 
 export default function ConsultingTrainingProgram() {
   const { t, language } = useLanguage();
@@ -44,9 +45,6 @@ export default function ConsultingTrainingProgram() {
             <h1 className="font-montserrat font-bold text-4xl md:text-6xl text-primary mb-6">
               {language === 'ar' ? 'برنامج التدريب الاستشاري' : 'Consulting Training Program'}
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-4">
-              {language === 'ar' ? '(CTP)' : '(CTP)'}
-            </p>
             <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
               {language === 'ar' 
                 ? 'استكشف أسرع القطاعات نمواً وأعلاها أجراً في المملكة العربية السعودية — الاستشارات'
@@ -55,8 +53,17 @@ export default function ConsultingTrainingProgram() {
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div 
+            className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16 relative overflow-hidden"
+            style={{
+              backgroundImage: `url(${companiesBg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          >
+            <div className="absolute inset-0 bg-white/90 backdrop-blur-sm"></div>
+            <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
               <div>
                 <h2 className="font-montserrat font-bold text-3xl text-primary mb-6">
                   {language === 'ar' ? 'انضم إلى برنامج التدريب الاستشاري' : 'Join the Consultant Training Program'}
