@@ -14,7 +14,7 @@ export const translations = {
       "Drop a seed with Nawa, and see your future transform a nation.",
     "hero.subtitle": "We form the nucleus where Saudi youth grow into leaders.",
     "hero.downloadDeck": "Download Sponsor Deck",
-    "hero.bookCall": "Start your Development Journey",
+    "hero.bookCall": "Enroll in Nawa CTP",
 
     // Elevator Pitch
     "pitch.title": "Transforming Saudi Arabia's Youth Potential",
@@ -175,7 +175,7 @@ export const translations = {
     "hero.title": "اغرس بذرة مع نواة، وشاهد مستقبلك يحوّل الوطن.",
     "hero.subtitle": "نشكل النواة التي ينمو فيها الشباب السعودي ليصبحوا قادة",
     "hero.downloadDeck": "تحميل ملف الرعاية",
-    "hero.bookCall": "ابدأ رحلة تطويرك",
+    "hero.bookCall": "سجل في نواة CTP",
 
     // Elevator Pitch
     "pitch.title": "تحويل إمكانات الشباب السعودي",
