@@ -1,6 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb } from 'lucide-react';
 import { Button } from '../../components/ui/button';
+import nawaBackground from '@assets/nawa-background.png';
 
 export default function ConsultingTrainingProgram() {
   const { t, language } = useLanguage();
@@ -38,16 +39,17 @@ export default function ConsultingTrainingProgram() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+      <section 
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-cover bg-center bg-no-repeat relative"
+        style={{ backgroundImage: `url(${nawaBackground})` }}
+      >
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <h1 className="font-montserrat font-bold text-4xl md:text-6xl text-primary mb-6">
+            <h1 className="font-montserrat font-bold text-4xl md:text-6xl text-white mb-6">
               {language === 'ar' ? 'برنامج التدريب الاستشاري' : 'Consulting Training Program'}
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-4">
-              {language === 'ar' ? '(CTP)' : '(CTP)'}
-            </p>
-            <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-white max-w-4xl mx-auto leading-relaxed">
               {language === 'ar' 
                 ? 'استكشف أسرع القطاعات نمواً وأعلاها أجراً في المملكة العربية السعودية — الاستشارات'
                 : 'Explore Saudi\'s Fastest-Growing, Best-Paying Sector — Consulting'
@@ -182,8 +184,12 @@ export default function ConsultingTrainingProgram() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-primary">
-        <div className="max-w-4xl mx-auto text-center">
+      <section 
+        className="py-16 px-4 sm:px-6 lg:px-8 bg-primary bg-cover bg-center bg-no-repeat relative"
+        style={{ backgroundImage: `url(${nawaBackground})` }}
+      >
+        <div className="absolute inset-0 bg-primary/80"></div>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="font-montserrat font-bold text-3xl md:text-4xl text-white mb-6">
             {language === 'ar' ? 'هل أنت مستعد لبدء رحلتك الاستشارية؟' : 'Ready to Start Your Consulting Journey?'}
           </h2>
@@ -193,20 +199,13 @@ export default function ConsultingTrainingProgram() {
               : 'Join the Consulting Training Program and gain the skills you need to succeed in this growing field'
             }
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Button 
               size="lg" 
               variant="secondary"
               className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
             >
               {language === 'ar' ? 'سجل الآن' : 'Register Now'}
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold"
-            >
-              {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
             </Button>
           </div>
         </div>
