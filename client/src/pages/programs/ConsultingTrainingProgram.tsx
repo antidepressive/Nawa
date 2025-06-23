@@ -1,7 +1,6 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb } from 'lucide-react';
 import { Button } from '../../components/ui/button';
-import nawaBg from '../../assets/nawa-bg.png';
 
 export default function ConsultingTrainingProgram() {
   const { t, language } = useLanguage();
@@ -37,15 +36,7 @@ export default function ConsultingTrainingProgram() {
   ];
 
   return (
-    <div 
-      className="min-h-screen"
-      style={{
-        backgroundImage: `url(${nawaBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -53,6 +44,9 @@ export default function ConsultingTrainingProgram() {
             <h1 className="font-montserrat font-bold text-4xl md:text-6xl text-primary mb-6">
               {language === 'ar' ? 'برنامج التدريب الاستشاري' : 'Consulting Training Program'}
             </h1>
+            <p className="text-xl md:text-2xl text-gray-600 mb-4">
+              {language === 'ar' ? '(CTP)' : '(CTP)'}
+            </p>
             <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
               {language === 'ar' 
                 ? 'استكشف أسرع القطاعات نمواً وأعلاها أجراً في المملكة العربية السعودية — الاستشارات'
@@ -61,17 +55,8 @@ export default function ConsultingTrainingProgram() {
             </p>
           </div>
 
-          <div 
-            className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16 relative overflow-hidden"
-            style={{
-              backgroundImage: `url(${nawaBg})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat'
-            }}
-          >
-            <div className="absolute inset-0 bg-gray-50/95"></div>
-            <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
+          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="font-montserrat font-bold text-3xl text-primary mb-6">
                   {language === 'ar' ? 'انضم إلى برنامج التدريب الاستشاري' : 'Join the Consultant Training Program'}
@@ -208,13 +193,20 @@ export default function ConsultingTrainingProgram() {
               : 'Join the Consulting Training Program and gain the skills you need to succeed in this growing field'
             }
           </p>
-          <div className="flex justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
               variant="secondary"
               className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
             >
               {language === 'ar' ? 'سجل الآن' : 'Register Now'}
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold"
+            >
+              {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
             </Button>
           </div>
         </div>
