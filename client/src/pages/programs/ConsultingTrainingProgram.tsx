@@ -107,18 +107,19 @@ export default function ConsultingTrainingProgram() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button 
                     size="lg" 
-                    className="bg-primary hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold"
+                    variant="outline"
+                    className="border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 text-lg font-semibold"
                   >
                     {language === 'ar' ? 'سجل الآن' : 'Register Now'}
                   </Button>
                   <Button 
                     size="lg" 
                     variant="outline"
-                    className="border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 text-lg font-semibold"
+                    className="border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 text-lg font-semibold flex items-center gap-2"
                     onClick={() => window.open(ctpPdf, '_blank')}
                   >
-                    <Download className="w-5 h-5 mr-2" />
-                    {language === 'ar' ? 'نظرة عامة على المنهج' : 'Curriculum Overview'}
+                    <Download className="w-5 h-5" />
+                    <span>{language === 'ar' ? 'نظرة عامة على المنهج' : 'Curriculum Overview'}</span>
                   </Button>
                 </div>
               </div>
