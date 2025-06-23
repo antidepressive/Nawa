@@ -1,6 +1,6 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../../components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Calendar, Users, Target, BookOpen } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
 import backgroundImage from '@assets/background_1750437485135.png';
@@ -100,6 +100,66 @@ export default function NawaCareer() {
                 </span>
               </li>
             </ul>
+          </div>
+
+          {/* Current Programs */}
+          <div className="mb-12">
+            <h3 className={`font-bold text-2xl text-primary mb-8 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
+              {language === 'ar' ? 'البرامج الحالية' : 'Current Programs'}
+            </h3>
+            
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+              <div className="flex items-start gap-6">
+                <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <BookOpen className="w-8 h-8 text-primary" />
+                </div>
+                
+                <div className="flex-1">
+                  <h4 className={`font-bold text-xl text-gray-900 mb-3 ${language === 'ar' ? 'font-cairo text-right' : 'font-montserrat'}`}>
+                    {language === 'ar' ? 'برنامج التدريب الاستشاري' : 'Consulting Training Program'}
+                  </h4>
+                  
+                  <p className={`text-gray-600 mb-4 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                    {language === 'ar' 
+                      ? 'برنامج تدريبي مكثف لمدة 12 يوماً في جدة مصمم لإعدادك لمهنة استشارية حقيقية. تعلم مباشرة من خبراء في شركات رائدة مثل KPMG وPure Consulting وTAM.'
+                      : 'A 12-day intensive bootcamp in Jeddah designed to prepare you for a real consulting career. Learn directly from experts at leading companies like KPMG, Pure Consulting, and TAM.'
+                    }
+                  </p>
+                  
+                  <div className={`flex flex-wrap gap-4 mb-6 ${language === 'ar' ? 'justify-end' : 'justify-start'}`}>
+                    <div className="flex items-center gap-2 text-primary">
+                      <Calendar className="w-4 h-4" />
+                      <span className="text-sm font-medium">
+                        {language === 'ar' ? '12 يوم مكثف' : '12 days intensive'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-primary">
+                      <Users className="w-4 h-4" />
+                      <span className="text-sm font-medium">
+                        {language === 'ar' ? 'خبراء من الشركات الرائدة' : 'Industry experts'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-primary">
+                      <Target className="w-4 h-4" />
+                      <span className="text-sm font-medium">
+                        {language === 'ar' ? 'جدة' : 'Jeddah'}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className={`flex flex-col sm:flex-row gap-3 ${language === 'ar' ? 'sm:justify-end' : 'sm:justify-start'}`}>
+                    <Link href="/programs/consulting-training-program">
+                      <Button className="bg-primary hover:bg-blue-700 text-white">
+                        {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
+                      </Button>
+                    </Link>
+                    <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
+                      {language === 'ar' ? 'سجل الآن' : 'Register Now'}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Sponsor CTA */}
