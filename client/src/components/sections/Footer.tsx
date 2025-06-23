@@ -69,16 +69,16 @@ export const Footer = () => {
             {/* Contact Information */}
             <div className={`${language === 'ar' ? 'text-right order-4' : 'text-left order-1'}`}>
               <h3 className={`font-montserrat font-bold text-lg mb-4 text-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>{t('footer.contact')}</h3>
-              <div className="space-y-3">
-                <div className={`flex items-center ${language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
+              <div className={`space-y-3 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                <div className={`flex items-center ${language === 'ar' ? 'justify-start flex-row-reverse space-x-reverse space-x-2' : 'justify-start space-x-2'}`}>
                   <Phone className="w-4 h-4 text-white flex-shrink-0" />
                   <span className="text-white text-sm">+966 538 104 164</span>
                 </div>
-                <div className={`flex items-center ${language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
+                <div className={`flex items-center ${language === 'ar' ? 'justify-start flex-row-reverse space-x-reverse space-x-2' : 'justify-start space-x-2'}`}>
                   <Mail className="w-4 h-4 text-white flex-shrink-0" />
                   <span className="text-white text-sm">info@nawa.sa</span>
                 </div>
-                <div className={`flex items-center ${language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
+                <div className={`flex items-center ${language === 'ar' ? 'justify-start flex-row-reverse space-x-reverse space-x-2' : 'justify-start space-x-2'}`}>
                   <MessageSquare className="w-4 h-4 text-white flex-shrink-0" />
                   <a 
                     href="https://wa.me/966538104164"
