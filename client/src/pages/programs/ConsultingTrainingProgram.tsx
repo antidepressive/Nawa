@@ -175,11 +175,11 @@ export default function ConsultingTrainingProgram() {
           <div className="grid md:grid-cols-2 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-start gap-4">
+                <div className={`flex items-start gap-4 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                   <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                     <feature.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <div>
+                  <div className={language === 'ar' ? 'text-right' : ''}>
                     <h3 className="font-semibold text-xl text-gray-900 mb-3">
                       {feature.title}
                     </h3>
