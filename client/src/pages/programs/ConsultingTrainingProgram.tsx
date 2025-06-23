@@ -234,11 +234,11 @@ export default function ConsultingTrainingProgram() {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold"
+              className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold flex items-center gap-2"
               onClick={() => window.open(ctpPdf, '_blank')}
             >
-              <Download className="w-5 h-5 mr-2" />
-              {language === 'ar' ? 'نظرة عامة على المنهج' : 'Curriculum Overview'}
+              <Download className="w-5 h-5" />
+              <span>{language === 'ar' ? 'نظرة عامة على المنهج' : 'Curriculum Overview'}</span>
             </Button>
           </div>
         </div>
