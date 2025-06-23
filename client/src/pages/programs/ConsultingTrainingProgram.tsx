@@ -76,7 +76,7 @@ export default function ConsultingTrainingProgram() {
                 <h2 className="font-montserrat font-bold text-3xl text-primary mb-6 text-center">
                   {language === 'ar' ? 'انضم إلى برنامج التدريب الاستشاري' : 'Join the Consultant Training Program'}
                 </h2>
-                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                <p className={`text-lg text-gray-700 mb-8 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                   {language === 'ar' 
                     ? 'برنامج تدريبي مكثف لمدة 12 يوماً في جدة مصمم لإعدادك لمهنة استشارية حقيقية. تعلم مباشرة من خبراء في شركات KPMG، Pure Consulting، TAM، والمزيد.'
                     : 'A 12-day intensive bootcamp in Jeddah designed to prepare you for a real consulting career. Learn directly from experts at KPMG, Pure Consulting, TAM, and more.'
@@ -131,19 +131,19 @@ export default function ConsultingTrainingProgram() {
                     {language === 'ar' ? 'لماذا الاستشارات؟' : 'Why Consulting?'}
                   </h3>
                   <ul className="space-y-3 text-blue-100">
-                    <li className="flex items-center gap-2">
+                    <li className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : ''}`}>
                       <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
                       {language === 'ar' ? 'أسرع القطاعات نمواً' : 'Fastest-growing sector'}
                     </li>
-                    <li className="flex items-center gap-2">
+                    <li className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : ''}`}>
                       <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
                       {language === 'ar' ? 'أعلى الرواتب' : 'Highest paying careers'}
                     </li>
-                    <li className="flex items-center gap-2">
+                    <li className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : ''}`}>
                       <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
                       {language === 'ar' ? 'فرص وظيفية متنوعة' : 'Diverse career opportunities'}
                     </li>
-                    <li className="flex items-center gap-2">
+                    <li className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : ''}`}>
                       <div className="w-2 h-2 bg-blue-300 rounded-full"></div>
                       {language === 'ar' ? 'تأثير مباشر على الأعمال' : 'Direct business impact'}
                     </li>
