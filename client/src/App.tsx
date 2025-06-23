@@ -14,6 +14,7 @@ import TermsOfService from "./pages/TermsOfService";
 import NawaCareer from "./pages/programs/NawaCareer";
 import NawaConferences from "./pages/programs/NawaConferences";
 import SaudiMunAssociation from "./pages/programs/SaudiMunAssociation";
+import ConsultingTrainingProgram from "./pages/programs/ConsultingTrainingProgram";
 
 function Router() {
   // Track page views when routes change
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/programs/nawa-career" component={NawaCareer} />
       <Route path="/programs/nawa-conferences" component={NawaConferences} />
       <Route path="/programs/saudi-mun-association" component={SaudiMunAssociation} />
+      <Route path="/programs/consulting-training-program" component={ConsultingTrainingProgram} />
       <Route component={NotFound} />
     </Switch>
   );
