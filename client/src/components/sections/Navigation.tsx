@@ -72,7 +72,7 @@ export const Navigation = () => {
               <span className="sm:hidden">
                 {language === 'ar' ? 'English' : 'العربية'}
               </span>
-              <span className="hidden sm:inline">{t('nav.switchToArabic')}</span>
+              <span className="hidden sm:inline">{language === 'ar' ? 'English' : 'العربية'}</span>
             </button>
             <button
               onClick={() => scrollToSection('#contact')}
