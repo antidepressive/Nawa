@@ -73,7 +73,7 @@ export default function ConsultingTrainingProgram() {
           <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="font-montserrat font-bold text-3xl text-primary mb-6">
+                <h2 className="font-montserrat font-bold text-3xl text-primary mb-6 text-center">
                   {language === 'ar' ? 'انضم إلى برنامج التدريب الاستشاري' : 'Join the Consultant Training Program'}
                 </h2>
                 <p className="text-lg text-gray-700 mb-8 leading-relaxed">
