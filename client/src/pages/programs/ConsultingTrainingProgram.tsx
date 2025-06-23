@@ -1,7 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb } from 'lucide-react';
 import { Button } from '../../components/ui/button';
-import companiesBg from '../../assets/companies-bg.png';
+import nawaBg from '../../assets/nawa-bg.png';
 
 export default function ConsultingTrainingProgram() {
   const { t, language } = useLanguage();
@@ -37,7 +37,15 @@ export default function ConsultingTrainingProgram() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div 
+      className="min-h-screen"
+      style={{
+        backgroundImage: `url(${nawaBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
       {/* Hero Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -56,13 +64,13 @@ export default function ConsultingTrainingProgram() {
           <div 
             className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-16 relative overflow-hidden"
             style={{
-              backgroundImage: `url(${companiesBg})`,
+              backgroundImage: `url(${nawaBg})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat'
             }}
           >
-            <div className="absolute inset-0 bg-white/90 backdrop-blur-sm"></div>
+            <div className="absolute inset-0 bg-gray-50/95"></div>
             <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
               <div>
                 <h2 className="font-montserrat font-bold text-3xl text-primary mb-6">
@@ -200,20 +208,13 @@ export default function ConsultingTrainingProgram() {
               : 'Join the Consulting Training Program and gain the skills you need to succeed in this growing field'
             }
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Button 
               size="lg" 
               variant="secondary"
               className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
             >
               {language === 'ar' ? 'سجل الآن' : 'Register Now'}
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold"
-            >
-              {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
             </Button>
           </div>
         </div>

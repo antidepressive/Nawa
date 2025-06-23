@@ -126,6 +126,7 @@ Changelog:
 - June 23, 2025. Footer navigation improvements: Fixed Arabic RTL navigation ordering, added complete contact information section to footer with proper left-side positioning, improved bilingual layout consistency
 - June 23, 2025. New program page: Added Consulting Training Program (CTP) page featuring 12-day intensive bootcamp in Jeddah, connected "Start your Development Journey" hero button to CTP page, implemented comprehensive program information with bilingual support
 - June 23, 2025. Design updates: Added companies background image behind "Join Program" card section with overlay for readability, removed CTP text references, updated footer background to use companies image with blue overlay, removed "Learn More" buttons from program cards
+- June 23, 2025. Nawa branding updates: Implemented Nawa background with red decorative elements across Consulting Training Program page and footer section, removed empty button from CTA section, enhanced visual consistency with brand identity
 ```
 
 ## User Preferences
