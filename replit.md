@@ -130,7 +130,7 @@ Changelog:
 - June 23, 2025. CTP registration integration: Connected all "Register Now" buttons for CTP program to Google Forms registration link (https://forms.gle/7NQp3AcjNsHqg5Bt9) with secure noopener/noreferrer attributes
 - June 23, 2025. Language toggle improvements: Added bilingual language switching buttons to all program pages (Career, Conferences, Saudi MUN Association, CTP) with consistent globe icon design and Arabic/English labels
 - June 23, 2025. Navigation language update: Changed home page language toggle button text from "Arabic" to "العربية" for proper Arabic display
-- June 23, 2025. Hero button update: Changed main call-to-action from "Start your Development Journey" to "Enroll in Nawa CTP" with Arabic version "سجل في نواة CTP" to better align with CTP program focus
+- June 23, 2025. Hero button update: Changed main call-to-action from "Start your Development Journey" to "Enroll in Nawa CTP" with Arabic version "CTP سجل في نواة" to better align with CTP program focus and proper Arabic text ordering
 ```
 
 ## User Preferences

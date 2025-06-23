@@ -175,7 +175,7 @@ export const translations = {
     "hero.title": "اغرس بذرة مع نواة، وشاهد مستقبلك يحوّل الوطن.",
     "hero.subtitle": "نشكل النواة التي ينمو فيها الشباب السعودي ليصبحوا قادة",
     "hero.downloadDeck": "تحميل ملف الرعاية",
-    "hero.bookCall": "سجل في نواة CTP",
+    "hero.bookCall": "CTP سجل في نواة",
 
     // Elevator Pitch
     "pitch.title": "تحويل إمكانات الشباب السعودي",
