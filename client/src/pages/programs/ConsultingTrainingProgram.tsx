@@ -126,7 +126,9 @@ export default function ConsultingTrainingProgram() {
 
               <div className="relative">
                 <div className="bg-gradient-to-br from-primary to-blue-600 rounded-2xl p-8 text-white">
-                  <TrendingUp className="w-16 h-16 mb-6 text-blue-200" />
+                  <div className="flex justify-center">
+                    <TrendingUp className="w-16 h-16 mb-6 text-blue-200" />
+                  </div>
                   <h3 className="font-bold text-2xl mb-4 text-center">
                     {language === 'ar' ? 'لماذا الاستشارات؟' : 'Why Consulting?'}
                   </h3>
