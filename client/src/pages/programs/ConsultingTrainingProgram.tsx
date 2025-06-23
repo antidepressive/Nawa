@@ -1,8 +1,9 @@
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb, ArrowLeft } from 'lucide-react';
+import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb, ArrowLeft, Download } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Link } from 'wouter';
 import nawaBackground from '@assets/nawa-background.png';
+import ctpPdf from '@assets/CTP-NAWA.pdf';
 
 export default function ConsultingTrainingProgram() {
   const { t, language } = useLanguage();
@@ -103,12 +104,23 @@ export default function ConsultingTrainingProgram() {
                   </div>
                 </div>
 
-                <Button 
-                  size="lg" 
-                  className="bg-primary hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold"
-                >
-                  {language === 'ar' ? 'سجل الآن' : 'Register Now'}
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button 
+                    size="lg" 
+                    className="bg-primary hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold"
+                  >
+                    {language === 'ar' ? 'سجل الآن' : 'Register Now'}
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    className="border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 text-lg font-semibold"
+                    onClick={() => window.open(ctpPdf, '_blank')}
+                  >
+                    <Download className="w-5 h-5 mr-2" />
+                    {language === 'ar' ? 'نظرة عامة على المنهج' : 'Curriculum Overview'}
+                  </Button>
+                </div>
               </div>
 
               <div className="relative">
@@ -181,13 +193,13 @@ export default function ConsultingTrainingProgram() {
 
       {/* Partners Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-montserrat font-bold text-3xl text-primary mb-8">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="font-montserrat font-bold text-3xl text-primary mb-8 text-center">
             {language === 'ar' ? 'تعلم من خبراء الشركات الرائدة' : 'Learn from Industry Leaders'}
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {partners.map((partner, index) => (
-              <div key={index} className="bg-white rounded-lg p-6 shadow-sm">
+              <div key={index} className="bg-white rounded-lg p-6 shadow-sm text-center">
                 <p className="font-semibold text-gray-800">{partner}</p>
               </div>
             ))}
@@ -211,13 +223,22 @@ export default function ConsultingTrainingProgram() {
               : 'Join the Consulting Training Program and gain the skills you need to succeed in this growing field'
             }
           </p>
-          <div className="flex justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
               variant="secondary"
               className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
             >
               {language === 'ar' ? 'سجل الآن' : 'Register Now'}
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold"
+              onClick={() => window.open(ctpPdf, '_blank')}
+            >
+              <Download className="w-5 h-5 mr-2" />
+              {language === 'ar' ? 'نظرة عامة على المنهج' : 'Curriculum Overview'}
             </Button>
           </div>
         </div>
