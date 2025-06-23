@@ -1,6 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext';
-import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb } from 'lucide-react';
+import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb, ArrowLeft } from 'lucide-react';
 import { Button } from '../../components/ui/button';
+import { Link } from 'wouter';
 import nawaBackground from '@assets/nawa-background.png';
 
 export default function ConsultingTrainingProgram() {
@@ -44,6 +45,18 @@ export default function ConsultingTrainingProgram() {
       >
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="max-w-6xl mx-auto relative z-10">
+          {/* Back to Home Button */}
+          <div className="mb-8">
+            <Link href="/">
+              <Button 
+                variant="ghost" 
+                className="text-white hover:bg-white/20 flex items-center gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                {language === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}
+              </Button>
+            </Link>
+          </div>
           <div className="text-center mb-16">
             <h1 className="font-montserrat font-bold text-4xl md:text-6xl text-white mb-6">
               {language === 'ar' ? 'برنامج التدريب الاستشاري' : 'Consulting Training Program'}

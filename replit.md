@@ -125,7 +125,7 @@ Changelog:
 - June 21, 2025. SEO and branding updates: Updated all page titles to "Nawa - نَوَاة", implemented favicon with blue Arabic calligraphy logo, updated meta descriptions and Open Graph tags with "Planting today, the leaders of tomorrow" tagline for improved social media sharing
 - June 23, 2025. Footer navigation improvements: Fixed Arabic RTL navigation ordering, added complete contact information section to footer with proper left-side positioning, improved bilingual layout consistency
 - June 23, 2025. New program page: Added Consulting Training Program (CTP) page featuring 12-day intensive bootcamp in Jeddah, connected "Start your Development Journey" hero button to CTP page, implemented comprehensive program information with bilingual support
-- June 23, 2025. CTP page updates: Applied nawa-background.png to hero section and footer backgrounds, removed "(CTP)" text from program name, removed "Learn More" button leaving only "Register Now", removed Arabic text from partners section
+- June 23, 2025. CTP page updates: Applied nawa-background.png to hero section and footer backgrounds, removed "(CTP)" text from program name, removed "Learn More" button leaving only "Register Now", removed Arabic text from partners section, added back to home navigation button
 ```
 
 ## User Preferences
