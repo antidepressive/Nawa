@@ -1,6 +1,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { db } from "./db";
+import { sql } from "drizzle-orm";
 
 const app = express();
 app.use(express.json());
@@ -36,7 +38,54 @@ app.use((req, res, next) => {
   next();
 });
 
+// Function to create database tables if they don't exist
+async function ensureTablesExist() {
+  try {
+    log("Checking database tables...");
+    
+    // Create newsletter_subscriptions table if it doesn't exist
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS newsletter_subscriptions (
+        id SERIAL PRIMARY KEY,
+        email TEXT UNIQUE NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL
+      )
+    `);
+    
+    // Create contact_submissions table if it doesn't exist
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS contact_submissions (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        organization TEXT,
+        email TEXT NOT NULL,
+        phone TEXT,
+        interest TEXT NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL
+      )
+    `);
+    
+    // Create users table if it doesn't exist
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+      )
+    `);
+    
+    log("Database tables are ready");
+  } catch (error) {
+    log(`Error setting up database tables: ${error}`);
+    throw error;
+  }
+}
+
 (async () => {
+  // Ensure database tables exist before starting the server
+  await ensureTablesExist();
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
