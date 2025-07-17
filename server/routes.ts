@@ -37,7 +37,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json({ success: true, message: "Successfully subscribed to newsletter" });
     } catch (error) {
-      console.error(`Error processing newsletter subscription: ${error}`);
+      console.error(`Error processing newsletter subscription:`, error);
+      // Log more details about the error
+      if (error instanceof Error) {
+        console.error(`Error message: ${error.message}`);
+        console.error(`Error stack: ${error.stack}`);
+      }
       res.status(500).json({ error: "Failed to subscribe to newsletter" });
     }
   });
