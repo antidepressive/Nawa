@@ -2,8 +2,30 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactSubmissionSchema, insertNewsletterSubscriptionSchema } from "@shared/schema";
+import { db } from "./db";
+import { sql } from "drizzle-orm";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+
+ // Health check endpoint
+  app.get("/api/health", async (req, res) => {
+    try {
+      // Test database connection
+      await db.execute(sql`SELECT 1`);
+      res.json({ 
+        status: "healthy", 
+        database: "connected",
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        status: "unhealthy", 
+        database: "disconnected",
+        error: error instanceof Error ? error.message : "Unknown error",
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
     try {
@@ -26,12 +48,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Newsletter subscription
   app.post("/api/newsletter", async (req, res) => {
     try {
+      console.log("Newsletter subscription request received:", req.body);
+      
       const validation = insertNewsletterSubscriptionSchema.safeParse(req.body);
       
       if (!validation.success) {
-        return res.status(400).json({ error: "Invalid email address" });
+        console.error("Validation failed:", validation.error.errors);
+        return res.status(400).json({ error: "Invalid email address", details: validation.error.errors });
       }
 
+      console.log("Validation passed, creating subscription...");
       const subscription = await storage.createNewsletterSubscription(validation.data);
       console.log(`New newsletter subscription: ${subscription.email}`);
       
