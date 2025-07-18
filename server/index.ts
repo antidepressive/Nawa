@@ -83,8 +83,13 @@ async function ensureTablesExist() {
 }
 
 (async () => {
-  // Ensure database tables exist before starting the server
-  await ensureTablesExist();
+  // Try to ensure database tables exist, but don't fail if it doesn't work
+  try {
+    await ensureTablesExist();
+  } catch (error) {
+    log("Database setup failed, but continuing with app startup");
+    log(`Database error: ${error}`);
+  }
 
   const server = await registerRoutes(app);
 
