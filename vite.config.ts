@@ -27,6 +27,13 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      external: [],
+    },
+  },
+  assetsInclude: ["**/*.jpg", "**/*.jpeg", "**/*.JPG", "**/*.JPEG", "**/*.png", "**/*.PNG", "**/*.gif", "**/*.GIF", "**/*.svg", "**/*.SVG", "**/*.webp", "**/*.WEBP", "**/*.pdf", "**/*.PDF"],
+  optimizeDeps: {
+    exclude: ['**/*.jpg', '**/*.jpeg', '**/*.JPG', '**/*.JPEG', '**/*.png', '**/*.PNG', '**/*.gif', '**/*.GIF', '**/*.svg', '**/*.SVG', '**/*.webp', '**/*.WEBP', '**/*.pdf', '**/*.PDF'],
   },
   server: {
     fs: {
