@@ -4,6 +4,12 @@ import { Button } from '../../components/ui/button';
 import { Link } from 'wouter';
 import nawaBackground from '@assets/nawa-background.png';
 import ctpPdf from '@assets/CTP-NAWA.pdf';
+import kpmgLogo from '@assets/CTP_Partners/KPMG.webp';
+import pureLogo from '@assets/CTP_Partners/Pure.svg';
+import destinationLogo from '@assets/CTP_Partners/Destination.svg';
+import kafaaLogo from '@assets/CTP_Partners/Kafaa.png';
+import streamsLogo from '@assets/CTP_Partners/Streams.jpg';
+import boostLogo from '@assets/CTP_Partners/boost.png';
 
 export default function ConsultingTrainingProgram() {
   const { t, language, toggleLanguage } = useLanguage();
@@ -32,9 +38,12 @@ export default function ConsultingTrainingProgram() {
   ];
 
   const partners = [
-    'KPMG',
-    'Pure Consulting', 
-    'TAM'
+    { name: 'KPMG', logo: kpmgLogo, alt: 'KPMG Logo' },
+    { name: 'Pure Consulting', logo: pureLogo, alt: 'Pure Consulting Logo' },
+    { name: 'Destination', logo: destinationLogo, alt: 'Destination Logo' },
+    { name: 'Kafaa', logo: kafaaLogo, alt: 'Kafaa Logo' },
+    { name: 'Streams', logo: streamsLogo, alt: 'Streams Logo' },
+    { name: 'Boost', logo: boostLogo, alt: 'Boost Logo' }
   ];
 
   return (
@@ -90,7 +99,7 @@ export default function ConsultingTrainingProgram() {
                     : 'A 12-day intensive bootcamp in Jeddah designed to prepare you for a real consulting career. Learn directly from experts at KPMG, Pure Consulting, TAM, and more.'
                   }
                 </p>
-                
+
                 <div className="flex flex-wrap gap-4 mb-8">
                   <div className="flex items-center gap-2 text-primary">
                     <Calendar className="w-5 h-5" />
@@ -205,14 +214,19 @@ export default function ConsultingTrainingProgram() {
 
       {/* Partners Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="font-montserrat font-bold text-3xl text-primary mb-8 text-center">
-            {language === 'ar' ? 'تعلم من خبراء الشركات الرائدة' : 'Learn from Industry Leaders'}
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-montserrat font-bold text-3xl text-primary mb-12 text-center">
+            {language === 'ar' ? 'شركاء البرنامج' : 'Program Partners'}
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {partners.map((partner, index) => (
-              <div key={index} className="bg-white rounded-lg p-6 shadow-sm text-center">
-                <p className="font-semibold text-gray-800">{partner}</p>
+              <div key={index} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 flex items-center justify-center">
+                <img 
+                  src={partner.logo} 
+                  alt={partner.alt}
+                  className="max-w-full max-h-16 object-contain"
+                  style={{ filter: 'grayscale(0%)' }}
+                />
               </div>
             ))}
           </div>
