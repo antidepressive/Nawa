@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertContactSubmissionSchema, insertNewsletterSubscriptionSchema } from "@shared/schema";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
+import { requireDeveloperAuth, requireDeveloperAuthQuery } from "./auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
