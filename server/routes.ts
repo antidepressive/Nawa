@@ -7,8 +7,8 @@ import { sql } from "drizzle-orm";
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
- // Health check endpoint
-  app.get("/api/health", async (req, res) => {
+   // Health check endpoint (developer access only)
+  app.get("/api/health", requireDeveloperAuthQuery, async (req, res) => {
     try {
       // Test database connection
       await db.execute(sql`SELECT 1`);
