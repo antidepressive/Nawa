@@ -75,7 +75,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get contact submissions (for admin use)
-  app.get("/api/contact", async (req, res) => {
+  app.get("/api/contact", requireDeveloperAuthQuery, async (req, res) => {
     try {
       const submissions = await storage.getContactSubmissions();
       res.json(submissions);
@@ -86,7 +86,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get newsletter subscriptions (for admin use)
-  app.get("/api/newsletter", async (req, res) => {
+  app.get("/api/newsletter", requireDeveloperAuthQuery, async (req, res) => {
     try {
       const subscriptions = await storage.getNewsletterSubscriptions();
       res.json(subscriptions);
