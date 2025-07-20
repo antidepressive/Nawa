@@ -28,7 +28,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   // Contact form submission
-  app.post("/api/contact", requireDeveloperAuthQuery, async (req, res) => {
+  app.post("/api/contact", async (req, res) => {
     try {
       const validation = insertContactSubmissionSchema.safeParse(req.body);
       
@@ -47,7 +47,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Newsletter subscription
-  app.post("/api/newsletter", requireDeveloperAuthQuery, async (req, res) => {
+  app.post("/api/newsletter", async (req, res) => {
     try {
       console.log("Newsletter subscription request received:", req.body);
       
