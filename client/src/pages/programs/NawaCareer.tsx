@@ -133,7 +133,7 @@ export default function NawaCareer() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
                     <h4 className={`font-bold text-xl text-gray-900 ${language === 'ar' ? 'font-cairo text-right' : 'font-montserrat'}`}>
-                      {language === 'ar' ? 'ورشة نواة' : 'Nawa Workshop'}
+                      {t('workshop.heroTitle')}
                     </h4>
                     <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                       {language === 'ar' ? 'جديد' : 'New'}
@@ -156,9 +156,9 @@ export default function NawaCareer() {
                     </div>
                     <div className="flex items-center gap-2 text-green-600">
                       <Users className="w-4 h-4" />
-                      <span className="text-sm font-medium">
-                        {language === 'ar' ? '3 فصول متناوبة' : '3 rotating classes'}
-                      </span>
+                                          <span className="text-sm font-medium">
+                      {t('workshop.classesValue')}
+                    </span>
                     </div>
                     <div className="flex items-center gap-2 text-green-600">
                       <Heart className="w-4 h-4" />
