@@ -13,6 +13,13 @@ export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
-  }
+  },
+  // Add connection pool settings for better reliability
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+  // Retry connection on failure
+  retryDelay: 1000,
+  maxRetries: 3
 });
 export const db = drizzle({ client: pool, schema });
