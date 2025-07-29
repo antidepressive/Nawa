@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Globe, Menu, X } from 'lucide-react';
+import { Link } from 'wouter';
 
 import Nawa_Logo from "@assets/Nawa Logo.png";
 
@@ -9,11 +10,11 @@ export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { key: 'nav.home', href: '#home' },
-    { key: 'nav.about', href: '#about' },
-    { key: 'nav.impact', href: '#impact' },
-    { key: 'nav.programs', href: '#programs' },
-    { key: 'nav.contact', href: '#contact' }
+    { key: 'nav.home', href: '#home', isLink: false },
+    { key: 'nav.about', href: '#about', isLink: false },
+    { key: 'nav.impact', href: '#impact', isLink: false },
+    { key: 'nav.programs', href: '/programs/nawa-career', isLink: true },
+    { key: 'nav.contact', href: '#contact', isLink: false }
   ];
 
   const scrollToSection = (href: string) => {
@@ -46,17 +47,31 @@ export const Navigation = () => {
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <div className="hidden md:flex items-baseline gap-8 ml-[0px] mr-[0px] pl-[0px] pr-[0px] mt-[0px] mb-[0px] pt-[0px] pb-[0px] text-justify">
               {navItems.map((item, index) => (
-                <button
-                  key={item.key}
-                  onClick={() => scrollToSection(item.href)}
-                  className={`${
-                    index === 0 
-                      ? 'text-white border-b-2 border-accent' 
-                      : 'text-white/80 hover:text-white'
-                  } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 whitespace-nowrap`}
-                >
-                  {t(item.key)}
-                </button>
+                item.isLink ? (
+                  <Link
+                    key={item.key}
+                    href={item.href}
+                    className={`${
+                      index === 0 
+                        ? 'text-white border-b-2 border-accent' 
+                        : 'text-white/80 hover:text-white'
+                    } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 whitespace-nowrap`}
+                  >
+                    {t(item.key)}
+                  </Link>
+                ) : (
+                  <button
+                    key={item.key}
+                    onClick={() => scrollToSection(item.href)}
+                    className={`${
+                      index === 0 
+                        ? 'text-white border-b-2 border-accent' 
+                        : 'text-white/80 hover:text-white'
+                    } px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 whitespace-nowrap`}
+                  >
+                    {t(item.key)}
+                  </button>
+                )
               ))}
             </div>
           </div>
@@ -96,13 +111,24 @@ export const Navigation = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-black/30 backdrop-blur-sm border-t border-white/20">
               {navItems.map((item) => (
-                <button
-                  key={item.key}
-                  onClick={() => scrollToSection(item.href)}
-                  className="block px-3 py-2 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-md w-full text-left transition-colors duration-200"
-                >
-                  {t(item.key)}
-                </button>
+                item.isLink ? (
+                  <Link
+                    key={item.key}
+                    href={item.href}
+                    className="block px-3 py-2 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-md w-full text-left transition-colors duration-200"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {t(item.key)}
+                  </Link>
+                ) : (
+                  <button
+                    key={item.key}
+                    onClick={() => scrollToSection(item.href)}
+                    className="block px-3 py-2 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-md w-full text-left transition-colors duration-200"
+                  >
+                    {t(item.key)}
+                  </button>
+                )
               ))}
             </div>
           </div>
