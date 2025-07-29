@@ -2,12 +2,15 @@ import {
   users, 
   contactSubmissions, 
   newsletterSubscriptions,
+  workshopRegistrations,
   type User, 
   type InsertUser,
   type ContactSubmission,
   type InsertContactSubmission,
   type NewsletterSubscription,
-  type InsertNewsletterSubscription
+  type InsertNewsletterSubscription,
+  type WorkshopRegistration,
+  type InsertWorkshopRegistration
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -18,8 +21,10 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
   createNewsletterSubscription(subscription: InsertNewsletterSubscription): Promise<NewsletterSubscription>;
+  createWorkshopRegistration(registration: InsertWorkshopRegistration): Promise<WorkshopRegistration>;
   getContactSubmissions(): Promise<ContactSubmission[]>;
   getNewsletterSubscriptions(): Promise<NewsletterSubscription[]>;
+  getWorkshopRegistrations(): Promise<WorkshopRegistration[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -63,6 +68,18 @@ export class DatabaseStorage implements IStorage {
 
   async getNewsletterSubscriptions(): Promise<NewsletterSubscription[]> {
     return await db.select().from(newsletterSubscriptions).orderBy(newsletterSubscriptions.createdAt);
+  }
+
+  async createWorkshopRegistration(registration: InsertWorkshopRegistration): Promise<WorkshopRegistration> {
+    const [workshopRegistration] = await db
+      .insert(workshopRegistrations)
+      .values(registration)
+      .returning();
+    return workshopRegistration;
+  }
+
+  async getWorkshopRegistrations(): Promise<WorkshopRegistration[]> {
+    return await db.select().from(workshopRegistrations).orderBy(workshopRegistrations.createdAt);
   }
 }
 
