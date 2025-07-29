@@ -42,13 +42,13 @@ const workshopRegistrationSchema = z.object({
 type WorkshopRegistrationForm = z.infer<typeof workshopRegistrationSchema>;
 
 export default function NawaWorkshop() {
-  const { language, toggleLanguage } = useLanguage();
+  const { t, language, toggleLanguage } = useLanguage();
   const [, setLocation] = useLocation();
   const [selectedBundle, setSelectedBundle] = useState<string>('');
   const { toast } = useToast();
 
   useEffect(() => {
-    document.title = 'Nawa Workshop - نَوَاة';
+    document.title = 'Nawa x Masaha—Emotional Intelligence Workshop Day - نَوَاة';
     window.scrollTo(0, 0);
   }, []);
 
@@ -148,7 +148,7 @@ export default function NawaWorkshop() {
           </div>
           <div className="text-center">
             <h1 className="font-montserrat font-bold text-4xl md:text-5xl mb-6">
-              {language === 'ar' ? 'ورشة نواة' : 'Nawa Workshop'}
+              {t('workshop.heroTitle')}
             </h1>
             <p className="text-xl max-w-3xl mx-auto">
               {language === 'ar' 
@@ -172,7 +172,7 @@ export default function NawaWorkshop() {
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-3">
                   <h3 className={`font-bold text-2xl text-gray-900 ${language === 'ar' ? 'font-cairo text-right' : 'font-montserrat'}`}>
-                    {language === 'ar' ? 'ورشة نواة' : 'Nawa Workshop'}
+                    {t('workshop.heroTitle')}
                   </h3>
                   <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                     {language === 'ar' ? 'جديد' : 'New'}
@@ -227,10 +227,7 @@ export default function NawaWorkshop() {
               {language === 'ar' ? 'عن الورشة' : 'About the Workshop'}
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-              {language === 'ar' 
-                ? 'تطور هذه الورشة من خلال تجارب عملية وتفاعلية تساعدك على فهم نفسك والآخرين بشكل أعمق. ستتعلم كيفية بناء علاقات أقوى وتطوير مهارات القيادة العاطفية التي تحتاجها في حياتك المهنية والشخصية.'
-                : 'This workshop develops through practical and interactive experiences that help you understand yourself and others more deeply. You\'ll learn how to build stronger relationships and develop the emotional leadership skills you need in your professional and personal life.'
-              }
+              {t('workshop.heroDescription')}
             </p>
           </div>
 
@@ -260,17 +257,17 @@ export default function NawaWorkshop() {
             <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
               {language === 'ar' ? 'تفاصيل الورشة' : 'Workshop Details'}
             </h3>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Clock className="w-6 h-6 text-primary" />
                 </div>
                 <div className={language === 'ar' ? 'text-right' : 'text-left'}>
                   <p className="font-semibold text-gray-900">
-                    {language === 'ar' ? 'المدة' : 'Duration'}
+                    {t('workshop.dateTimeLabel')}
                   </p>
                   <p className="text-gray-600">
-                    {language === 'ar' ? 'يوم واحد مكثف' : 'One intensive day'}
+                    {t('workshop.dateTimeValue')}
                   </p>
                 </div>
               </div>
@@ -280,10 +277,10 @@ export default function NawaWorkshop() {
                 </div>
                 <div className={language === 'ar' ? 'text-right' : 'text-left'}>
                   <p className="font-semibold text-gray-900">
-                    {language === 'ar' ? 'الفصول' : 'Classes'}
+                    {t('workshop.classesLabel')}
                   </p>
                   <p className="text-gray-600">
-                    {language === 'ar' ? '3 فصول متناوبة' : '3 rotating classes'}
+                    {t('workshop.classesValue')}
                   </p>
                 </div>
               </div>
@@ -297,6 +294,19 @@ export default function NawaWorkshop() {
                   </p>
                   <p className="text-gray-600">
                     {language === 'ar' ? 'فريق نواة ومساحة' : 'NAWA & Masaha team'}
+                  </p>
+                </div>
+              </div>
+              <div className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-6 h-6 text-primary" />
+                </div>
+                <div className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  <p className="font-semibold text-gray-900">
+                    {language === 'ar' ? 'الموقع' : 'Location'}
+                  </p>
+                  <p className="text-gray-600">
+                    JHUB
                   </p>
                 </div>
               </div>
