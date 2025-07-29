@@ -175,6 +175,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Serve NAWA background image (developer access only)
+  app.get("/api/assets/nawa-background", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const imagePath = './attached_assets/nawa-background.png';
+      
+      // Check if file exists
+      const fs = await import('fs');
+      if (!fs.existsSync(imagePath)) {
+        return res.status(404).json({ error: "Background image not found" });
+      }
+
+      // Set appropriate headers
+      res.setHeader('Content-Type', 'image/png');
+      res.setHeader('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      
+      // Stream the image
+      const stream = fs.createReadStream(imagePath);
+      stream.pipe(res);
+    } catch (error) {
+      console.error(`Error serving background image: ${error}`);
+      res.status(500).json({ error: "Failed to serve background image" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
