@@ -123,7 +123,7 @@ export const emailService = {
       const emailContent = createWorkshopConfirmationEmail(registration);
       
       const mailOptions = {
-        from: 'info@nawa.sa',
+        from: 'support@saudimunassociation.com',
         to: registration.email,
         subject: emailContent.subject,
         html: emailContent.html,
