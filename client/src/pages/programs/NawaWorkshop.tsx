@@ -6,7 +6,7 @@ import { Label } from '../../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
-import { ArrowLeft, Calendar, Users, Target, BookOpen, Globe, Heart, Brain, Users2, Clock, MapPin, Star } from 'lucide-react';
+import { ArrowLeft, Calendar, Users, Target, BookOpen, Globe, Heart, Brain, Users2, Clock, MapPin, Star, Download } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,7 +14,8 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '../../lib/queryClient';
 import { useToast } from '../../hooks/use-toast';
-import backgroundImage from '@assets/background_1750437485135.png';
+import backgroundImage from '@assets/nawa-background.png';
+import nawaEQPdf from '@assets/NawaEQ.pdf';
 
 const workshopRegistrationSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -115,13 +116,14 @@ export default function NawaWorkshop() {
 
   return (
     <div 
-      className="min-h-screen"
+      className="min-h-screen relative"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh'
       }}
     >
       {/* Hero Banner */}
@@ -213,6 +215,18 @@ export default function NawaWorkshop() {
                     : 'Led by the founding team of NAWA and Masaha, this workshop is your gateway to mastering the soft skill behind every hard success.'
                   }
                 </p>
+                
+                <div className={`flex flex-col sm:flex-row gap-4 mt-6 ${language === 'ar' ? 'justify-end' : 'justify-start'}`}>
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-8 py-4 text-lg font-semibold flex items-center gap-2"
+                    onClick={() => window.open(nawaEQPdf, '_blank')}
+                  >
+                    <Download className="w-5 h-5" />
+                    <span>{language === 'ar' ? 'جدول الفعالية' : 'Event Schedule'}</span>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
