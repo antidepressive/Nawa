@@ -40,46 +40,63 @@ app.use((req, res, next) => {
 
 // Function to create database tables if they don't exist
 async function ensureTablesExist() {
-  try {
-    log("Checking database tables...");
-    
-    // Create newsletter_subscriptions table if it doesn't exist
-    await db.execute(sql`
-      CREATE TABLE IF NOT EXISTS newsletter_subscriptions (
-        id SERIAL PRIMARY KEY,
-        email TEXT UNIQUE NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW() NOT NULL
-      )
-    `);
-    
-    // Create contact_submissions table if it doesn't exist
-    await db.execute(sql`
-      CREATE TABLE IF NOT EXISTS contact_submissions (
-        id SERIAL PRIMARY KEY,
-        name TEXT NOT NULL,
-        organization TEXT,
-        email TEXT NOT NULL,
-        phone TEXT,
-        interest TEXT NOT NULL,
-        message TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW() NOT NULL
-      )
-    `);
-    
-    // Create users table if it doesn't exist
-    await db.execute(sql`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
-      )
-    `);
-    
-    log("Database tables are ready");
-  } catch (error) {
-    log(`Error setting up database tables: ${error}`);
-    throw error;
+  const maxRetries = 3;
+  let lastError;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      log(`Checking database tables... (attempt ${attempt}/${maxRetries})`);
+      
+      // Test connection first
+      await db.execute(sql`SELECT 1`);
+      
+      // Create newsletter_subscriptions table if it doesn't exist
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS newsletter_subscriptions (
+          id SERIAL PRIMARY KEY,
+          email TEXT UNIQUE NOT NULL,
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
+      // Create contact_submissions table if it doesn't exist
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS contact_submissions (
+          id SERIAL PRIMARY KEY,
+          name TEXT NOT NULL,
+          organization TEXT,
+          email TEXT NOT NULL,
+          phone TEXT,
+          interest TEXT NOT NULL,
+          message TEXT NOT NULL,
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
+      // Create users table if it doesn't exist
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS users (
+          id SERIAL PRIMARY KEY,
+          username TEXT UNIQUE NOT NULL,
+          password TEXT NOT NULL
+        )
+      `);
+      
+      log("Database tables are ready");
+      return; // Success, exit the retry loop
+    } catch (error) {
+      lastError = error;
+      log(`Database setup attempt ${attempt} failed: ${error}`);
+      
+      if (attempt < maxRetries) {
+        log(`Retrying in 2 seconds...`);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+    }
   }
+  
+  // If we get here, all attempts failed
+  throw lastError;
 }
 
 (async () => {
