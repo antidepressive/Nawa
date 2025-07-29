@@ -5,7 +5,7 @@ import { insertContactSubmissionSchema, insertNewsletterSubscriptionSchema, inse
 import { db } from "./db";
 import { sql } from "drizzle-orm";
 import { requireDeveloperAuth, requireDeveloperAuthQuery } from "./auth";
-import { emailService } from "./email";
+import { emailService, createWorkshopConfirmationEmail } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
@@ -142,6 +142,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(`Error fetching workshop registrations: ${error}`);
       res.status(500).json({ error: "Failed to fetch workshop registrations" });
+    }
+  });
+
+  // Preview email template (developer access only)
+  app.get("/api/preview-email", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      // Create a sample registration for preview
+      const sampleRegistration = {
+        id: 1,
+        name: "John Doe",
+        email: "john@example.com",
+        phone: "+966501234567",
+        payment: "venue",
+        bundle: "199",
+        friend1Name: "Jane Smith",
+        friend1Email: "jane@example.com",
+        friend1Phone: "+966501234568",
+        friend2Name: "Mike Johnson",
+        friend2Email: "mike@example.com",
+        friend2Phone: "+966501234569",
+        createdAt: new Date()
+      };
+
+      const emailContent = createWorkshopConfirmationEmail(sampleRegistration);
+      
+      res.setHeader('Content-Type', 'text/html');
+      res.send(emailContent.html);
+    } catch (error) {
+      console.error(`Error generating email preview: ${error}`);
+      res.status(500).json({ error: "Failed to generate email preview" });
     }
   });
 
