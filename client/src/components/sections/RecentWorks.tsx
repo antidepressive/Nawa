@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
-import ctpImg1 from '@assets/CTP_imgs/1.jpg';
-import ctpImg2 from '@assets/CTP_imgs/2.jpg';
-import ctpImg3 from '@assets/CTP_imgs/3.jpg';
-import ctpImg4 from '@assets/CTP_imgs/4.jpg';
-import ctpImg5 from '@assets/CTP_imgs/5.jpg';
-import ctpImg6 from '@assets/CTP_imgs/6.jpg';
+const ctpImg1 = '/attached_assets/CTP_imgs/1.jpg';
+const ctpImg2 = '/attached_assets/CTP_imgs/2.jpg';
+const ctpImg3 = '/attached_assets/CTP_imgs/3.jpg';
+const ctpImg4 = '/attached_assets/CTP_imgs/4.jpg';
+const ctpImg5 = '/attached_assets/CTP_imgs/5.jpg';
+const ctpImg6 = '/attached_assets/CTP_imgs/6.jpg';
 
 
 export const RecentWorks = () => {
