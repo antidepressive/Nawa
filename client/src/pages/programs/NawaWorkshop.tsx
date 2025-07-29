@@ -71,7 +71,7 @@ export default function NawaWorkshop() {
 
   const registrationMutation = useMutation({
     mutationFn: (data: WorkshopRegistrationForm) => 
-      apiRequest('/api/workshop', 'POST', data),
+      apiRequest('POST', '/api/workshop', data),
     onSuccess: () => {
       toast({
         title: language === 'ar' ? 'تم التسجيل بنجاح!' : 'Registration Successful!',
