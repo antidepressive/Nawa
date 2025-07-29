@@ -4,7 +4,7 @@ import { Badge } from '../../components/ui/badge';
 import { ArrowLeft, Calendar, Users, Target, BookOpen, Globe, Heart, Clock } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
-import backgroundImage from '@assets/background_1750437485135.png';
+import backgroundImage from '@assets/nawa-background.png';
 
 export default function NawaCareer() {
   const { t, language, toggleLanguage } = useLanguage();
@@ -30,13 +30,14 @@ export default function NawaCareer() {
 
   return (
     <div 
-      className="min-h-screen"
+      className="min-h-screen relative"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh'
       }}
     >
       {/* Hero Banner */}
