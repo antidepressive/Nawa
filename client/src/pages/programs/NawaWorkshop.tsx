@@ -20,7 +20,7 @@ const workshopRegistrationSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
   phone: z.string().min(10, 'Please enter a valid phone number'),
-  payment: z.enum(['venue', 'online'], { required_error: 'Please select a payment method' }),
+  payment: z.literal('venue'),
   bundle: z.enum(['89', '59', '199'], { required_error: 'Please select a bundle' }),
   friend1Name: z.string().optional(),
   friend1Email: z.string().optional(),
@@ -58,7 +58,7 @@ export default function NawaWorkshop() {
       name: '',
       email: '',
       phone: '',
-      payment: undefined,
+      payment: 'venue',
       bundle: undefined,
       friend1Name: '',
       friend1Email: '',
@@ -374,27 +374,13 @@ export default function NawaWorkshop() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label className={language === 'ar' ? 'text-right' : 'text-left'}>
-                      {language === 'ar' ? 'طريقة الدفع' : 'Payment'} *
+                      {language === 'ar' ? 'طريقة الدفع' : 'Payment'}
                     </Label>
-                    <Select 
-                      onValueChange={(value) => form.setValue('payment', value as 'venue' | 'online')}
-                      value={form.watch('payment') || ''}
-                    >
-                      <SelectTrigger className="mt-1">
-                        <SelectValue placeholder={language === 'ar' ? 'اختر طريقة الدفع' : 'Select payment method'} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="venue">
-                          {language === 'ar' ? 'في المكان' : 'At venue'}
-                        </SelectItem>
-                        <SelectItem value="online">
-                          {language === 'ar' ? 'أونلاين' : 'Online'}
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {form.formState.errors.payment && (
-                      <p className="text-red-500 text-sm mt-1">{form.formState.errors.payment.message}</p>
-                    )}
+                    <div className="mt-1 p-3 bg-gray-50 border border-gray-200 rounded-md">
+                      <span className="text-gray-700 font-medium">
+                        {language === 'ar' ? 'في المكان' : 'At Venue'}
+                      </span>
+                    </div>
                   </div>
 
                   <div>
