@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { statsData } from '../../data/content';
-import backgroundImage from '@assets/background_1750437485135.png';
+const backgroundImage = '/attached_assets/background_1750437485135.png';
 
 export const StatsCounters = () => {
   const { t, language } = useLanguage();
