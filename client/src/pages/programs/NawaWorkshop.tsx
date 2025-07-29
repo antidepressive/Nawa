@@ -14,8 +14,8 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '../../lib/queryClient';
 import { useToast } from '../../hooks/use-toast';
-import backgroundImage from '@assets/nawa-background.png';
-import nawaEQPdf from '@assets/NawaEQ.pdf';
+const backgroundImage = '/attached_assets/nawa-background.png';
+const nawaEQPdf = '/attached_assets/NawaEQ.pdf';
 
 const workshopRegistrationSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
