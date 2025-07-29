@@ -26,16 +26,16 @@ interface LanguageProviderProps {
 
 export const LanguageProvider = ({ children }: LanguageProviderProps) => {
   const [language, setLanguage] = useState<'en' | 'ar'>('en');
-  const direction = 'ltr';
+  const direction = language === 'ar' ? 'rtl' : 'ltr';
 
   useEffect(() => {
     // Update HTML attributes
     document.documentElement.setAttribute('lang', language);
-    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('dir', direction);
     
     // Update body class for font family switching
     document.body.className = language === 'ar' ? 'font-tajawal' : 'font-inter';
-  }, [language]);
+  }, [language, direction]);
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'en' ? 'ar' : 'en');
