@@ -123,7 +123,8 @@ export default function NawaWorkshop() {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
-        minHeight: '100vh'
+        minHeight: '100vh',
+        height: '100vh'
       }}
     >
       {/* Hero Banner */}
@@ -198,7 +199,7 @@ export default function NawaWorkshop() {
                   <div className="flex items-center gap-2 text-green-600">
                     <Users className="w-4 h-4" />
                     <span className="text-sm font-medium">
-                      {language === 'ar' ? '3 فصول متناوبة' : '3 rotating classes'}
+                      {language === 'ar' ? '10 ورش عمل ديناميكية' : '10 dynamic workshops'}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-green-600">
