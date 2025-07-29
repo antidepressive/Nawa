@@ -28,7 +28,7 @@ export const Hero = () => {
 
         <div className="flex justify-center animate-fade-in">
           <Link
-            href="/programs/consulting-training-program"
+            href="/programs/nawa-workshop"
             className="bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-white/20 transition-all duration-300 shadow-xl hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 inline-flex items-center justify-center"
           >
             <Calendar className="w-5 h-5 mr-2" />
