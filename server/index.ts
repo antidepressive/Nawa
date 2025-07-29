@@ -82,6 +82,25 @@ async function ensureTablesExist() {
         )
       `);
       
+      // Create workshop_registrations table if it doesn't exist
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS workshop_registrations (
+          id SERIAL PRIMARY KEY,
+          name TEXT NOT NULL,
+          email TEXT NOT NULL,
+          phone TEXT NOT NULL,
+          payment TEXT NOT NULL,
+          bundle TEXT NOT NULL,
+          friend1_name TEXT,
+          friend1_email TEXT,
+          friend1_phone TEXT,
+          friend2_name TEXT,
+          friend2_email TEXT,
+          friend2_phone TEXT,
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
       log("Database tables are ready");
       return; // Success, exit the retry loop
     } catch (error) {
