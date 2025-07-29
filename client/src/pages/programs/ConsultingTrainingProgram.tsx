@@ -99,7 +99,7 @@ export default function ConsultingTrainingProgram() {
                     : 'A 12-day intensive bootcamp in Jeddah designed to prepare you for a real consulting career. Learn directly from experts at KPMG, Pure Consulting, TAM, and more.'
                   }
                 </p>
-
+                
                 <div className="flex flex-wrap gap-4 mb-8">
                   <div className="flex items-center gap-2 text-primary">
                     <Calendar className="w-5 h-5" />
@@ -252,10 +252,10 @@ export default function ConsultingTrainingProgram() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
-              className="bg-white/10 backdrop-blur-sm border border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold"
-              onClick={() => window.open('https://forms.gle/7NQp3AcjNsHqg5Bt9', '_blank', 'noopener,noreferrer')}
+              className="bg-gray-400 text-gray-200 cursor-not-allowed px-8 py-4 text-lg font-semibold"
+              disabled
             >
-              {language === 'ar' ? 'سجل الآن' : 'Register Now'}
+              {language === 'ar' ? 'التسجيل مغلق' : 'Registration Closed'}
             </Button>
             <Button 
               size="lg" 
