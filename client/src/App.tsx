@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { initGA } from "./lib/analytics";
 import { useAnalytics } from "./hooks/use-analytics";
 import Home from "./pages/Home";
-import NotFound from "@/pages/not-found";
+import NotFound from "./pages/not-found";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import NawaCareer from "./pages/programs/NawaCareer";
