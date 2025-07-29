@@ -18,9 +18,9 @@ const transporter = nodemailer.createTransport(emailConfig);
 // Email templates
 export const createWorkshopConfirmationEmail = (registration: WorkshopRegistration) => {
   const bundleText = {
-    '89': 'Basic Bundle ($89)',
-    '59': 'Standard Bundle ($59)',
-    '199': 'Premium Bundle ($199)'
+    '59': 'Early Bird Bundle (59 SAR)',
+    '89': 'Standard Bundle (89 SAR)',
+    '199': 'Three Friends Bundle (199 SAR)'
   }[registration.bundle] || registration.bundle;
 
   const paymentText = registration.payment === 'venue' ? 'Venue Payment' : 'Online Payment';
@@ -84,15 +84,22 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
           .location-link { 
             display: inline-block; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white; 
+            color: white !important; 
             padding: 10px 20px; 
-            text-decoration: none; 
+            text-decoration: none !important; 
             border-radius: 25px; 
             font-weight: bold;
             margin-top: 10px;
           }
           .location-link:hover { 
             background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            color: white !important;
+          }
+          .location-link:visited {
+            color: white !important;
+          }
+          .location-link:active {
+            color: white !important;
           }
         </style>
       </head>
