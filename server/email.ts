@@ -16,7 +16,7 @@ const emailConfig = {
 const transporter = nodemailer.createTransport(emailConfig);
 
 // Email templates
-const createWorkshopConfirmationEmail = (registration: WorkshopRegistration) => {
+export const createWorkshopConfirmationEmail = (registration: WorkshopRegistration) => {
   const bundleText = {
     '89': 'Basic Bundle ($89)',
     '59': 'Standard Bundle ($59)',
@@ -36,11 +36,36 @@ const createWorkshopConfirmationEmail = (registration: WorkshopRegistration) => 
         <style>
           body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
           .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background-color: #f8f9fa; padding: 20px; text-align: center; }
+          .header { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px; 
+            text-align: center; 
+            border-radius: 10px 10px 0 0;
+            color: white;
+          }
+          .header h1 { 
+            margin: 0; 
+            font-size: 28px; 
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+          }
           .content { padding: 20px; }
           .details { background-color: #f8f9fa; padding: 15px; margin: 20px 0; border-radius: 5px; }
           .footer { text-align: center; padding: 20px; color: #666; font-size: 14px; }
           .highlight { color: #007bff; font-weight: bold; }
+          .location-link { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            padding: 10px 20px; 
+            text-decoration: none; 
+            border-radius: 25px; 
+            font-weight: bold;
+            margin-top: 10px;
+          }
+          .location-link:hover { 
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+          }
         </style>
       </head>
       <body>
@@ -74,6 +99,9 @@ const createWorkshopConfirmationEmail = (registration: WorkshopRegistration) => 
             </div>
             
             <p>We will send you additional details about the workshop schedule, location, and materials closer to the event date.</p>
+            
+            <p><strong>📍 Workshop Location:</strong></p>
+            <p><a href="https://maps.app.goo.gl/PpXypUZ4ugRLGBb67" class="location-link">Click here</a> for directions to the workshop's location</p>
             
             <p>If you have any questions or need to make changes to your registration, please don't hesitate to contact us.</p>
           </div>
