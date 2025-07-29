@@ -3,7 +3,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { Globe, Menu, X } from 'lucide-react';
 import { Link } from 'wouter';
 
-import Nawa_Logo from "@assets/Nawa Logo.png";
+const Nawa_Logo = "/attached_assets/Nawa Logo.png";
 
 export const Navigation = () => {
   const { language, toggleLanguage, t } = useLanguage();
