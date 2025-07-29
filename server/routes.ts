@@ -5,6 +5,7 @@ import { insertContactSubmissionSchema, insertNewsletterSubscriptionSchema, inse
 import { db } from "./db";
 import { sql } from "drizzle-orm";
 import { requireDeveloperAuth, requireDeveloperAuthQuery } from "./auth";
+import { emailService } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
@@ -13,9 +14,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       // Test database connection
       await db.execute(sql`SELECT 1`);
+      
+      // Test SMTP connection
+      const smtpConnected = await emailService.testConnection();
+      
       res.json({ 
         status: "healthy", 
         database: "connected",
+        smtp: smtpConnected ? "connected" : "disconnected",
         timestamp: new Date().toISOString()
       });
     } catch (error) {
@@ -107,6 +113,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const registration = await storage.createWorkshopRegistration(validation.data);
       console.log(`New workshop registration from ${registration.name} (${registration.email})`);
+      
+      // Send confirmation email
+      try {
+        const emailSent = await emailService.sendWorkshopConfirmation(registration);
+        if (emailSent) {
+          console.log(`Confirmation email sent to ${registration.email}`);
+        } else {
+          console.warn(`Failed to send confirmation email to ${registration.email}`);
+        }
+      } catch (emailError) {
+        console.error(`Error sending confirmation email: ${emailError}`);
+        // Don't fail the registration if email fails
+      }
       
       res.json({ success: true, message: "Workshop registration submitted successfully" });
     } catch (error) {
