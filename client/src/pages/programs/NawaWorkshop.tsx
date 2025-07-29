@@ -398,11 +398,11 @@ export default function NawaWorkshop() {
                         <SelectValue placeholder={language === 'ar' ? 'اختر الباقة' : 'Select bundle'} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="89">
-                          {language === 'ar' ? 'الطائر المبكر - 89 ريال' : 'Early Bird – 89 SAR'}
-                        </SelectItem>
                         <SelectItem value="59">
                           {language === 'ar' ? 'الطائر المبكر - 59 ريال' : 'Early Bird – 59 SAR'}
+                      </SelectItem>    
+                        <SelectItem value="89">
+                          {language === 'ar' ? 'الباقة الأساسية - 89 ريال' : 'Standard Bundle – 89 SAR'}
                         </SelectItem>
                         <SelectItem value="199">
                           {language === 'ar' ? 'باقة ثلاثة أصدقاء - 199 ريال' : 'Three Friends Bundle – 199 SAR'}
