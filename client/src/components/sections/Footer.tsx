@@ -1,8 +1,8 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Linkedin, Twitter, Instagram, Youtube, Phone, Mail, MessageSquare } from 'lucide-react';
 import { Link } from 'wouter';
-import NawaLogo from '@assets/Nawa Logo.png';
-import FooterBackground from '@assets/background_1750437485135.png';
+const NawaLogo = '/attached_assets/Nawa Logo.png';
+const FooterBackground = '/attached_assets/background_1750437485135.png';
 
 export const Footer = () => {
   const { t, language } = useLanguage();
