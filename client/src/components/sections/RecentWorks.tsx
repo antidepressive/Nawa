@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
 import ctpImg1 from '@assets/CTP_imgs/1.jpg';
@@ -14,6 +14,7 @@ export const RecentWorks = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSlide, setModalSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const ctpImages = [
     { src: ctpImg1, alt: 'CTP Program Session 1' },
@@ -25,11 +26,24 @@ export const RecentWorks = () => {
   ];
 
   const nextSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentSlide((prev) => (prev + 1) % ctpImages.length);
+    setTimeout(() => setIsTransitioning(false), 300);
   };
 
   const prevSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentSlide((prev) => (prev - 1 + ctpImages.length) % ctpImages.length);
+    setTimeout(() => setIsTransitioning(false), 300);
+  };
+
+  const goToSlide = (index: number) => {
+    if (isTransitioning || index === currentSlide) return;
+    setIsTransitioning(true);
+    setCurrentSlide(index);
+    setTimeout(() => setIsTransitioning(false), 300);
   };
 
   const openModal = (index: number) => {
@@ -48,6 +62,45 @@ export const RecentWorks = () => {
   const prevModalSlide = () => {
     setModalSlide((prev) => (prev - 1 + ctpImages.length) % ctpImages.length);
   };
+
+  // Auto-advance slideshow
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isModalOpen) {
+        nextSlide();
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isModalOpen, isTransitioning]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isModalOpen) {
+        if (e.key === 'Escape') {
+          closeModal();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          prevModalSlide();
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          nextModalSlide();
+        }
+      } else {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          nextSlide();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen, isTransitioning]);
 
   return (
     <>
@@ -70,26 +123,48 @@ export const RecentWorks = () => {
               <img
                 src={ctpImages[currentSlide].src}
                 alt={ctpImages[currentSlide].alt}
-                className="w-full h-full object-cover cursor-pointer transition-all duration-150"
-                onClick={() => openModal(currentSlide)}
+                className={`w-full h-full object-cover cursor-pointer transition-all duration-300 ease-in-out ${
+                  isTransitioning ? 'scale-105' : 'scale-100'
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openModal(currentSlide);
+                }}
               />
               
               {/* Zoom overlay */}
-              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center justify-center cursor-pointer"
-                   onClick={() => openModal(currentSlide)}>
-                <ZoomIn className="w-12 h-12 text-white" />
+              <div 
+                className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openModal(currentSlide);
+                }}
+              >
+                <ZoomIn className="w-12 h-12 text-white transform group-hover:scale-110 transition-transform duration-300" />
               </div>
               
               {/* Navigation Arrows */}
               <button
-                onClick={prevSlide}
-                className={`absolute top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-100 ${language === 'ar' ? 'right-4' : 'left-4'}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevSlide();
+                }}
+                className={`absolute top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
+                  language === 'ar' ? 'right-4' : 'left-4'
+                } ${isTransitioning ? 'pointer-events-none opacity-50' : ''}`}
+                disabled={isTransitioning}
               >
                 {language === 'ar' ? <ChevronRight className="w-6 h-6" /> : <ChevronLeft className="w-6 h-6" />}
               </button>
               <button
-                onClick={nextSlide}
-                className={`absolute top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-100 ${language === 'ar' ? 'left-4' : 'right-4'}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextSlide();
+                }}
+                className={`absolute top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
+                  language === 'ar' ? 'left-4' : 'right-4'
+                } ${isTransitioning ? 'pointer-events-none opacity-50' : ''}`}
+                disabled={isTransitioning}
               >
                 {language === 'ar' ? <ChevronLeft className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
               </button>
@@ -99,12 +174,16 @@ export const RecentWorks = () => {
                 {ctpImages.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-100 ${
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      goToSlide(index);
+                    }}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 hover:scale-125 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
                       currentSlide === index 
-                        ? 'bg-white' 
+                        ? 'bg-white scale-125' 
                         : 'bg-white/50 hover:bg-white/70'
-                    }`}
+                    } ${isTransitioning ? 'pointer-events-none' : ''}`}
+                    disabled={isTransitioning}
                   />
                 ))}
               </div>
@@ -115,11 +194,14 @@ export const RecentWorks = () => {
 
       {/* Image Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4" onClick={closeModal}>
+        <div 
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 animate-fade-in" 
+          onClick={closeModal}
+        >
           <div className="relative max-w-7xl max-h-full" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200"
+              className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
             >
               <X className="w-6 h-6" />
             </button>
@@ -128,19 +210,23 @@ export const RecentWorks = () => {
               <img
                 src={ctpImages[modalSlide].src}
                 alt={ctpImages[modalSlide].alt}
-                className="max-w-full max-h-[90vh] object-contain"
+                className="max-w-full max-h-[90vh] object-contain transition-all duration-300"
               />
               
               {/* Modal Navigation Arrows */}
               <button
                 onClick={prevModalSlide}
-                className={`absolute top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-100 ${language === 'ar' ? 'right-4' : 'left-4'}`}
+                className={`absolute top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-4 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
+                  language === 'ar' ? 'right-4' : 'left-4'
+                }`}
               >
                 {language === 'ar' ? <ChevronRight className="w-8 h-8" /> : <ChevronLeft className="w-8 h-8" />}
               </button>
               <button
                 onClick={nextModalSlide}
-                className={`absolute top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-100 ${language === 'ar' ? 'left-4' : 'right-4'}`}
+                className={`absolute top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-4 rounded-full transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
+                  language === 'ar' ? 'left-4' : 'right-4'
+                }`}
               >
                 {language === 'ar' ? <ChevronLeft className="w-8 h-8" /> : <ChevronRight className="w-8 h-8" />}
               </button>
@@ -151,9 +237,9 @@ export const RecentWorks = () => {
                   <button
                     key={index}
                     onClick={() => setModalSlide(index)}
-                    className={`w-4 h-4 rounded-full transition-all duration-100 ${
+                    className={`w-4 h-4 rounded-full transition-all duration-200 hover:scale-125 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 ${
                       modalSlide === index 
-                        ? 'bg-white' 
+                        ? 'bg-white scale-125' 
                         : 'bg-white/50 hover:bg-white/70'
                     }`}
                   />
