@@ -5,7 +5,7 @@ import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
 import backgroundImage from '@assets/background_1750437485135.png';
 
-export default function NawaConferences() {
+export default function SaudiMunAssociation() {
   const { t, language, toggleLanguage } = useLanguage();
   const [, setLocation] = useLocation();
 
@@ -60,10 +60,10 @@ export default function NawaConferences() {
           </div>
           <div className="text-center">
             <h1 className="font-montserrat font-bold text-4xl md:text-5xl mb-6">
-              {t('programs.conferences.title')}
+              {t('programs.mun.title')}
             </h1>
             <p className="text-xl max-w-3xl mx-auto">
-              {t('programs.conferences.description')}
+              {t('programs.mun.description')}
             </p>
           </div>
         </div>
@@ -74,41 +74,41 @@ export default function NawaConferences() {
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
           <div className="mb-12">
             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {t('conferences.heroTitle')}
+              {t('mun.heroTitle')}
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-              {t('conferences.heroDescription')}
+              {t('mun.heroDescription')}
             </p>
           </div>
 
           {/* Program Outcomes */}
           <div className="mb-12">
             <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {t('conferences.outcomesTitle')}
+              {t('mun.outcomesTitle')}
             </h3>
             <ul className="space-y-4">
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {t('conferences.outcome1')}
+                  {t('mun.outcome1')}
                 </span>
               </li>
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {t('conferences.outcome2')}
+                  {t('mun.outcome2')}
                 </span>
               </li>
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {t('conferences.outcome3')}
+                  {t('mun.outcome3')}
                 </span>
               </li>
               <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
                 <span className="text-gray-700">
-                  {t('conferences.outcome4')}
+                  {t('mun.outcome4')}
                 </span>
               </li>
             </ul>
@@ -117,13 +117,13 @@ export default function NawaConferences() {
           {/* Sponsor CTA */}
           <div className={`bg-gray-50 rounded-xl p-8 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
             <h3 className={`font-bold text-2xl text-primary mb-4 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {t('conferences.sponsorTitle')}
+              {t('mun.sponsorTitle')}
             </h3>
             <p className="text-gray-600 mb-6">
-              {t('conferences.sponsorDescription')}
+              {t('mun.sponsorDescription')}
             </p>
             <Button onClick={navigateToContact} size="lg" className="bg-primary hover:bg-primary/90">
-              {t('conferences.sponsorButton')}
+              {t('mun.sponsorButton')}
             </Button>
           </div>
         </div>
