@@ -14,7 +14,7 @@ export const translations = {
       "Drop a seed with Nawa, and see your future transform a nation.",
     "hero.subtitle": "We form the nucleus where Saudi youth grow into leaders.",
     "hero.downloadDeck": "Download Sponsor Deck",
-    "hero.bookCall": "Enroll in Nawa CTP",
+    "hero.bookCall": "Register for our Workshop",
 
     // Elevator Pitch
     "pitch.title": "Transforming Saudi Arabia's Youth Potential",
@@ -160,6 +160,24 @@ export const translations = {
     "mun.sponsorDescription":
       "Help develop the next generation of Saudi diplomats and global leaders through comprehensive MUN programs.",
     "mun.sponsorButton": "Sponsor MUN Programs",
+
+    // Program Pages - NAWA Workshop
+    "workshop.heroTitle": "Nawa x Masaha—Emotional Intelligence Workshop Day",
+    "workshop.heroDescription":
+      "We are proud to welcome you to a day designed with intention; A day rooted in growth, empathy, and the power of emotional intelligence. Through 10 dynamic workshops, mentorship spaces, and hands-on activities, participants will explore the human skills that drive exceptional leadership and collaboration. Your partnership made this possible. Thank you for believing in the importance of developing not just capable professionals— but emotionally intelligent changemakers.",
+    "workshop.outcomesTitle": "Workshop Features",
+    "workshop.outcome1": "Building self-awareness and personal growth",
+    "workshop.outcome2": "Developing empathy and emotional intelligence",
+    "workshop.outcome3": "Emotional leadership and soft skills development",
+    "workshop.outcome4": "One-day intensive workshop experience",
+    "workshop.classesLabel": "Workshops",
+    "workshop.classesValue": "10 dynamic workshops",
+    "workshop.dateTimeLabel": "Date & Time",
+    "workshop.dateTimeValue": "August 10th, 4PM - 10PM",
+    "workshop.sponsorTitle": "Support Personal Development",
+    "workshop.sponsorDescription":
+      "Help develop the next generation of emotionally intelligent leaders through our comprehensive workshop programs.",
+    "workshop.sponsorButton": "Sponsor Workshop Programs",
   },
   ar: {
     // Navigation
@@ -175,7 +193,7 @@ export const translations = {
     "hero.title": "اغرس بذرة مع نواة، وشاهد مستقبلك يحوّل الوطن.",
     "hero.subtitle": "نشكل النواة التي ينمو فيها الشباب السعودي ليصبحوا قادة",
     "hero.downloadDeck": "تحميل ملف الرعاية",
-    "hero.bookCall": "CTP سجل في نواة",
+    "hero.bookCall": "سجل في ورشتنا",
 
     // Elevator Pitch
     "pitch.title": "تحويل إمكانات الشباب السعودي",
@@ -317,5 +335,23 @@ export const translations = {
     "mun.sponsorDescription":
       "ساعد في تطوير الجيل القادم من الدبلوماسيين السعوديين والقادة العالميين من خلال برامج محاكاة الأمم المتحدة الشاملة",
     "mun.sponsorButton": "ارع برامج محاكاة الأمم المتحدة",
+
+    // Program Pages - NAWA Workshop
+    "workshop.heroTitle": "نواة × مساحة—يوم ورشة الذكاء العاطفي",
+    "workshop.heroDescription":
+      "نحن فخورون بترحيبكم بيوم مصمم بقصد؛ يوم متجذر في النمو والتعاطف وقوة الذكاء العاطفي. من خلال 10 ورش عمل ديناميكية ومساحات الإرشاد والأنشطة العملية، سيكتشف المشاركون المهارات الإنسانية التي تدفع القيادة والتعاون الاستثنائي. شراكتكم جعلت هذا ممكناً. شكراً لكم على الإيمان بأهمية تطوير ليس فقط المهنيين الأكفاء— بل صانعي التغيير ذوي الذكاء العاطفي.",
+    "workshop.outcomesTitle": "مميزات الورشة",
+    "workshop.outcome1": "بناء الوعي الذاتي والنمو الشخصي",
+    "workshop.outcome2": "تطوير التعاطف والذكاء العاطفي",
+    "workshop.outcome3": "القيادة العاطفية وتطوير المهارات الناعمة",
+    "workshop.outcome4": "تجربة ورشة عمل مكثفة ليوم واحد",
+    "workshop.classesLabel": "الورش",
+    "workshop.classesValue": "10 ورش عمل ديناميكية",
+    "workshop.dateTimeLabel": "التاريخ والوقت",
+    "workshop.dateTimeValue": "10 أغسطس، 4 مساءً - 10 مساءً",
+    "workshop.sponsorTitle": "دعم التطوير الشخصي",
+    "workshop.sponsorDescription":
+      "ساعد في تطوير الجيل القادم من القادة ذوي الذكاء العاطفي من خلال برامج ورش العمل الشاملة.",
+    "workshop.sponsorButton": "ارع برامج ورش العمل",
   },
 };
