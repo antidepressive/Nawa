@@ -18,9 +18,6 @@ import ConsultingTrainingProgram from "./pages/programs/ConsultingTrainingProgra
 import NawaWorkshop from "./pages/programs/NawaWorkshop";
 
 function Router() {
-  // Track page views when routes change
-  useAnalytics();
-  
   return (
     <Switch>
       <Route path="/" component={Home} />
@@ -37,6 +34,9 @@ function Router() {
 }
 
 function App() {
+  // Track page views when routes change
+  useAnalytics();
+  
   // Initialize Google Analytics when app loads
   useEffect(() => {
     // Verify required environment variable is present
