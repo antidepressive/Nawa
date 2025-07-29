@@ -37,7 +37,8 @@ export default function NawaCareer() {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
-        minHeight: '100vh'
+        minHeight: '100vh',
+        height: '100vh'
       }}
     >
       {/* Hero Banner */}
