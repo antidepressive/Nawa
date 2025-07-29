@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSubmissionSchema, insertNewsletterSubscriptionSchema } from "@shared/schema";
+import { insertContactSubmissionSchema, insertNewsletterSubscriptionSchema, insertWorkshopRegistrationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
 import { requireDeveloperAuth, requireDeveloperAuthQuery } from "./auth";
@@ -93,6 +93,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(`Error fetching newsletter subscriptions: ${error}`);
       res.status(500).json({ error: "Failed to fetch newsletter subscriptions" });
+    }
+  });
+
+  // Workshop registration
+  app.post("/api/workshop", async (req, res) => {
+    try {
+      const validation = insertWorkshopRegistrationSchema.safeParse(req.body);
+      
+      if (!validation.success) {
+        return res.status(400).json({ error: "Invalid form data", details: validation.error.errors });
+      }
+
+      const registration = await storage.createWorkshopRegistration(validation.data);
+      console.log(`New workshop registration from ${registration.name} (${registration.email})`);
+      
+      res.json({ success: true, message: "Workshop registration submitted successfully" });
+    } catch (error) {
+      console.error(`Error processing workshop registration: ${error}`);
+      res.status(500).json({ error: "Failed to submit workshop registration" });
+    }
+  });
+
+  // Get workshop registrations (for admin use)
+  app.get("/api/workshop", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const registrations = await storage.getWorkshopRegistrations();
+      res.json(registrations);
+    } catch (error) {
+      console.error(`Error fetching workshop registrations: ${error}`);
+      res.status(500).json({ error: "Failed to fetch workshop registrations" });
     }
   });
 
