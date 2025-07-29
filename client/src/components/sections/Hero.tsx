@@ -1,6 +1,6 @@
 import { useLanguage } from "../../contexts/LanguageContext";
 import { Calendar } from "lucide-react";
-import backgroundImage from "@assets/background_1750437485135.png";
+const backgroundImage = "/attached_assets/background_1750437485135.png";
 import { Link } from "wouter";
 
 export const Hero = () => {
