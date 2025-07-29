@@ -3,7 +3,7 @@ import { Button } from '../../components/ui/button';
 import { ArrowLeft, Globe } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
-import backgroundImage from '@assets/background_1750437485135.png';
+import backgroundImage from '@assets/nawa-background.png';
 
 export default function SaudiMunAssociation() {
   const { t, language, toggleLanguage } = useLanguage();
@@ -27,13 +27,14 @@ export default function SaudiMunAssociation() {
 
   return (
     <div 
-      className="min-h-screen"
+      className="min-h-screen relative"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
+        backgroundAttachment: 'fixed',
+        minHeight: '100vh'
       }}
     >
       {/* Hero Banner */}
