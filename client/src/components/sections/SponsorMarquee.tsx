@@ -1,5 +1,5 @@
 import { useLanguage } from '../../contexts/LanguageContext';
-import { allPartnersData } from '../../data/content';
+import { partnersData } from '../../data/content';
 
 export const SponsorMarquee = () => {
   const { t, language } = useLanguage();
@@ -23,7 +23,7 @@ export const SponsorMarquee = () => {
             }}
           >
             {/* First set of partners */}
-            {allPartnersData.map((partner, index) => (
+            {partnersData.map((partner, index) => (
               <div
                 key={`first-${partner.name}-${index}`}
                 className="marquee-item transition-all duration-300 hover:scale-105"
@@ -40,7 +40,7 @@ export const SponsorMarquee = () => {
             ))}
             
             {/* Duplicate set for seamless loop */}
-            {allPartnersData.map((partner, index) => (
+            {partnersData.map((partner, index) => (
               <div
                 key={`second-${partner.name}-${index}`}
                 className="marquee-item transition-all duration-300 hover:scale-105"
