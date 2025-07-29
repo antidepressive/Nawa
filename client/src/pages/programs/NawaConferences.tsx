@@ -26,14 +26,18 @@ export default function NawaConferences() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div 
+      className="min-h-screen"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       {/* Hero Banner */}
       <section className="text-white py-20 relative overflow-hidden">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
-        ></div>
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-blue-600/80"></div>
         <div className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,7 +70,7 @@ export default function NawaConferences() {
       </section>
 
       {/* Program Overview */}
-      <section className="py-16">
+      <section className="py-16 bg-white/95 backdrop-blur-sm">
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
           <div className="mb-12">
             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
