@@ -4,8 +4,8 @@ import { Hero } from '../components/sections/Hero';
 import { ElevatorPitch } from '../components/sections/ElevatorPitch';
 import { StatsCounters } from '../components/sections/StatsCounters';
 import { ProgramsGrid } from '../components/sections/ProgramsGrid';
-
-
+import { RecentWorks } from '../components/sections/RecentWorks';
+import { SponsorMarquee } from '../components/sections/SponsorMarquee';
 import { NewsletterSignup } from '../components/sections/NewsletterSignup';
 import { Contact } from '../components/sections/Contact';
 import { Footer } from '../components/sections/Footer';
@@ -28,8 +28,8 @@ export default function Home() {
         <StatsCounters />
       </section>
       <ProgramsGrid />
-      
-
+      <RecentWorks />
+      <SponsorMarquee />
       <NewsletterSignup />
       <Contact />
       <Footer />
