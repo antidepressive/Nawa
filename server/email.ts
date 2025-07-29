@@ -34,13 +34,27 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
         <meta charset="utf-8">
         <title>Workshop Registration Confirmation</title>
         <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            background: url('https://nawa-rid0.onrender.com/api/assets/nawa-background?apiKey=kCAJECdkbW5XQvWabr03cu1i1QHZlw70vzlEeR6Vi7EHKXhj8P53chR5yTiKoZMr') center center / cover no-repeat;
+            background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Fallback */
+            margin: 0;
+            padding: 20px;
+          }
+          .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+          }
           .header { 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 30px 20px; 
             text-align: center; 
-            border-radius: 10px 10px 0 0;
             color: white;
           }
           .header h1 { 
@@ -49,9 +63,23 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
             font-weight: bold;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
           }
-          .content { padding: 20px; }
-          .details { background-color: #f8f9fa; padding: 15px; margin: 20px 0; border-radius: 5px; }
-          .footer { text-align: center; padding: 20px; color: #666; font-size: 14px; }
+          .content { 
+            padding: 20px; 
+            background: white;
+          }
+          .details { 
+            background-color: #f8f9fa; 
+            padding: 15px; 
+            margin: 20px 0; 
+            border-radius: 5px; 
+          }
+          .footer { 
+            text-align: center; 
+            padding: 20px; 
+            color: #666; 
+            font-size: 14px; 
+            background: white;
+          }
           .highlight { color: #007bff; font-weight: bold; }
           .location-link { 
             display: inline-block; 
@@ -136,7 +164,7 @@ ${registration.friend2Name ? `- ${registration.friend2Name} - ${registration.fri
 
 We will send you additional details about the workshop schedule, location, and materials closer to the event date.
 
-If you have any questions or need to make changes to your registration, please don't hesitate to contact us.
+If you have any questions or need to make changes to your registration, please don't hesitate to contact us at info@nawa.sa.
 
 Best regards,
 The NAWA Team
