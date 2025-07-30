@@ -25,20 +25,22 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
   const paymentText = registration.payment === 'venue' ? 'Venue Payment' : 'Online Payment';
 
   return {
-    subject: 'Workshop Registration Confirmation - NAWA',
+    subject: 'Workshop Confirmation – August 10th, 4pm-10pm',
     html: `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="utf-8">
-        <title>Workshop Registration Confirmation</title>
+        <title>Workshop Confirmation</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
         <style>
           body { 
-            font-family: Arial, sans-serif; 
+            font-family: 'Inter', sans-serif; 
             line-height: 1.6; 
-            color: #333; 
-            background: url('https://nawa-rid0.onrender.com/api/assets/nawa-background?apiKey=kCAJECdkbW5XQvWabr03cu1i1QHZlw70vzlEeR6Vi7EHKXhj8P53chR5yTiKoZMr') center center / cover no-repeat;
-            background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Fallback */
+            color: #000000; 
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
             margin: 0;
             padding: 20px;
           }
@@ -51,7 +53,7 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
             overflow: hidden;
           }
           .header { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
             padding: 30px 20px; 
             text-align: center; 
             color: white;
@@ -60,38 +62,103 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
             margin: 0; 
             font-size: 28px; 
             font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
           }
           .content { 
             padding: 20px; 
             background: white;
+            color: #000000;
+            font-family: 'Inter', sans-serif;
+          }
+          .content p {
+            color: #000000;
+            margin-bottom: 15px;
+            font-family: 'Inter', sans-serif;
+          }
+          .content h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #000000;
+            margin-top: 20px;
+            margin-bottom: 10px;
           }
           .details { 
             background-color: #f8f9fa; 
             padding: 15px; 
             margin: 20px 0; 
             border-radius: 5px; 
+            color: #000000;
+            font-family: 'Inter', sans-serif;
+          }
+          .details h3 {
+            color: #000000;
+            margin-top: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+          }
+          .details h4 {
+            color: #000000;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 10px;
+          }
+          .details ul {
+            color: #000000;
+            font-family: 'Inter', sans-serif;
+          }
+          .details li {
+            color: #000000;
+            font-family: 'Inter', sans-serif;
           }
           .footer { 
             text-align: center; 
             padding: 20px; 
-            color: #666; 
+            color: #000000; 
             font-size: 14px; 
             background: white;
+            font-family: 'Inter', sans-serif;
           }
-          .highlight { color: #007bff; font-weight: bold; }
-          .location-link { 
+          .highlight { 
+            color: #000000; 
+            font-weight: bold; 
+            font-family: 'Inter', sans-serif;
+          }
+          .whatsapp-link { 
             display: inline-block; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
             color: white !important; 
             padding: 10px 20px; 
             text-decoration: none !important; 
             border-radius: 25px; 
             font-weight: bold;
+            font-family: 'Inter', sans-serif;
+            margin-top: 10px;
+          }
+          .whatsapp-link:hover { 
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white !important;
+          }
+          .whatsapp-link:visited {
+            color: white !important;
+          }
+          .whatsapp-link:active {
+            color: white !important;
+          }
+          .location-link { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+            color: white !important; 
+            padding: 10px 20px; 
+            text-decoration: none !important; 
+            border-radius: 25px; 
+            font-weight: bold;
+            font-family: 'Inter', sans-serif;
             margin-top: 10px;
           }
           .location-link:hover { 
-            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
             color: white !important;
           }
           .location-link:visited {
@@ -105,13 +172,13 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
       <body>
         <div class="container">
           <div class="header">
-            <h1>🎉 Workshop Registration Confirmed!</h1>
+            <h1>🎉 Workshop Confirmation</h1>
           </div>
           
           <div class="content">
             <p>Dear <span class="highlight">${registration.name}</span>,</p>
             
-            <p>Thank you for registering for our workshop! Your registration has been successfully received and confirmed.</p>
+            <p>Thank you for registering for our upcoming workshop! We're excited to have you join us.</p>
             
             <div class="details">
               <h3>Registration Details:</h3>
@@ -132,12 +199,18 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
               ` : ''}
             </div>
             
-            <p>We will send you additional details about the workshop schedule, location, and materials closer to the event date.</p>
+            <h3>Workshop Details:</h3>
+            <p><strong>Date:</strong> August 10th</p>
+            <p><strong>Time:</strong> 4:00 PM – 10:00 PM</p>
+            <p><strong>Location:</strong> JHUB</p>
+            <p><a href="https://maps.app.goo.gl/PpXypUZ4ugRLGBb67" class="location-link">Click here for directions</a></p>
             
-            <p><strong>📍 Workshop Location:</strong></p>
-            <p><a href="https://maps.app.goo.gl/PpXypUZ4ugRLGBb67" class="location-link">Click here</a> for directions to the workshop's location</p>
+            <p>To help everyone stay connected and up-to-date, please join our WhatsApp group using the link below:</p>
+            <p><a href="https://chat.whatsapp.com/HGU1XLxyqIbB4wCB5fxI5C?mode=ac_t" class="whatsapp-link">Join WhatsApp Group</a></p>
             
-            <p>If you have any questions or need to make changes to your registration, please don't hesitate to contact us.</p>
+            <p>If you have any questions or need further information, feel free to reach out to us at <a href="mailto:info@nawa.sa" style="color: #000000;">info@nawa.sa</a></p>
+            
+            <p>Looking forward to seeing you there!</p>
           </div>
           
           <div class="footer">
@@ -147,13 +220,13 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
         </div>
       </body>
       </html>
-    `,
+`,
     text: `
-Workshop Registration Confirmation - NAWA
+Workshop Confirmation – August 10th, 4pm-10pm
 
 Dear ${registration.name},
 
-Thank you for registering for our workshop! Your registration has been successfully received and confirmed.
+Thank you for registering for our upcoming workshop! We're excited to have you join us.
 
 Registration Details:
 - Name: ${registration.name}
@@ -168,9 +241,17 @@ Additional Participants:
 ${registration.friend2Name ? `- ${registration.friend2Name} - ${registration.friend2Email}` : ''}
 ` : ''}
 
-We will send you additional details about the workshop schedule, location, and materials closer to the event date.
+Workshop Details:
+Date: August 10th
+Time: 4:00 PM – 10:00 PM
+Location: JHUB (https://maps.app.goo.gl/PpXypUZ4ugRLGBb67)
 
-If you have any questions or need to make changes to your registration, please don't hesitate to contact us at info@nawa.sa.
+To help everyone stay connected and up-to-date, please join our WhatsApp group using the link below:
+Join WhatsApp Group: https://chat.whatsapp.com/HGU1XLxyqIbB4wCB5fxI5C?mode=ac_t
+
+If you have any questions or need further information, feel free to reach out to us at info@nawa.sa
+
+Looking forward to seeing you there!
 
 Best regards,
 The NAWA Team
