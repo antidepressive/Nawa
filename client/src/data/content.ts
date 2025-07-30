@@ -1,17 +1,8 @@
-// Partner logos
-const smaLogo = '/attached_assets/partnerr-logos/sma.jpeg';
-const edadLogo = '/attached_assets/partnerr-logos/edad.jpeg';
-const ideagenLogo = '/attached_assets/partnerr-logos/ideagen.jpeg';
-const delosLogo = '/attached_assets/partnerr-logos/delos.jpeg';
-const lmdfLogo = '/attached_assets/partnerr-logos/lmdf.jpg';
-
-// CTP Partner logos
-const kpmgLogo = '/attached_assets/CTP_Partners/KPMG.webp';
-const pureLogo = '/attached_assets/CTP_Partners/Pure.svg';
-const destinationLogo = '/attached_assets/CTP_Partners/Destination.svg';
-const kafaaLogo = '/attached_assets/CTP_Partners/Kafaa.png';
-const streamsLogo = '/attached_assets/CTP_Partners/Streams.jpg';
-const boostLogo = '/attached_assets/CTP_Partners/boost.png';
+import smaLogo from '@assets/partnerr-logos/sma.jpeg';
+import edadLogo from '@assets/partnerr-logos/edad.jpeg';
+import ideagenLogo from '@assets/partnerr-logos/ideagen.jpeg';
+import delosLogo from '@assets/partnerr-logos/delos.jpeg';
+import lmdfLogo from '@assets/partnerr-logos/lmdf.jpg';
 
 export const programsData = [
   {
@@ -67,24 +58,6 @@ export const programsData = [
       'المؤتمرات الدولية',
       'التبادل الثقافي'
     ]
-  },
-  {
-    id: 'workshop',
-    url: 'nawa-workshop',
-    icon: 'heart',
-    gradient: 'from-pink-500 to-rose-600',
-    features: [
-      'Building Self-Awareness',
-      'Developing Empathy',
-      'Emotional Leadership',
-      'One-day Intensive Workshop'
-    ],
-    featuresAr: [
-      'بناء الوعي الذاتي',
-      'تطوير التعاطف',
-      'القيادة العاطفية',
-      'ورشة عمل مكثفة ليوم واحد'
-    ]
   }
 ];
 
@@ -133,40 +106,6 @@ export const partnersData = [
     name: 'LMDF',
     logo: lmdfLogo
   }
-];
-
-export const ctpPartnersData = [
-  {
-    name: 'KPMG',
-    logo: kpmgLogo
-  },
-  {
-    name: 'Pure Consulting',
-    logo: pureLogo
-  },
-  {
-    name: 'Destination',
-    logo: destinationLogo
-  },
-  {
-    name: 'Kafaa',
-    logo: kafaaLogo
-  },
-  {
-    name: 'Streams',
-    logo: streamsLogo
-  },
-  {
-    name: 'Boost',
-    logo: boostLogo
-  }
-];
-
-export const allPartnersData = [
-  // Regular Partners
-  ...partnersData,
-  // CTP Partners
-  ...ctpPartnersData
 ];
 
 export const statsData = [
