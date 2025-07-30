@@ -249,7 +249,7 @@ Location: JHUB (https://maps.app.goo.gl/PpXypUZ4ugRLGBb67)
 To help everyone stay connected and up-to-date, please join our WhatsApp group using the link below:
 Join WhatsApp Group: https://chat.whatsapp.com/HGU1XLxyqIbB4wCB5fxI5C?mode=ac_t
 
-If you have any questions or need further information, feel free to reach out to us at info@nawa.sa
+Feel free to reach out to us at info@nawa.sa If you have any questions or need further information. 
 
 Looking forward to seeing you there!
 
