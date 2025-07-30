@@ -121,7 +121,7 @@ export default function NawaCareer() {
 
           {/* Current Programs */}
           <div className="mb-12">
-            <h3 className={`font-bold text-2xl text-primary mb-8 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
+            <h3 className={`font-bold text-2xl text-white mb-8 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
               {language === 'ar' ? 'البرامج الحالية' : 'Current Programs'}
             </h3>
             
