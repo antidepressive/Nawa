@@ -12,11 +12,19 @@ export const SponsorMarquee = () => {
   const scrollToIndex = (index: number) => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
-      const itemWidth = container.scrollWidth / partnersData.length;
-      container.scrollTo({
-        left: index * itemWidth,
-        behavior: 'smooth'
-      });
+      // Get the first item to calculate its actual width
+      const firstItem = container.firstElementChild as HTMLElement;
+      if (firstItem) {
+        const itemWidth = firstItem.offsetWidth;
+        // Account for gap-6 (24px) between items
+        const gap = 24;
+        const totalItemWidth = itemWidth + gap;
+        
+        container.scrollTo({
+          left: index * totalItemWidth,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
@@ -33,10 +41,10 @@ export const SponsorMarquee = () => {
   };
 
   useEffect(() => {
-    // Auto-scroll every 2 seconds
+    // Auto-scroll every 6 seconds
     autoScrollRef.current = setInterval(() => {
       scrollRight();
-    }, 2000);
+    }, 6000);
 
     return () => {
       if (autoScrollRef.current) {
@@ -52,7 +60,7 @@ export const SponsorMarquee = () => {
     }
     autoScrollRef.current = setInterval(() => {
       scrollRight();
-    }, 2000);
+    }, 6000);
   };
 
   return (
