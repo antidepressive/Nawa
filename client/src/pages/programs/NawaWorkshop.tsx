@@ -222,10 +222,9 @@ export default function NawaWorkshop() {
                     size="lg" 
                     variant="outline"
                     className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-8 py-4 text-lg font-semibold flex items-center gap-2"
-                    onClick={() => window.open(nawaEQPdf, '_blank')}
+                    onClick={() => document.getElementById('registration-form')?.scrollIntoView({ behavior: 'smooth' })}
                   >
-                    <Download className="w-5 h-5" />
-                    <span>{language === 'ar' ? 'جدول الفعالية' : 'Event Schedule'}</span>
+                    <span>{language === 'ar' ? 'سجل الآن' : 'Register Now'}</span>
                   </Button>
                 </div>
               </div>
@@ -235,7 +234,7 @@ export default function NawaWorkshop() {
       </section>
 
       {/* Workshop Description */}
-      <section className="py-16 bg-white/95 backdrop-blur-sm">
+      <section className="py-8 bg-white/95 backdrop-blur-sm">
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
           <div className="mb-12">
             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
@@ -268,7 +267,7 @@ export default function NawaWorkshop() {
           </div>
 
           {/* Workshop Details */}
-          <div className="bg-gray-50 rounded-xl p-8 mb-12">
+          <div className="bg-gray-50 rounded-xl p-8 mb-6">
             <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
               {language === 'ar' ? 'تفاصيل الورشة' : 'Workshop Details'}
             </h3>
@@ -331,7 +330,7 @@ export default function NawaWorkshop() {
       </section>
 
       {/* Registration Form */}
-      <section className="py-16 bg-white/95 backdrop-blur-sm">
+      <section id="registration-form" className="py-8 bg-white/95 backdrop-blur-sm">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
