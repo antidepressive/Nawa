@@ -31,7 +31,7 @@ export const workshopRegistrations = pgTable("workshop_registrations", {
   email: text("email").notNull(),
   phone: text("phone").notNull(),
   payment: text("payment").notNull(), // 'venue' or 'online'
-  bundle: text("bundle").notNull(), // '89', '59', or '199'
+  bundle: text("bundle").notNull(), // '59' or '199'
   friend1Name: text("friend1_name"),
   friend1Email: text("friend1_email"),
   friend1Phone: text("friend1_phone"),
