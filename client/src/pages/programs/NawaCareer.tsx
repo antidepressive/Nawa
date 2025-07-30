@@ -176,14 +176,6 @@ export default function NawaCareer() {
                         {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
                       </Button>
                     </Link>
-                    <Link href="/programs/nawa-workshop">
-                      <Button 
-                        variant="outline" 
-                        className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
-                      >
-                        {language === 'ar' ? 'سجل الآن' : 'Register Now'}
-                      </Button>
-                    </Link>
                   </div>
                 </div>
               </div>
