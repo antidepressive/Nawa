@@ -1,7 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { partnersData } from '../../data/content';
 
-const SponsorMarquee = () => {
+export const SponsorMarquee = () => {
   const { t } = useLanguage();
 
   return (
@@ -21,8 +21,8 @@ const SponsorMarquee = () => {
               className="flex-shrink-0 transition-all duration-300"
             >
               <div className="w-24 h-24 bg-white rounded-full border border-gray-200 flex items-center justify-center hover:shadow-lg transition-all duration-300 overflow-hidden">
-                <img
-                  src={partner.logo}
+                <img 
+                  src={partner.logo} 
                   alt={partner.name}
                   className="w-full h-full object-cover rounded-full"
                 />
@@ -32,10 +32,15 @@ const SponsorMarquee = () => {
         </div>
 
         {/* Educational Partners Static Section */}
-        {/* ...keep or add any additional JSX you had below this point... */}
+        <div className="mt-16">
+          <h3 className="text-xl font-semibold text-center mb-8 text-gray-800">
+            {t('partners.educationalPartners')}
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center">
+            {/* Add educational partners here if needed */}
+          </div>
+        </div>
       </div>
     </section>
   );
 };
-
-export default SponsorMarquee;
