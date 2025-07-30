@@ -3,8 +3,6 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
-import { readFileSync } from "fs";
-import { join } from "path";
 
 const app = express();
 app.use(express.json());
@@ -130,32 +128,6 @@ async function ensureTablesExist() {
   }
 
   const server = await registerRoutes(app);
-
-  // Serve sitemap with correct MIME type
-  app.get('/sitemap.xml', (req: Request, res: Response) => {
-    try {
-      const sitemapPath = join(process.cwd(), 'client/public/sitemap.xml');
-      const sitemapContent = readFileSync(sitemapPath, 'utf8');
-      res.setHeader('Content-Type', 'application/xml');
-      res.send(sitemapContent);
-    } catch (error) {
-      log(`Error serving sitemap: ${error}`);
-      res.status(500).send('Error loading sitemap');
-    }
-  });
-
-  // Serve robots.txt with correct MIME type
-  app.get('/robots.txt', (req: Request, res: Response) => {
-    try {
-      const robotsPath = join(process.cwd(), 'client/public/robots.txt');
-      const robotsContent = readFileSync(robotsPath, 'utf8');
-      res.setHeader('Content-Type', 'text/plain');
-      res.send(robotsContent);
-    } catch (error) {
-      log(`Error serving robots.txt: ${error}`);
-      res.status(500).send('Error loading robots.txt');
-    }
-  });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
