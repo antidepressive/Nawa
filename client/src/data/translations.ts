@@ -171,7 +171,7 @@ export const translations = {
     "workshop.outcome3": "Emotional leadership and soft skills development",
     "workshop.outcome4": "One-day intensive workshop experience",
     "workshop.classesLabel": "Workshops",
-    "workshop.classesValue": "10 dynamic classes",
+    "workshop.classesValue": "10 dynamic workshops",
     "workshop.dateTimeLabel": "Date & Time",
     "workshop.dateTimeValue": "August 10th, 4PM - 10PM",
     "workshop.sponsorTitle": "Support Personal Development",
