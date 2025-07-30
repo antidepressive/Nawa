@@ -48,9 +48,19 @@ export const trackPageView = (url: string) => {
   const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-TD20DL2WDT';
   if (!measurementId) return;
   
+  // Send page view to Google Analytics
   window.gtag('config', measurementId, {
-    page_path: url
+    page_path: url,
+    page_title: document.title
   });
+  
+  // Also send as event for better tracking
+  window.gtag('event', 'page_view', {
+    page_path: url,
+    page_title: document.title
+  });
+  
+  console.log('Tracked page view:', url);
 };
 
 // Track events

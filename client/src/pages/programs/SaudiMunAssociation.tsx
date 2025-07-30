@@ -3,6 +3,7 @@ import { Button } from '../../components/ui/button';
 import { ArrowLeft, Globe } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
+import { trackPageView } from '../../lib/analytics';
 import backgroundImage from '@assets/nawa-background.png';
 
 export default function SaudiMunAssociation() {
@@ -12,6 +13,8 @@ export default function SaudiMunAssociation() {
   useEffect(() => {
     document.title = 'Nawa - نَوَاة';
     window.scrollTo(0, 0);
+    // Track page view for Google Analytics
+    trackPageView('/programs/saudi-mun-association');
   }, []);
 
   const navigateToContact = () => {
