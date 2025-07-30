@@ -3,6 +3,12 @@ import edadLogo from '@assets/partnerr-logos/edad.jpeg';
 import ideagenLogo from '@assets/partnerr-logos/ideagen.jpeg';
 import delosLogo from '@assets/partnerr-logos/delos.jpeg';
 import lmdfLogo from '@assets/partnerr-logos/lmdf.jpg';
+import kpmgLogo from '@assets/CTP_Partners/KPMG.webp';
+import pureLogo from '@assets/CTP_Partners/Pure.svg';
+import destinationLogo from '@assets/CTP_Partners/Destination.svg';
+import kafaaLogo from '@assets/CTP_Partners/Kafaa.png';
+import streamsLogo from '@assets/CTP_Partners/Streams.jpg';
+import boostLogo from '@assets/CTP_Partners/boost.png';
 
 export const programsData = [
   {
@@ -105,6 +111,30 @@ export const partnersData = [
   {
     name: 'LMDF',
     logo: lmdfLogo
+  },
+  {
+    name: 'KPMG',
+    logo: kpmgLogo
+  },
+  {
+    name: 'Pure Consulting',
+    logo: pureLogo
+  },
+  {
+    name: 'Destination',
+    logo: destinationLogo
+  },
+  {
+    name: 'Kafaa',
+    logo: kafaaLogo
+  },
+  {
+    name: 'Streams',
+    logo: streamsLogo
+  },
+  {
+    name: 'Boost',
+    logo: boostLogo
   }
 ];
 
