@@ -12,6 +12,14 @@ export default function NawaConferences() {
   useEffect(() => {
     document.title = 'Nawa - نَوَاة';
     window.scrollTo(0, 0);
+    
+    // Google Analytics tracking
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('config', 'G-TD20DL2WDT', {
+        page_path: '/programs/nawa-conferences',
+        page_title: 'Nawa Conferences - نَوَاة'
+      });
+    }
   }, []);
 
   const navigateToContact = () => {
