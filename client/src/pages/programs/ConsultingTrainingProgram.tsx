@@ -2,8 +2,6 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb, ArrowLeft, Download, Globe } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Link } from 'wouter';
-import { useEffect } from 'react';
-import { trackPageView } from '../../lib/analytics';
 import nawaBackground from '@assets/nawa-background.png';
 import ctpPdf from '@assets/CTP-NAWA.pdf';
 import kpmgLogo from '@assets/CTP_Partners/KPMG.webp';
@@ -15,11 +13,6 @@ import boostLogo from '@assets/CTP_Partners/boost.png';
 
 export default function ConsultingTrainingProgram() {
   const { t, language, toggleLanguage } = useLanguage();
-
-  // Track page view for Google Analytics
-  useEffect(() => {
-    trackPageView('/programs/consulting-training-program');
-  }, []);
 
   const features = [
     {
