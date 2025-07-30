@@ -26,18 +26,20 @@ export default function NawaConferences() {
   };
 
   return (
-    <div 
-      className="min-h-screen relative"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
-        minHeight: '100vh',
-        height: '100vh'
-      }}
-    >
+    <div className="relative">
+      {/* Background wrapper that extends throughout the whole page */}
+      <div 
+        className="fixed inset-0"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+          zIndex: -1
+        }}
+      ></div>
+      
       {/* Hero Banner */}
       <section className="text-white py-20 relative overflow-hidden">
         {/* Overlay */}
@@ -72,19 +74,19 @@ export default function NawaConferences() {
       </section>
 
       {/* Program Overview */}
-      <section className="py-16 bg-white/95 backdrop-blur-sm">
+      <section className="py-16">
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-          <div className="mb-12">
+          <div className="mb-12 bg-white/95 backdrop-blur-sm rounded-xl p-8">
             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
               {t('conferences.heroTitle')}
             </h2>
-            <p className="text-lg text-gray-600 leading-relaxed">
+            <p className="text-lg text-gray-700 leading-relaxed">
               {t('conferences.heroDescription')}
             </p>
           </div>
 
           {/* Program Outcomes */}
-          <div className="mb-12">
+          <div className="mb-12 bg-white/95 backdrop-blur-sm rounded-xl p-8">
             <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
               {t('conferences.outcomesTitle')}
             </h3>
@@ -117,11 +119,11 @@ export default function NawaConferences() {
           </div>
 
           {/* Sponsor CTA */}
-          <div className={`bg-gray-50 rounded-xl p-8 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
+          <div className={`bg-white/95 backdrop-blur-sm rounded-xl p-8 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
             <h3 className={`font-bold text-2xl text-primary mb-4 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
               {t('conferences.sponsorTitle')}
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-700 mb-6">
               {t('conferences.sponsorDescription')}
             </p>
             <Button onClick={navigateToContact} size="lg" className="bg-primary hover:bg-primary/90">

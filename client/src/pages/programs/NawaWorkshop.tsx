@@ -334,20 +334,19 @@ export default function NawaWorkshop() {
       {/* Registration Form */}
       <section id="registration-form" className="py-8">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 bg-white/95 backdrop-blur-sm rounded-xl p-8">
-            <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {language === 'ar' ? 'التسجيل في الورشة' : 'Workshop Registration'}
-            </h2>
-            <p className="text-lg text-gray-700">
-              {language === 'ar' 
-                ? 'املأ النموذج أدناه للتسجيل في ورشة العمل'
-                : 'Fill out the form below to register for the workshop'
-              }
-            </p>
-          </div>
-
-          <Card className="border-gray-200 shadow-lg">
+          <Card className="border-gray-200 shadow-lg bg-white/95 backdrop-blur-sm">
             <CardContent className="p-8">
+              <div className="text-center mb-8">
+                <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
+                  {language === 'ar' ? 'التسجيل في الورشة' : 'Workshop Registration'}
+                </h2>
+                <p className="text-lg text-gray-700">
+                  {language === 'ar' 
+                    ? 'املأ النموذج أدناه للتسجيل في ورشة العمل'
+                    : 'Fill out the form below to register for the workshop'
+                  }
+                </p>
+              </div>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
