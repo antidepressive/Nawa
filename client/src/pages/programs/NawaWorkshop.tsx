@@ -49,7 +49,7 @@ export default function NawaWorkshop() {
   const { toast } = useToast();
 
   useEffect(() => {
-    document.title = 'Nawa x Masaha—Emotional Intelligence Workshop Day - نَوَاة';
+    document.title = 'Nawa x Masaha—Professional Emotional Intelligence Workshop - نَوَاة';
     window.scrollTo(0, 0);
   }, []);
 
@@ -157,8 +157,8 @@ export default function NawaWorkshop() {
             </h1>
             <p className="text-xl max-w-3xl mx-auto">
               {language === 'ar' 
-                ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية'
-                : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership'
+                ? 'ابني شبكة علاقات رائعة مع أفراد متشابهين في التفكير من خلال ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية'
+                : 'Build a great network with like minded individuals through a one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership'
               }
             </p>
           </div>
@@ -186,8 +186,8 @@ export default function NawaWorkshop() {
                 
                 <p className={`text-gray-600 mb-4 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                   {language === 'ar' 
-                    ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 3 فصول متناوبة، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
-                    : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 3 rotating classes, you\'ll gain practical tools to better understand yourself and connect with others.'
+                    ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 10 ورش عمل ديناميكية، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
+                    : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 10 dynamic workshops, you\'ll gain practical tools to better understand yourself and connect with others.'
                   }
                 </p>
                 
@@ -260,7 +260,7 @@ export default function NawaWorkshop() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className={`text-center ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                  <CardDescription className="text-center">
                     {feature.description}
                   </CardDescription>
                 </CardContent>
