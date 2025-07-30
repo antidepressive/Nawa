@@ -6,9 +6,18 @@ declare global {
   }
 }
 
+// Extend ImportMeta interface for Vite
+declare global {
+  interface ImportMeta {
+    env: {
+      VITE_GA_MEASUREMENT_ID?: string;
+    };
+  }
+}
+
 // Initialize Google Analytics
 export const initGA = () => {
-  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-TD20DL2WDT';
 
   if (!measurementId) {
     console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
@@ -36,7 +45,7 @@ export const initGA = () => {
 export const trackPageView = (url: string) => {
   if (typeof window === 'undefined' || !window.gtag) return;
   
-  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-TD20DL2WDT';
   if (!measurementId) return;
   
   window.gtag('config', measurementId, {
