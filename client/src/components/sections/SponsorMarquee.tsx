@@ -1,8 +1,59 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { partnersData } from '../../data/content';
+import { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const SponsorMarquee = () => {
   const { t } = useLanguage();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const autoScrollRef = useRef<number | null>(null);
+
+  const scrollToIndex = (index: number) => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      const itemWidth = container.scrollWidth / partnersData.length;
+      container.scrollTo({
+        left: index * itemWidth,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollLeft = () => {
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : partnersData.length - 1;
+    setCurrentIndex(newIndex);
+    scrollToIndex(newIndex);
+  };
+
+  const scrollRight = () => {
+    const newIndex = currentIndex < partnersData.length - 1 ? currentIndex + 1 : 0;
+    setCurrentIndex(newIndex);
+    scrollToIndex(newIndex);
+  };
+
+  useEffect(() => {
+    // Auto-scroll every 2 seconds
+    autoScrollRef.current = setInterval(() => {
+      scrollRight();
+    }, 2000);
+
+    return () => {
+      if (autoScrollRef.current) {
+        clearInterval(autoScrollRef.current);
+      }
+    };
+  }, [currentIndex]);
+
+  const handleManualScroll = () => {
+    // Reset auto-scroll timer when user manually scrolls
+    if (autoScrollRef.current) {
+      clearInterval(autoScrollRef.current);
+    }
+    autoScrollRef.current = setInterval(() => {
+      scrollRight();
+    }, 2000);
+  };
 
   return (
     <section className="py-16 bg-white border-t border-gray-100 w-full">
@@ -14,21 +65,51 @@ export const SponsorMarquee = () => {
           <p className="text-gray-600">{t('partners.subtitle')}</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 justify-items-center">
-          {partnersData.map((partner, index) => (
-            <div
-              key={`${partner.name}-${index}`}
-              className="flex-shrink-0 transition-all duration-300"
-            >
-              <div className="w-24 h-24 bg-white rounded-full border border-gray-200 flex items-center justify-center hover:shadow-lg transition-all duration-300 overflow-hidden">
+        {/* Partners Carousel */}
+        <div className="relative max-w-6xl mx-auto">
+          {/* Navigation Buttons */}
+          <button
+            onClick={() => {
+              scrollLeft();
+              handleManualScroll();
+            }}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white border border-gray-200 rounded-full p-2 shadow-lg transition-all duration-200 hover:shadow-xl"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-600" />
+          </button>
+
+          <button
+            onClick={() => {
+              scrollRight();
+              handleManualScroll();
+            }}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white border border-gray-200 rounded-full p-2 shadow-lg transition-all duration-200 hover:shadow-xl"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-6 h-6 text-gray-600" />
+          </button>
+
+          {/* Partners Container */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex gap-4 sm:gap-6 px-12 overflow-hidden scrollbar-hide"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {partnersData.map((partner, index) => (
+              <div
+                key={`${partner.name}-${index}`}
+                className="flex-shrink-0 w-40 sm:w-48 h-24 sm:h-32 bg-white rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center border border-gray-100"
+              >
                 <img 
                   src={partner.logo} 
                   alt={partner.name}
-                  className="w-full h-full object-cover rounded-full"
+                  className="max-w-full max-h-full object-contain"
+                  style={{ filter: 'grayscale(0%)' }}
                 />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Educational Partners Static Section */}
