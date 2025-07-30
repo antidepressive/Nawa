@@ -13,6 +13,14 @@ export default function NawaCareer() {
   useEffect(() => {
     document.title = 'Nawa - نَوَاة';
     window.scrollTo(0, 0);
+    
+    // Google Analytics tracking
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('config', 'G-TD20DL2WDT', {
+        page_path: '/programs/nawa-career',
+        page_title: 'Nawa Career - نَوَاة'
+      });
+    }
   }, []);
 
   const navigateToContact = () => {

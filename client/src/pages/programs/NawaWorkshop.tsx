@@ -51,6 +51,14 @@ export default function NawaWorkshop() {
   useEffect(() => {
     document.title = 'Nawa x Masaha—Emotional Intelligence Workshop Day - نَوَاة';
     window.scrollTo(0, 0);
+    
+    // Google Analytics tracking
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('config', 'G-TD20DL2WDT', {
+        page_path: '/programs/nawa-workshop',
+        page_title: 'Nawa Workshop - نَوَاة'
+      });
+    }
   }, []);
 
   const form = useForm<WorkshopRegistrationForm>({

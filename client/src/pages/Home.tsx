@@ -14,6 +14,14 @@ import { ScrollToTop } from '../components/ui/ScrollToTop';
 export default function Home() {
   useEffect(() => {
     document.title = 'Nawa - نَوَاة';
+    
+    // Google Analytics tracking
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('config', 'G-TD20DL2WDT', {
+        page_path: '/',
+        page_title: 'Nawa - نَوَاة'
+      });
+    }
   }, []);
   return (
     <>

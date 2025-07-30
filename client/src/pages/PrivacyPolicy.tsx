@@ -7,6 +7,15 @@ export default function PrivacyPolicy() {
 
   useEffect(() => {
     document.title = 'Nawa - نَوَاة';
+    
+    // Google Analytics tracking
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('config', 'G-TD20DL2WDT', {
+        page_path: '/privacy-policy',
+        page_title: 'Privacy Policy - نَوَاة'
+      });
+    }
+    
     // Fetch pre-converted HTML file from /public
     fetch("/assets/privacy_policy.html")
       .then((res) => res.text())
