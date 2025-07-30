@@ -115,18 +115,21 @@ export default function NawaWorkshop() {
   ];
 
   return (
-    <div 
-      className="min-h-screen relative"
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
-        minHeight: '100vh',
-        height: '100vh'
-      }}
-    >
+    <div className="relative">
+      {/* Background wrapper that extends to the red line */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+          height: '100%',
+          zIndex: -1
+        }}
+      ></div>
+      
       {/* Hero Banner */}
       <section className="text-white py-20 relative overflow-hidden">
         {/* Overlay */}
@@ -164,7 +167,7 @@ export default function NawaWorkshop() {
       </section>
 
       {/* Workshop Card */}
-      <section className="py-16 bg-white/95 backdrop-blur-sm">
+      <section className="py-16 relative">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-12">
             <div className="flex items-start gap-6">
@@ -234,7 +237,7 @@ export default function NawaWorkshop() {
       </section>
 
       {/* Workshop Description */}
-      <section className="py-8 bg-white/95 backdrop-blur-sm">
+      <section className="py-8">
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
           <div className="mb-12">
             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
