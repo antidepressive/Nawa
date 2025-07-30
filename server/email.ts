@@ -38,6 +38,7 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
             font-family: Arial, sans-serif; 
             line-height: 1.6; 
             color: #333; 
+            background: url('https://nawa-rid0.onrender.com/api/assets/nawa-background?apiKey=kCAJECdkbW5XQvWabr03cu1i1QHZlw70vzlEeR6Vi7EHKXhj8P53chR5yTiKoZMr') center center / cover no-repeat;
             background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Fallback */
             margin: 0;
             padding: 20px;
