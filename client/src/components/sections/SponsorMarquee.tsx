@@ -9,7 +9,8 @@ export const SponsorMarquee = () => {
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-montserrat font-bold text-2xl md:text-3xl text-primary mb-4">
-@@ -14,21 +14,48 @@ export const SponsorMarquee = () => {
+            {t('partners.title')}
+          </h2>
           <p className="text-gray-600">{t('partners.subtitle')}</p>
         </div>
 
@@ -31,3 +32,15 @@ export const SponsorMarquee = () => {
         </div>
 
         {/* Educational Partners Static Section */}
+        <div className="mt-16">
+          <h3 className="text-xl font-semibold text-center mb-8 text-gray-800">
+            {t('partners.educationalPartners')}
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center">
+            {/* Add educational partners here if needed */}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
