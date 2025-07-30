@@ -116,16 +116,15 @@ export default function NawaWorkshop() {
 
   return (
     <div className="relative">
-      {/* Background wrapper that extends to the red line */}
+      {/* Background wrapper that extends throughout the whole page */}
       <div 
-        className="absolute inset-0"
+        className="fixed inset-0"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundAttachment: 'fixed',
-          height: '100%',
           zIndex: -1
         }}
       ></div>
@@ -239,11 +238,11 @@ export default function NawaWorkshop() {
       {/* Workshop Description */}
       <section className="py-8">
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-          <div className="mb-12">
+          <div className="mb-12 bg-white/95 backdrop-blur-sm rounded-xl p-8">
             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
               {language === 'ar' ? 'عن الورشة' : 'About the Workshop'}
             </h2>
-            <p className="text-lg text-gray-600 leading-relaxed">
+            <p className="text-lg text-gray-700 leading-relaxed">
               {t('workshop.heroDescription')}
             </p>
           </div>
@@ -270,7 +269,7 @@ export default function NawaWorkshop() {
           </div>
 
           {/* Workshop Details */}
-          <div className="bg-gray-50 rounded-xl p-8 mb-6">
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl p-8 mb-6">
             <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
               {language === 'ar' ? 'تفاصيل الورشة' : 'Workshop Details'}
             </h3>
