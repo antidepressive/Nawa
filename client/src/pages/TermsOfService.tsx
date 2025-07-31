@@ -6,14 +6,6 @@ export default function TermsOfService() {
 
   useEffect(() => {
     document.title = 'Nawa - نَوَاة';
-    
-    // Google Analytics tracking
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('config', 'G-TD20DL2WDT', {
-        page_path: '/terms-of-service',
-        page_title: 'Terms of Service - نَوَاة'
-      });
-    }
   }, []);
 
   return (

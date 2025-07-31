@@ -162,7 +162,7 @@ export const translations = {
     "mun.sponsorButton": "Sponsor MUN Programs",
 
     // Program Pages - NAWA Workshop
-    "workshop.heroTitle": "Nawa x Masaha—Emotional Intelligence Workshop Day",
+    "workshop.heroTitle": "Nawa x Masaha—Professional Emotional Intelligence Workshop",
     "workshop.heroDescription":
       "Spend a day built around you. A day focused on growth, empathy, and the power of emotional intelligence. Through 10 hands‑on tasks, mentorship circles, and interactive activities, you'll dive deep into the human skills that spark standout leadership and seamless collaboration. Walk away ready to lead with heart, connect with others, and become the emotionally intelligent changemaker your community needs.",
     "workshop.outcomesTitle": "Workshop Features",

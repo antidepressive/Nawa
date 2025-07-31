@@ -13,14 +13,6 @@ export default function NawaCareer() {
   useEffect(() => {
     document.title = 'Nawa - نَوَاة';
     window.scrollTo(0, 0);
-    
-    // Google Analytics tracking
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('config', 'G-TD20DL2WDT', {
-        page_path: '/programs/nawa-career',
-        page_title: 'Nawa Career - نَوَاة'
-      });
-    }
   }, []);
 
   const navigateToContact = () => {
@@ -152,8 +144,8 @@ export default function NawaCareer() {
                   
                   <p className={`text-gray-600 mb-4 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                     {language === 'ar' 
-                      ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 3 فصول متناوبة، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
-                      : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 3 rotating classes, you\'ll gain practical tools to better understand yourself and connect with others.'
+                      ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 10 ورش عمل ديناميكية، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
+                      : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 10 dynamic workshops, you\'ll gain practical tools to better understand yourself and connect with others.'
                     }
                   </p>
                   
