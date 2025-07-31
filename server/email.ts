@@ -25,7 +25,7 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
   const paymentText = registration.payment === 'venue' ? 'Venue Payment' : 'Online Payment';
 
   return {
-    subject: 'Workshop Confirmation – August 10th, 4pm-10pm',
+    subject: 'Workshop Confirmation – August 7th, 4pm-10pm',
     html: `
       <!DOCTYPE html>
       <html>
@@ -200,7 +200,7 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
             </div>
             
             <h3>Workshop Details:</h3>
-            <p><strong>Date:</strong> August 10th</p>
+            <p><strong>Date:</strong> August 7th</p>
             <p><strong>Time:</strong> 4:00 PM – 10:00 PM</p>
             <p><strong>Location:</strong> JHUB</p>
             <p><a href="https://maps.app.goo.gl/PpXypUZ4ugRLGBb67" class="location-link">Click here for directions</a></p>
@@ -222,7 +222,7 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
       </html>
 `,
     text: `
-Workshop Confirmation – August 10th, 4pm-10pm
+Workshop Confirmation – August 7th, 4pm-10pm
 
 Dear ${registration.name},
 
@@ -242,7 +242,7 @@ ${registration.friend2Name ? `- ${registration.friend2Name} - ${registration.fri
 ` : ''}
 
 Workshop Details:
-Date: August 10th
+Date: August 7th
 Time: 4:00 PM – 10:00 PM
 Location: JHUB (https://maps.app.goo.gl/PpXypUZ4ugRLGBb67)
 
