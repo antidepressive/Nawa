@@ -201,7 +201,7 @@ export default function NawaWorkshop() {
                   <div className="flex items-center gap-2 text-green-600">
                     <Users className="w-4 h-4" />
                                          <span className="text-sm font-medium">
-                       {language === 'ar' ? '10 ورش عمل ديناميكية' : '10 dynamic workshops'}
+                       {language === 'ar' ? '10 مهام ديناميكية' : '10 dynamic tasks'}
                      </span>
                   </div>
                   <div className="flex items-center gap-2 text-green-600">
