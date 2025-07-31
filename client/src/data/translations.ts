@@ -173,7 +173,7 @@ export const translations = {
     "workshop.classesLabel": "Workshops",
     "workshop.classesValue": "10 dynamic workshops",
     "workshop.dateTimeLabel": "Date & Time",
-    "workshop.dateTimeValue": "August 10th, 4PM - 10PM",
+    "workshop.dateTimeValue": "August 7th, 4PM - 10PM",
     "workshop.sponsorTitle": "Support Personal Development",
     "workshop.sponsorDescription":
       "Help develop the next generation of emotionally intelligent leaders through our comprehensive workshop programs.",
