@@ -164,14 +164,14 @@ export const translations = {
     // Program Pages - NAWA Workshop
     "workshop.heroTitle": "Nawa x Masaha—Emotional Intelligence Workshop Day",
     "workshop.heroDescription":
-      "Spend a day built around you. A day focused on growth, empathy, and the power of emotional intelligence. Through 10 hands‑on workshops, mentorship circles, and interactive activities, you'll dive deep into the human skills that spark standout leadership and seamless collaboration. Walk away ready to lead with heart, connect with others, and become the emotionally intelligent changemaker your community needs.",
+      "Spend a day built around you. A day focused on growth, empathy, and the power of emotional intelligence. Through 10 hands‑on tasks, mentorship circles, and interactive activities, you'll dive deep into the human skills that spark standout leadership and seamless collaboration. Walk away ready to lead with heart, connect with others, and become the emotionally intelligent changemaker your community needs.",
     "workshop.outcomesTitle": "Workshop Features",
     "workshop.outcome1": "Building self-awareness and personal growth",
     "workshop.outcome2": "Developing empathy and emotional intelligence",
     "workshop.outcome3": "Emotional leadership and soft skills development",
     "workshop.outcome4": "One-day intensive workshop experience",
     "workshop.classesLabel": "Workshops",
-    "workshop.classesValue": "10 dynamic workshops",
+    "workshop.classesValue": "10 dynamic tasks",
     "workshop.dateTimeLabel": "Date & Time",
     "workshop.dateTimeValue": "August 7th, 4PM - 10PM",
     "workshop.sponsorTitle": "Support Personal Development",
@@ -339,14 +339,14 @@ export const translations = {
     // Program Pages - NAWA Workshop
     "workshop.heroTitle": "نواة × مساحة—يوم ورشة الذكاء العاطفي",
     "workshop.heroDescription":
-      "اقضِ يوماً مبني حولك. يوماً يركز على النمو والتعاطف وقوة الذكاء العاطفي. من خلال 10 ورش عمل عملية ودوائر الإرشاد والأنشطة التفاعلية، ستتعمق في المهارات الإنسانية التي تشعل القيادة المتميزة والتعاون السلس. اخرج مستعداً للقيادة بقلب، التواصل مع الآخرين، وتصبح صانع التغيير ذو الذكاء العاطفي الذي يحتاجه مجتمعك.",
+      "اقضِ يوماً مبني حولك. يوماً يركز على النمو والتعاطف وقوة الذكاء العاطفي. من خلال 10 مهام عملية ودوائر الإرشاد والأنشطة التفاعلية، ستتعمق في المهارات الإنسانية التي تشعل القيادة المتميزة والتعاون السلس. اخرج مستعداً للقيادة بقلب، التواصل مع الآخرين، وتصبح صانع التغيير ذو الذكاء العاطفي الذي يحتاجه مجتمعك.",
     "workshop.outcomesTitle": "مميزات الورشة",
     "workshop.outcome1": "بناء الوعي الذاتي والنمو الشخصي",
     "workshop.outcome2": "تطوير التعاطف والذكاء العاطفي",
     "workshop.outcome3": "القيادة العاطفية وتطوير المهارات الناعمة",
     "workshop.outcome4": "تجربة ورشة عمل مكثفة ليوم واحد",
     "workshop.classesLabel": "الورش",
-    "workshop.classesValue": "10 ورش عمل ديناميكية",
+    "workshop.classesValue": "10 مهام ديناميكية",
     "workshop.dateTimeLabel": "التاريخ والوقت",
     "workshop.dateTimeValue": "10 أغسطس، 4 مساءً - 10 مساءً",
     "workshop.sponsorTitle": "دعم التطوير الشخصي",
