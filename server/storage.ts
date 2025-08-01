@@ -117,7 +117,7 @@ export class DatabaseStorage implements IStorage {
     if (ids.length === 0) return 0;
     const result = await db
       .delete(contactSubmissions)
-      .where(sql`${contactSubmissions.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}`), sql`, `)}])`);
+      .where(sql`${contactSubmissions.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
     return result.rowCount || 0;
   }
 
@@ -125,7 +125,7 @@ export class DatabaseStorage implements IStorage {
     if (ids.length === 0) return 0;
     const result = await db
       .delete(newsletterSubscriptions)
-      .where(sql`${newsletterSubscriptions.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}`), sql`, `)}])`);
+      .where(sql`${newsletterSubscriptions.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
     return result.rowCount || 0;
   }
 
@@ -133,7 +133,7 @@ export class DatabaseStorage implements IStorage {
     if (ids.length === 0) return 0;
     const result = await db
       .delete(workshopRegistrations)
-      .where(sql`${workshopRegistrations.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}`), sql`, `)}])`);
+      .where(sql`${workshopRegistrations.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
     return result.rowCount || 0;
   }
 }
