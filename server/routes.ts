@@ -145,6 +145,126 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Delete single contact submission (for admin use)
+  app.delete("/api/contact/:id", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      const deleted = await storage.deleteContactSubmission(id);
+      if (deleted) {
+        res.json({ success: true, message: "Contact submission deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Contact submission not found" });
+      }
+    } catch (error) {
+      console.error(`Error deleting contact submission: ${error}`);
+      res.status(500).json({ error: "Failed to delete contact submission" });
+    }
+  });
+
+  // Delete multiple contact submissions (for admin use)
+  app.delete("/api/contact", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "Invalid IDs array" });
+      }
+
+      const deletedCount = await storage.deleteContactSubmissions(ids);
+      res.json({ 
+        success: true, 
+        message: `${deletedCount} contact submission(s) deleted successfully`,
+        deletedCount 
+      });
+    } catch (error) {
+      console.error(`Error deleting contact submissions: ${error}`);
+      res.status(500).json({ error: "Failed to delete contact submissions" });
+    }
+  });
+
+  // Delete single newsletter subscription (for admin use)
+  app.delete("/api/newsletter/:id", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      const deleted = await storage.deleteNewsletterSubscription(id);
+      if (deleted) {
+        res.json({ success: true, message: "Newsletter subscription deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Newsletter subscription not found" });
+      }
+    } catch (error) {
+      console.error(`Error deleting newsletter subscription: ${error}`);
+      res.status(500).json({ error: "Failed to delete newsletter subscription" });
+    }
+  });
+
+  // Delete multiple newsletter subscriptions (for admin use)
+  app.delete("/api/newsletter", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "Invalid IDs array" });
+      }
+
+      const deletedCount = await storage.deleteNewsletterSubscriptions(ids);
+      res.json({ 
+        success: true, 
+        message: `${deletedCount} newsletter subscription(s) deleted successfully`,
+        deletedCount 
+      });
+    } catch (error) {
+      console.error(`Error deleting newsletter subscriptions: ${error}`);
+      res.status(500).json({ error: "Failed to delete newsletter subscriptions" });
+    }
+  });
+
+  // Delete single workshop registration (for admin use)
+  app.delete("/api/workshop/:id", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      const deleted = await storage.deleteWorkshopRegistration(id);
+      if (deleted) {
+        res.json({ success: true, message: "Workshop registration deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Workshop registration not found" });
+      }
+    } catch (error) {
+      console.error(`Error deleting workshop registration: ${error}`);
+      res.status(500).json({ error: "Failed to delete workshop registration" });
+    }
+  });
+
+  // Delete multiple workshop registrations (for admin use)
+  app.delete("/api/workshop", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "Invalid IDs array" });
+      }
+
+      const deletedCount = await storage.deleteWorkshopRegistrations(ids);
+      res.json({ 
+        success: true, 
+        message: `${deletedCount} workshop registration(s) deleted successfully`,
+        deletedCount 
+      });
+    } catch (error) {
+      console.error(`Error deleting workshop registrations: ${error}`);
+      res.status(500).json({ error: "Failed to delete workshop registrations" });
+    }
+  });
+
   // Preview email template (developer access only)
   app.get("/api/preview-email", requireDeveloperAuthQuery, async (req, res) => {
     try {
