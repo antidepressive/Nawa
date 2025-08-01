@@ -5,7 +5,7 @@ import { Link } from 'wouter';
 import nawaBackground from '@assets/nawa-background.webp';
 import ctpPdf from '@assets/CTP-NAWA.pdf';
 import kpmgLogo from '@assets/CTP_Partners/KPMG.webp';
-import pureLogo from '@assets/CTP_Partners/Pure.svg';
+import pureLogo from '@assets/CTP_Partners/Pure.webp';
 import destinationLogo from '@assets/CTP_Partners/Destination.svg';
 import kafaaLogo from '@assets/CTP_Partners/Kafaa.webp';
 import streamsLogo from '@assets/CTP_Partners/Streams.webp';
