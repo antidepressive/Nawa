@@ -60,7 +60,7 @@ const PhoneInput = ({
     <div>
       <Input
         id={id}
-        value={value || '966'}
+        value={value || ''}
         onChange={handleChange}
         onBlur={onBlur}
         onKeyDown={handleKeyDown}
@@ -77,22 +77,22 @@ const PhoneInput = ({
 const workshopRegistrationSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(12, 'Please enter a valid phone number').refine(
+  phone: z.string().min(1, 'Phone number is required').refine(
     (phone) => phone.startsWith('966') && phone.length >= 12,
     'Phone number must start with 966 and be at least 9 digits after the prefix'
   ),
   payment: z.literal('venue'),
-  bundle: z.enum(['89', '199'], { required_error: 'Please select a bundle' }),
+  bundle: z.enum(['89', '199']),
   friend1Name: z.string().optional(),
   friend1Email: z.string().optional(),
   friend1Phone: z.string().optional().refine(
-    (phone) => !phone || (phone.startsWith('966') && phone.length >= 12),
+    (phone) => !phone || phone === '' || (phone.startsWith('966') && phone.length >= 12),
     'Phone number must start with 966 and be at least 9 digits after the prefix'
   ),
   friend2Name: z.string().optional(),
   friend2Email: z.string().optional(),
   friend2Phone: z.string().optional().refine(
-    (phone) => !phone || (phone.startsWith('966') && phone.length >= 12),
+    (phone) => !phone || phone === '' || (phone.startsWith('966') && phone.length >= 12),
     'Phone number must start with 966 and be at least 9 digits after the prefix'
   ),
 }).refine((data) => {
@@ -111,7 +111,7 @@ type WorkshopRegistrationForm = z.infer<typeof workshopRegistrationSchema>;
 export default function NawaWorkshop() {
   const { t, language, toggleLanguage } = useLanguage();
   const [, setLocation] = useLocation();
-  const [selectedBundle, setSelectedBundle] = useState<string>('');
+  const [selectedBundle, setSelectedBundle] = useState<string>('89');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -124,15 +124,15 @@ export default function NawaWorkshop() {
     defaultValues: {
       name: '',
       email: '',
-      phone: '966',
+      phone: '',
       payment: 'venue',
-      bundle: undefined,
+      bundle: '89' as '89' | '199',
       friend1Name: '',
       friend1Email: '',
-      friend1Phone: '966',
+      friend1Phone: '',
       friend2Name: '',
       friend2Email: '',
-      friend2Phone: '966',
+      friend2Phone: '',
     }
   });
 
@@ -484,7 +484,7 @@ export default function NawaWorkshop() {
                         form.setValue('bundle', value as '89' | '199');
                         setSelectedBundle(value);
                       }}
-                      value={form.watch('bundle') || ''}
+                      value={form.watch('bundle') || '89'}
                     >
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder={language === 'ar' ? 'اختر الباقة' : 'Select bundle'} />
@@ -612,6 +612,7 @@ export default function NawaWorkshop() {
                   type="submit" 
                   className="w-full bg-primary hover:bg-blue-700 text-white py-3"
                   disabled={registrationMutation.isPending}
+
                 >
                   {registrationMutation.isPending
                     ? (language === 'ar' ? 'جاري التسجيل...' : 'Registering...')
