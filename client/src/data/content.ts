@@ -5,7 +5,7 @@ import delosLogo from '@assets/partnerr-logos/delos.webp';
 import lmdfLogo from '@assets/partnerr-logos/lmdf.webp';
 import kpmgLogo from '@assets/CTP_Partners/KPMG.webp';
 import pureLogo from '@assets/CTP_Partners/Pure.webp';
-import destinationLogo from '@assets/CTP_Partners/Destination.svg';
+import destinationLogo from '@assets/CTP_Partners/Destination.webp';
 import kafaaLogo from '@assets/CTP_Partners/Kafaa.webp';
 import streamsLogo from '@assets/CTP_Partners/Streams.webp';
 import boostLogo from '@assets/CTP_Partners/boost.webp';
