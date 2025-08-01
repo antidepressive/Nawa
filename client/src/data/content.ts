@@ -1,14 +1,14 @@
-import smaLogo from '@assets/partnerr-logos/sma.jpeg';
-import edadLogo from '@assets/partnerr-logos/edad.jpeg';
-import ideagenLogo from '@assets/partnerr-logos/ideagen.jpeg';
-import delosLogo from '@assets/partnerr-logos/delos.jpeg';
-import lmdfLogo from '@assets/partnerr-logos/lmdf.jpg';
+import smaLogo from '@assets/partnerr-logos/sma.webp';
+import edadLogo from '@assets/partnerr-logos/edad.webp';
+import ideagenLogo from '@assets/partnerr-logos/ideagen.webp';
+import delosLogo from '@assets/partnerr-logos/delos.webp';
+import lmdfLogo from '@assets/partnerr-logos/lmdf.webp';
 import kpmgLogo from '@assets/CTP_Partners/KPMG.webp';
-import pureLogo from '@assets/CTP_Partners/Pure.svg';
-import destinationLogo from '@assets/CTP_Partners/Destination.svg';
-import kafaaLogo from '@assets/CTP_Partners/Kafaa.png';
-import streamsLogo from '@assets/CTP_Partners/Streams.jpg';
-import boostLogo from '@assets/CTP_Partners/boost.png';
+import pureLogo from '@assets/CTP_Partners/Pure.webp';
+import destinationLogo from '@assets/CTP_Partners/Destination.webp';
+import kafaaLogo from '@assets/CTP_Partners/Kafaa.webp';
+import streamsLogo from '@assets/CTP_Partners/Streams.webp';
+import boostLogo from '@assets/CTP_Partners/boost.webp';
 
 export const programsData = [
   {

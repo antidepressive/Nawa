@@ -145,26 +145,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get workshop registrations as CSV (for admin use)
-  app.get("/api/workshop.csv", requireDeveloperAuthQuery, async (req, res) => {
-    try {
-      const registrations = await storage.getWorkshopRegistrations();
-      
-      // Import json2csv dynamically for ESM compatibility
-      const json2csvMod = await import('json2csv');
-      const Parser = json2csvMod.default?.Parser || json2csvMod.Parser;
-      
-      const csv = new Parser().parse(registrations);
-      
-      res.setHeader('Content-Type', 'text/csv');
-      res.setHeader('Content-Disposition', 'attachment; filename="workshop.csv"');
-      res.send(csv);
-    } catch (error) {
-      console.error(`Error generating workshop CSV: ${error}`);
-      res.status(500).json({ error: "Failed to generate workshop CSV" });
-    }
-  });
-
   // Preview email template (developer access only)
   app.get("/api/preview-email", requireDeveloperAuthQuery, async (req, res) => {
     try {
@@ -198,7 +178,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve NAWA background image (developer access only)
   app.get("/api/assets/nawa-background", requireDeveloperAuthQuery, async (req, res) => {
     try {
-      const imagePath = './attached_assets/nawa-background.png';
+      const imagePath = './attached_assets/nawa-background.webp';
       
       // Check if file exists
       const fs = await import('fs');

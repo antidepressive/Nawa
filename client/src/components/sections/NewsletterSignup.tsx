@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useToast } from '../../hooks/use-toast';
-import backgroundImage from '@assets/background_1750437485135.png';
+import backgroundImage from '@assets/background_1750437485135.webp';
 
 export const NewsletterSignup = () => {
   const { t } = useLanguage();
