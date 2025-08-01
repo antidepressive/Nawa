@@ -253,8 +253,8 @@ export default function NawaWorkshop() {
                 
                 <p className={`text-gray-600 mb-4 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                   {language === 'ar' 
-                    ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 10 مهام ديناميكية، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
-                    : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 10 dynamic tasks, you\'ll gain practical tools to better understand yourself and connect with others.'
+                    ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 10 تحديات ديناميكية، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
+                    : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 10 dynamic challenges, you\'ll gain practical tools to better understand yourself and connect with others.'
                   }
                 </p>
                 
@@ -268,7 +268,7 @@ export default function NawaWorkshop() {
                   <div className="flex items-center gap-2 text-green-600">
                     <Users className="w-4 h-4" />
                                          <span className="text-sm font-medium">
-                       {language === 'ar' ? '10 مهام ديناميكية' : '10 dynamic tasks'}
+                       {language === 'ar' ? '10 تحديات ديناميكية' : '10 dynamic challenges'}
                      </span>
                   </div>
                   <div className="flex items-center gap-2 text-green-600">
