@@ -265,15 +265,16 @@ export const Contact = () => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">{t("contact.phone")}</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleInputChange("phone", e.target.value)}
-                    placeholder="966"
-                    disabled={isSubmitting}
-                    className={errors.phone ? "border-red-500" : ""}
-                  />
+
+                   <Input
+                     id="phone"
+                     type="tel"
+                     value={formData.phone}
+                     onChange={(e) => handleInputChange("phone", e.target.value)}
+                     placeholder="966"
+                     disabled={isSubmitting}
+                     className={errors.phone ? "border-red-500" : ""}
+                   />
                   {errors.phone && (
                     <p className="text-red-500 text-sm">{errors.phone}</p>
                   )}
