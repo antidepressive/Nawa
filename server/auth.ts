@@ -67,4 +67,36 @@ export function requireDeveloperAuthQuery(req: Request, res: Response, next: Nex
 
   // Authentication successful
   next();
+}
+
+// Authentication specifically for delete operations using a separate token
+export function requireDeleteAuthQuery(req: Request, res: Response, next: NextFunction) {
+  const apiKey = req.query.apiKey as string;
+  
+  if (!apiKey) {
+    return res.status(401).json({ 
+      error: 'Unauthorized', 
+      message: 'Delete API key required. Add ?apiKey=your_delete_token to the URL' 
+    });
+  }
+
+  const expectedToken = process.env.DELETE_TOKEN;
+  
+  if (!expectedToken) {
+    console.error('DELETE_TOKEN environment variable not set');
+    return res.status(500).json({ 
+      error: 'Server configuration error',
+      message: 'Delete authentication not configured' 
+    });
+  }
+
+  if (apiKey !== expectedToken) {
+    return res.status(403).json({ 
+      error: 'Forbidden', 
+      message: 'Invalid delete API key' 
+    });
+  }
+
+  // Authentication successful
+  next();
 } 
