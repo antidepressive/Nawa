@@ -4,9 +4,12 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Trash2, Download, RefreshCw, AlertTriangle, LogOut } from 'lucide-react';
+import { Trash2, Download, RefreshCw, AlertTriangle, LogOut, Shield } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import { useLocation } from 'wouter';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
 
 interface ContactSubmission {
   id: number;
@@ -39,15 +42,15 @@ interface WorkshopRegistration {
 }
 
 // Helper function to make authenticated API requests
-const apiRequest = async (method: string, endpoint: string, data?: any) => {
-  const token = sessionStorage.getItem('adminToken');
-  if (!token) {
+const apiRequest = async (method: string, endpoint: string, data?: any, token?: string) => {
+  const authToken = token || sessionStorage.getItem('adminToken');
+  if (!authToken) {
     throw new Error('No authentication token');
   }
 
   const url = endpoint.includes('?') 
-    ? `${endpoint}&apiKey=${encodeURIComponent(token)}`
-    : `${endpoint}?apiKey=${encodeURIComponent(token)}`;
+    ? `${endpoint}&apiKey=${encodeURIComponent(authToken)}`
+    : `${endpoint}?apiKey=${encodeURIComponent(authToken)}`;
 
   const response = await fetch(url, {
     method,
@@ -83,6 +86,13 @@ export default function Admin() {
     newsletters: number[];
     workshops: number[];
   }>({ contacts: [], newsletters: [], workshops: [] });
+
+  // Delete confirmation dialog state
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleteType, setDeleteType] = useState<'contacts' | 'newsletters' | 'workshops' | null>(null);
+  const [deleteIds, setDeleteIds] = useState<number[]>([]);
+  const [developerToken, setDeveloperToken] = useState('');
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -132,14 +142,32 @@ export default function Admin() {
     }
   };
 
-  const handleDelete = async (type: 'contacts' | 'newsletters' | 'workshops', ids: number[]) => {
+  const handleDeleteClick = (type: 'contacts' | 'newsletters' | 'workshops', ids: number[]) => {
     if (ids.length === 0) return;
+    
+    setDeleteType(type);
+    setDeleteIds(ids);
+    setDeveloperToken('');
+    setShowDeleteDialog(true);
+  };
 
+  const handleDeleteConfirm = async () => {
+    if (!deleteType || deleteIds.length === 0 || !developerToken.trim()) {
+      toast({
+        title: language === 'ar' ? 'خطأ في الإدخال' : 'Input Error',
+        description: language === 'ar' ? 'يرجى إدخال رمز المطور' : 'Please enter the developer token',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setDeleteLoading(true);
+    
     try {
-      const endpoint = type === 'contacts' ? '/api/contact' : 
-                      type === 'newsletters' ? '/api/newsletter' : '/api/workshop';
+      const endpoint = deleteType === 'contacts' ? '/api/contact' : 
+                      deleteType === 'newsletters' ? '/api/newsletter' : '/api/workshop';
       
-      const response = await apiRequest('DELETE', endpoint, { ids });
+      const response = await apiRequest('DELETE', endpoint, { ids: deleteIds }, developerToken);
       
       if (response.success) {
         toast({
@@ -151,10 +179,16 @@ export default function Admin() {
         fetchData();
         
         // Clear selections
-        setSelectedItems(prev => ({ ...prev, [type]: [] }));
+        setSelectedItems(prev => ({ ...prev, [deleteType]: [] }));
+        
+        // Close dialog
+        setShowDeleteDialog(false);
+        setDeleteType(null);
+        setDeleteIds([]);
+        setDeveloperToken('');
       }
     } catch (error) {
-      console.error(`Error deleting ${type}:`, error);
+      console.error(`Error deleting ${deleteType}:`, error);
       if (error instanceof Error && error.message === 'Authentication failed') {
         return; // Already redirected to login
       }
@@ -163,6 +197,8 @@ export default function Admin() {
         description: language === 'ar' ? 'فشل في حذف العناصر المحددة' : 'Failed to delete selected items',
         variant: 'destructive',
       });
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -203,6 +239,15 @@ export default function Admin() {
     a.download = filename;
     a.click();
     window.URL.revokeObjectURL(url);
+  };
+
+  const getDeleteTypeLabel = (type: 'contacts' | 'newsletters' | 'workshops') => {
+    switch (type) {
+      case 'contacts': return language === 'ar' ? 'طلبات الاتصال' : 'Contact submissions';
+      case 'newsletters': return language === 'ar' ? 'اشتراكات النشرة الإخبارية' : 'Newsletter subscriptions';
+      case 'workshops': return language === 'ar' ? 'تسجيلات ورش العمل' : 'Workshop registrations';
+      default: return '';
+    }
   };
 
   if (loading) {
@@ -284,7 +329,7 @@ export default function Admin() {
                   <Button
                     variant="destructive"
                     size="sm"
-                    onClick={() => handleDelete('contacts', selectedItems.contacts)}
+                    onClick={() => handleDeleteClick('contacts', selectedItems.contacts)}
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
                     {language === 'ar' ? `حذف (${selectedItems.contacts.length})` : `Delete (${selectedItems.contacts.length})`}
@@ -352,7 +397,7 @@ export default function Admin() {
                   <Button
                     variant="destructive"
                     size="sm"
-                    onClick={() => handleDelete('newsletters', selectedItems.newsletters)}
+                    onClick={() => handleDeleteClick('newsletters', selectedItems.newsletters)}
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
                     {language === 'ar' ? `حذف (${selectedItems.newsletters.length})` : `Delete (${selectedItems.newsletters.length})`}
@@ -416,7 +461,7 @@ export default function Admin() {
                   <Button
                     variant="destructive"
                     size="sm"
-                    onClick={() => handleDelete('workshops', selectedItems.workshops)}
+                    onClick={() => handleDeleteClick('workshops', selectedItems.workshops)}
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
                     {language === 'ar' ? `حذف (${selectedItems.workshops.length})` : `Delete (${selectedItems.workshops.length})`}
@@ -460,6 +505,64 @@ export default function Admin() {
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-red-500" />
+                {language === 'ar' ? 'تأكيد الحذف' : 'Confirm Delete'}
+              </DialogTitle>
+              <DialogDescription>
+                {language === 'ar' 
+                  ? `هل أنت متأكد من حذف ${deleteIds.length} ${getDeleteTypeLabel(deleteType || 'contacts')}؟ هذا الإجراء لا يمكن التراجع عنه.`
+                  : `Are you sure you want to delete ${deleteIds.length} ${getDeleteTypeLabel(deleteType || 'contacts')}? This action cannot be undone.`
+                }
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="developer-token" className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  {language === 'ar' ? 'رمز المطور' : 'Developer Token'} *
+                </Label>
+                <Input
+                  id="developer-token"
+                  type="password"
+                  value={developerToken}
+                  onChange={(e) => setDeveloperToken(e.target.value)}
+                  placeholder={language === 'ar' ? 'أدخل رمز المطور' : 'Enter developer token'}
+                  className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {language === 'ar' 
+                    ? 'أدخل رمز المطور للتأكيد على عملية الحذف'
+                    : 'Enter the developer token to confirm deletion'
+                  }
+                </p>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setShowDeleteDialog(false)}
+                disabled={deleteLoading}
+              >
+                {language === 'ar' ? 'إلغاء' : 'Cancel'}
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={handleDeleteConfirm}
+                disabled={deleteLoading || !developerToken.trim()}
+              >
+                {deleteLoading 
+                  ? (language === 'ar' ? 'جاري الحذف...' : 'Deleting...')
+                  : (language === 'ar' ? 'حذف' : 'Delete')
+                }
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
