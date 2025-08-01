@@ -25,13 +25,13 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
   const paymentText = registration.payment === 'venue' ? 'Venue Payment' : 'Online Payment';
 
   return {
-    subject: 'Workshop Confirmation – August 7th, 4pm-10pm',
+    subject: 'EQ in the Lab Workshop Confirmation – August 7th, 4pm-10pm',
     html: `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="utf-8">
-        <title>Workshop Confirmation</title>
+        <title>EQ in the Lab Workshop Confirmation</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -172,7 +172,7 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
       <body>
         <div class="container">
           <div class="header">
-            <h1>🎉 Workshop Confirmation</h1>
+            <h1>🎉 EQ in the Lab Workshop Confirmation</h1>
           </div>
           
           <div class="content">
@@ -222,7 +222,7 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
       </html>
 `,
     text: `
-Workshop Confirmation – August 7th, 4pm-10pm
+EQ in the Lab Workshop Confirmation – August 7th, 4pm-10pm
 
 Dear ${registration.name},
 
