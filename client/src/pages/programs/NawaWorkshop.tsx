@@ -77,8 +77,9 @@ export default function NawaWorkshop() {
       toast({
         title: language === 'ar' ? 'تم التسجيل بنجاح!' : 'Registration Successful!',
         description: language === 'ar' 
-          ? 'شكراً لك على التسجيل في ورشة العمل. سنتواصل معك قريباً.' 
-          : 'Thank you for registering for the workshop. We will contact you soon.',
+          ? 'شكراً لك على التسجيل في ورشة العمل. يرجى التحقق من بريدك الإلكتروني للحصول على تأكيد التسجيل.' 
+          : 'Thank you for registering for the workshop. Please check your email for registration confirmation.',
+        duration: Infinity,
       });
       form.reset();
       setSelectedBundle('');
@@ -351,7 +352,7 @@ export default function NawaWorkshop() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="name" className={language === 'ar' ? 'text-right' : 'text-left'}>
-                      {language === 'ar' ? 'الاسم' : 'Name'} *
+                      {language === 'ar' ? 'الاسم الكامل' : 'Full Name'} *
                     </Label>
                     <Input
                       id="name"
