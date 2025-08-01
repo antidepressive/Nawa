@@ -4,9 +4,9 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Trash2, Download, RefreshCw, AlertTriangle } from 'lucide-react';
+import { Trash2, Download, RefreshCw, AlertTriangle, LogOut } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
-import { apiRequest } from '../lib/queryClient';
+import { useLocation } from 'wouter';
 
 interface ContactSubmission {
   id: number;
@@ -38,9 +38,42 @@ interface WorkshopRegistration {
   createdAt: string;
 }
 
+// Helper function to make authenticated API requests
+const apiRequest = async (method: string, endpoint: string, data?: any) => {
+  const token = sessionStorage.getItem('adminToken');
+  if (!token) {
+    throw new Error('No authentication token');
+  }
+
+  const url = endpoint.includes('?') 
+    ? `${endpoint}&apiKey=${encodeURIComponent(token)}`
+    : `${endpoint}?apiKey=${encodeURIComponent(token)}`;
+
+  const response = await fetch(url, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: data ? JSON.stringify(data) : undefined,
+  });
+
+  if (!response.ok) {
+    if (response.status === 401 || response.status === 403) {
+      // Clear invalid token and redirect to login
+      sessionStorage.removeItem('adminToken');
+      window.location.href = '/admin/login';
+      throw new Error('Authentication failed');
+    }
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+};
+
 export default function Admin() {
   const { language } = useLanguage();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
   const [newsletterSubscriptions, setNewsletterSubscriptions] = useState<NewsletterSubscription[]>([]);
   const [workshopRegistrations, setWorkshopRegistrations] = useState<WorkshopRegistration[]>([]);
@@ -52,9 +85,25 @@ export default function Admin() {
   }>({ contacts: [], newsletters: [], workshops: [] });
 
   useEffect(() => {
+    // Check if user is authenticated
+    const token = sessionStorage.getItem('adminToken');
+    if (!token) {
+      setLocation('/admin/login');
+      return;
+    }
+
     document.title = 'Admin Dashboard - نَوَاة';
     fetchData();
-  }, []);
+  }, [setLocation]);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('adminToken');
+    setLocation('/admin/login');
+    toast({
+      title: language === 'ar' ? 'تم تسجيل الخروج' : 'Logged Out',
+      description: language === 'ar' ? 'تم تسجيل الخروج بنجاح' : 'Successfully logged out',
+    });
+  };
 
   const fetchData = async () => {
     try {
@@ -70,6 +119,9 @@ export default function Admin() {
       setWorkshopRegistrations(workshops);
     } catch (error) {
       console.error('Error fetching data:', error);
+      if (error instanceof Error && error.message === 'Authentication failed') {
+        return; // Already redirected to login
+      }
       toast({
         title: language === 'ar' ? 'خطأ في تحميل البيانات' : 'Error loading data',
         description: language === 'ar' ? 'فشل في تحميل البيانات من الخادم' : 'Failed to load data from server',
@@ -103,6 +155,9 @@ export default function Admin() {
       }
     } catch (error) {
       console.error(`Error deleting ${type}:`, error);
+      if (error instanceof Error && error.message === 'Authentication failed') {
+        return; // Already redirected to login
+      }
       toast({
         title: language === 'ar' ? 'خطأ في الحذف' : 'Delete error',
         description: language === 'ar' ? 'فشل في حذف العناصر المحددة' : 'Failed to delete selected items',
@@ -166,13 +221,23 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className={`text-3xl font-bold text-gray-900 mb-2 ${language === 'ar' ? 'font-cairo text-right' : 'font-montserrat'}`}>
-            {language === 'ar' ? 'لوحة الإدارة' : 'Admin Dashboard'}
-          </h1>
-          <p className="text-gray-600">
-            {language === 'ar' ? 'إدارة الطلبات والاشتراكات' : 'Manage submissions and subscriptions'}
-          </p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className={`text-3xl font-bold text-gray-900 mb-2 ${language === 'ar' ? 'font-cairo text-right' : 'font-montserrat'}`}>
+              {language === 'ar' ? 'لوحة الإدارة' : 'Admin Dashboard'}
+            </h1>
+            <p className="text-gray-600">
+              {language === 'ar' ? 'إدارة الطلبات والاشتراكات' : 'Manage submissions and subscriptions'}
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={handleLogout}
+            className="flex items-center gap-2"
+          >
+            <LogOut className="w-4 h-4" />
+            {language === 'ar' ? 'تسجيل الخروج' : 'Logout'}
+          </Button>
         </div>
 
         <Tabs defaultValue="contacts" className="space-y-6">
