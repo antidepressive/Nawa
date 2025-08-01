@@ -424,7 +424,7 @@ export default function NawaWorkshop() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="89">
-                          {language === 'ar' ? 'المبكر - 89 ريال' : 'Early Bird – 89 SAR'}
+                          {language === 'ar' ? 'العادي - 89 ريال' : 'Regular – 89 SAR'}
                       </SelectItem>    
                         <SelectItem value="199">
                           {language === 'ar' ? 'باقة ثلاثة أصدقاء - 199 ريال' : 'Three Friends Bundle – 199 SAR'}
