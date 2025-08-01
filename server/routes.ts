@@ -150,11 +150,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const registrations = await storage.getWorkshopRegistrations();
       
-      // Import json2csv dynamically for ESM compatibility
-      const json2csvMod = await import('json2csv');
-      const Parser = json2csvMod.default?.Parser || json2csvMod.Parser;
+      // Import json2csv dynamically
+      const { Parser } = await import('json2csv');
       
-      const csv = new Parser().parse(registrations);
+      const parser = new Parser({
+        fields: [
+          'id',
+          'name',
+          'email',
+          'phone',
+          'payment',
+          'bundle',
+          'friend1Name',
+          'friend1Email',
+          'friend1Phone',
+          'friend2Name',
+          'friend2Email',
+          'friend2Phone',
+          'createdAt'
+        ]
+      });
+      
+      const csv = parser.parse(registrations);
       
       res.setHeader('Content-Type', 'text/csv');
       res.setHeader('Content-Disposition', 'attachment; filename="workshop.csv"');
