@@ -4,7 +4,7 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Trash2, Download, RefreshCw, AlertTriangle, LogOut, Shield } from 'lucide-react';
+import { Trash2, Download, RefreshCw, AlertTriangle, LogOut, Shield, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import { useLocation } from 'wouter';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
@@ -86,6 +86,17 @@ export default function Admin() {
     newsletters: number[];
     workshops: number[];
   }>({ contacts: [], newsletters: [], workshops: [] });
+
+  // Sorting state
+  const [sortOrder, setSortOrder] = useState<{
+    contacts: 'newest' | 'oldest';
+    newsletters: 'newest' | 'oldest';
+    workshops: 'newest' | 'oldest';
+  }>({
+    contacts: 'newest',
+    newsletters: 'newest',
+    workshops: 'newest'
+  });
 
   // Delete confirmation dialog state
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -250,6 +261,28 @@ export default function Admin() {
     }
   };
 
+  // Sort function
+  const sortData = <T extends { createdAt: string }>(data: T[], order: 'newest' | 'oldest'): T[] => {
+    return [...data].sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return order === 'newest' ? dateB - dateA : dateA - dateB;
+    });
+  };
+
+  // Get sorted data
+  const getSortedContacts = () => sortData(contactSubmissions, sortOrder.contacts);
+  const getSortedNewsletters = () => sortData(newsletterSubscriptions, sortOrder.newsletters);
+  const getSortedWorkshops = () => sortData(workshopRegistrations, sortOrder.workshops);
+
+  // Handle sort change
+  const handleSortChange = (type: 'contacts' | 'newsletters' | 'workshops') => {
+    setSortOrder((prev: typeof sortOrder) => ({
+      ...prev,
+      [type]: prev[type] === 'newest' ? 'oldest' : 'newest'
+    }));
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -315,6 +348,18 @@ export default function Admin() {
                 >
                   {language === 'ar' ? 'إلغاء التحديد' : 'Clear'}
                 </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSortChange('contacts')}
+                  className="flex items-center gap-1"
+                >
+                  {sortOrder.contacts === 'newest' ? <ArrowDown className="w-4 h-4" /> : <ArrowUp className="w-4 h-4" />}
+                  {language === 'ar' 
+                    ? (sortOrder.contacts === 'newest' ? 'الأحدث' : 'الأقدم')
+                    : (sortOrder.contacts === 'newest' ? 'Newest' : 'Oldest')
+                  }
+                </Button>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -339,7 +384,7 @@ export default function Admin() {
             </div>
 
             <div className="grid gap-4">
-              {contactSubmissions.map((submission) => (
+              {getSortedContacts().map((submission) => (
                 <Card key={submission.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
@@ -383,6 +428,18 @@ export default function Admin() {
                 >
                   {language === 'ar' ? 'إلغاء التحديد' : 'Clear'}
                 </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSortChange('newsletters')}
+                  className="flex items-center gap-1"
+                >
+                  {sortOrder.newsletters === 'newest' ? <ArrowDown className="w-4 h-4" /> : <ArrowUp className="w-4 h-4" />}
+                  {language === 'ar' 
+                    ? (sortOrder.newsletters === 'newest' ? 'الأحدث' : 'الأقدم')
+                    : (sortOrder.newsletters === 'newest' ? 'Newest' : 'Oldest')
+                  }
+                </Button>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -407,7 +464,7 @@ export default function Admin() {
             </div>
 
             <div className="grid gap-4">
-              {newsletterSubscriptions.map((subscription) => (
+              {getSortedNewsletters().map((subscription) => (
                 <Card key={subscription.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
@@ -447,6 +504,18 @@ export default function Admin() {
                 >
                   {language === 'ar' ? 'إلغاء التحديد' : 'Clear'}
                 </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSortChange('workshops')}
+                  className="flex items-center gap-1"
+                >
+                  {sortOrder.workshops === 'newest' ? <ArrowDown className="w-4 h-4" /> : <ArrowUp className="w-4 h-4" />}
+                  {language === 'ar' 
+                    ? (sortOrder.workshops === 'newest' ? 'الأحدث' : 'الأقدم')
+                    : (sortOrder.workshops === 'newest' ? 'Newest' : 'Oldest')
+                  }
+                </Button>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -471,7 +540,7 @@ export default function Admin() {
             </div>
 
             <div className="grid gap-4">
-              {workshopRegistrations.map((registration) => (
+              {getSortedWorkshops().map((registration) => (
                 <Card key={registration.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
