@@ -4,7 +4,7 @@ import { Badge } from '../../components/ui/badge';
 import { ArrowLeft, Calendar, Users, Target, BookOpen, Globe, Heart, Clock } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
-import backgroundImage from '@assets/nawa-background.png';
+import backgroundImage from '@assets/nawa-background.webp';
 
 export default function NawaCareer() {
   const { t, language, toggleLanguage } = useLanguage();

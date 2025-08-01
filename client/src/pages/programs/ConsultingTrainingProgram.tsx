@@ -2,14 +2,14 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { Calendar, Users, Target, TrendingUp, BookOpen, UserCheck, Presentation, Lightbulb, ArrowLeft, Download, Globe } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Link } from 'wouter';
-import nawaBackground from '@assets/nawa-background.png';
+import nawaBackground from '@assets/nawa-background.webp';
 import ctpPdf from '@assets/CTP-NAWA.pdf';
 import kpmgLogo from '@assets/CTP_Partners/KPMG.webp';
 import pureLogo from '@assets/CTP_Partners/Pure.svg';
 import destinationLogo from '@assets/CTP_Partners/Destination.svg';
-import kafaaLogo from '@assets/CTP_Partners/Kafaa.png';
-import streamsLogo from '@assets/CTP_Partners/Streams.jpg';
-import boostLogo from '@assets/CTP_Partners/boost.png';
+import kafaaLogo from '@assets/CTP_Partners/Kafaa.webp';
+import streamsLogo from '@assets/CTP_Partners/Streams.webp';
+import boostLogo from '@assets/CTP_Partners/boost.webp';
 
 export default function ConsultingTrainingProgram() {
   const { t, language, toggleLanguage } = useLanguage();

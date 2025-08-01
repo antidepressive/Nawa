@@ -14,7 +14,7 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '../../lib/queryClient';
 import { useToast } from '../../hooks/use-toast';
-import backgroundImage from '@assets/nawa-background.png';
+import backgroundImage from '@assets/nawa-background.webp';
 import nawaEQPdf from '@assets/NawaEQ.pdf';
 
 const workshopRegistrationSchema = z.object({

@@ -3,7 +3,7 @@ import { Button } from '../../components/ui/button';
 import { ArrowLeft, Globe } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
-import backgroundImage from '@assets/nawa-background.png';
+import backgroundImage from '@assets/nawa-background.webp';
 
 export default function SaudiMunAssociation() {
   const { t, language, toggleLanguage } = useLanguage();

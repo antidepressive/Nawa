@@ -178,7 +178,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve NAWA background image (developer access only)
   app.get("/api/assets/nawa-background", requireDeveloperAuthQuery, async (req, res) => {
     try {
-      const imagePath = './attached_assets/nawa-background.png';
+      const imagePath = './attached_assets/nawa-background.webp';
       
       // Check if file exists
       const fs = await import('fs');
