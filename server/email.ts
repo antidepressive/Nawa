@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport(emailConfig);
 // Email templates
 export const createWorkshopConfirmationEmail = (registration: WorkshopRegistration) => {
   const bundleText = {
-    '59': 'Regular Bundle (89 SAR)',
+    '89': 'Regular Bundle (89 SAR)',
     '199': 'Three Friends Bundle (199 SAR)'
   }[registration.bundle] || registration.bundle;
 
