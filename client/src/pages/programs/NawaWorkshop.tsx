@@ -22,7 +22,7 @@ const workshopRegistrationSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   phone: z.string().min(10, 'Please enter a valid phone number'),
   payment: z.literal('venue'),
-  bundle: z.enum(['89', '199'], { required_error: 'Please select a bundle' }),
+  bundle: z.enum(['59', '199'], { required_error: 'Please select a bundle' }),
   friend1Name: z.string().optional(),
   friend1Email: z.string().optional(),
   friend1Phone: z.string().optional(),
@@ -414,7 +414,7 @@ export default function NawaWorkshop() {
                     </Label>
                     <Select 
                       onValueChange={(value) => {
-                        form.setValue('bundle', value as '89' | '199');
+                        form.setValue('bundle', value as '59' | '199');
                         setSelectedBundle(value);
                       }}
                       value={form.watch('bundle') || ''}
@@ -423,8 +423,8 @@ export default function NawaWorkshop() {
                         <SelectValue placeholder={language === 'ar' ? 'اختر الباقة' : 'Select bundle'} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="89">
-                          {language === 'ar' ? 'العادي' : 'Regular - 89 SAR'}
+                        <SelectItem value="59">
+                          {language === 'ar' ? 'الطائر المبكر - 59 ريال' : 'Early Bird – 59 SAR'}
                       </SelectItem>    
                         <SelectItem value="199">
                           {language === 'ar' ? 'باقة ثلاثة أصدقاء - 199 ريال' : 'Three Friends Bundle – 199 SAR'}
