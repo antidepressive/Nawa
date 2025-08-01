@@ -91,7 +91,7 @@ export default function Admin() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleteType, setDeleteType] = useState<'contacts' | 'newsletters' | 'workshops' | null>(null);
   const [deleteIds, setDeleteIds] = useState<number[]>([]);
-  const [developerToken, setDeveloperToken] = useState('');
+  const [deleteToken, setDeleteToken] = useState('');
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
@@ -147,15 +147,15 @@ export default function Admin() {
     
     setDeleteType(type);
     setDeleteIds(ids);
-    setDeveloperToken('');
+    setDeleteToken('');
     setShowDeleteDialog(true);
   };
 
   const handleDeleteConfirm = async () => {
-    if (!deleteType || deleteIds.length === 0 || !developerToken.trim()) {
+    if (!deleteType || deleteIds.length === 0 || !deleteToken.trim()) {
       toast({
         title: language === 'ar' ? 'خطأ في الإدخال' : 'Input Error',
-        description: language === 'ar' ? 'يرجى إدخال رمز المطور' : 'Please enter the developer token',
+        description: language === 'ar' ? 'يرجى إدخال رمز الحذف' : 'Please enter the delete token',
         variant: 'destructive',
       });
       return;
@@ -167,7 +167,7 @@ export default function Admin() {
       const endpoint = deleteType === 'contacts' ? '/api/contact' : 
                       deleteType === 'newsletters' ? '/api/newsletter' : '/api/workshop';
       
-      const response = await apiRequest('DELETE', endpoint, { ids: deleteIds }, developerToken);
+      const response = await apiRequest('DELETE', endpoint, { ids: deleteIds }, deleteToken);
       
       if (response.success) {
         toast({
@@ -185,7 +185,7 @@ export default function Admin() {
         setShowDeleteDialog(false);
         setDeleteType(null);
         setDeleteIds([]);
-        setDeveloperToken('');
+        setDeleteToken('');
       }
     } catch (error) {
       console.error(`Error deleting ${deleteType}:`, error);
@@ -524,14 +524,14 @@ export default function Admin() {
             <div className="space-y-4">
               <div>
                 <Label htmlFor="developer-token" className={language === 'ar' ? 'text-right' : 'text-left'}>
-                  {language === 'ar' ? 'رمز المطور' : 'Developer Token'} *
+                  {language === 'ar' ? 'رمز الحذف' : 'Delete Token'} *
                 </Label>
                 <Input
                   id="developer-token"
                   type="password"
-                  value={developerToken}
-                  onChange={(e) => setDeveloperToken(e.target.value)}
-                  placeholder={language === 'ar' ? 'أدخل رمز المطور' : 'Enter developer token'}
+                                  value={deleteToken}
+                onChange={(e) => setDeleteToken(e.target.value)}
+                                      placeholder={language === 'ar' ? 'أدخل رمز الحذف' : 'Enter delete token'}
                   className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
                 />
                 <p className="text-xs text-gray-500 mt-1">
@@ -553,7 +553,7 @@ export default function Admin() {
               <Button
                 variant="destructive"
                 onClick={handleDeleteConfirm}
-                disabled={deleteLoading || !developerToken.trim()}
+                disabled={deleteLoading || !deleteToken.trim()}
               >
                 {deleteLoading 
                   ? (language === 'ar' ? 'جاري الحذف...' : 'Deleting...')

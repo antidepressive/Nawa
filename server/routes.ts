@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { insertContactSubmissionSchema, insertNewsletterSubscriptionSchema, insertWorkshopRegistrationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
-import { requireDeveloperAuth, requireDeveloperAuthQuery } from "./auth";
+import { requireDeveloperAuth, requireDeveloperAuthQuery, requireDeleteAuthQuery } from "./auth";
 import { emailService, createWorkshopConfirmationEmail } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -146,7 +146,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete single contact submission (for admin use)
-  app.delete("/api/contact/:id", requireDeveloperAuthQuery, async (req, res) => {
+  app.delete("/api/contact/:id", requireDeleteAuthQuery, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -166,7 +166,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete multiple contact submissions (for admin use)
-  app.delete("/api/contact", requireDeveloperAuthQuery, async (req, res) => {
+  app.delete("/api/contact", requireDeleteAuthQuery, async (req, res) => {
     try {
       const { ids } = req.body;
       if (!Array.isArray(ids) || ids.length === 0) {
@@ -186,7 +186,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete single newsletter subscription (for admin use)
-  app.delete("/api/newsletter/:id", requireDeveloperAuthQuery, async (req, res) => {
+  app.delete("/api/newsletter/:id", requireDeleteAuthQuery, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -206,7 +206,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete multiple newsletter subscriptions (for admin use)
-  app.delete("/api/newsletter", requireDeveloperAuthQuery, async (req, res) => {
+  app.delete("/api/newsletter", requireDeleteAuthQuery, async (req, res) => {
     try {
       const { ids } = req.body;
       if (!Array.isArray(ids) || ids.length === 0) {
@@ -226,7 +226,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete single workshop registration (for admin use)
-  app.delete("/api/workshop/:id", requireDeveloperAuthQuery, async (req, res) => {
+  app.delete("/api/workshop/:id", requireDeleteAuthQuery, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -246,7 +246,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete multiple workshop registrations (for admin use)
-  app.delete("/api/workshop", requireDeveloperAuthQuery, async (req, res) => {
+  app.delete("/api/workshop", requireDeleteAuthQuery, async (req, res) => {
     try {
       const { ids } = req.body;
       if (!Array.isArray(ids) || ids.length === 0) {
