@@ -145,6 +145,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get workshop registrations as CSV (for admin use)
+  app.get("/api/workshop.csv", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const registrations = await storage.getWorkshopRegistrations();
+      
+      // Import json2csv dynamically
+      const { Parser } = await import('json2csv');
+      
+      const parser = new Parser({
+        fields: [
+          'id',
+          'name',
+          'email',
+          'phone',
+          'payment',
+          'bundle',
+          'friend1Name',
+          'friend1Email',
+          'friend1Phone',
+          'friend2Name',
+          'friend2Email',
+          'friend2Phone',
+          'createdAt'
+        ]
+      });
+      
+      const csv = parser.parse(registrations);
+      
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="workshop.csv"');
+      res.send(csv);
+    } catch (error) {
+      console.error(`Error generating workshop CSV: ${error}`);
+      res.status(500).json({ error: "Failed to generate workshop CSV" });
+    }
+  });
+
   // Preview email template (developer access only)
   app.get("/api/preview-email", requireDeveloperAuthQuery, async (req, res) => {
     try {
