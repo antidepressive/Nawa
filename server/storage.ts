@@ -79,7 +79,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getWorkshopRegistrations(): Promise<WorkshopRegistration[]> {
-    return await db.select().from(workshopRegistrations).orderBy(workshopRegistrations.createdAt);
+    return await db.select().from(workshopRegistrations).orderBy(workshopRegistrations.createdAt.desc());
   }
 }
 
