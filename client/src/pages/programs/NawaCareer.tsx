@@ -171,11 +171,12 @@ export default function NawaCareer() {
                   </div>
                   
                   <div className={`flex flex-col sm:flex-row gap-3 ${language === 'ar' ? 'sm:justify-end' : 'sm:justify-start'}`}>
-                    <Link href="/programs/nawa-workshop">
-                      <Button className="bg-green-600 hover:bg-green-700 text-white">
-                        {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
-                      </Button>
-                    </Link>
+                    <Button 
+                      onClick={navigateToContact}
+                      className="bg-green-600 hover:bg-green-700 text-white"
+                    >
+                      {language === 'ar' ? 'سجل الآن' : 'Register Now'}
+                    </Button>
                   </div>
                 </div>
               </div>
