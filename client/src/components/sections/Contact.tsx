@@ -265,7 +265,8 @@ export const Contact = () => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">{t("contact.phone")}</Label>
-                                     <Input
+
+                   <Input
                      id="phone"
                      type="tel"
                      value={formData.phone}

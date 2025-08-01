@@ -14,21 +14,87 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '../../lib/queryClient';
 import { useToast } from '../../hooks/use-toast';
-import backgroundImage from '@assets/nawa-background.png';
+import backgroundImage from '@assets/nawa-background.webp';
 import nawaEQPdf from '@assets/NawaEQ.pdf';
+
+// Custom Phone Input Component
+const PhoneInput = ({ 
+  id, 
+  value, 
+  onChange, 
+  onBlur, 
+  className, 
+  placeholder, 
+  error 
+}: {
+  id: string;
+  value: string;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
+  className?: string;
+  placeholder?: string;
+  error?: string;
+}) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    
+    // Remove any non-digit characters and spaces
+    const cleaned = input.replace(/[^\d]/g, '');
+    
+    // If the input doesn't start with 966, add it
+    if (!cleaned.startsWith('966')) {
+      onChange(`966${cleaned}`);
+    } else {
+      onChange(cleaned);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Prevent backspace from deleting the 966 prefix
+    if (e.key === 'Backspace' && value === '966') {
+      e.preventDefault();
+    }
+  };
+
+  return (
+    <div>
+      <Input
+        id={id}
+        value={value || '966'}
+        onChange={handleChange}
+        onBlur={onBlur}
+        onKeyDown={handleKeyDown}
+        className={className}
+        placeholder={placeholder}
+      />
+      {error && (
+        <p className="text-red-500 text-sm mt-1">{error}</p>
+      )}
+    </div>
+  );
+};
 
 const workshopRegistrationSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(10, 'Please enter a valid phone number'),
+  phone: z.string().min(12, 'Please enter a valid phone number').refine(
+    (phone) => phone.startsWith('966') && phone.length >= 12,
+    'Phone number must start with 966 and be at least 9 digits after the prefix'
+  ),
   payment: z.literal('venue'),
   bundle: z.enum(['89', '199'], { required_error: 'Please select a bundle' }),
   friend1Name: z.string().optional(),
   friend1Email: z.string().optional(),
-  friend1Phone: z.string().optional(),
+  friend1Phone: z.string().optional().refine(
+    (phone) => !phone || (phone.startsWith('966') && phone.length >= 12),
+    'Phone number must start with 966 and be at least 9 digits after the prefix'
+  ),
   friend2Name: z.string().optional(),
   friend2Email: z.string().optional(),
-  friend2Phone: z.string().optional(),
+  friend2Phone: z.string().optional().refine(
+    (phone) => !phone || (phone.startsWith('966') && phone.length >= 12),
+    'Phone number must start with 966 and be at least 9 digits after the prefix'
+  ),
 }).refine((data) => {
   if (data.bundle === '199') {
     return data.friend1Name && data.friend1Email && data.friend1Phone && 
@@ -58,15 +124,15 @@ export default function NawaWorkshop() {
     defaultValues: {
       name: '',
       email: '',
-      phone: '',
+      phone: '966',
       payment: 'venue',
       bundle: undefined,
       friend1Name: '',
       friend1Email: '',
-      friend1Phone: '',
+      friend1Phone: '966',
       friend2Name: '',
       friend2Email: '',
-      friend2Phone: '',
+      friend2Phone: '966',
     }
   });
 
@@ -386,15 +452,15 @@ export default function NawaWorkshop() {
                   <Label htmlFor="phone" className={language === 'ar' ? 'text-right' : 'text-left'}>
                     {language === 'ar' ? 'رقم الهاتف' : 'Phone Number'} *
                   </Label>
-                  <Input
+                  <PhoneInput
                     id="phone"
-                    {...form.register('phone')}
+                    value={form.watch('phone') || ''}
+                    onChange={(value) => form.setValue('phone', value)}
+                    onBlur={form.handleBlur}
                     className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                    error={form.formState.errors.phone?.message}
                     placeholder={language === 'ar' ? '+966xxxxxxxxx' : '+966xxxxxxxxx'}
                   />
-                  {form.formState.errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">{form.formState.errors.phone.message}</p>
-                  )}
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
@@ -425,7 +491,7 @@ export default function NawaWorkshop() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="89">
-                          {language === 'ar' ? 'العادي' : 'Regular - 89 SAR'}
+                          {language === 'ar' ? 'العادي - 89 ريال' : 'Regular – 89 SAR'}
                       </SelectItem>    
                         <SelectItem value="199">
                           {language === 'ar' ? 'باقة ثلاثة أصدقاء - 199 ريال' : 'Three Friends Bundle – 199 SAR'}
@@ -478,10 +544,13 @@ export default function NawaWorkshop() {
                           <Label htmlFor="friend1Phone" className={language === 'ar' ? 'text-right' : 'text-left'}>
                             {language === 'ar' ? 'رقم الهاتف' : 'Phone'} *
                           </Label>
-                          <Input
+                          <PhoneInput
                             id="friend1Phone"
-                            {...form.register('friend1Phone')}
+                            value={form.watch('friend1Phone') || ''}
+                            onChange={(value) => form.setValue('friend1Phone', value)}
+                            onBlur={form.handleBlur}
                             className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                            error={form.formState.errors.friend1Phone?.message}
                             placeholder={language === 'ar' ? '+966xxxxxxxxx' : '+966xxxxxxxxx'}
                           />
                         </div>
@@ -521,10 +590,13 @@ export default function NawaWorkshop() {
                           <Label htmlFor="friend2Phone" className={language === 'ar' ? 'text-right' : 'text-left'}>
                             {language === 'ar' ? 'رقم الهاتف' : 'Phone'} *
                           </Label>
-                          <Input
+                          <PhoneInput
                             id="friend2Phone"
-                            {...form.register('friend2Phone')}
+                            value={form.watch('friend2Phone') || ''}
+                            onChange={(value) => form.setValue('friend2Phone', value)}
+                            onBlur={form.handleBlur}
                             className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                            error={form.formState.errors.friend2Phone?.message}
                             placeholder={language === 'ar' ? '+966xxxxxxxxx' : '+966xxxxxxxxx'}
                           />
                         </div>
