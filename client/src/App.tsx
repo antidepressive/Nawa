@@ -17,6 +17,20 @@ import SaudiMunAssociation from "./pages/programs/SaudiMunAssociation";
 import ConsultingTrainingProgram from "./pages/programs/ConsultingTrainingProgram";
 import NawaWorkshop from "./pages/programs/NawaWorkshop";
 import Admin from "./pages/Admin";
+import AdminLogin from "./pages/AdminLogin";
+
+// Protected Admin Route Component
+function ProtectedAdminRoute() {
+  const token = sessionStorage.getItem('adminToken');
+  
+  if (!token) {
+    // Redirect to login
+    window.location.href = '/admin/login';
+    return null;
+  }
+  
+  return <Admin />;
+}
 
 function Router() {
   // Track page views when routes change
@@ -32,7 +46,8 @@ function Router() {
       <Route path="/programs/saudi-mun-association" component={SaudiMunAssociation} />
       <Route path="/programs/consulting-training-program" component={ConsultingTrainingProgram} />
       <Route path="/programs/nawa-workshop" component={NawaWorkshop} />
-      <Route path="/admin" component={Admin} />
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin" component={ProtectedAdminRoute} />
       <Route component={NotFound} />
     </Switch>
   );
