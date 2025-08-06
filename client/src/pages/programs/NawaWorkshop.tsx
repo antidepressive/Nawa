@@ -290,10 +290,10 @@ export default function NawaWorkshop() {
                   <Button 
                     size="lg" 
                     variant="outline"
-                    className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-8 py-4 text-lg font-semibold flex items-center gap-2"
-                    onClick={() => document.getElementById('registration-form')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="border-gray-400 text-gray-500 cursor-not-allowed px-8 py-4 text-lg font-semibold flex items-center gap-2"
+                    disabled
                   >
-                    <span>{language === 'ar' ? 'سجل الآن' : 'Register Now'}</span>
+                    <span>{language === 'ar' ? 'التسجيل مغلق' : 'Registration Closed'}</span>
                   </Button>
                 </div>
               </div>
@@ -407,14 +407,22 @@ export default function NawaWorkshop() {
                 <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
                   {language === 'ar' ? 'التسجيل في الورشة' : 'Workshop Registration'}
                 </h2>
-                <p className="text-lg text-gray-700">
-                  {language === 'ar' 
-                    ? 'املأ النموذج أدناه للتسجيل في ورشة العمل'
-                    : 'Fill out the form below to register for the workshop'
-                  }
-                </p>
+                <div className="bg-gray-100 border border-gray-300 rounded-lg p-4 mb-6">
+                  <p className="text-lg text-gray-600 font-medium">
+                    {language === 'ar' 
+                      ? 'التسجيل مغلق حاليًا'
+                      : 'Registration is currently closed'
+                    }
+                  </p>
+                  <p className="text-gray-500">
+                    {language === 'ar' 
+                      ? 'شكراً لاهتمامكم. التسجيل لهذه الورشة مغلق حالياً.'
+                      : 'Thank you for your interest. Registration for this workshop is currently closed.'
+                    }
+                  </p>
+                </div>
               </div>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 opacity-50 pointer-events-none">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="name" className={language === 'ar' ? 'text-right' : 'text-left'}>
@@ -612,12 +620,8 @@ export default function NawaWorkshop() {
                   type="submit" 
                   className="w-full bg-primary hover:bg-blue-700 text-white py-3"
                   disabled={registrationMutation.isPending}
-
                 >
-                  {registrationMutation.isPending
-                    ? (language === 'ar' ? 'جاري التسجيل...' : 'Registering...')
-                    : (language === 'ar' ? 'سجل الآن' : 'Register Now')
-                  }
+                  {language === 'ar' ? 'التسجيل مغلق' : 'Registration Closed'}
                 </Button>
               </form>
             </CardContent>
