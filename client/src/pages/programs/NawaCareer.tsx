@@ -176,6 +176,13 @@ export default function NawaCareer() {
                         {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
                       </Button>
                     </Link>
+                    <Button 
+                      variant="outline" 
+                      className="border-gray-400 text-gray-500 cursor-not-allowed"
+                      disabled
+                    >
+                      {language === 'ar' ? 'التسجيل مغلق' : 'Registration Closed'}
+                    </Button>
                   </div>
                 </div>
               </div>
