@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { insertContactSubmissionSchema, insertNewsletterSubscriptionSchema, insertWorkshopRegistrationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
-import { requireDeveloperAuth, requireDeveloperAuthQuery } from "./auth";
+import { requireDeveloperAuth, requireDeveloperAuthQuery, requireDeleteAuthQuery } from "./auth";
 import { emailService, createWorkshopConfirmationEmail } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -145,23 +145,123 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get workshop registrations as CSV (for admin use)
-  app.get("/api/workshop.csv", requireDeveloperAuthQuery, async (req, res) => {
+  // Delete single contact submission (for admin use)
+  app.delete("/api/contact/:id", requireDeleteAuthQuery, async (req, res) => {
     try {
-      const registrations = await storage.getWorkshopRegistrations();
-      
-      // Import json2csv dynamically for ESM compatibility
-      const json2csvMod = await import('json2csv');
-      const Parser = json2csvMod.default?.Parser || json2csvMod.Parser;
-      
-      const csv = new Parser().parse(registrations);
-      
-      res.setHeader('Content-Type', 'text/csv');
-      res.setHeader('Content-Disposition', 'attachment; filename="workshop.csv"');
-      res.send(csv);
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      const deleted = await storage.deleteContactSubmission(id);
+      if (deleted) {
+        res.json({ success: true, message: "Contact submission deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Contact submission not found" });
+      }
     } catch (error) {
-      console.error(`Error generating workshop CSV: ${error}`);
-      res.status(500).json({ error: "Failed to generate workshop CSV" });
+      console.error(`Error deleting contact submission: ${error}`);
+      res.status(500).json({ error: "Failed to delete contact submission" });
+    }
+  });
+
+  // Delete multiple contact submissions (for admin use)
+  app.delete("/api/contact", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "Invalid IDs array" });
+      }
+
+      const deletedCount = await storage.deleteContactSubmissions(ids);
+      res.json({ 
+        success: true, 
+        message: `${deletedCount} contact submission(s) deleted successfully`,
+        deletedCount 
+      });
+    } catch (error) {
+      console.error(`Error deleting contact submissions: ${error}`);
+      res.status(500).json({ error: "Failed to delete contact submissions" });
+    }
+  });
+
+  // Delete single newsletter subscription (for admin use)
+  app.delete("/api/newsletter/:id", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      const deleted = await storage.deleteNewsletterSubscription(id);
+      if (deleted) {
+        res.json({ success: true, message: "Newsletter subscription deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Newsletter subscription not found" });
+      }
+    } catch (error) {
+      console.error(`Error deleting newsletter subscription: ${error}`);
+      res.status(500).json({ error: "Failed to delete newsletter subscription" });
+    }
+  });
+
+  // Delete multiple newsletter subscriptions (for admin use)
+  app.delete("/api/newsletter", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "Invalid IDs array" });
+      }
+
+      const deletedCount = await storage.deleteNewsletterSubscriptions(ids);
+      res.json({ 
+        success: true, 
+        message: `${deletedCount} newsletter subscription(s) deleted successfully`,
+        deletedCount 
+      });
+    } catch (error) {
+      console.error(`Error deleting newsletter subscriptions: ${error}`);
+      res.status(500).json({ error: "Failed to delete newsletter subscriptions" });
+    }
+  });
+
+  // Delete single workshop registration (for admin use)
+  app.delete("/api/workshop/:id", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      const deleted = await storage.deleteWorkshopRegistration(id);
+      if (deleted) {
+        res.json({ success: true, message: "Workshop registration deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Workshop registration not found" });
+      }
+    } catch (error) {
+      console.error(`Error deleting workshop registration: ${error}`);
+      res.status(500).json({ error: "Failed to delete workshop registration" });
+    }
+  });
+
+  // Delete multiple workshop registrations (for admin use)
+  app.delete("/api/workshop", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "Invalid IDs array" });
+      }
+
+      const deletedCount = await storage.deleteWorkshopRegistrations(ids);
+      res.json({ 
+        success: true, 
+        message: `${deletedCount} workshop registration(s) deleted successfully`,
+        deletedCount 
+      });
+    } catch (error) {
+      console.error(`Error deleting workshop registrations: ${error}`);
+      res.status(500).json({ error: "Failed to delete workshop registrations" });
     }
   });
 
@@ -198,7 +298,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve NAWA background image (developer access only)
   app.get("/api/assets/nawa-background", requireDeveloperAuthQuery, async (req, res) => {
     try {
-      const imagePath = './attached_assets/nawa-background.png';
+      const imagePath = './attached_assets/nawa-background.webp';
       
       // Check if file exists
       const fs = await import('fs');

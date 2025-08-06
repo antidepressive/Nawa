@@ -4,7 +4,7 @@ import { Badge } from '../../components/ui/badge';
 import { ArrowLeft, Calendar, Users, Target, BookOpen, Globe, Heart, Clock } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
-import backgroundImage from '@assets/nawa-background.png';
+import backgroundImage from '@assets/nawa-background.webp';
 
 export default function NawaCareer() {
   const { t, language, toggleLanguage } = useLanguage();
@@ -144,8 +144,8 @@ export default function NawaCareer() {
                   
                   <p className={`text-gray-600 mb-4 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                     {language === 'ar' 
-                      ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 10 ورش عمل ديناميكية، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
-                      : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 10 dynamic workshops, you\'ll gain practical tools to better understand yourself and connect with others.'
+                      ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 10 تحديات ديناميكية، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
+                      : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 10 dynamic challenges, you\'ll gain practical tools to better understand yourself and connect with others.'
                     }
                   </p>
                   
@@ -173,7 +173,7 @@ export default function NawaCareer() {
                   <div className={`flex flex-col sm:flex-row gap-3 ${language === 'ar' ? 'sm:justify-end' : 'sm:justify-start'}`}>
                     <Link href="/programs/nawa-workshop">
                       <Button className="bg-green-600 hover:bg-green-700 text-white">
-                        {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
+                        {language === 'ar' ? 'سجل الآن' : 'Register Now'}
                       </Button>
                     </Link>
                     <Button 

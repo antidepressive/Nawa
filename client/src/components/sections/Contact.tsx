@@ -31,7 +31,7 @@ export const Contact = () => {
     name: "",
     organization: "",
     email: "",
-    phone: "+966",
+    phone: "966",
     interest: "",
     message: "",
   });
@@ -44,19 +44,22 @@ export const Contact = () => {
   };
 
   const validatePhone = (phone: string): boolean => {
-    const phoneRegex = /^\+966[5-9]\d{8}$/;
+    const phoneRegex = /^966[5-9]\d{8}$/;
     return phoneRegex.test(phone);
   };
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     if (field === "phone") {
-      // Ensure phone always starts with +966 and only accept digits after
+      // Ensure phone always starts with 966 and only accept digits after
       let phoneValue = value;
-      if (!phoneValue.startsWith("+966")) {
-        phoneValue = "+966" + phoneValue.replace(/^\+966/, "").replace(/\D/g, "");
+      // Remove any non-digit characters and spaces
+      phoneValue = phoneValue.replace(/[^\d]/g, "");
+      
+      if (!phoneValue.startsWith("966")) {
+        phoneValue = "966" + phoneValue.replace(/^966/, "");
       } else {
-        // Keep +966 and only allow digits after it
-        phoneValue = "+966" + phoneValue.substring(4).replace(/\D/g, "");
+        // Keep 966 and only allow digits after it
+        phoneValue = "966" + phoneValue.substring(3);
       }
       setFormData((prev) => ({ ...prev, [field]: phoneValue }));
     } else {
@@ -86,7 +89,7 @@ export const Contact = () => {
     }
     
     if (formData.phone && !validatePhone(formData.phone)) {
-      newErrors.phone = "Phone number must be in format +966xxxxxxxxx";
+      newErrors.phone = "Phone number must be in format 966xxxxxxxxx";
     }
     
     if (!formData.interest) {
@@ -130,7 +133,7 @@ export const Contact = () => {
         name: "",
         organization: "",
         email: "",
-        phone: "+966",
+        phone: "966",
         interest: "",
         message: "",
       });
@@ -262,15 +265,16 @@ export const Contact = () => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">{t("contact.phone")}</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleInputChange("phone", e.target.value)}
-                    placeholder="+966"
-                    disabled={isSubmitting}
-                    className={errors.phone ? "border-red-500" : ""}
-                  />
+
+                   <Input
+                     id="phone"
+                     type="tel"
+                     value={formData.phone}
+                     onChange={(e) => handleInputChange("phone", e.target.value)}
+                     placeholder="966"
+                     disabled={isSubmitting}
+                     className={errors.phone ? "border-red-500" : ""}
+                   />
                   {errors.phone && (
                     <p className="text-red-500 text-sm">{errors.phone}</p>
                   )}

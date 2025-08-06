@@ -14,21 +14,87 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '../../lib/queryClient';
 import { useToast } from '../../hooks/use-toast';
-import backgroundImage from '@assets/nawa-background.png';
+import backgroundImage from '@assets/nawa-background.webp';
 import nawaEQPdf from '@assets/NawaEQ.pdf';
+
+// Custom Phone Input Component
+const PhoneInput = ({ 
+  id, 
+  value, 
+  onChange, 
+  onBlur, 
+  className, 
+  placeholder, 
+  error 
+}: {
+  id: string;
+  value: string;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
+  className?: string;
+  placeholder?: string;
+  error?: string;
+}) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    
+    // Remove any non-digit characters and spaces
+    const cleaned = input.replace(/[^\d]/g, '');
+    
+    // If the input doesn't start with 966, add it
+    if (!cleaned.startsWith('966')) {
+      onChange(`966${cleaned}`);
+    } else {
+      onChange(cleaned);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Prevent backspace from deleting the 966 prefix
+    if (e.key === 'Backspace' && value === '966') {
+      e.preventDefault();
+    }
+  };
+
+  return (
+    <div>
+      <Input
+        id={id}
+        value={value || ''}
+        onChange={handleChange}
+        onBlur={onBlur}
+        onKeyDown={handleKeyDown}
+        className={className}
+        placeholder={placeholder}
+      />
+      {error && (
+        <p className="text-red-500 text-sm mt-1">{error}</p>
+      )}
+    </div>
+  );
+};
 
 const workshopRegistrationSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(10, 'Please enter a valid phone number'),
+  phone: z.string().min(1, 'Phone number is required').refine(
+    (phone) => phone.startsWith('966') && phone.length >= 12,
+    'Phone number must start with 966 and be at least 9 digits after the prefix'
+  ),
   payment: z.literal('venue'),
-  bundle: z.enum(['89', '199'], { required_error: 'Please select a bundle' }),
+  bundle: z.enum(['89', '199']),
   friend1Name: z.string().optional(),
   friend1Email: z.string().optional(),
-  friend1Phone: z.string().optional(),
+  friend1Phone: z.string().optional().refine(
+    (phone) => !phone || phone === '' || (phone.startsWith('966') && phone.length >= 12),
+    'Phone number must start with 966 and be at least 9 digits after the prefix'
+  ),
   friend2Name: z.string().optional(),
   friend2Email: z.string().optional(),
-  friend2Phone: z.string().optional(),
+  friend2Phone: z.string().optional().refine(
+    (phone) => !phone || phone === '' || (phone.startsWith('966') && phone.length >= 12),
+    'Phone number must start with 966 and be at least 9 digits after the prefix'
+  ),
 }).refine((data) => {
   if (data.bundle === '199') {
     return data.friend1Name && data.friend1Email && data.friend1Phone && 
@@ -45,7 +111,7 @@ type WorkshopRegistrationForm = z.infer<typeof workshopRegistrationSchema>;
 export default function NawaWorkshop() {
   const { t, language, toggleLanguage } = useLanguage();
   const [, setLocation] = useLocation();
-  const [selectedBundle, setSelectedBundle] = useState<string>('');
+  const [selectedBundle, setSelectedBundle] = useState<string>('89');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -60,7 +126,7 @@ export default function NawaWorkshop() {
       email: '',
       phone: '',
       payment: 'venue',
-      bundle: undefined,
+      bundle: '89' as '89' | '199',
       friend1Name: '',
       friend1Email: '',
       friend1Phone: '',
@@ -77,8 +143,9 @@ export default function NawaWorkshop() {
       toast({
         title: language === 'ar' ? 'تم التسجيل بنجاح!' : 'Registration Successful!',
         description: language === 'ar' 
-          ? 'شكراً لك على التسجيل في ورشة العمل. سنتواصل معك قريباً.' 
-          : 'Thank you for registering for the workshop. We will contact you soon.',
+          ? 'شكراً لك على التسجيل في ورشة العمل. يرجى التحقق من بريدك الإلكتروني للحصول على تأكيد التسجيل.' 
+          : 'Thank you for registering for the workshop. Please check your email for registration confirmation.',
+        duration: Infinity,
       });
       form.reset();
       setSelectedBundle('');
@@ -186,8 +253,8 @@ export default function NawaWorkshop() {
                 
                 <p className={`text-gray-600 mb-4 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                   {language === 'ar' 
-                    ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 10 مهام ديناميكية، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
-                    : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 10 dynamic tasks, you\'ll gain practical tools to better understand yourself and connect with others.'
+                    ? 'ورشة عمل مكثفة ليوم واحد تركز على بناء الوعي الذاتي والتعاطف والقيادة العاطفية. من خلال 10 تحديات ديناميكية، ستحصل على أدوات عملية لفهم نفسك بشكل أفضل والتواصل مع الآخرين.'
+                    : 'A one-day immersive workshop focused on building self-awareness, empathy, and emotional leadership. Through 10 dynamic challenges, you\'ll gain practical tools to better understand yourself and connect with others.'
                   }
                 </p>
                 
@@ -201,7 +268,7 @@ export default function NawaWorkshop() {
                   <div className="flex items-center gap-2 text-green-600">
                     <Users className="w-4 h-4" />
                                          <span className="text-sm font-medium">
-                       {language === 'ar' ? '10 مهام ديناميكية' : '10 dynamic tasks'}
+                       {language === 'ar' ? '10 تحديات ديناميكية' : '10 dynamic challenges'}
                      </span>
                   </div>
                   <div className="flex items-center gap-2 text-green-600">
@@ -359,7 +426,7 @@ export default function NawaWorkshop() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="name" className={language === 'ar' ? 'text-right' : 'text-left'}>
-                      {language === 'ar' ? 'الاسم' : 'Name'} *
+                      {language === 'ar' ? 'الاسم الكامل' : 'Full Name'} *
                     </Label>
                     <Input
                       id="name"
@@ -393,15 +460,15 @@ export default function NawaWorkshop() {
                   <Label htmlFor="phone" className={language === 'ar' ? 'text-right' : 'text-left'}>
                     {language === 'ar' ? 'رقم الهاتف' : 'Phone Number'} *
                   </Label>
-                  <Input
+                  <PhoneInput
                     id="phone"
-                    {...form.register('phone')}
+                    value={form.watch('phone') || ''}
+                    onChange={(value) => form.setValue('phone', value)}
+                    onBlur={form.handleBlur}
                     className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                    error={form.formState.errors.phone?.message}
                     placeholder={language === 'ar' ? '+966xxxxxxxxx' : '+966xxxxxxxxx'}
                   />
-                  {form.formState.errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">{form.formState.errors.phone.message}</p>
-                  )}
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
@@ -425,14 +492,14 @@ export default function NawaWorkshop() {
                         form.setValue('bundle', value as '89' | '199');
                         setSelectedBundle(value);
                       }}
-                      value={form.watch('bundle') || ''}
+                      value={form.watch('bundle') || '89'}
                     >
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder={language === 'ar' ? 'اختر الباقة' : 'Select bundle'} />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="89">
-                          {language === 'ar' ? 'العادي' : 'Regular - 89 SAR'}
+                          {language === 'ar' ? 'العادي - 89 ريال' : 'Regular – 89 SAR'}
                       </SelectItem>    
                         <SelectItem value="199">
                           {language === 'ar' ? 'باقة ثلاثة أصدقاء - 199 ريال' : 'Three Friends Bundle – 199 SAR'}
@@ -485,10 +552,13 @@ export default function NawaWorkshop() {
                           <Label htmlFor="friend1Phone" className={language === 'ar' ? 'text-right' : 'text-left'}>
                             {language === 'ar' ? 'رقم الهاتف' : 'Phone'} *
                           </Label>
-                          <Input
+                          <PhoneInput
                             id="friend1Phone"
-                            {...form.register('friend1Phone')}
+                            value={form.watch('friend1Phone') || ''}
+                            onChange={(value) => form.setValue('friend1Phone', value)}
+                            onBlur={form.handleBlur}
                             className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                            error={form.formState.errors.friend1Phone?.message}
                             placeholder={language === 'ar' ? '+966xxxxxxxxx' : '+966xxxxxxxxx'}
                           />
                         </div>
@@ -528,10 +598,13 @@ export default function NawaWorkshop() {
                           <Label htmlFor="friend2Phone" className={language === 'ar' ? 'text-right' : 'text-left'}>
                             {language === 'ar' ? 'رقم الهاتف' : 'Phone'} *
                           </Label>
-                          <Input
+                          <PhoneInput
                             id="friend2Phone"
-                            {...form.register('friend2Phone')}
+                            value={form.watch('friend2Phone') || ''}
+                            onChange={(value) => form.setValue('friend2Phone', value)}
+                            onBlur={form.handleBlur}
                             className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                            error={form.formState.errors.friend2Phone?.message}
                             placeholder={language === 'ar' ? '+966xxxxxxxxx' : '+966xxxxxxxxx'}
                           />
                         </div>
@@ -545,8 +618,8 @@ export default function NawaWorkshop() {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-gray-400 text-gray-200 cursor-not-allowed py-3"
-                  disabled
+                  className="w-full bg-primary hover:bg-blue-700 text-white py-3"
+                  disabled={registrationMutation.isPending}
                 >
                   {language === 'ar' ? 'التسجيل مغلق' : 'Registration Closed'}
                 </Button>
