@@ -77,51 +77,18 @@ export default function NawaCareer() {
       {/* Program Overview */}
       <section className="py-16">
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-          <div className="mb-12 bg-white/95 backdrop-blur-sm rounded-xl p-8">
-            <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {t('career.heroTitle')}
-            </h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              {t('career.heroDescription')}
-            </p>
-          </div>
-
-          {/* Program Outcomes */}
-          <div className="mb-12 bg-white/95 backdrop-blur-sm rounded-xl p-8">
-            <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
-              {t('career.outcomesTitle')}
-            </h3>
-            <ul className="space-y-4">
-              <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
-                <span className="text-gray-700">
-                  {t('career.outcome1')}
-                </span>
-              </li>
-              <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
-                <span className="text-gray-700">
-                  {t('career.outcome2')}
-                </span>
-              </li>
-              <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
-                <span className="text-gray-700">
-                  {t('career.outcome3')}
-                </span>
-              </li>
-              <li className={`flex items-start ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0 ${language === 'ar' ? 'ml-4' : 'mr-4'}`}></div>
-                <span className="text-gray-700">
-                  {t('career.outcome4')}
-                </span>
-              </li>
-            </ul>
-          </div>
+                     <div className="mb-8 bg-white/95 backdrop-blur-sm rounded-xl p-8">
+             <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
+               {t('career.heroTitle')}
+             </h2>
+             <p className="text-lg text-gray-700 leading-relaxed">
+               {t('career.heroDescription')}
+             </p>
+           </div>
 
                      {/* Current Programs */}
-           <div className="mb-12">
-             <h3 className={`font-bold text-2xl text-white mb-8 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
+           <div className="mb-8">
+             <h3 className={`font-bold text-2xl text-white mb-6 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
                {language === 'ar' ? 'البرامج الحالية' : 'Current Programs'}
              </h3>
              
