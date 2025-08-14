@@ -3,6 +3,11 @@ import {
   contactSubmissions, 
   newsletterSubscriptions,
   workshopRegistrations,
+  accounts,
+  categories,
+  transactions,
+  budgets,
+  userSettings,
   type User, 
   type InsertUser,
   type ContactSubmission,
@@ -10,7 +15,17 @@ import {
   type NewsletterSubscription,
   type InsertNewsletterSubscription,
   type WorkshopRegistration,
-  type InsertWorkshopRegistration
+  type InsertWorkshopRegistration,
+  type Account,
+  type InsertAccount,
+  type Category,
+  type InsertCategory,
+  type Transaction,
+  type InsertTransaction,
+  type Budget,
+  type InsertBudget,
+  type UserSettings,
+  type InsertUserSettings
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, sql } from "drizzle-orm";
@@ -23,7 +38,7 @@ export interface IStorage {
   createNewsletterSubscription(subscription: InsertNewsletterSubscription): Promise<NewsletterSubscription>;
   createWorkshopRegistration(registration: InsertWorkshopRegistration): Promise<WorkshopRegistration>;
   getContactSubmissions(): Promise<ContactSubmission[]>;
-  getNewsletterSubscriptions(): Promise<NewsletterSubscription[]>;
+  getNewsletterSubmissions(): Promise<NewsletterSubscription[]>;
   getWorkshopRegistrations(): Promise<WorkshopRegistration[]>;
   // Delete methods
   deleteContactSubmission(id: number): Promise<boolean>;
@@ -33,6 +48,27 @@ export interface IStorage {
   deleteContactSubmissions(ids: number[]): Promise<number>;
   deleteNewsletterSubscriptions(ids: number[]): Promise<number>;
   deleteWorkshopRegistrations(ids: number[]): Promise<number>;
+  // Finance methods
+  getAccounts(): Promise<Account[]>;
+  createAccount(account: InsertAccount): Promise<Account>;
+  updateAccount(id: number, account: Partial<InsertAccount>): Promise<Account | undefined>;
+  deleteAccount(id: number): Promise<boolean>;
+  getCategories(): Promise<Category[]>;
+  createCategory(category: InsertCategory): Promise<Category>;
+  updateCategory(id: number, category: Partial<InsertCategory>): Promise<Category | undefined>;
+  deleteCategory(id: number): Promise<boolean>;
+  getTransactions(): Promise<Transaction[]>;
+  createTransaction(transaction: InsertTransaction): Promise<Transaction>;
+  updateTransaction(id: number, transaction: Partial<InsertTransaction>): Promise<Transaction | undefined>;
+  deleteTransaction(id: number): Promise<boolean>;
+  deleteTransactions(ids: number[]): Promise<number>;
+  getBudgets(): Promise<Budget[]>;
+  createBudget(budget: InsertBudget): Promise<Budget>;
+  updateBudget(id: number, budget: Partial<InsertBudget>): Promise<Budget | undefined>;
+  deleteBudget(id: number): Promise<boolean>;
+  getUserSettings(userId: number): Promise<UserSettings | undefined>;
+  createUserSettings(settings: InsertUserSettings): Promise<UserSettings>;
+  updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings | undefined>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -135,6 +171,149 @@ export class DatabaseStorage implements IStorage {
       .delete(workshopRegistrations)
       .where(sql`${workshopRegistrations.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
     return result.rowCount || 0;
+  }
+
+  // Finance methods
+  async getAccounts(): Promise<Account[]> {
+    return await db.select().from(accounts).where(eq(accounts.isActive, true)).orderBy(accounts.name);
+  }
+
+  async createAccount(account: InsertAccount): Promise<Account> {
+    const [newAccount] = await db
+      .insert(accounts)
+      .values(account)
+      .returning();
+    return newAccount;
+  }
+
+  async updateAccount(id: number, account: Partial<InsertAccount>): Promise<Account | undefined> {
+    const [updatedAccount] = await db
+      .update(accounts)
+      .set({ ...account, updatedAt: new Date() })
+      .where(eq(accounts.id, id))
+      .returning();
+    return updatedAccount || undefined;
+  }
+
+  async deleteAccount(id: number): Promise<boolean> {
+    const result = await db
+      .delete(accounts)
+      .where(eq(accounts.id, id));
+    return result.rowCount > 0;
+  }
+
+  async getCategories(): Promise<Category[]> {
+    return await db.select().from(categories).where(eq(categories.isActive, true)).orderBy(categories.name);
+  }
+
+  async createCategory(category: InsertCategory): Promise<Category> {
+    const [newCategory] = await db
+      .insert(categories)
+      .values(category)
+      .returning();
+    return newCategory;
+  }
+
+  async updateCategory(id: number, category: Partial<InsertCategory>): Promise<Category | undefined> {
+    const [updatedCategory] = await db
+      .update(categories)
+      .set({ ...category, updatedAt: new Date() })
+      .where(eq(categories.id, id))
+      .returning();
+    return updatedCategory || undefined;
+  }
+
+  async deleteCategory(id: number): Promise<boolean> {
+    const result = await db
+      .delete(categories)
+      .where(eq(categories.id, id));
+    return result.rowCount > 0;
+  }
+
+  async getTransactions(): Promise<Transaction[]> {
+    return await db.select().from(transactions).orderBy(transactions.date);
+  }
+
+  async createTransaction(transaction: InsertTransaction): Promise<Transaction> {
+    const [newTransaction] = await db
+      .insert(transactions)
+      .values(transaction)
+      .returning();
+    return newTransaction;
+  }
+
+  async updateTransaction(id: number, transaction: Partial<InsertTransaction>): Promise<Transaction | undefined> {
+    const [updatedTransaction] = await db
+      .update(transactions)
+      .set({ ...transaction, updatedAt: new Date() })
+      .where(eq(transactions.id, id))
+      .returning();
+    return updatedTransaction || undefined;
+  }
+
+  async deleteTransaction(id: number): Promise<boolean> {
+    const result = await db
+      .delete(transactions)
+      .where(eq(transactions.id, id));
+    return result.rowCount > 0;
+  }
+
+  async deleteTransactions(ids: number[]): Promise<number> {
+    if (ids.length === 0) return 0;
+    const result = await db
+      .delete(transactions)
+      .where(sql`${transactions.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
+    return result.rowCount || 0;
+  }
+
+  async getBudgets(): Promise<Budget[]> {
+    return await db.select().from(budgets).where(eq(budgets.isActive, true)).orderBy(budgets.startDate);
+  }
+
+  async createBudget(budget: InsertBudget): Promise<Budget> {
+    const [newBudget] = await db
+      .insert(budgets)
+      .values(budget)
+      .returning();
+    return newBudget;
+  }
+
+  async updateBudget(id: number, budget: Partial<InsertBudget>): Promise<Budget | undefined> {
+    const [updatedBudget] = await db
+      .update(budgets)
+      .set({ ...budget, updatedAt: new Date() })
+      .where(eq(budgets.id, id))
+      .returning();
+    return updatedBudget || undefined;
+  }
+
+  async deleteBudget(id: number): Promise<boolean> {
+    const result = await db
+      .delete(budgets)
+      .where(eq(budgets.id, id));
+    return result.rowCount > 0;
+  }
+
+  async getUserSettings(userId: number): Promise<UserSettings | undefined> {
+    const [settings] = await db.select().from(userSettings).where(eq(userSettings.userId, userId));
+    return settings || undefined;
+  }
+
+  async createUserSettings(settings: InsertUserSettings): Promise<UserSettings> {
+    const [newSettings] = await db
+      .insert(userSettings)
+      .values(settings)
+      .returning();
+    return newSettings;
+  }
+
+  async updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings | undefined> {
+    const [updatedSettings] = await db
+      .update(userSettings)
+      .set({ ...settings, updatedAt: new Date() })
+      .where(eq(userSettings.userId, userId))
+      .returning();
+    return updatedSettings || undefined;
   }
 }
 

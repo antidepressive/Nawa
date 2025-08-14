@@ -101,6 +101,76 @@ async function ensureTablesExist() {
         )
       `);
       
+      // Create finance dashboard tables
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS accounts (
+          id SERIAL PRIMARY KEY,
+          name TEXT NOT NULL,
+          type TEXT NOT NULL,
+          balance DECIMAL(15,2) NOT NULL DEFAULT 0,
+          currency TEXT NOT NULL DEFAULT 'USD',
+          color TEXT,
+          is_active BOOLEAN NOT NULL DEFAULT true,
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+          updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS categories (
+          id SERIAL PRIMARY KEY,
+          name TEXT NOT NULL,
+          type TEXT NOT NULL,
+          color TEXT,
+          icon TEXT,
+          is_active BOOLEAN NOT NULL DEFAULT true,
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+          updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS transactions (
+          id SERIAL PRIMARY KEY,
+          account_id INTEGER NOT NULL REFERENCES accounts(id),
+          category_id INTEGER NOT NULL REFERENCES categories(id),
+          amount DECIMAL(15,2) NOT NULL,
+          description TEXT NOT NULL,
+          date DATE NOT NULL,
+          type TEXT NOT NULL,
+          tags TEXT[],
+          notes TEXT,
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+          updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS budgets (
+          id SERIAL PRIMARY KEY,
+          category_id INTEGER NOT NULL REFERENCES categories(id),
+          amount DECIMAL(15,2) NOT NULL,
+          period TEXT NOT NULL,
+          start_date DATE NOT NULL,
+          end_date DATE,
+          is_active BOOLEAN NOT NULL DEFAULT true,
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+          updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS user_settings (
+          id SERIAL PRIMARY KEY,
+          user_id INTEGER NOT NULL REFERENCES users(id),
+          currency TEXT NOT NULL DEFAULT 'USD',
+          theme TEXT NOT NULL DEFAULT 'light',
+          date_format TEXT NOT NULL DEFAULT 'MM/DD/YYYY',
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+          updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
       log("Database tables are ready");
       return; // Success, exit the retry loop
     } catch (error) {
