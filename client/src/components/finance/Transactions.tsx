@@ -52,11 +52,11 @@ import { format } from 'date-fns';
 interface Transaction {
   id: number;
   description: string;
-  amount: number;
+  amount: string;
   type: 'income' | 'expense' | 'transfer';
-  category: string;
-  account: string;
-  date: Date;
+  categoryId: number;
+  accountId: number;
+  date: string;
   tags: string[];
   notes?: string;
 }
@@ -135,23 +135,42 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
 
   const filteredTransactions = transactions
     .filter(transaction => {
+      const category = categories.find(c => c.id === transaction.categoryId);
+      const account = accounts.find(a => a.id === transaction.accountId);
+      const categoryName = category?.name || 'Unknown';
+      const accountName = account?.name || 'Unknown';
+      
       const matchesSearch = transaction.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           transaction.category.toLowerCase().includes(searchQuery.toLowerCase());
+                           categoryName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           accountName.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesType = selectedType === 'all' || transaction.type === selectedType;
-      const matchesCategory = selectedCategory === 'all' || transaction.category === selectedCategory;
-      const matchesAccount = selectedAccount === 'all' || transaction.account === selectedAccount;
+      const matchesCategory = selectedCategory === 'all' || categoryName === selectedCategory;
+      const matchesAccount = selectedAccount === 'all' || accountName === selectedAccount;
       const matchesDate = !dateRange.from || !dateRange.to || 
-                         (transaction.date >= dateRange.from && transaction.date <= dateRange.to);
+                         (new Date(transaction.date) >= dateRange.from && new Date(transaction.date) <= dateRange.to);
       
       return matchesSearch && matchesType && matchesCategory && matchesAccount && matchesDate;
     })
     .sort((a, b) => {
-      let aValue: any = a[sortBy as keyof Transaction];
-      let bValue: any = b[sortBy as keyof Transaction];
+      let aValue: any;
+      let bValue: any;
       
       if (sortBy === 'date') {
-        aValue = a.date.getTime();
-        bValue = b.date.getTime();
+        aValue = new Date(a.date).getTime();
+        bValue = new Date(b.date).getTime();
+      } else if (sortBy === 'category') {
+        const categoryA = categories.find(c => c.id === a.categoryId);
+        const categoryB = categories.find(c => c.id === b.categoryId);
+        aValue = categoryA?.name || 'Unknown';
+        bValue = categoryB?.name || 'Unknown';
+      } else if (sortBy === 'account') {
+        const accountA = accounts.find(acc => acc.id === a.accountId);
+        const accountB = accounts.find(acc => acc.id === b.accountId);
+        aValue = accountA?.name || 'Unknown';
+        bValue = accountB?.name || 'Unknown';
+      } else {
+        aValue = a[sortBy as keyof Transaction];
+        bValue = b[sortBy as keyof Transaction];
       }
       
       if (sortOrder === 'asc') {
@@ -197,18 +216,26 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
     }
   };
 
-  const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {
-    const newTransaction = {
-      ...transaction,
-      id: Math.max(...transactions.map(t => t.id)) + 1
-    };
-    setTransactions([newTransaction, ...transactions]);
-    setShowAddDialog(false);
+  const handleAddTransaction = async (transaction: Omit<Transaction, 'id'>) => {
+    try {
+      const newTransaction = await transactionsApi.create(transaction);
+      setTransactions([newTransaction, ...transactions]);
+      setShowAddDialog(false);
+    } catch (error) {
+      console.error('Error creating transaction:', error);
+      alert('Failed to create transaction');
+    }
   };
 
-  const handleEditTransaction = (transaction: Transaction) => {
-    setTransactions(transactions.map(t => t.id === transaction.id ? transaction : t));
-    setEditingTransaction(null);
+  const handleEditTransaction = async (transaction: Transaction) => {
+    try {
+      const updatedTransaction = await transactionsApi.update(transaction.id, transaction);
+      setTransactions(transactions.map(t => t.id === transaction.id ? updatedTransaction : t));
+      setEditingTransaction(null);
+    } catch (error) {
+      console.error('Error updating transaction:', error);
+      alert('Failed to update transaction');
+    }
   };
 
   return (
@@ -284,7 +311,7 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
                       try {
                         const newTransaction = await transactionsApi.create({
                           description: inlineFormData.description,
-                          amount: parseFloat(inlineFormData.amount),
+                          amount: inlineFormData.amount,
                           type: inlineFormData.type as 'income' | 'expense' | 'transfer',
                           categoryId: parseInt(inlineFormData.categoryId),
                           accountId: parseInt(inlineFormData.accountId),
@@ -394,7 +421,7 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
                 {categories.map(category => (
-                  <SelectItem key={category} value={category}>{category}</SelectItem>
+                  <SelectItem key={category.id} value={category.name}>{category.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -406,7 +433,7 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
               <SelectContent>
                 <SelectItem value="all">All Accounts</SelectItem>
                 {accounts.map(account => (
-                  <SelectItem key={account} value={account}>{account}</SelectItem>
+                  <SelectItem key={account.id} value={account.name}>{account.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -518,7 +545,7 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
                     />
                   </TableCell>
                   <TableCell>
-                    {format(transaction.date, 'MMM dd, yyyy')}
+                    {format(new Date(transaction.date), 'MMM dd, yyyy')}
                   </TableCell>
                   <TableCell>
                     <div>
@@ -529,15 +556,19 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="secondary">{transaction.category}</Badge>
+                    <Badge variant="secondary">
+                      {categories.find(c => c.id === transaction.categoryId)?.name || 'Unknown'}
+                    </Badge>
                   </TableCell>
-                  <TableCell>{transaction.account}</TableCell>
+                  <TableCell>
+                    {accounts.find(a => a.id === transaction.accountId)?.name || 'Unknown'}
+                  </TableCell>
                   <TableCell>
                     <span className={`font-semibold ${
                       transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
                     }`}>
                       {transaction.type === 'income' ? '+' : '-'}
-                      {formatCurrency(transaction.amount)}
+                      {formatCurrency(parseFloat(transaction.amount))}
                     </span>
                   </TableCell>
                   <TableCell>
@@ -607,18 +638,27 @@ interface TransactionFormProps {
 const TransactionForm: React.FC<TransactionFormProps> = ({ transaction, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     description: transaction?.description || '',
-    amount: transaction?.amount || 0,
+    amount: transaction?.amount || '0',
     type: transaction?.type || 'expense',
-    category: transaction?.category || '',
-    account: transaction?.account || '',
-    date: transaction?.date || new Date(),
+    categoryId: transaction?.categoryId?.toString() || '',
+    accountId: transaction?.accountId?.toString() || '',
+    date: transaction?.date || new Date().toISOString().split('T')[0],
     tags: transaction?.tags || [],
     notes: transaction?.notes || ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit({
+      description: formData.description,
+      amount: formData.amount,
+      type: formData.type as 'income' | 'expense' | 'transfer',
+      categoryId: parseInt(formData.categoryId),
+      accountId: parseInt(formData.accountId),
+      date: formData.date,
+      tags: formData.tags,
+      notes: formData.notes
+    });
   };
 
   return (
@@ -640,7 +680,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ transaction, onSubmit
             type="number"
             step="0.01"
             value={formData.amount}
-            onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
+            onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
             required
           />
         </div>
@@ -664,13 +704,13 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ transaction, onSubmit
         </div>
         <div className="space-y-2">
           <Label htmlFor="category">Category</Label>
-          <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+          <Select value={formData.categoryId} onValueChange={(value) => setFormData({ ...formData, categoryId: value })}>
             <SelectTrigger>
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
               {categories.map(category => (
-                <SelectItem key={category} value={category}>{category}</SelectItem>
+                <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -680,13 +720,13 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ transaction, onSubmit
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="account">Account</Label>
-          <Select value={formData.account} onValueChange={(value) => setFormData({ ...formData, account: value })}>
+          <Select value={formData.accountId} onValueChange={(value) => setFormData({ ...formData, accountId: value })}>
             <SelectTrigger>
               <SelectValue placeholder="Select account" />
             </SelectTrigger>
             <SelectContent>
               {accounts.map(account => (
-                <SelectItem key={account} value={account}>{account}</SelectItem>
+                <SelectItem key={account.id} value={account.id.toString()}>{account.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -697,14 +737,14 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ transaction, onSubmit
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full justify-start text-left font-normal">
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {format(formData.date, "PPP")}
+                {format(new Date(formData.date), "PPP")}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar
                 mode="single"
-                selected={formData.date}
-                onSelect={(date) => date && setFormData({ ...formData, date })}
+                selected={new Date(formData.date)}
+                onSelect={(date) => date && setFormData({ ...formData, date: date.toISOString().split('T')[0] })}
                 initialFocus
               />
             </PopoverContent>
