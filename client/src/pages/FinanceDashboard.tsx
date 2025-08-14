@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Badge } from '../components/ui/badge';
 import { ScrollArea } from '../components/ui/scroll-area';
+import { accountsApi, transactionsApi } from '../lib/financeApi';
 import { 
   Plus, 
   Search, 
@@ -45,14 +46,15 @@ const FinanceDashboard: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [autoOpenAddDialog, setAutoOpenAddDialog] = useState(false);
 
-  // Mock data - replace with actual API calls
+  // Real data from API
   const [stats, setStats] = useState<DashboardStats>({
-    balance: 15420.50,
-    income: 8500.00,
-    expenses: 3200.00,
-    netChange: 5300.00,
-    runway: 18
+    balance: 0,
+    income: 0,
+    expenses: 0,
+    netChange: 0,
+    runway: 0
   });
+  const [loading, setLoading] = useState(true);
 
   // Command palette commands
   const commands = [
@@ -146,6 +148,64 @@ const FinanceDashboard: React.FC = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Load real data from API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const [accountsData, transactionsData] = await Promise.all([
+          accountsApi.getAll(),
+          transactionsApi.getAll()
+        ]);
+
+        // Calculate total balance from all accounts
+        const totalBalance = accountsData.reduce((sum, account) => sum + parseFloat(account.balance), 0);
+
+        // Calculate this month's transactions
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+        
+        const thisMonthTransactions = transactionsData.filter(t => {
+          const transactionDate = new Date(t.date);
+          return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
+        });
+
+        // Calculate income and expenses
+        const thisMonthIncome = thisMonthTransactions
+          .filter(t => t.type === 'income')
+          .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+
+        const thisMonthExpenses = thisMonthTransactions
+          .filter(t => t.type === 'expense')
+          .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+
+        const netChange = thisMonthIncome - thisMonthExpenses;
+
+        // Calculate runway (months of expenses covered by current balance)
+        const allExpenses = transactionsData
+          .filter(t => t.type === 'expense')
+          .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+        
+        const averageMonthlyExpenses = allExpenses / Math.max(1, transactionsData.filter(t => t.type === 'expense').length);
+        const runway = averageMonthlyExpenses > 0 ? Math.floor(totalBalance / averageMonthlyExpenses) : 0;
+
+        setStats({
+          balance: totalBalance,
+          income: thisMonthIncome,
+          expenses: thisMonthExpenses,
+          netChange,
+          runway
+        });
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -197,7 +257,9 @@ const FinanceDashboard: React.FC = () => {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatCurrency(stats.balance)}</div>
+              <div className="text-2xl font-bold">
+                {loading ? 'Loading...' : formatCurrency(stats.balance)}
+              </div>
               <p className="text-xs text-muted-foreground">
                 Across all accounts
               </p>
@@ -211,7 +273,7 @@ const FinanceDashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">
-                {formatCurrency(stats.income)}
+                {loading ? 'Loading...' : formatCurrency(stats.income)}
               </div>
               <p className="text-xs text-muted-foreground">
                 This month
@@ -226,7 +288,7 @@ const FinanceDashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">
-                {formatCurrency(stats.expenses)}
+                {loading ? 'Loading...' : formatCurrency(stats.expenses)}
               </div>
               <p className="text-xs text-muted-foreground">
                 This month
@@ -241,7 +303,7 @@ const FinanceDashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className={`text-2xl font-bold ${stats.netChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {formatCurrency(stats.netChange)}
+                {loading ? 'Loading...' : formatCurrency(stats.netChange)}
               </div>
               <p className="text-xs text-muted-foreground">
                 This month
@@ -255,7 +317,9 @@ const FinanceDashboard: React.FC = () => {
               <PiggyBank className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.runway}</div>
+              <div className="text-2xl font-bold">
+                {loading ? 'Loading...' : stats.runway}
+              </div>
               <p className="text-xs text-muted-foreground">
                 Months remaining
               </p>
