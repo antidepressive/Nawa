@@ -130,12 +130,22 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
-  // Auto-open add dialog if prop is true
+  // Auto-open add form if prop is true
   useEffect(() => {
     if (autoOpenAddDialog) {
-      setShowAddDialog(true);
+      setShowInlineForm(true);
     }
   }, [autoOpenAddDialog]);
+
+  // Simple inline add form state
+  const [showInlineForm, setShowInlineForm] = useState(false);
+  const [inlineFormData, setInlineFormData] = useState({
+    description: '',
+    amount: '',
+    type: 'expense',
+    category: '',
+    account: ''
+  });
 
   const categories = ['Food & Dining', 'Transportation', 'Shopping', 'Entertainment', 'Utilities', 'Healthcare', 'Salary', 'Freelance'];
   const accounts = ['Checking', 'Savings', 'Credit Card', 'Investment'];
@@ -230,12 +240,114 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
             <Download className="h-4 w-4 mr-2" />
             Export
           </Button>
-          <Button onClick={() => setShowAddDialog(true)}>
+          <Button onClick={() => setShowInlineForm(!showInlineForm)}>
             <Plus className="h-4 w-4 mr-2" />
             Add Transaction
           </Button>
         </div>
       </div>
+
+      {/* Simple Inline Add Form */}
+      {showInlineForm && (
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Add New Transaction</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <Input
+                placeholder="Description"
+                value={inlineFormData.description}
+                onChange={(e) => setInlineFormData({...inlineFormData, description: e.target.value})}
+              />
+              <Input
+                type="number"
+                placeholder="Amount"
+                value={inlineFormData.amount}
+                onChange={(e) => setInlineFormData({...inlineFormData, amount: e.target.value})}
+              />
+              <Select value={inlineFormData.type} onValueChange={(value) => setInlineFormData({...inlineFormData, type: value})}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="expense">Expense</SelectItem>
+                  <SelectItem value="income">Income</SelectItem>
+                  <SelectItem value="transfer">Transfer</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={inlineFormData.category} onValueChange={(value) => setInlineFormData({...inlineFormData, category: value})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map(category => (
+                    <SelectItem key={category} value={category}>{category}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={() => {
+                    if (inlineFormData.description && inlineFormData.amount && inlineFormData.category && inlineFormData.account) {
+                      const newTransaction = {
+                        id: Math.max(...transactions.map(t => t.id)) + 1,
+                        description: inlineFormData.description,
+                        amount: parseFloat(inlineFormData.amount),
+                        type: inlineFormData.type as 'income' | 'expense' | 'transfer',
+                        category: inlineFormData.category,
+                        account: inlineFormData.account,
+                        date: new Date(),
+                        tags: [],
+                        notes: ''
+                      };
+                      setTransactions([newTransaction, ...transactions]);
+                      setInlineFormData({
+                        description: '',
+                        amount: '',
+                        type: 'expense',
+                        category: '',
+                        account: ''
+                      });
+                      setShowInlineForm(false);
+                    }
+                  }}
+                  className="flex-1"
+                >
+                  Save
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    setShowInlineForm(false);
+                    setInlineFormData({
+                      description: '',
+                      amount: '',
+                      type: 'expense',
+                      category: '',
+                      account: ''
+                    });
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+            <div className="mt-4">
+              <Select value={inlineFormData.account} onValueChange={(value) => setInlineFormData({...inlineFormData, account: value})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Account" />
+                </SelectTrigger>
+                <SelectContent>
+                  {accounts.map(account => (
+                    <SelectItem key={account} value={account}>{account}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Filters */}
       <Card>

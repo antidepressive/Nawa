@@ -29,6 +29,7 @@ import Transactions from '../components/finance/Transactions';
 import Budgets from '../components/finance/Budgets';
 import Reports from '../components/finance/Reports';
 import SettingsComponent from '../components/finance/Settings';
+import AuthGate from '../components/finance/AuthGate';
 
 interface DashboardStats {
   balance: number;
@@ -153,38 +154,39 @@ const FinanceDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50">
-        <div className="flex h-16 items-center px-4 gap-4">
-          <div className="flex items-center gap-2">
-            <Wallet className="h-6 w-6 text-primary" />
-            <h1 className="text-xl font-semibold">Finance Dashboard</h1>
-          </div>
-          
-          <div className="flex-1 flex items-center gap-4">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Search transactions, categories..."
-                className="pl-10"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+    <AuthGate>
+      <div className="min-h-screen bg-background">
+        {/* Header */}
+        <div className="border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50">
+          <div className="flex h-16 items-center px-4 gap-4">
+            <div className="flex items-center gap-2">
+              <Wallet className="h-6 w-6 text-primary" />
+              <h1 className="text-xl font-semibold">Finance Dashboard</h1>
+            </div>
+            
+            <div className="flex-1 flex items-center gap-4">
+              <div className="relative flex-1 max-w-md">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="Search transactions, categories..."
+                  className="pl-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button size="sm" onClick={() => {
+                setAutoOpenAddDialog(true);
+                setActiveTab('transactions');
+              }}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Transaction
+              </Button>
             </div>
           </div>
-
-          <div className="flex items-center gap-2">
-            <Button size="sm" onClick={() => {
-              setAutoOpenAddDialog(true);
-              setActiveTab('transactions');
-            }}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Transaction
-            </Button>
-          </div>
         </div>
-      </div>
 
       {/* Stats Cards */}
       <div className="p-6">
@@ -322,9 +324,10 @@ const FinanceDashboard: React.FC = () => {
             </Button>
           </div>
         </div>
-      )}
-    </div>
-  );
-};
+             )}
+       </div>
+     </AuthGate>
+   );
+ };
 
 export default FinanceDashboard;
