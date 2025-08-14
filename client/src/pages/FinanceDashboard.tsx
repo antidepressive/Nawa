@@ -10,7 +10,6 @@ import {
   Search, 
   Filter, 
   Download, 
-  Settings, 
   TrendingUp, 
   TrendingDown,
   DollarSign,
@@ -23,14 +22,13 @@ import {
   Wallet
 } from 'lucide-react';
 import { Command } from 'cmdk';
-import { useTheme } from 'next-themes';
 
 // Import dashboard components
 import Overview from '../components/finance/Overview';
 import Transactions from '../components/finance/Transactions';
 import Budgets from '../components/finance/Budgets';
 import Reports from '../components/finance/Reports';
-import Settings from '../components/finance/Settings';
+import SettingsComponent from '../components/finance/Settings';
 
 interface DashboardStats {
   balance: number;
@@ -44,7 +42,7 @@ const FinanceDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [showCommandPalette, setShowCommandPalette] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const { theme, setTheme } = useTheme();
+  const [autoOpenAddDialog, setAutoOpenAddDialog] = useState(false);
 
   // Mock data - replace with actual API calls
   const [stats, setStats] = useState<DashboardStats>({
@@ -106,13 +104,24 @@ const FinanceDashboard: React.FC = () => {
     {
       id: 'settings',
       title: 'Go to Settings',
-      icon: Settings,
+      icon: FileText,
       action: () => {
         setActiveTab('settings');
         setShowCommandPalette(false);
       }
     }
   ];
+
+  // Reset autoOpenAddDialog when transactions tab becomes active
+  useEffect(() => {
+    if (activeTab === 'transactions' && autoOpenAddDialog) {
+      // Reset the flag after a short delay to allow the component to mount
+      const timer = setTimeout(() => {
+        setAutoOpenAddDialog(false);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [activeTab, autoOpenAddDialog]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -163,30 +172,13 @@ const FinanceDashboard: React.FC = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowCommandPalette(true)}
-              className="hidden md:flex"
-            >
-              <Search className="h-4 w-4 mr-2" />
-              Quick actions
-              <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-                <span className="text-xs">⌘</span>K
-              </kbd>
-            </Button>
           </div>
 
           <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            >
-              {theme === 'dark' ? '☀️' : '🌙'}
-            </Button>
-            <Button size="sm">
+            <Button size="sm" onClick={() => {
+              setAutoOpenAddDialog(true);
+              setActiveTab('transactions');
+            }}>
               <Plus className="h-4 w-4 mr-2" />
               Add Transaction
             </Button>
@@ -280,11 +272,11 @@ const FinanceDashboard: React.FC = () => {
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
-            <Overview />
+            <Overview onViewAllTransactions={() => setActiveTab('transactions')} />
           </TabsContent>
 
           <TabsContent value="transactions" className="space-y-4">
-            <Transactions />
+            <Transactions autoOpenAddDialog={autoOpenAddDialog} />
           </TabsContent>
 
           <TabsContent value="budgets" className="space-y-4">
@@ -296,7 +288,7 @@ const FinanceDashboard: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="settings" className="space-y-4">
-            <Settings />
+            <SettingsComponent />
           </TabsContent>
         </Tabs>
       </div>
