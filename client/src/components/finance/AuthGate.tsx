@@ -25,12 +25,13 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
   }, []);
 
   const handleLogin = async () => {
-    // Developer password - you can change this
-    const correctPassword = 'dev123';
+    // Use the actual DEVELOPER_TOKEN environment variable
+    const developerToken = process.env.DEVELOPER_TOKEN || 'dev123';
     
-    if (password === correctPassword) {
+    if (password === developerToken) {
       setIsAuthenticated(true);
       localStorage.setItem('finance_dashboard_auth', 'authenticated');
+      localStorage.setItem('finance_dashboard_token', developerToken);
       setError('');
       
       // Initialize default data for first-time users
@@ -40,7 +41,7 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
         console.error('Error initializing default data:', error);
       }
     } else {
-      setError('Incorrect password. Please try again.');
+      setError('Incorrect developer token. Please try again.');
       setPassword('');
     }
   };
@@ -48,6 +49,7 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
   const handleLogout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem('finance_dashboard_auth');
+    localStorage.removeItem('finance_dashboard_token');
     setPassword('');
     setError('');
   };
@@ -81,16 +83,16 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
             </div>
           </div>
           <CardTitle className="text-2xl">Finance Dashboard</CardTitle>
-          <p className="text-muted-foreground">Developer Access Required</p>
+          <p className="text-muted-foreground">Developer Token Required</p>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Developer Token</Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Enter developer password"
+                placeholder="Enter developer token"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyPress={handleKeyPress}
@@ -127,8 +129,8 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
           </Button>
           
           <div className="text-xs text-muted-foreground text-center">
-            <p>Developer password required for access</p>
-            <p className="mt-1">Contact the development team for credentials</p>
+            <p>Developer token required for access</p>
+            <p className="mt-1">Contact the development team for the token</p>
           </div>
         </CardContent>
       </Card>

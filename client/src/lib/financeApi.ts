@@ -4,7 +4,7 @@ const API_BASE = '/api/finance';
 
 // Helper function to add auth header
 const getAuthHeaders = () => {
-  const token = localStorage.getItem('finance_dashboard_auth');
+  const token = localStorage.getItem('finance_dashboard_token');
   return {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}`
