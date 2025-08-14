@@ -140,9 +140,51 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
       });
   };
 
+  // Calculate summary metrics from real data
+  const getSummaryMetrics = () => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    
+    // Total balance from all accounts
+    const totalBalance = accounts.reduce((sum, account) => sum + parseFloat(account.balance), 0);
+    
+    // This month's transactions
+    const thisMonthTransactions = transactions.filter(t => {
+      const transactionDate = new Date(t.date);
+      return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
+    });
+    
+    // This month's income and expenses
+    const thisMonthIncome = thisMonthTransactions
+      .filter(t => t.type === 'income')
+      .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    
+    const thisMonthExpenses = thisMonthTransactions
+      .filter(t => t.type === 'expense')
+      .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    
+    const netChange = thisMonthIncome - thisMonthExpenses;
+    
+    // Calculate runway (months of expenses covered by current balance)
+    const averageMonthlyExpenses = transactions
+      .filter(t => t.type === 'expense')
+      .reduce((sum, t) => sum + parseFloat(t.amount), 0) / Math.max(1, transactions.filter(t => t.type === 'expense').length);
+    
+    const runway = averageMonthlyExpenses > 0 ? Math.floor(totalBalance / averageMonthlyExpenses) : 0;
+    
+    return {
+      totalBalance,
+      thisMonthIncome,
+      thisMonthExpenses,
+      netChange,
+      runway
+    };
+  };
+
   const trendData = getTrendData();
   const categoryData = getCategoryData();
   const recentTransactions = getRecentTransactions();
+  const summaryMetrics = getSummaryMetrics();
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -206,6 +248,66 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
             1Y
           </Button>
         </div>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Balance</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatCurrency(summaryMetrics.totalBalance)}</div>
+            <p className="text-xs text-muted-foreground">Across all accounts</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Income</CardTitle>
+            <TrendingUp className="h-4 w-4 text-green-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">{formatCurrency(summaryMetrics.thisMonthIncome)}</div>
+            <p className="text-xs text-muted-foreground">This month</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Expenses</CardTitle>
+            <TrendingDown className="h-4 w-4 text-red-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-red-600">{formatCurrency(summaryMetrics.thisMonthExpenses)}</div>
+            <p className="text-xs text-muted-foreground">This month</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Net Change</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className={`text-2xl font-bold ${summaryMetrics.netChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {formatCurrency(summaryMetrics.netChange)}
+            </div>
+            <p className="text-xs text-muted-foreground">This month</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Runway</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{summaryMetrics.runway}</div>
+            <p className="text-xs text-muted-foreground">Months remaining</p>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -120,7 +120,8 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
     amount: '',
     type: 'expense',
     categoryId: '',
-    accountId: ''
+    accountId: '',
+    date: new Date().toISOString().split('T')[0] // Default to today
   });
 
   const types = ['income', 'expense', 'transfer'];
@@ -234,7 +235,7 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
             <CardTitle>Add New Transaction</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
               <Input
                 placeholder="Description"
                 value={inlineFormData.description}
@@ -266,6 +267,16 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
                   ))}
                 </SelectContent>
               </Select>
+              <Select value={inlineFormData.accountId} onValueChange={(value) => setInlineFormData({...inlineFormData, accountId: value})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Account" />
+                </SelectTrigger>
+                <SelectContent>
+                  {accounts.map(account => (
+                    <SelectItem key={account.id} value={account.id.toString()}>{account.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <div className="flex gap-2">
                 <Button 
                   onClick={async () => {
@@ -277,7 +288,7 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
                           type: inlineFormData.type as 'income' | 'expense' | 'transfer',
                           categoryId: parseInt(inlineFormData.categoryId),
                           accountId: parseInt(inlineFormData.accountId),
-                          date: new Date().toISOString().split('T')[0],
+                          date: inlineFormData.date,
                           tags: [],
                           notes: ''
                         });
@@ -288,7 +299,8 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
                           amount: '',
                           type: 'expense',
                           categoryId: '',
-                          accountId: ''
+                          accountId: '',
+                          date: new Date().toISOString().split('T')[0]
                         });
                         setShowInlineForm(false);
                       } catch (error) {
@@ -309,8 +321,9 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
                       description: '',
                       amount: '',
                       type: 'expense',
-                      category: '',
-                      account: ''
+                      categoryId: '',
+                      accountId: '',
+                      date: new Date().toISOString().split('T')[0]
                     });
                   }}
                 >
@@ -319,16 +332,22 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
               </div>
             </div>
             <div className="mt-4">
-              <Select value={inlineFormData.accountId} onValueChange={(value) => setInlineFormData({...inlineFormData, accountId: value})}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Account" />
-                </SelectTrigger>
-                <SelectContent>
-                  {accounts.map(account => (
-                    <SelectItem key={account.id} value={account.id.toString()}>{account.name}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="justify-start text-left font-normal w-full">
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {inlineFormData.date ? format(new Date(inlineFormData.date), "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={new Date(inlineFormData.date)}
+                    onSelect={(date) => setInlineFormData({...inlineFormData, date: date ? date.toISOString().split('T')[0] : new Date().toISOString().split('T')[0]})}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </CardContent>
         </Card>

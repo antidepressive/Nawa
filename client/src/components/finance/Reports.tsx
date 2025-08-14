@@ -218,10 +218,76 @@ const Reports: React.FC = () => {
       .sort((a, b) => b.amount - a.amount);
   };
 
+  // Calculate summary metrics from real data
+  const getSummaryMetrics = () => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    
+    // Get transactions for the selected period
+    let periodTransactions = transactions;
+    
+    if (selectedPeriod === 'month') {
+      periodTransactions = transactions.filter(t => {
+        const transactionDate = new Date(t.date);
+        return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
+      });
+    } else if (selectedPeriod === 'quarter') {
+      const quarterStart = Math.floor(currentMonth / 3) * 3;
+      periodTransactions = transactions.filter(t => {
+        const transactionDate = new Date(t.date);
+        return transactionDate.getMonth() >= quarterStart && 
+               transactionDate.getMonth() < quarterStart + 3 && 
+               transactionDate.getFullYear() === currentYear;
+      });
+    } else if (selectedPeriod === 'year') {
+      periodTransactions = transactions.filter(t => {
+        const transactionDate = new Date(t.date);
+        return transactionDate.getFullYear() === currentYear;
+      });
+    }
+    
+    // Calculate totals
+    const totalIncome = periodTransactions
+      .filter(t => t.type === 'income')
+      .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    
+    const totalExpenses = periodTransactions
+      .filter(t => t.type === 'expense')
+      .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    
+    const netSavings = totalIncome - totalExpenses;
+    const savingsRate = totalIncome > 0 ? (netSavings / totalIncome) * 100 : 0;
+    
+    // Calculate average monthly savings
+    const allIncome = transactions
+      .filter(t => t.type === 'income')
+      .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    
+    const allExpenses = transactions
+      .filter(t => t.type === 'expense')
+      .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    
+    const totalMonths = Math.max(1, new Set(transactions.map(t => {
+      const date = new Date(t.date);
+      return `${date.getFullYear()}-${date.getMonth()}`;
+    })).size);
+    
+    const averageMonthlySavings = (allIncome - allExpenses) / totalMonths;
+    
+    return {
+      totalIncome,
+      totalExpenses,
+      netSavings,
+      savingsRate,
+      averageMonthlySavings
+    };
+  };
+
   const reportData = getReportData();
   const topCategories = getTopCategories();
   const largeTransactions = getLargeTransactions();
   const incomeSources = getIncomeSources();
+  const summaryMetrics = getSummaryMetrics();
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -246,10 +312,10 @@ const Reports: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
-              {formatCurrency(51000)}
+              {formatCurrency(summaryMetrics.totalIncome)}
             </div>
             <p className="text-xs text-muted-foreground">
-              +12% from last period
+              {selectedPeriod === 'month' ? 'This month' : selectedPeriod === 'quarter' ? 'This quarter' : 'This year'}
             </p>
           </CardContent>
         </Card>
@@ -261,10 +327,10 @@ const Reports: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-600">
-              {formatCurrency(18700)}
+              {formatCurrency(summaryMetrics.totalExpenses)}
             </div>
             <p className="text-xs text-muted-foreground">
-              -5% from last period
+              {selectedPeriod === 'month' ? 'This month' : selectedPeriod === 'quarter' ? 'This quarter' : 'This year'}
             </p>
           </CardContent>
         </Card>
@@ -276,10 +342,10 @@ const Reports: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">
-              {formatCurrency(32300)}
+              {formatCurrency(summaryMetrics.netSavings)}
             </div>
             <p className="text-xs text-muted-foreground">
-              +63% savings rate
+              {summaryMetrics.savingsRate.toFixed(1)}% savings rate
             </p>
           </CardContent>
         </Card>
@@ -291,7 +357,7 @@ const Reports: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-purple-600">
-              {formatCurrency(5383)}
+              {formatCurrency(summaryMetrics.averageMonthlySavings)}
             </div>
             <p className="text-xs text-muted-foreground">
               Net savings per month
