@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { FinanceProvider } from "./contexts/FinanceContext";
 import { useEffect } from "react";
 import { initGA } from "./lib/analytics";
 import { useAnalytics } from "./hooks/use-analytics";
@@ -18,6 +19,7 @@ import ConsultingTrainingProgram from "./pages/programs/ConsultingTrainingProgra
 import NawaWorkshop from "./pages/programs/NawaWorkshop";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
+import FinanceDashboard from "./pages/FinanceDashboard";
 
 // Protected Admin Route Component
 function ProtectedAdminRoute() {
@@ -48,6 +50,7 @@ function Router() {
       <Route path="/programs/nawa-workshop" component={NawaWorkshop} />
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin" component={ProtectedAdminRoute} />
+      <Route path="/finance" component={FinanceDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -68,8 +71,10 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <LanguageProvider>
-          <Router />
-          <Toaster />
+          <FinanceProvider>
+            <Router />
+            <Toaster />
+          </FinanceProvider>
         </LanguageProvider>
       </TooltipProvider>
     </QueryClientProvider>
