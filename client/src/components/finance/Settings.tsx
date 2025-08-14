@@ -830,7 +830,7 @@ const AccountForm: React.FC<AccountFormProps> = ({ account, onSubmit, onCancel }
   const [formData, setFormData] = useState({
     name: account?.name || '',
     type: account?.type || 'checking' as 'checking' | 'savings' | 'credit' | 'investment',
-    balance: account?.balance || 0,
+    balance: account?.balance || '0',
     currency: account?.currency || 'USD',
     color: account?.color || '#3B82F6',
     isActive: account?.isActive ?? true
@@ -891,7 +891,7 @@ const AccountForm: React.FC<AccountFormProps> = ({ account, onSubmit, onCancel }
           type="number"
           step="0.01"
           value={formData.balance}
-          onChange={(e) => setFormData({ ...formData, balance: parseFloat(e.target.value) })}
+          onChange={(e) => setFormData({ ...formData, balance: e.target.value })}
           required
         />
       </div>

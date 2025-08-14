@@ -430,7 +430,7 @@ interface BudgetFormProps {
 const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     categoryId: '',
-    amount: 0,
+    amount: '0',
     period: 'monthly' as 'monthly' | 'yearly'
   });
 
@@ -464,7 +464,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit, onCancel }) => {
           type="number"
           step="0.01"
           value={formData.amount}
-          onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
+          onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
           required
         />
       </div>

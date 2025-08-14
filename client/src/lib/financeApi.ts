@@ -219,7 +219,7 @@ export const initializeDefaultData = async () => {
       await accountsApi.create({
         name: 'Checking',
         type: 'checking',
-        balance: 5000.00,
+        balance: '5000.00',
         currency: 'USD',
         color: '#3B82F6'
       });
@@ -227,7 +227,7 @@ export const initializeDefaultData = async () => {
       await accountsApi.create({
         name: 'Savings',
         type: 'savings',
-        balance: 10000.00,
+        balance: '10000.00',
         currency: 'USD',
         color: '#10B981'
       });
@@ -235,7 +235,7 @@ export const initializeDefaultData = async () => {
       await accountsApi.create({
         name: 'Credit Card',
         type: 'credit',
-        balance: -500.00,
+        balance: '-500.00',
         currency: 'USD',
         color: '#EF4444'
       });
@@ -274,7 +274,7 @@ export const initializeDefaultData = async () => {
           {
             accountId: accounts[0].id,
             categoryId: categories.find(c => c.name === 'Food & Dining')?.id || categories[0].id,
-            amount: 85.50,
+            amount: '85.50',
             description: 'Grocery shopping',
             date: new Date().toISOString().split('T')[0],
             type: 'expense',
@@ -284,7 +284,7 @@ export const initializeDefaultData = async () => {
           {
             accountId: accounts[0].id,
             categoryId: categories.find(c => c.name === 'Salary')?.id || categories[0].id,
-            amount: 4500.00,
+            amount: '4500.00',
             description: 'Salary deposit',
             date: new Date().toISOString().split('T')[0],
             type: 'income',
