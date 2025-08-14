@@ -1,0 +1,338 @@
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Badge } from '../components/ui/badge';
+import { ScrollArea } from '../components/ui/scroll-area';
+import { 
+  Plus, 
+  Search, 
+  Filter, 
+  Download, 
+  Settings, 
+  TrendingUp, 
+  TrendingDown,
+  DollarSign,
+  Calendar,
+  PieChart,
+  BarChart3,
+  FileText,
+  CreditCard,
+  PiggyBank,
+  Wallet
+} from 'lucide-react';
+import { Command } from 'cmdk';
+import { useTheme } from 'next-themes';
+
+// Import dashboard components
+import Overview from '../components/finance/Overview';
+import Transactions from '../components/finance/Transactions';
+import Budgets from '../components/finance/Budgets';
+import Reports from '../components/finance/Reports';
+import Settings from '../components/finance/Settings';
+
+interface DashboardStats {
+  balance: number;
+  income: number;
+  expenses: number;
+  netChange: number;
+  runway: number;
+}
+
+const FinanceDashboard: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [showCommandPalette, setShowCommandPalette] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const { theme, setTheme } = useTheme();
+
+  // Mock data - replace with actual API calls
+  const [stats, setStats] = useState<DashboardStats>({
+    balance: 15420.50,
+    income: 8500.00,
+    expenses: 3200.00,
+    netChange: 5300.00,
+    runway: 18
+  });
+
+  // Command palette commands
+  const commands = [
+    {
+      id: 'add-transaction',
+      title: 'Add Transaction',
+      icon: Plus,
+      action: () => {
+        setActiveTab('transactions');
+        setShowCommandPalette(false);
+        // Trigger add transaction modal
+      }
+    },
+    {
+      id: 'overview',
+      title: 'Go to Overview',
+      icon: BarChart3,
+      action: () => {
+        setActiveTab('overview');
+        setShowCommandPalette(false);
+      }
+    },
+    {
+      id: 'transactions',
+      title: 'Go to Transactions',
+      icon: FileText,
+      action: () => {
+        setActiveTab('transactions');
+        setShowCommandPalette(false);
+      }
+    },
+    {
+      id: 'budgets',
+      title: 'Go to Budgets',
+      icon: PieChart,
+      action: () => {
+        setActiveTab('budgets');
+        setShowCommandPalette(false);
+      }
+    },
+    {
+      id: 'reports',
+      title: 'Go to Reports',
+      icon: TrendingUp,
+      action: () => {
+        setActiveTab('reports');
+        setShowCommandPalette(false);
+      }
+    },
+    {
+      id: 'settings',
+      title: 'Go to Settings',
+      icon: Settings,
+      action: () => {
+        setActiveTab('settings');
+        setShowCommandPalette(false);
+      }
+    }
+  ];
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey) {
+        switch (e.key) {
+          case 'k':
+            e.preventDefault();
+            setShowCommandPalette(true);
+            break;
+          case 'n':
+            e.preventDefault();
+            setActiveTab('transactions');
+            // Trigger add transaction modal
+            break;
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount);
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <div className="border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50">
+        <div className="flex h-16 items-center px-4 gap-4">
+          <div className="flex items-center gap-2">
+            <Wallet className="h-6 w-6 text-primary" />
+            <h1 className="text-xl font-semibold">Finance Dashboard</h1>
+          </div>
+          
+          <div className="flex-1 flex items-center gap-4">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder="Search transactions, categories..."
+                className="pl-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowCommandPalette(true)}
+              className="hidden md:flex"
+            >
+              <Search className="h-4 w-4 mr-2" />
+              Quick actions
+              <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+                <span className="text-xs">⌘</span>K
+              </kbd>
+            </Button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            >
+              {theme === 'dark' ? '☀️' : '🌙'}
+            </Button>
+            <Button size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Transaction
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Balance</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{formatCurrency(stats.balance)}</div>
+              <p className="text-xs text-muted-foreground">
+                Across all accounts
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Income</CardTitle>
+              <TrendingUp className="h-4 w-4 text-green-600" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-green-600">
+                {formatCurrency(stats.income)}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                This month
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Expenses</CardTitle>
+              <TrendingDown className="h-4 w-4 text-red-600" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-red-600">
+                {formatCurrency(stats.expenses)}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                This month
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Net Change</CardTitle>
+              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className={`text-2xl font-bold ${stats.netChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {formatCurrency(stats.netChange)}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                This month
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Runway</CardTitle>
+              <PiggyBank className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.runway}</div>
+              <p className="text-xs text-muted-foreground">
+                Months remaining
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Main Content */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="transactions">Transactions</TabsTrigger>
+            <TabsTrigger value="budgets">Budgets</TabsTrigger>
+            <TabsTrigger value="reports">Reports</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="space-y-4">
+            <Overview />
+          </TabsContent>
+
+          <TabsContent value="transactions" className="space-y-4">
+            <Transactions />
+          </TabsContent>
+
+          <TabsContent value="budgets" className="space-y-4">
+            <Budgets />
+          </TabsContent>
+
+          <TabsContent value="reports" className="space-y-4">
+            <Reports />
+          </TabsContent>
+
+          <TabsContent value="settings" className="space-y-4">
+            <Settings />
+          </TabsContent>
+        </Tabs>
+      </div>
+
+      {/* Command Palette */}
+      {showCommandPalette && (
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
+          <div className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg">
+            <Command>
+              <Command.Input placeholder="Type a command or search..." />
+              <Command.List>
+                <Command.Empty>No results found.</Command.Empty>
+                {commands.map((command) => (
+                  <Command.Item
+                    key={command.id}
+                    onSelect={command.action}
+                    className="flex items-center gap-2 p-2 cursor-pointer hover:bg-accent rounded"
+                  >
+                    <command.icon className="h-4 w-4" />
+                    {command.title}
+                  </Command.Item>
+                ))}
+              </Command.List>
+            </Command>
+            <Button
+              variant="outline"
+              onClick={() => setShowCommandPalette(false)}
+              className="mt-2"
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default FinanceDashboard;
