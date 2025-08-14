@@ -36,13 +36,8 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
     setError('');
     
     try {
-      // Test the token by making a request to a protected endpoint
-      const response = await fetch('/api/finance/accounts', {
-        headers: {
-          'Authorization': `Bearer ${password}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      // Test the token by making a request to a protected endpoint (like admin dashboard)
+      const response = await fetch(`/api/finance/accounts?apiKey=${encodeURIComponent(password)}`);
       
       if (response.ok) {
         // Store the token in sessionStorage (like admin dashboard)

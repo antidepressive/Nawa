@@ -2,13 +2,21 @@
 
 const API_BASE = '/api/finance';
 
-// Helper function to add auth header
-const getAuthHeaders = () => {
-  const token = sessionStorage.getItem('finance_dashboard_token');
-  return {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  };
+// Helper function to add auth token to URL (like admin dashboard)
+const getAuthToken = () => {
+  return sessionStorage.getItem('finance_dashboard_token');
+};
+
+// Helper function to build URL with auth token
+const buildUrl = (endpoint: string) => {
+  const token = getAuthToken();
+  if (!token) {
+    throw new Error('No authentication token');
+  }
+  
+  return endpoint.includes('?') 
+    ? `${endpoint}&apiKey=${encodeURIComponent(token)}`
+    : `${endpoint}?apiKey=${encodeURIComponent(token)}`;
 };
 
 // Helper function to handle API responses
@@ -23,34 +31,34 @@ const handleResponse = async (response: Response) => {
 // Accounts API
 export const accountsApi = {
   getAll: async () => {
-    const response = await fetch(`${API_BASE}/accounts`, {
-      headers: getAuthHeaders()
+    const response = await fetch(buildUrl(`${API_BASE}/accounts`), {
+      headers: { 'Content-Type': 'application/json' }
     });
     return handleResponse(response);
   },
 
   create: async (account: any) => {
-    const response = await fetch(`${API_BASE}/accounts`, {
+    const response = await fetch(buildUrl(`${API_BASE}/accounts`), {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(account)
     });
     return handleResponse(response);
   },
 
   update: async (id: number, account: any) => {
-    const response = await fetch(`${API_BASE}/accounts/${id}`, {
+    const response = await fetch(buildUrl(`${API_BASE}/accounts/${id}`), {
       method: 'PUT',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(account)
     });
     return handleResponse(response);
   },
 
   delete: async (id: number) => {
-    const response = await fetch(`${API_BASE}/accounts/${id}`, {
+    const response = await fetch(buildUrl(`${API_BASE}/accounts/${id}`), {
       method: 'DELETE',
-      headers: getAuthHeaders()
+      headers: { 'Content-Type': 'application/json' }
     });
     return handleResponse(response);
   }
@@ -59,34 +67,34 @@ export const accountsApi = {
 // Categories API
 export const categoriesApi = {
   getAll: async () => {
-    const response = await fetch(`${API_BASE}/categories`, {
-      headers: getAuthHeaders()
+    const response = await fetch(buildUrl(`${API_BASE}/categories`), {
+      headers: { 'Content-Type': 'application/json' }
     });
     return handleResponse(response);
   },
 
   create: async (category: any) => {
-    const response = await fetch(`${API_BASE}/categories`, {
+    const response = await fetch(buildUrl(`${API_BASE}/categories`), {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(category)
     });
     return handleResponse(response);
   },
 
   update: async (id: number, category: any) => {
-    const response = await fetch(`${API_BASE}/categories/${id}`, {
+    const response = await fetch(buildUrl(`${API_BASE}/categories/${id}`), {
       method: 'PUT',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(category)
     });
     return handleResponse(response);
   },
 
   delete: async (id: number) => {
-    const response = await fetch(`${API_BASE}/categories/${id}`, {
+    const response = await fetch(buildUrl(`${API_BASE}/categories/${id}`), {
       method: 'DELETE',
-      headers: getAuthHeaders()
+      headers: { 'Content-Type': 'application/json' }
     });
     return handleResponse(response);
   }
@@ -95,42 +103,42 @@ export const categoriesApi = {
 // Transactions API
 export const transactionsApi = {
   getAll: async () => {
-    const response = await fetch(`${API_BASE}/transactions`, {
-      headers: getAuthHeaders()
+    const response = await fetch(buildUrl(`${API_BASE}/transactions`), {
+      headers: { 'Content-Type': 'application/json' }
     });
     return handleResponse(response);
   },
 
   create: async (transaction: any) => {
-    const response = await fetch(`${API_BASE}/transactions`, {
+    const response = await fetch(buildUrl(`${API_BASE}/transactions`), {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(transaction)
     });
     return handleResponse(response);
   },
 
   update: async (id: number, transaction: any) => {
-    const response = await fetch(`${API_BASE}/transactions/${id}`, {
+    const response = await fetch(buildUrl(`${API_BASE}/transactions/${id}`), {
       method: 'PUT',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(transaction)
     });
     return handleResponse(response);
   },
 
   delete: async (id: number) => {
-    const response = await fetch(`${API_BASE}/transactions/${id}`, {
+    const response = await fetch(buildUrl(`${API_BASE}/transactions/${id}`), {
       method: 'DELETE',
-      headers: getAuthHeaders()
+      headers: { 'Content-Type': 'application/json' }
     });
     return handleResponse(response);
   },
 
   deleteMultiple: async (ids: number[]) => {
-    const response = await fetch(`${API_BASE}/transactions`, {
+    const response = await fetch(buildUrl(`${API_BASE}/transactions`), {
       method: 'DELETE',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ids })
     });
     return handleResponse(response);
@@ -140,34 +148,34 @@ export const transactionsApi = {
 // Budgets API
 export const budgetsApi = {
   getAll: async () => {
-    const response = await fetch(`${API_BASE}/budgets`, {
-      headers: getAuthHeaders()
+    const response = await fetch(buildUrl(`${API_BASE}/budgets`), {
+      headers: { 'Content-Type': 'application/json' }
     });
     return handleResponse(response);
   },
 
   create: async (budget: any) => {
-    const response = await fetch(`${API_BASE}/budgets`, {
+    const response = await fetch(buildUrl(`${API_BASE}/budgets`), {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(budget)
     });
     return handleResponse(response);
   },
 
   update: async (id: number, budget: any) => {
-    const response = await fetch(`${API_BASE}/budgets/${id}`, {
+    const response = await fetch(buildUrl(`${API_BASE}/budgets/${id}`), {
       method: 'PUT',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(budget)
     });
     return handleResponse(response);
   },
 
   delete: async (id: number) => {
-    const response = await fetch(`${API_BASE}/budgets/${id}`, {
+    const response = await fetch(buildUrl(`${API_BASE}/budgets/${id}`), {
       method: 'DELETE',
-      headers: getAuthHeaders()
+      headers: { 'Content-Type': 'application/json' }
     });
     return handleResponse(response);
   }
@@ -176,25 +184,25 @@ export const budgetsApi = {
 // User Settings API
 export const settingsApi = {
   get: async (userId: number) => {
-    const response = await fetch(`${API_BASE}/settings/${userId}`, {
-      headers: getAuthHeaders()
+    const response = await fetch(buildUrl(`${API_BASE}/settings/${userId}`), {
+      headers: { 'Content-Type': 'application/json' }
     });
     return handleResponse(response);
   },
 
   create: async (settings: any) => {
-    const response = await fetch(`${API_BASE}/settings`, {
+    const response = await fetch(buildUrl(`${API_BASE}/settings`), {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(settings)
     });
     return handleResponse(response);
   },
 
   update: async (userId: number, settings: any) => {
-    const response = await fetch(`${API_BASE}/settings/${userId}`, {
+    const response = await fetch(buildUrl(`${API_BASE}/settings/${userId}`), {
       method: 'PUT',
-      headers: getAuthHeaders(),
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(settings)
     });
     return handleResponse(response);
