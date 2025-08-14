@@ -42,7 +42,11 @@ interface CategoryData {
   color: string;
 }
 
-const Overview: React.FC = () => {
+interface OverviewProps {
+  onViewAllTransactions?: () => void;
+}
+
+const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
   const [timeRange, setTimeRange] = useState('30d');
 
   // Mock data for income/expense trend
@@ -260,7 +264,7 @@ const Overview: React.FC = () => {
               <Calendar className="h-5 w-5" />
               Recent Transactions
             </span>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={onViewAllTransactions}>
               View All
             </Button>
           </CardTitle>

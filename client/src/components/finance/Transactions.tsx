@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -60,7 +60,11 @@ interface Transaction {
   notes?: string;
 }
 
-const Transactions: React.FC = () => {
+interface TransactionsProps {
+  autoOpenAddDialog?: boolean;
+}
+
+const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
       id: 1,
@@ -125,6 +129,13 @@ const Transactions: React.FC = () => {
   const [selectedTransactions, setSelectedTransactions] = useState<number[]>([]);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+
+  // Auto-open add dialog if prop is true
+  useEffect(() => {
+    if (autoOpenAddDialog) {
+      setShowAddDialog(true);
+    }
+  }, [autoOpenAddDialog]);
 
   const categories = ['Food & Dining', 'Transportation', 'Shopping', 'Entertainment', 'Utilities', 'Healthcare', 'Salary', 'Freelance'];
   const accounts = ['Checking', 'Savings', 'Credit Card', 'Investment'];
