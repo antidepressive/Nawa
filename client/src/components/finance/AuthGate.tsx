@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Lock, Eye, EyeOff } from 'lucide-react';
+import { initializeDefaultData } from '../../lib/financeApi';
 
 interface AuthGateProps {
   children: React.ReactNode;
@@ -23,7 +24,7 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
     }
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Developer password - you can change this
     const correctPassword = 'dev123';
     
@@ -31,6 +32,13 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
       setIsAuthenticated(true);
       localStorage.setItem('finance_dashboard_auth', 'authenticated');
       setError('');
+      
+      // Initialize default data for first-time users
+      try {
+        await initializeDefaultData();
+      } catch (error) {
+        console.error('Error initializing default data:', error);
+      }
     } else {
       setError('Incorrect password. Please try again.');
       setPassword('');
@@ -111,7 +119,7 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
           )}
           
           <Button 
-            onClick={handleLogin} 
+            onClick={() => handleLogin()} 
             className="w-full"
             disabled={!password.trim()}
           >

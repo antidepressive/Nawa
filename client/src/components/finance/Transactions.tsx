@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
+import { transactionsApi, categoriesApi, accountsApi } from '../../lib/financeApi';
 import { 
   Table, 
   TableBody, 
@@ -65,59 +66,10 @@ interface TransactionsProps {
 }
 
 const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }) => {
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      id: 1,
-      description: 'Grocery shopping',
-      amount: 85.50,
-      type: 'expense',
-      category: 'Food & Dining',
-      account: 'Checking',
-      date: new Date('2024-01-15'),
-      tags: ['groceries', 'food'],
-      notes: 'Weekly grocery run'
-    },
-    {
-      id: 2,
-      description: 'Salary deposit',
-      amount: 4500.00,
-      type: 'income',
-      category: 'Salary',
-      account: 'Checking',
-      date: new Date('2024-01-14'),
-      tags: ['salary', 'income'],
-    },
-    {
-      id: 3,
-      description: 'Gas station',
-      amount: 45.00,
-      type: 'expense',
-      category: 'Transportation',
-      account: 'Credit Card',
-      date: new Date('2024-01-13'),
-      tags: ['gas', 'transportation'],
-    },
-    {
-      id: 4,
-      description: 'Netflix subscription',
-      amount: 15.99,
-      type: 'expense',
-      category: 'Entertainment',
-      account: 'Credit Card',
-      date: new Date('2024-01-12'),
-      tags: ['subscription', 'entertainment'],
-    },
-    {
-      id: 5,
-      description: 'Freelance project',
-      amount: 1200.00,
-      type: 'income',
-      category: 'Freelance',
-      account: 'Checking',
-      date: new Date('2024-01-11'),
-      tags: ['freelance', 'income'],
-    },
-  ]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [accounts, setAccounts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState<string>('all');
@@ -129,6 +81,30 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
   const [selectedTransactions, setSelectedTransactions] = useState<number[]>([]);
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+
+  // Load data from API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const [transactionsData, categoriesData, accountsData] = await Promise.all([
+          transactionsApi.getAll(),
+          categoriesApi.getAll(),
+          accountsApi.getAll()
+        ]);
+        
+        setTransactions(transactionsData);
+        setCategories(categoriesData);
+        setAccounts(accountsData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
 
   // Auto-open add form if prop is true
   useEffect(() => {
@@ -143,12 +119,10 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
     description: '',
     amount: '',
     type: 'expense',
-    category: '',
-    account: ''
+    categoryId: '',
+    accountId: ''
   });
 
-  const categories = ['Food & Dining', 'Transportation', 'Shopping', 'Entertainment', 'Utilities', 'Healthcare', 'Salary', 'Freelance'];
-  const accounts = ['Checking', 'Savings', 'Credit Card', 'Investment'];
   const types = ['income', 'expense', 'transfer'];
 
   const formatCurrency = (amount: number) => {
@@ -211,9 +185,15 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
     }
   };
 
-  const handleDeleteSelected = () => {
-    setTransactions(transactions.filter(t => !selectedTransactions.includes(t.id)));
-    setSelectedTransactions([]);
+  const handleDeleteSelected = async () => {
+    try {
+      await transactionsApi.deleteMultiple(selectedTransactions);
+      setTransactions(transactions.filter(t => !selectedTransactions.includes(t.id)));
+      setSelectedTransactions([]);
+    } catch (error) {
+      console.error('Error deleting transactions:', error);
+      alert('Failed to delete transactions');
+    }
   };
 
   const handleAddTransaction = (transaction: Omit<Transaction, 'id'>) => {
@@ -276,40 +256,45 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
                   <SelectItem value="transfer">Transfer</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={inlineFormData.category} onValueChange={(value) => setInlineFormData({...inlineFormData, category: value})}>
+              <Select value={inlineFormData.categoryId} onValueChange={(value) => setInlineFormData({...inlineFormData, categoryId: value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map(category => (
-                    <SelectItem key={category} value={category}>{category}</SelectItem>
+                    <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               <div className="flex gap-2">
                 <Button 
-                  onClick={() => {
-                    if (inlineFormData.description && inlineFormData.amount && inlineFormData.category && inlineFormData.account) {
-                      const newTransaction = {
-                        id: Math.max(...transactions.map(t => t.id)) + 1,
-                        description: inlineFormData.description,
-                        amount: parseFloat(inlineFormData.amount),
-                        type: inlineFormData.type as 'income' | 'expense' | 'transfer',
-                        category: inlineFormData.category,
-                        account: inlineFormData.account,
-                        date: new Date(),
-                        tags: [],
-                        notes: ''
-                      };
-                      setTransactions([newTransaction, ...transactions]);
-                      setInlineFormData({
-                        description: '',
-                        amount: '',
-                        type: 'expense',
-                        category: '',
-                        account: ''
-                      });
-                      setShowInlineForm(false);
+                  onClick={async () => {
+                    if (inlineFormData.description && inlineFormData.amount && inlineFormData.categoryId && inlineFormData.accountId) {
+                      try {
+                        const newTransaction = await transactionsApi.create({
+                          description: inlineFormData.description,
+                          amount: parseFloat(inlineFormData.amount),
+                          type: inlineFormData.type as 'income' | 'expense' | 'transfer',
+                          categoryId: parseInt(inlineFormData.categoryId),
+                          accountId: parseInt(inlineFormData.accountId),
+                          date: new Date().toISOString().split('T')[0],
+                          tags: [],
+                          notes: ''
+                        });
+                        
+                        setTransactions([newTransaction, ...transactions]);
+                        setInlineFormData({
+                          description: '',
+                          amount: '',
+                          type: 'expense',
+                          categoryId: '',
+                          accountId: ''
+                        });
+                        setShowInlineForm(false);
+                      } catch (error) {
+                        console.error('Error creating transaction:', error);
+                        alert('Failed to create transaction');
+                      }
                     }
                   }}
                   className="flex-1"
@@ -334,13 +319,13 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
               </div>
             </div>
             <div className="mt-4">
-              <Select value={inlineFormData.account} onValueChange={(value) => setInlineFormData({...inlineFormData, account: value})}>
+              <Select value={inlineFormData.accountId} onValueChange={(value) => setInlineFormData({...inlineFormData, accountId: value})}>
                 <SelectTrigger>
                   <SelectValue placeholder="Account" />
                 </SelectTrigger>
                 <SelectContent>
                   {accounts.map(account => (
-                    <SelectItem key={account} value={account}>{account}</SelectItem>
+                    <SelectItem key={account.id} value={account.id.toString()}>{account.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
