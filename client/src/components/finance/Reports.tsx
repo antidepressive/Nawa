@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
+import { transactionsApi, categoriesApi, accountsApi } from '../../lib/financeApi';
 import { 
   Select, 
   SelectContent, 
@@ -88,73 +89,139 @@ const Reports: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<'month' | 'quarter' | 'year'>('month');
   const [customDateRange, setCustomDateRange] = useState<{ from?: Date; to?: Date }>({});
   const [activeReport, setActiveReport] = useState<string>('overview');
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [accounts, setAccounts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock data for reports
-  const reportData: ReportData[] = [
-    { period: 'Jan', income: 8000, expenses: 3200, savings: 4800, savingsRate: 60 },
-    { period: 'Feb', income: 8500, expenses: 2800, savings: 5700, savingsRate: 67 },
-    { period: 'Mar', income: 9000, expenses: 3500, savings: 5500, savingsRate: 61 },
-    { period: 'Apr', income: 8200, expenses: 3100, savings: 5100, savingsRate: 62 },
-    { period: 'May', income: 8800, expenses: 2900, savings: 5900, savingsRate: 67 },
-    { period: 'Jun', income: 8500, expenses: 3200, savings: 5300, savingsRate: 62 },
-  ];
+  // Load data from API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const [transactionsData, categoriesData, accountsData] = await Promise.all([
+          transactionsApi.getAll(),
+          categoriesApi.getAll(),
+          accountsApi.getAll()
+        ]);
+        
+        setTransactions(transactionsData);
+        setCategories(categoriesData);
+        setAccounts(accountsData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const topCategories: TopCategory[] = [
-    { category: 'Food & Dining', amount: 850, percentage: 26.6, color: '#3B82F6' },
-    { category: 'Transportation', amount: 650, percentage: 20.3, color: '#10B981' },
-    { category: 'Shopping', amount: 520, percentage: 16.3, color: '#F59E0B' },
-    { category: 'Entertainment', amount: 480, percentage: 15.0, color: '#EF4444' },
-    { category: 'Utilities', amount: 400, percentage: 12.5, color: '#8B5CF6' },
-    { category: 'Healthcare', amount: 300, percentage: 9.4, color: '#06B6D4' },
-  ];
+    loadData();
+  }, []);
 
-  const largeTransactions: LargeTransaction[] = [
-    {
-      id: 1,
-      description: 'Salary deposit',
-      amount: 4500.00,
-      type: 'income',
-      category: 'Salary',
-      date: new Date('2024-01-14')
-    },
-    {
-      id: 2,
-      description: 'Freelance project',
-      amount: 1200.00,
-      type: 'income',
-      category: 'Freelance',
-      date: new Date('2024-01-11')
-    },
-    {
-      id: 3,
-      description: 'Grocery shopping',
-      amount: 85.50,
-      type: 'expense',
-      category: 'Food & Dining',
-      date: new Date('2024-01-15')
-    },
-    {
-      id: 4,
-      description: 'Gas station',
-      amount: 45.00,
-      type: 'expense',
-      category: 'Transportation',
-      date: new Date('2024-01-13')
-    },
-    {
-      id: 5,
-      description: 'Netflix subscription',
-      amount: 15.99,
-      type: 'expense',
-      category: 'Entertainment',
-      date: new Date('2024-01-12')
-    }
-  ];
+  // Calculate report data from real transactions
+  const getReportData = (): ReportData[] => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    const currentMonth = new Date().getMonth();
+    
+    return months.map((month, index) => {
+      const monthIndex = (currentMonth - 5 + index + 12) % 12;
+      const monthTransactions = transactions.filter(t => {
+        const transactionDate = new Date(t.date);
+        return transactionDate.getMonth() === monthIndex;
+      });
 
-  const incomeSources: IncomeSource[] = [
-    { source: 'Salary', amount: 4500, percentage: 78.9, color: '#10B981' },
-    { source: 'Freelance', amount: 1200, percentage: 21.1, color: '#3B82F6' },
-  ];
+      const income = monthTransactions
+        .filter(t => t.type === 'income')
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+      
+      const expenses = monthTransactions
+        .filter(t => t.type === 'expense')
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+
+      const savings = income - expenses;
+      const savingsRate = income > 0 ? (savings / income) * 100 : 0;
+
+      return { period: month, income, expenses, savings, savingsRate };
+    });
+  };
+
+  // Calculate top categories from real transactions
+  const getTopCategories = (): TopCategory[] => {
+    const expenseTransactions = transactions.filter(t => t.type === 'expense');
+    const categoryTotals: { [key: string]: number } = {};
+    
+    expenseTransactions.forEach(t => {
+      const category = categories.find(c => c.id === t.categoryId);
+      if (category) {
+        categoryTotals[category.name] = (categoryTotals[category.name] || 0) + parseFloat(t.amount);
+      }
+    });
+
+    const totalExpenses = Object.values(categoryTotals).reduce((sum, amount) => sum + amount, 0);
+    
+    return Object.entries(categoryTotals)
+      .map(([category, amount]) => {
+        const categoryData = categories.find(c => c.name === category);
+        return {
+          category,
+          amount,
+          percentage: totalExpenses > 0 ? (amount / totalExpenses) * 100 : 0,
+          color: categoryData?.color || '#3B82F6'
+        };
+      })
+      .sort((a, b) => b.amount - a.amount)
+      .slice(0, 6);
+  };
+
+  // Get largest transactions from real data
+  const getLargeTransactions = (): LargeTransaction[] => {
+    return transactions
+      .sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount))
+      .slice(0, 10)
+      .map(t => {
+        const category = categories.find(c => c.id === t.categoryId);
+        return {
+          id: t.id,
+          description: t.description,
+          amount: parseFloat(t.amount),
+          type: t.type,
+          category: category?.name || 'Unknown',
+          date: new Date(t.date)
+        };
+      });
+  };
+
+  // Calculate income sources from real data
+  const getIncomeSources = (): IncomeSource[] => {
+    const incomeTransactions = transactions.filter(t => t.type === 'income');
+    const sourceTotals: { [key: string]: number } = {};
+    
+    incomeTransactions.forEach(t => {
+      const category = categories.find(c => c.id === t.categoryId);
+      if (category) {
+        sourceTotals[category.name] = (sourceTotals[category.name] || 0) + parseFloat(t.amount);
+      }
+    });
+
+    const totalIncome = Object.values(sourceTotals).reduce((sum, amount) => sum + amount, 0);
+    
+    return Object.entries(sourceTotals)
+      .map(([source, amount]) => {
+        const categoryData = categories.find(c => c.name === source);
+        return {
+          source,
+          amount,
+          percentage: totalIncome > 0 ? (amount / totalIncome) * 100 : 0,
+          color: categoryData?.color || '#10B981'
+        };
+      })
+      .sort((a, b) => b.amount - a.amount);
+  };
+
+  const reportData = getReportData();
+  const topCategories = getTopCategories();
+  const largeTransactions = getLargeTransactions();
+  const incomeSources = getIncomeSources();
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -497,6 +564,19 @@ const Reports: React.FC = () => {
       </Card>
     </div>
   );
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Reports</h2>
+        </div>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-muted-foreground">Loading report data...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Progress } from '../ui/progress';
 import { Badge } from '../ui/badge';
+import { budgetsApi, categoriesApi, transactionsApi, accountsApi } from '../../lib/financeApi';
 import { 
   Dialog, 
   DialogContent, 
@@ -73,93 +74,82 @@ const Budgets: React.FC = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
   const [showTransactions, setShowTransactions] = useState(false);
+  const [budgets, setBudgets] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [accounts, setAccounts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const budgets: Budget[] = [
-    {
-      id: 1,
-      category: 'Food & Dining',
-      amount: 800,
-      spent: 650,
-      period: 'monthly',
-      startDate: new Date('2024-01-01'),
-      color: '#3B82F6',
-      icon: '🍽️'
-    },
-    {
-      id: 2,
-      category: 'Transportation',
-      amount: 400,
-      spent: 320,
-      period: 'monthly',
-      startDate: new Date('2024-01-01'),
-      color: '#10B981',
-      icon: '🚗'
-    },
-    {
-      id: 3,
-      category: 'Shopping',
-      amount: 300,
-      spent: 280,
-      period: 'monthly',
-      startDate: new Date('2024-01-01'),
-      color: '#F59E0B',
-      icon: '🛍️'
-    },
-    {
-      id: 4,
-      category: 'Entertainment',
-      amount: 200,
-      spent: 150,
-      period: 'monthly',
-      startDate: new Date('2024-01-01'),
-      color: '#EF4444',
-      icon: '🎬'
-    },
-    {
-      id: 5,
-      category: 'Utilities',
-      amount: 250,
-      spent: 180,
-      period: 'monthly',
-      startDate: new Date('2024-01-01'),
-      color: '#8B5CF6',
-      icon: '⚡'
-    },
-    {
-      id: 6,
-      category: 'Healthcare',
-      amount: 150,
-      spent: 120,
-      period: 'monthly',
-      startDate: new Date('2024-01-01'),
-      color: '#06B6D4',
-      icon: '🏥'
-    }
-  ];
+  // Load data from API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const [budgetsData, categoriesData, transactionsData, accountsData] = await Promise.all([
+          budgetsApi.getAll(),
+          categoriesApi.getAll(),
+          transactionsApi.getAll(),
+          accountsApi.getAll()
+        ]);
+        
+        setBudgets(budgetsData);
+        setCategories(categoriesData);
+        setTransactions(transactionsData);
+        setAccounts(accountsData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const budgetTransactions: BudgetTransaction[] = [
-    {
-      id: 1,
-      description: 'Grocery shopping',
-      amount: 85.50,
-      date: new Date('2024-01-15'),
-      account: 'Checking'
-    },
-    {
-      id: 2,
-      description: 'Restaurant dinner',
-      amount: 45.00,
-      date: new Date('2024-01-14'),
-      account: 'Credit Card'
-    },
-    {
-      id: 3,
-      description: 'Coffee shop',
-      amount: 12.50,
-      date: new Date('2024-01-13'),
-      account: 'Credit Card'
-    }
-  ];
+    loadData();
+  }, []);
+
+  // Calculate spent amounts for budgets
+  const getBudgetWithSpent = (budget: any) => {
+    const categoryTransactions = transactions.filter(t => 
+      t.categoryId === budget.categoryId && 
+      t.type === 'expense' &&
+      new Date(t.date) >= new Date(budget.startDate) &&
+      (!budget.endDate || new Date(t.date) <= new Date(budget.endDate))
+    );
+    
+    const spent = categoryTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+    const category = categories.find(c => c.id === budget.categoryId);
+    
+    return {
+      ...budget,
+      category: category?.name || 'Unknown',
+      spent,
+      color: category?.color || '#3B82F6',
+      icon: category?.icon || '💰'
+    };
+  };
+
+  // Get budget transactions for a specific budget
+  const getBudgetTransactions = (budgetId: number): BudgetTransaction[] => {
+    const budget = budgets.find(b => b.id === budgetId);
+    if (!budget) return [];
+
+    const categoryTransactions = transactions.filter(t => 
+      t.categoryId === budget.categoryId && 
+      t.type === 'expense' &&
+      new Date(t.date) >= new Date(budget.startDate) &&
+      (!budget.endDate || new Date(t.date) <= new Date(budget.endDate))
+    );
+
+    return categoryTransactions.map(t => {
+      const account = accounts.find(a => a.id === t.accountId);
+      return {
+        id: t.id,
+        description: t.description,
+        amount: parseFloat(t.amount),
+        date: new Date(t.date),
+        account: account?.name || 'Unknown'
+      };
+    }).sort((a, b) => b.date.getTime() - a.date.getTime());
+  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -199,14 +189,29 @@ const Budgets: React.FC = () => {
     </Badge>;
   };
 
-  const filteredBudgets = budgets.filter(budget => budget.period === selectedPeriod);
+  const filteredBudgets = budgets
+    .filter(budget => budget.period === selectedPeriod)
+    .map(getBudgetWithSpent);
 
   const chartData = filteredBudgets.map(budget => ({
     category: budget.category,
-    budget: budget.amount,
+    budget: parseFloat(budget.amount),
     spent: budget.spent,
-    remaining: budget.amount - budget.spent
+    remaining: parseFloat(budget.amount) - budget.spent
   }));
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Budgets</h2>
+        </div>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-muted-foreground">Loading budget data...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -328,9 +333,26 @@ const Budgets: React.FC = () => {
             <DialogTitle>Add Budget</DialogTitle>
           </DialogHeader>
           <BudgetForm
-            onSubmit={(budget) => {
-              // Handle add budget
-              setShowAddDialog(false);
+            onSubmit={async (budget) => {
+              try {
+                await budgetsApi.create({
+                  categoryId: parseInt(budget.categoryId),
+                  amount: budget.amount,
+                  period: budget.period,
+                  startDate: new Date().toISOString().split('T')[0],
+                  endDate: budget.period === 'monthly' 
+                    ? new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0]
+                    : new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]
+                });
+                
+                // Reload budgets
+                const budgetsData = await budgetsApi.getAll();
+                setBudgets(budgetsData);
+                setShowAddDialog(false);
+              } catch (error) {
+                console.error('Error creating budget:', error);
+                alert('Failed to create budget');
+              }
             }}
             onCancel={() => setShowAddDialog(false)}
           />
@@ -373,7 +395,7 @@ const Budgets: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {budgetTransactions.map((transaction) => (
+                {selectedBudget && getBudgetTransactions(selectedBudget.id).map((transaction) => (
                   <TableRow key={transaction.id}>
                     <TableCell>
                       {transaction.date.toLocaleDateString('en-US', {
@@ -407,12 +429,12 @@ interface BudgetFormProps {
 
 const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    category: '',
+    categoryId: '',
     amount: 0,
     period: 'monthly' as 'monthly' | 'yearly'
   });
 
-  const categories = ['Food & Dining', 'Transportation', 'Shopping', 'Entertainment', 'Utilities', 'Healthcare'];
+  const expenseCategories = categories.filter(c => c.type === 'expense');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -423,13 +445,13 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit, onCancel }) => {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="category">Category</Label>
-        <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+        <Select value={formData.categoryId} onValueChange={(value) => setFormData({ ...formData, categoryId: value })}>
           <SelectTrigger>
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
-            {categories.map(category => (
-              <SelectItem key={category} value={category}>{category}</SelectItem>
+            {expenseCategories.map(category => (
+              <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
             ))}
           </SelectContent>
         </Select>

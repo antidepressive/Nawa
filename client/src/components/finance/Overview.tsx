@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { ScrollArea } from '../ui/scroll-area';
+import { transactionsApi, categoriesApi, accountsApi } from '../../lib/financeApi';
 import { 
   LineChart, 
   Line, 
@@ -48,75 +49,100 @@ interface OverviewProps {
 
 const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
   const [timeRange, setTimeRange] = useState('30d');
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [accounts, setAccounts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock data for income/expense trend
-  const trendData = [
-    { date: 'Jan', income: 8000, expenses: 3200 },
-    { date: 'Feb', income: 8500, expenses: 2800 },
-    { date: 'Mar', income: 9000, expenses: 3500 },
-    { date: 'Apr', income: 8200, expenses: 3100 },
-    { date: 'May', income: 8800, expenses: 2900 },
-    { date: 'Jun', income: 8500, expenses: 3200 },
-  ];
+  // Load data from API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const [transactionsData, categoriesData, accountsData] = await Promise.all([
+          transactionsApi.getAll(),
+          categoriesApi.getAll(),
+          accountsApi.getAll()
+        ]);
+        
+        setTransactions(transactionsData);
+        setCategories(categoriesData);
+        setAccounts(accountsData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Mock data for expense categories
-  const categoryData: CategoryData[] = [
-    { name: 'Food & Dining', value: 850, color: '#3B82F6' },
-    { name: 'Transportation', value: 650, color: '#10B981' },
-    { name: 'Shopping', value: 520, color: '#F59E0B' },
-    { name: 'Entertainment', value: 480, color: '#EF4444' },
-    { name: 'Utilities', value: 400, color: '#8B5CF6' },
-    { name: 'Healthcare', value: 300, color: '#06B6D4' },
-  ];
+    loadData();
+  }, []);
 
-  // Mock recent transactions
-  const recentTransactions: Transaction[] = [
-    {
-      id: 1,
-      description: 'Grocery shopping',
-      amount: 85.50,
-      type: 'expense',
-      category: 'Food & Dining',
-      date: '2024-01-15',
-      account: 'Checking'
-    },
-    {
-      id: 2,
-      description: 'Salary deposit',
-      amount: 4500.00,
-      type: 'income',
-      category: 'Salary',
-      date: '2024-01-14',
-      account: 'Checking'
-    },
-    {
-      id: 3,
-      description: 'Gas station',
-      amount: 45.00,
-      type: 'expense',
-      category: 'Transportation',
-      date: '2024-01-13',
-      account: 'Credit Card'
-    },
-    {
-      id: 4,
-      description: 'Netflix subscription',
-      amount: 15.99,
-      type: 'expense',
-      category: 'Entertainment',
-      date: '2024-01-12',
-      account: 'Credit Card'
-    },
-    {
-      id: 5,
-      description: 'Freelance project',
-      amount: 1200.00,
-      type: 'income',
-      category: 'Freelance',
-      date: '2024-01-11',
-      account: 'Checking'
-    },
-  ];
+  // Calculate trend data from real transactions
+  const getTrendData = () => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    const currentMonth = new Date().getMonth();
+    
+    return months.map((month, index) => {
+      const monthIndex = (currentMonth - 5 + index + 12) % 12;
+      const monthTransactions = transactions.filter(t => {
+        const transactionDate = new Date(t.date);
+        return transactionDate.getMonth() === monthIndex;
+      });
+
+      const income = monthTransactions
+        .filter(t => t.type === 'income')
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+      
+      const expenses = monthTransactions
+        .filter(t => t.type === 'expense')
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+
+      return { date: month, income, expenses };
+    });
+  };
+
+  // Calculate category data from real transactions
+  const getCategoryData = (): CategoryData[] => {
+    const expenseCategories = categories.filter(c => c.type === 'expense');
+    const expenseTransactions = transactions.filter(t => t.type === 'expense');
+    
+    return expenseCategories.map(category => {
+      const categoryTransactions = expenseTransactions.filter(t => t.categoryId === category.id);
+      const total = categoryTransactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+      
+      return {
+        name: category.name,
+        value: total,
+        color: category.color || '#3B82F6'
+      };
+    }).filter(cat => cat.value > 0).sort((a, b) => b.value - a.value);
+  };
+
+  // Get recent transactions
+  const getRecentTransactions = (): Transaction[] => {
+    return transactions
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 5)
+      .map(t => {
+        const category = categories.find(c => c.id === t.categoryId);
+        const account = accounts.find(a => a.id === t.accountId);
+        
+        return {
+          id: t.id,
+          description: t.description,
+          amount: parseFloat(t.amount),
+          type: t.type,
+          category: category?.name || 'Unknown',
+          date: t.date,
+          account: account?.name || 'Unknown'
+        };
+      });
+  };
+
+  const trendData = getTrendData();
+  const categoryData = getCategoryData();
+  const recentTransactions = getRecentTransactions();
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -131,6 +157,19 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
       day: 'numeric'
     });
   };
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Financial Overview</h2>
+        </div>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-muted-foreground">Loading financial data...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
