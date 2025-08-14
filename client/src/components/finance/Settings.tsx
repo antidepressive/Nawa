@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Badge } from '../ui/badge';
 import { Switch } from '../ui/switch';
+import { categoriesApi, accountsApi } from '../../lib/financeApi';
 import { 
   Select, 
   SelectContent, 
@@ -82,6 +83,9 @@ const Settings: React.FC = () => {
   const [showAddAccount, setShowAddAccount] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [editingAccount, setEditingAccount] = useState<Account | null>(null);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [accounts, setAccounts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [settings, setSettings] = useState({
     currency: 'USD',
@@ -99,95 +103,27 @@ const Settings: React.FC = () => {
     }
   });
 
-  const [categories, setCategories] = useState<Category[]>([
-    {
-      id: 1,
-      name: 'Food & Dining',
-      type: 'expense',
-      color: '#3B82F6',
-      icon: '🍽️',
-      isActive: true
-    },
-    {
-      id: 2,
-      name: 'Transportation',
-      type: 'expense',
-      color: '#10B981',
-      icon: '🚗',
-      isActive: true
-    },
-    {
-      id: 3,
-      name: 'Shopping',
-      type: 'expense',
-      color: '#F59E0B',
-      icon: '🛍️',
-      isActive: true
-    },
-    {
-      id: 4,
-      name: 'Entertainment',
-      type: 'expense',
-      color: '#EF4444',
-      icon: '🎬',
-      isActive: true
-    },
-    {
-      id: 5,
-      name: 'Salary',
-      type: 'income',
-      color: '#10B981',
-      icon: '💰',
-      isActive: true
-    },
-    {
-      id: 6,
-      name: 'Freelance',
-      type: 'income',
-      color: '#3B82F6',
-      icon: '💼',
-      isActive: true
-    }
-  ]);
+  // Load data from API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const [categoriesData, accountsData] = await Promise.all([
+          categoriesApi.getAll(),
+          accountsApi.getAll()
+        ]);
+        
+        setCategories(categoriesData);
+        setAccounts(accountsData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const [accounts, setAccounts] = useState<Account[]>([
-    {
-      id: 1,
-      name: 'Main Checking',
-      type: 'checking',
-      balance: 5420.50,
-      currency: 'USD',
-      color: '#3B82F6',
-      isActive: true
-    },
-    {
-      id: 2,
-      name: 'Savings Account',
-      type: 'savings',
-      balance: 10000.00,
-      currency: 'USD',
-      color: '#10B981',
-      isActive: true
-    },
-    {
-      id: 3,
-      name: 'Credit Card',
-      type: 'credit',
-      balance: -1250.75,
-      currency: 'USD',
-      color: '#EF4444',
-      isActive: true
-    },
-    {
-      id: 4,
-      name: 'Investment Portfolio',
-      type: 'investment',
-      balance: 25000.00,
-      currency: 'USD',
-      color: '#8B5CF6',
-      isActive: true
-    }
-  ]);
+    loadData();
+  }, []);
 
   const currencies = [
     { code: 'USD', name: 'US Dollar', symbol: '$' },
@@ -227,41 +163,82 @@ const Settings: React.FC = () => {
     console.log('Importing data from:', file.name);
   };
 
-  const handleAddCategory = (category: Omit<Category, 'id'>) => {
-    const newCategory = {
-      ...category,
-      id: Math.max(...categories.map(c => c.id)) + 1
-    };
-    setCategories([...categories, newCategory]);
-    setShowAddCategory(false);
+  const handleAddCategory = async (category: Omit<Category, 'id'>) => {
+    try {
+      const newCategory = await categoriesApi.create(category);
+      setCategories([...categories, newCategory]);
+      setShowAddCategory(false);
+    } catch (error) {
+      console.error('Error creating category:', error);
+      alert('Failed to create category');
+    }
   };
 
-  const handleEditCategory = (category: Category) => {
-    setCategories(categories.map(c => c.id === category.id ? category : c));
-    setEditingCategory(null);
+  const handleEditCategory = async (category: Category) => {
+    try {
+      const updatedCategory = await categoriesApi.update(category.id, category);
+      setCategories(categories.map(c => c.id === category.id ? updatedCategory : c));
+      setEditingCategory(null);
+    } catch (error) {
+      console.error('Error updating category:', error);
+      alert('Failed to update category');
+    }
   };
 
-  const handleDeleteCategory = (id: number) => {
-    setCategories(categories.filter(c => c.id !== id));
+  const handleDeleteCategory = async (id: number) => {
+    try {
+      await categoriesApi.delete(id);
+      setCategories(categories.filter(c => c.id !== id));
+    } catch (error) {
+      console.error('Error deleting category:', error);
+      alert('Failed to delete category');
+    }
   };
 
-  const handleAddAccount = (account: Omit<Account, 'id'>) => {
-    const newAccount = {
-      ...account,
-      id: Math.max(...accounts.map(a => a.id)) + 1
-    };
-    setAccounts([...accounts, newAccount]);
-    setShowAddAccount(false);
+  const handleAddAccount = async (account: Omit<Account, 'id'>) => {
+    try {
+      const newAccount = await accountsApi.create(account);
+      setAccounts([...accounts, newAccount]);
+      setShowAddAccount(false);
+    } catch (error) {
+      console.error('Error creating account:', error);
+      alert('Failed to create account');
+    }
   };
 
-  const handleEditAccount = (account: Account) => {
-    setAccounts(accounts.map(a => a.id === account.id ? account : a));
-    setEditingAccount(null);
+  const handleEditAccount = async (account: Account) => {
+    try {
+      const updatedAccount = await accountsApi.update(account.id, account);
+      setAccounts(accounts.map(a => a.id === account.id ? updatedAccount : a));
+      setEditingAccount(null);
+    } catch (error) {
+      console.error('Error updating account:', error);
+      alert('Failed to update account');
+    }
   };
 
-  const handleDeleteAccount = (id: number) => {
-    setAccounts(accounts.filter(a => a.id !== id));
+  const handleDeleteAccount = async (id: number) => {
+    try {
+      await accountsApi.delete(id);
+      setAccounts(accounts.filter(a => a.id !== id));
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      alert('Failed to delete account');
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Settings</h2>
+        </div>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-muted-foreground">Loading settings...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -596,9 +573,9 @@ const Settings: React.FC = () => {
                       </TableCell>
                       <TableCell>
                         <span className={`font-medium ${
-                          account.balance < 0 ? 'text-red-600' : 'text-green-600'
+                          parseFloat(account.balance) < 0 ? 'text-red-600' : 'text-green-600'
                         }`}>
-                          {formatCurrency(account.balance)}
+                          {formatCurrency(parseFloat(account.balance))}
                         </span>
                       </TableCell>
                       <TableCell>{account.currency}</TableCell>
