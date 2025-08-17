@@ -3,6 +3,7 @@ import {
   contactSubmissions, 
   newsletterSubscriptions,
   workshopRegistrations,
+  jobApplications,
   accounts,
   categories,
   transactions,
@@ -16,6 +17,8 @@ import {
   type InsertNewsletterSubscription,
   type WorkshopRegistration,
   type InsertWorkshopRegistration,
+  type JobApplication,
+  type InsertJobApplication,
   type Account,
   type InsertAccount,
   type Category,
@@ -37,17 +40,21 @@ export interface IStorage {
   createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
   createNewsletterSubscription(subscription: InsertNewsletterSubscription): Promise<NewsletterSubscription>;
   createWorkshopRegistration(registration: InsertWorkshopRegistration): Promise<WorkshopRegistration>;
+  createJobApplication(application: InsertJobApplication): Promise<JobApplication>;
   getContactSubmissions(): Promise<ContactSubmission[]>;
   getNewsletterSubmissions(): Promise<NewsletterSubscription[]>;
   getWorkshopRegistrations(): Promise<WorkshopRegistration[]>;
+  getJobApplications(): Promise<JobApplication[]>;
   // Delete methods
   deleteContactSubmission(id: number): Promise<boolean>;
   deleteNewsletterSubscription(id: number): Promise<boolean>;
   deleteWorkshopRegistration(id: number): Promise<boolean>;
+  deleteJobApplication(id: number): Promise<boolean>;
   // Bulk delete methods
   deleteContactSubmissions(ids: number[]): Promise<number>;
   deleteNewsletterSubscriptions(ids: number[]): Promise<number>;
   deleteWorkshopRegistrations(ids: number[]): Promise<number>;
+  deleteJobApplications(ids: number[]): Promise<number>;
   // Finance methods
   getAccounts(): Promise<Account[]>;
   createAccount(account: InsertAccount): Promise<Account>;
@@ -126,6 +133,18 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(workshopRegistrations).orderBy(workshopRegistrations.createdAt);
   }
 
+  async createJobApplication(application: InsertJobApplication): Promise<JobApplication> {
+    const [jobApplication] = await db
+      .insert(jobApplications)
+      .values(application)
+      .returning();
+    return jobApplication;
+  }
+
+  async getJobApplications(): Promise<JobApplication[]> {
+    return await db.select().from(jobApplications).orderBy(jobApplications.createdAt);
+  }
+
   // Delete methods
   async deleteContactSubmission(id: number): Promise<boolean> {
     const result = await db
@@ -145,6 +164,13 @@ export class DatabaseStorage implements IStorage {
     const result = await db
       .delete(workshopRegistrations)
       .where(eq(workshopRegistrations.id, id));
+    return result.rowCount > 0;
+  }
+
+  async deleteJobApplication(id: number): Promise<boolean> {
+    const result = await db
+      .delete(jobApplications)
+      .where(eq(jobApplications.id, id));
     return result.rowCount > 0;
   }
 
@@ -170,6 +196,14 @@ export class DatabaseStorage implements IStorage {
     const result = await db
       .delete(workshopRegistrations)
       .where(sql`${workshopRegistrations.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
+    return result.rowCount || 0;
+  }
+
+  async deleteJobApplications(ids: number[]): Promise<number> {
+    if (ids.length === 0) return 0;
+    const result = await db
+      .delete(jobApplications)
+      .where(sql`${jobApplications.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
     return result.rowCount || 0;
   }
 

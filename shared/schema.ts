@@ -41,6 +41,20 @@ export const workshopRegistrations = pgTable("workshop_registrations", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const jobApplications = pgTable("job_applications", {
+  id: serial("id").primaryKey(),
+  firstName: text("first_name").notNull(),
+  lastName: text("last_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  workExperience: text("work_experience").notNull(),
+  education: text("education").notNull(),
+  skills: text("skills").notNull(),
+  resumePath: text("resume_path").notNull(),
+  status: text("status").notNull().default("pending"), // 'pending', 'reviewed', 'contacted', 'rejected'
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const accounts = pgTable("accounts", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -132,6 +146,18 @@ export const insertWorkshopRegistrationSchema = createInsertSchema(workshopRegis
   friend2Phone: true,
 });
 
+export const insertJobApplicationSchema = createInsertSchema(jobApplications).pick({
+  firstName: true,
+  lastName: true,
+  email: true,
+  phone: true,
+  workExperience: true,
+  education: true,
+  skills: true,
+  resumePath: true,
+  status: true,
+});
+
 export const insertAccountSchema = createInsertSchema(accounts).pick({
   name: true,
   type: true,
@@ -181,6 +207,8 @@ export type InsertNewsletterSubscription = z.infer<typeof insertNewsletterSubscr
 export type NewsletterSubscription = typeof newsletterSubscriptions.$inferSelect;
 export type InsertWorkshopRegistration = z.infer<typeof insertWorkshopRegistrationSchema>;
 export type WorkshopRegistration = typeof workshopRegistrations.$inferSelect;
+export type InsertJobApplication = z.infer<typeof insertJobApplicationSchema>;
+export type JobApplication = typeof jobApplications.$inferSelect;
 export type Account = typeof accounts.$inferSelect;
 export type InsertAccount = z.infer<typeof insertAccountSchema>;
 export type Category = typeof categories.$inferSelect;

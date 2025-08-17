@@ -41,6 +41,20 @@ interface WorkshopRegistration {
   createdAt: string;
 }
 
+interface JobApplication {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  workExperience: string;
+  education: string;
+  skills: string;
+  resumePath: string;
+  status: string;
+  createdAt: string;
+}
+
 // Helper function to make authenticated API requests
 const apiRequest = async (method: string, endpoint: string, data?: any, token?: string) => {
   const authToken = token || sessionStorage.getItem('adminToken');
@@ -80,27 +94,31 @@ export default function Admin() {
   const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
   const [newsletterSubscriptions, setNewsletterSubscriptions] = useState<NewsletterSubscription[]>([]);
   const [workshopRegistrations, setWorkshopRegistrations] = useState<WorkshopRegistration[]>([]);
+  const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState<{
     contacts: number[];
     newsletters: number[];
     workshops: number[];
-  }>({ contacts: [], newsletters: [], workshops: [] });
+    applications: number[];
+  }>({ contacts: [], newsletters: [], workshops: [], applications: [] });
 
   // Sorting state
   const [sortOrder, setSortOrder] = useState<{
     contacts: 'newest' | 'oldest';
     newsletters: 'newest' | 'oldest';
     workshops: 'newest' | 'oldest';
+    applications: 'newest' | 'oldest';
   }>({
     contacts: 'newest',
     newsletters: 'newest',
-    workshops: 'newest'
+    workshops: 'newest',
+    applications: 'newest'
   });
 
   // Delete confirmation dialog state
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [deleteType, setDeleteType] = useState<'contacts' | 'newsletters' | 'workshops' | null>(null);
+  const [deleteType, setDeleteType] = useState<'contacts' | 'newsletters' | 'workshops' | 'applications' | null>(null);
   const [deleteIds, setDeleteIds] = useState<number[]>([]);
   const [deleteToken, setDeleteToken] = useState('');
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -129,15 +147,17 @@ export default function Admin() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [contacts, newsletters, workshops] = await Promise.all([
+      const [contacts, newsletters, workshops, applications] = await Promise.all([
         apiRequest('GET', '/api/contact'),
         apiRequest('GET', '/api/newsletter'),
-        apiRequest('GET', '/api/workshop')
+        apiRequest('GET', '/api/workshop'),
+        apiRequest('GET', '/api/job-applications')
       ]);
       
       setContactSubmissions(contacts);
       setNewsletterSubscriptions(newsletters);
       setWorkshopRegistrations(workshops);
+      setJobApplications(applications);
     } catch (error) {
       console.error('Error fetching data:', error);
       if (error instanceof Error && error.message === 'Authentication failed') {
@@ -153,7 +173,7 @@ export default function Admin() {
     }
   };
 
-  const handleDeleteClick = (type: 'contacts' | 'newsletters' | 'workshops', ids: number[]) => {
+  const handleDeleteClick = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications', ids: number[]) => {
     if (ids.length === 0) return;
     
     setDeleteType(type);
@@ -176,7 +196,8 @@ export default function Admin() {
     
     try {
       const endpoint = deleteType === 'contacts' ? '/api/contact' : 
-                      deleteType === 'newsletters' ? '/api/newsletter' : '/api/workshop';
+                      deleteType === 'newsletters' ? '/api/newsletter' : 
+                      deleteType === 'workshops' ? '/api/workshop' : '/api/job-applications';
       
       const response = await apiRequest('DELETE', endpoint, { ids: deleteIds }, deleteToken);
       
@@ -213,7 +234,7 @@ export default function Admin() {
     }
   };
 
-  const handleSelectItem = (type: 'contacts' | 'newsletters' | 'workshops', id: number) => {
+  const handleSelectItem = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications', id: number) => {
     setSelectedItems(prev => {
       const current = prev[type];
       const newSelection = current.includes(id) 
@@ -223,14 +244,15 @@ export default function Admin() {
     });
   };
 
-  const handleSelectAll = (type: 'contacts' | 'newsletters' | 'workshops') => {
+  const handleSelectAll = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications') => {
     const items = type === 'contacts' ? contactSubmissions : 
-                  type === 'newsletters' ? newsletterSubscriptions : workshopRegistrations;
+                  type === 'newsletters' ? newsletterSubscriptions : 
+                  type === 'workshops' ? workshopRegistrations : jobApplications;
     const allIds = items.map(item => item.id);
     setSelectedItems(prev => ({ ...prev, [type]: allIds }));
   };
 
-  const handleClearSelection = (type: 'contacts' | 'newsletters' | 'workshops') => {
+  const handleClearSelection = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications') => {
     setSelectedItems(prev => ({ ...prev, [type]: [] }));
   };
 
@@ -252,11 +274,12 @@ export default function Admin() {
     window.URL.revokeObjectURL(url);
   };
 
-  const getDeleteTypeLabel = (type: 'contacts' | 'newsletters' | 'workshops') => {
+  const getDeleteTypeLabel = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications') => {
     switch (type) {
       case 'contacts': return language === 'ar' ? 'طلبات الاتصال' : 'Contact submissions';
       case 'newsletters': return language === 'ar' ? 'اشتراكات النشرة الإخبارية' : 'Newsletter subscriptions';
       case 'workshops': return language === 'ar' ? 'تسجيلات ورش العمل' : 'Workshop registrations';
+      case 'applications': return language === 'ar' ? 'طلبات التوظيف' : 'Job applications';
       default: return '';
     }
   };
@@ -274,9 +297,10 @@ export default function Admin() {
   const getSortedContacts = () => sortData(contactSubmissions, sortOrder.contacts);
   const getSortedNewsletters = () => sortData(newsletterSubscriptions, sortOrder.newsletters);
   const getSortedWorkshops = () => sortData(workshopRegistrations, sortOrder.workshops);
+  const getSortedApplications = () => sortData(jobApplications, sortOrder.applications);
 
   // Handle sort change
-  const handleSortChange = (type: 'contacts' | 'newsletters' | 'workshops') => {
+  const handleSortChange = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications') => {
     setSortOrder((prev: typeof sortOrder) => ({
       ...prev,
       [type]: prev[type] === 'newest' ? 'oldest' : 'newest'
@@ -319,7 +343,7 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="contacts" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="contacts">
               {language === 'ar' ? 'طلبات الاتصال' : 'Contact'} ({contactSubmissions.length})
             </TabsTrigger>
@@ -328,6 +352,9 @@ export default function Admin() {
             </TabsTrigger>
             <TabsTrigger value="workshops">
               {language === 'ar' ? 'ورش العمل' : 'Workshops'} ({workshopRegistrations.length})
+            </TabsTrigger>
+            <TabsTrigger value="applications">
+              {language === 'ar' ? 'طلبات التوظيف' : 'Job Applications'} ({jobApplications.length})
             </TabsTrigger>
           </TabsList>
 
@@ -565,6 +592,110 @@ export default function Admin() {
                         </div>
                         <p className="text-xs text-gray-500">
                           {new Date(registration.createdAt).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="applications" className="space-y-4">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSelectAll('applications')}
+                >
+                  {language === 'ar' ? 'تحديد الكل' : 'Select All'}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleClearSelection('applications')}
+                >
+                  {language === 'ar' ? 'إلغاء التحديد' : 'Clear'}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSortChange('applications')}
+                  className="flex items-center gap-1"
+                >
+                  {sortOrder.applications === 'newest' ? <ArrowDown className="w-4 h-4" /> : <ArrowUp className="w-4 h-4" />}
+                  {language === 'ar' 
+                    ? (sortOrder.applications === 'newest' ? 'الأحدث' : 'الأقدم')
+                    : (sortOrder.applications === 'newest' ? 'Newest' : 'Oldest')
+                  }
+                </Button>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => exportToCSV(jobApplications, 'job-applications.csv')}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  {language === 'ar' ? 'تصدير' : 'Export'}
+                </Button>
+                {selectedItems.applications.length > 0 && (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleDeleteClick('applications', selectedItems.applications)}
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    {language === 'ar' ? 'حذف المحدد' : 'Delete Selected'} ({selectedItems.applications.length})
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            <div className="grid gap-4">
+              {getSortedApplications().map((application) => (
+                <Card key={application.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <input
+                            type="checkbox"
+                            checked={selectedItems.applications.includes(application.id)}
+                            onChange={() => handleSelectItem('applications', application.id)}
+                            className="rounded"
+                          />
+                          <h3 className="font-semibold">{application.firstName} {application.lastName}</h3>
+                          <Badge variant="secondary">{application.email}</Badge>
+                          <Badge variant="outline">{application.status}</Badge>
+                        </div>
+                        <div className="text-sm text-gray-600 mb-2">
+                          <p>Phone: {application.phone}</p>
+                          <p>Work Experience: {application.workExperience.substring(0, 100)}...</p>
+                          <p>Education: {application.education.substring(0, 100)}...</p>
+                          <p>Skills: {application.skills.substring(0, 100)}...</p>
+                          <div className="flex items-center gap-2">
+                            <span>Resume:</span>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                const token = sessionStorage.getItem('adminToken');
+                                const filename = application.resumePath.split('/').pop();
+                                if (filename) {
+                                  window.open(`/api/resume/${filename}?apiKey=${encodeURIComponent(token || '')}`, '_blank');
+                                }
+                              }}
+                              className="h-6 px-2 text-xs"
+                            >
+                              <Download className="w-3 h-3 mr-1" />
+                              {language === 'ar' ? 'عرض السيرة الذاتية' : 'View Resume'}
+                            </Button>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          {new Date(application.createdAt).toLocaleString()}
                         </p>
                       </div>
                     </div>

@@ -1,28 +1,70 @@
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Globe, Menu, X } from 'lucide-react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 
 import Nawa_Logo from "@assets/Nawa Logo.webp";
 
 export const Navigation = () => {
   const { language, toggleLanguage, t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [location, setLocation] = useLocation();
 
   const navItems = [
-    { key: 'nav.home', href: '#home', isLink: false },
-    { key: 'nav.about', href: '#about', isLink: false },
-    { key: 'nav.impact', href: '#impact', isLink: false },
-    { key: 'nav.programs', href: '/programs/nawa-career', isLink: true },
-    { key: 'nav.contact', href: '#contact', isLink: false }
+    { key: 'nav.home', href: '#home', isLink: false, isHome: true },
+    { key: 'nav.about', href: '#about', isLink: false, isHome: false },
+    { key: 'nav.impact', href: '#impact', isLink: false, isHome: false },
+    { key: 'nav.programs', href: '/programs/nawa-career', isLink: true, isHome: false },
+    { key: 'nav.contact', href: '#contact', isLink: false, isHome: false }
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (href: string, isHome: boolean = false) => {
+    // If we're on the home page, scroll directly to the section
+    if (location === '/') {
+      if (isHome) {
+        // Scroll to top of page
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } else {
+      // If we're on another page, navigate to home first, then scroll
+      setLocation('/');
+      setTimeout(() => {
+        if (isHome) {
+          // Scroll to top of page
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const element = document.querySelector(href);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 100);
     }
     setIsMenuOpen(false);
+  };
+
+  const handleContactClick = () => {
+    if (location === '/') {
+      // If on home page, scroll to contact section
+      const element = document.querySelector('#contact');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // If on another page, navigate to home and scroll to contact
+      setLocation('/');
+      setTimeout(() => {
+        const element = document.querySelector('#contact');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
   };
 
   return (
@@ -62,7 +104,7 @@ export const Navigation = () => {
                 ) : (
                   <button
                     key={item.key}
-                    onClick={() => scrollToSection(item.href)}
+                    onClick={() => scrollToSection(item.href, item.isHome)}
                     className={`${
                       index === 0 
                         ? 'text-white border-b-2 border-accent' 
@@ -90,7 +132,7 @@ export const Navigation = () => {
               <span className="hidden sm:inline">{language === 'ar' ? 'English' : 'العربية'}</span>
             </button>
             <button
-              onClick={() => scrollToSection('#contact')}
+              onClick={handleContactClick}
               className="bg-accent text-text-dark px-3 sm:px-6 py-1.5 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm hover:bg-yellow-400 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 whitespace-nowrap"
             >
               {t('nav.becomeaSponsor')}
@@ -123,7 +165,7 @@ export const Navigation = () => {
                 ) : (
                   <button
                     key={item.key}
-                    onClick={() => scrollToSection(item.href)}
+                    onClick={() => scrollToSection(item.href, item.isHome)}
                     className="block px-3 py-2 text-base font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-md w-full text-left transition-colors duration-200"
                   >
                     {t(item.key)}

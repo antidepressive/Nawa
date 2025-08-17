@@ -101,6 +101,23 @@ async function ensureTablesExist() {
         )
       `);
       
+      // Create job_applications table if it doesn't exist
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS job_applications (
+          id SERIAL PRIMARY KEY,
+          first_name TEXT NOT NULL,
+          last_name TEXT NOT NULL,
+          email TEXT NOT NULL,
+          phone TEXT NOT NULL,
+          work_experience TEXT NOT NULL,
+          education TEXT NOT NULL,
+          skills TEXT NOT NULL,
+          resume_path TEXT NOT NULL,
+          status TEXT NOT NULL DEFAULT 'pending',
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
       // Create finance dashboard tables
       await db.execute(sql`
         CREATE TABLE IF NOT EXISTS accounts (

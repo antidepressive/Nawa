@@ -1,16 +1,39 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Linkedin, Twitter, Instagram, Youtube, Phone, Mail, MessageSquare } from 'lucide-react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import NawaLogo from '@assets/Nawa Logo.webp';
 import FooterBackground from '@assets/background_1750437485135.webp';
 
 export const Footer = () => {
   const { t, language } = useLanguage();
+  const [location, setLocation] = useLocation();
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (href: string, isHome: boolean = false) => {
+    // If we're on the home page, scroll directly to the section
+    if (location === '/') {
+      if (isHome) {
+        // Scroll to top of page
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } else {
+      // If we're on another page, navigate to home first, then scroll
+      setLocation('/');
+      setTimeout(() => {
+        if (isHome) {
+          // Scroll to top of page
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          const element = document.querySelector(href);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 100);
     }
   };
 
@@ -100,7 +123,7 @@ export const Footer = () => {
                 <ul className="space-y-2 text-right" dir="rtl">
                   <li>
                     <button
-                      onClick={() => scrollToSection('#home')}
+                      onClick={() => scrollToSection('#home', true)}
                       className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-right w-full block"
                     >
                       {t('nav.home')}
@@ -144,7 +167,7 @@ export const Footer = () => {
                 <ul className="space-y-2 text-left" dir="ltr">
                   <li>
                     <button
-                      onClick={() => scrollToSection('#home')}
+                      onClick={() => scrollToSection('#home', true)}
                       className="text-white hover:text-accent transition-colors duration-200 focus:outline-none focus:text-accent text-left block"
                     >
                       {t('nav.home')}

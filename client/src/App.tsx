@@ -20,6 +20,7 @@ import NawaWorkshop from "./pages/programs/NawaWorkshop";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
 import FinanceDashboard from "./pages/FinanceDashboard";
+import Careers from "./pages/Careers";
 
 // Protected Admin Route Component
 function ProtectedAdminRoute() {
@@ -51,6 +52,7 @@ function Router() {
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin" component={ProtectedAdminRoute} />
       <Route path="/finance" component={FinanceDashboard} />
+      <Route path="/careers" component={Careers} />
       <Route component={NotFound} />
     </Switch>
   );
