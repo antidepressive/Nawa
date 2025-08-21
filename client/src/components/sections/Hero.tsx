@@ -34,12 +34,14 @@ export const Hero = () => {
             <Calendar className="w-5 h-5 mr-2" />
             {language === 'ar' ? 'برامجنا' : 'Our Programs'}
           </Link>
+          {/* Join Our Team button hidden
           <Link
             href="/careers"
             className="bg-accent text-text-dark px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-yellow-400 transition-all duration-300 shadow-xl hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 inline-flex items-center justify-center"
           >
             {t('careers.title')}
           </Link>
+          */}
         </div>
       </div>
     </section>
