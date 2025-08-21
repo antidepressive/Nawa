@@ -304,7 +304,7 @@ const Reports: React.FC = () => {
   const renderOverviewReport = () => (
     <div className="space-y-6">
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Income</CardTitle>
@@ -448,7 +448,7 @@ const Reports: React.FC = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -584,7 +584,7 @@ const Reports: React.FC = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -647,11 +647,24 @@ const Reports: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Reports</h2>
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h2 className="text-xl lg:text-2xl font-bold">Reports</h2>
+          <div className="flex items-center gap-2 overflow-x-auto">
+            <Button variant="outline" onClick={() => handleExport('csv')} className="flex-shrink-0">
+              <Download className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Export CSV</span>
+            </Button>
+            <Button variant="outline" onClick={() => handleExport('pdf')} className="flex-shrink-0">
+              <FileText className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Export PDF</span>
+            </Button>
+          </div>
+        </div>
+        
+        <div className="flex flex-col sm:flex-row gap-2">
           <Select value={selectedPeriod} onValueChange={(value: 'month' | 'quarter' | 'year') => setSelectedPeriod(value)}>
-            <SelectTrigger className="w-32">
+            <SelectTrigger className="w-full sm:w-32">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -663,20 +676,22 @@ const Reports: React.FC = () => {
 
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="justify-start text-left font-normal">
+              <Button variant="outline" className="justify-start text-left font-normal w-full sm:w-auto">
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {customDateRange.from ? (
-                  customDateRange.to ? (
-                    <>
-                      {format(customDateRange.from, "LLL dd, y")} -{" "}
-                      {format(customDateRange.to, "LLL dd, y")}
-                    </>
+                <span className="truncate">
+                  {customDateRange.from ? (
+                    customDateRange.to ? (
+                      <>
+                        {format(customDateRange.from, "LLL dd, y")} -{" "}
+                        {format(customDateRange.to, "LLL dd, y")}
+                      </>
+                    ) : (
+                      format(customDateRange.from, "LLL dd, y")
+                    )
                   ) : (
-                    format(customDateRange.from, "LLL dd, y")
-                  )
-                ) : (
-                  <span>Custom Range</span>
-                )}
+                    <span>Custom Range</span>
+                  )}
+                </span>
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -690,48 +705,45 @@ const Reports: React.FC = () => {
               />
             </PopoverContent>
           </Popover>
-
-          <Button variant="outline" onClick={() => handleExport('csv')}>
-            <Download className="h-4 w-4 mr-2" />
-            Export CSV
-          </Button>
-          <Button variant="outline" onClick={() => handleExport('pdf')}>
-            <FileText className="h-4 w-4 mr-2" />
-            Export PDF
-          </Button>
         </div>
       </div>
 
       {/* Report Navigation */}
-      <div className="flex space-x-1 bg-muted p-1 rounded-lg">
-        <Button
-          variant={activeReport === 'overview' ? 'default' : 'ghost'}
-          size="sm"
-          onClick={() => setActiveReport('overview')}
-        >
-          Overview
-        </Button>
-        <Button
-          variant={activeReport === 'categories' ? 'default' : 'ghost'}
-          size="sm"
-          onClick={() => setActiveReport('categories')}
-        >
-          Categories
-        </Button>
-        <Button
-          variant={activeReport === 'transactions' ? 'default' : 'ghost'}
-          size="sm"
-          onClick={() => setActiveReport('transactions')}
-        >
-          Transactions
-        </Button>
-        <Button
-          variant={activeReport === 'income' ? 'default' : 'ghost'}
-          size="sm"
-          onClick={() => setActiveReport('income')}
-        >
-          Income
-        </Button>
+      <div className="overflow-x-auto">
+        <div className="flex space-x-1 bg-muted p-1 rounded-lg min-w-max">
+          <Button
+            variant={activeReport === 'overview' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setActiveReport('overview')}
+            className="whitespace-nowrap"
+          >
+            Overview
+          </Button>
+          <Button
+            variant={activeReport === 'categories' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setActiveReport('categories')}
+            className="whitespace-nowrap"
+          >
+            Categories
+          </Button>
+          <Button
+            variant={activeReport === 'transactions' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setActiveReport('transactions')}
+            className="whitespace-nowrap"
+          >
+            Transactions
+          </Button>
+          <Button
+            variant={activeReport === 'income' ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => setActiveReport('income')}
+            className="whitespace-nowrap"
+          >
+            Income
+          </Button>
+        </div>
       </div>
 
       {/* Report Content */}

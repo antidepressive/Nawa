@@ -216,13 +216,14 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
   return (
     <div className="space-y-6">
       {/* Time Range Selector */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Financial Overview</h2>
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h2 className="text-xl lg:text-2xl font-bold">Financial Overview</h2>
+        <div className="flex items-center gap-2 overflow-x-auto">
           <Button
             variant={timeRange === '7d' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setTimeRange('7d')}
+            className="whitespace-nowrap"
           >
             7D
           </Button>
@@ -230,6 +231,7 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
             variant={timeRange === '30d' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setTimeRange('30d')}
+            className="whitespace-nowrap"
           >
             30D
           </Button>
@@ -237,6 +239,7 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
             variant={timeRange === '90d' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setTimeRange('90d')}
+            className="whitespace-nowrap"
           >
             90D
           </Button>
@@ -244,6 +247,7 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
             variant={timeRange === '1y' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setTimeRange('1y')}
+            className="whitespace-nowrap"
           >
             1Y
           </Button>
@@ -251,7 +255,7 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Balance</CardTitle>
@@ -310,7 +314,7 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Income/Expense Trend Chart */}
         <Card className="col-span-1">
           <CardHeader>
@@ -379,15 +383,15 @@ const Overview: React.FC<OverviewProps> = ({ onViewAllTransactions }) => {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="grid grid-cols-2 gap-2 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
               {categoryData.map((category, index) => (
                 <div key={index} className="flex items-center gap-2 text-sm">
                   <div 
-                    className="w-3 h-3 rounded-full" 
+                    className="w-3 h-3 rounded-full flex-shrink-0" 
                     style={{ backgroundColor: category.color }}
                   />
-                  <span className="truncate">{category.name}</span>
-                  <span className="ml-auto font-medium">
+                  <span className="truncate flex-1">{category.name}</span>
+                  <span className="font-medium flex-shrink-0">
                     {formatCurrency(category.value)}
                   </span>
                 </div>

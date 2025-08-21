@@ -244,16 +244,18 @@ const Settings: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Settings</h2>
+        <h2 className="text-xl lg:text-2xl font-bold">Settings</h2>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="categories">Categories</TabsTrigger>
-          <TabsTrigger value="accounts">Accounts</TabsTrigger>
-          <TabsTrigger value="data">Data</TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-4 min-w-max lg:min-w-0">
+            <TabsTrigger value="general" className="whitespace-nowrap">General</TabsTrigger>
+            <TabsTrigger value="categories" className="whitespace-nowrap">Categories</TabsTrigger>
+            <TabsTrigger value="accounts" className="whitespace-nowrap">Accounts</TabsTrigger>
+            <TabsTrigger value="data" className="whitespace-nowrap">Data</TabsTrigger>
+          </TabsList>
+        </div>
 
         {/* General Settings */}
         <TabsContent value="general" className="space-y-6">
@@ -266,7 +268,7 @@ const Settings: React.FC = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="currency">Currency</Label>
                   <Select 
@@ -620,7 +622,7 @@ const Settings: React.FC = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-medium mb-2">Export Data</h4>
@@ -684,7 +686,7 @@ const Settings: React.FC = () => {
 
       {/* Add Category Dialog */}
       <Dialog open={showAddCategory} onOpenChange={setShowAddCategory}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="w-[95vw] max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add Category</DialogTitle>
           </DialogHeader>
@@ -697,14 +699,14 @@ const Settings: React.FC = () => {
 
       {/* Edit Category Dialog */}
       <Dialog open={!!editingCategory} onOpenChange={() => setEditingCategory(null)}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="w-[95vw] max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Category</DialogTitle>
           </DialogHeader>
           {editingCategory && (
             <CategoryForm
               category={editingCategory}
-              onSubmit={handleEditCategory}
+              onSubmit={(category) => handleEditCategory({...category, id: editingCategory.id})}
               onCancel={() => setEditingCategory(null)}
             />
           )}
@@ -713,7 +715,7 @@ const Settings: React.FC = () => {
 
       {/* Add Account Dialog */}
       <Dialog open={showAddAccount} onOpenChange={setShowAddAccount}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="w-[95vw] max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add Account</DialogTitle>
           </DialogHeader>
@@ -726,14 +728,14 @@ const Settings: React.FC = () => {
 
       {/* Edit Account Dialog */}
       <Dialog open={!!editingAccount} onOpenChange={() => setEditingAccount(null)}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="w-[95vw] max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Account</DialogTitle>
           </DialogHeader>
           {editingAccount && (
             <AccountForm
               account={editingAccount}
-              onSubmit={handleEditAccount}
+              onSubmit={(account) => handleEditAccount({...account, id: editingAccount.id, balance: parseFloat(account.balance.toString())})}
               onCancel={() => setEditingAccount(null)}
             />
           )}
@@ -849,7 +851,10 @@ const AccountForm: React.FC<AccountFormProps> = ({ account, onSubmit, onCancel }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit({
+      ...formData,
+      balance: parseFloat(formData.balance.toString())
+    });
   };
 
   return (

@@ -241,16 +241,16 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Transactions</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h2 className="text-xl lg:text-2xl font-bold">Transactions</h2>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-2" />
-            Export
+          <Button variant="outline" size="sm" className="flex-shrink-0">
+            <Download className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Export</span>
           </Button>
-          <Button onClick={() => setShowInlineForm(!showInlineForm)}>
-            <Plus className="h-4 w-4 mr-2" />
-            Add Transaction
+          <Button onClick={() => setShowInlineForm(!showInlineForm)} className="flex-shrink-0">
+            <Plus className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Add Transaction</span>
           </Button>
         </div>
       </div>
@@ -262,7 +262,7 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
             <CardTitle>Add New Transaction</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
               <Input
                 placeholder="Description"
                 value={inlineFormData.description}
@@ -389,7 +389,7 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
@@ -497,90 +497,138 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
       {/* Transactions Table */}
       <Card>
         <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-12">
-                  <Checkbox
-                    checked={selectedTransactions.length === filteredTransactions.length}
-                    onCheckedChange={handleSelectAll}
-                  />
-                </TableHead>
-                <TableHead>
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleSort('date')}
-                    className="h-auto p-0 font-medium"
-                  >
-                    Date
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Account</TableHead>
-                <TableHead>
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleSort('amount')}
-                    className="h-auto p-0 font-medium"
-                  >
-                    Amount
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </TableHead>
-                <TableHead>Tags</TableHead>
-                <TableHead className="w-12"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredTransactions.map((transaction) => (
-                <TableRow key={transaction.id}>
-                  <TableCell>
+          {/* Desktop Table View */}
+          <div className="hidden lg:block">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={selectedTransactions.length === filteredTransactions.length}
+                      onCheckedChange={handleSelectAll}
+                    />
+                  </TableHead>
+                  <TableHead>
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleSort('date')}
+                      className="h-auto p-0 font-medium"
+                    >
+                      Date
+                      <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                  </TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Account</TableHead>
+                  <TableHead>
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleSort('amount')}
+                      className="h-auto p-0 font-medium"
+                    >
+                      Amount
+                      <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                  </TableHead>
+                  <TableHead>Tags</TableHead>
+                  <TableHead className="w-12"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredTransactions.map((transaction) => (
+                  <TableRow key={transaction.id}>
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedTransactions.includes(transaction.id)}
+                        onCheckedChange={(checked) => 
+                          handleSelectTransaction(transaction.id, checked as boolean)
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>
+                      {format(new Date(transaction.date), 'MMM dd, yyyy')}
+                    </TableCell>
+                    <TableCell>
+                      <div>
+                        <div className="font-medium">{transaction.description}</div>
+                        {transaction.notes && (
+                          <div className="text-sm text-muted-foreground">{transaction.notes}</div>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">
+                        {categories.find(c => c.id === transaction.categoryId)?.name || 'Unknown'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {accounts.find(a => a.id === transaction.accountId)?.name || 'Unknown'}
+                    </TableCell>
+                    <TableCell>
+                      <span className={`font-semibold ${
+                        transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
+                      }`}>
+                        {transaction.type === 'income' ? '+' : '-'}
+                        {formatCurrency(parseFloat(transaction.amount))}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {transaction.tags.map((tag, index) => (
+                          <Badge key={index} variant="outline" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setEditingTransaction(transaction)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="lg:hidden p-4 space-y-4">
+            {filteredTransactions.map((transaction) => (
+              <div
+                key={transaction.id}
+                className="border rounded-lg p-4 space-y-3"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-3 flex-1">
                     <Checkbox
                       checked={selectedTransactions.includes(transaction.id)}
                       onCheckedChange={(checked) => 
                         handleSelectTransaction(transaction.id, checked as boolean)
                       }
                     />
-                  </TableCell>
-                  <TableCell>
-                    {format(new Date(transaction.date), 'MMM dd, yyyy')}
-                  </TableCell>
-                  <TableCell>
-                    <div>
-                      <div className="font-medium">{transaction.description}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium truncate">{transaction.description}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {format(new Date(transaction.date), 'MMM dd, yyyy')}
+                      </div>
                       {transaction.notes && (
-                        <div className="text-sm text-muted-foreground">{transaction.notes}</div>
+                        <div className="text-sm text-muted-foreground mt-1">{transaction.notes}</div>
                       )}
                     </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">
-                      {categories.find(c => c.id === transaction.categoryId)?.name || 'Unknown'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {accounts.find(a => a.id === transaction.accountId)?.name || 'Unknown'}
-                  </TableCell>
-                  <TableCell>
+                  </div>
+                  <div className="flex items-center gap-2">
                     <span className={`font-semibold ${
                       transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
                     }`}>
                       {transaction.type === 'income' ? '+' : '-'}
                       {formatCurrency(parseFloat(transaction.amount))}
                     </span>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {transaction.tags.map((tag, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  </TableCell>
-                  <TableCell>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -588,17 +636,31 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                  </div>
+                </div>
+                
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge variant="secondary" className="text-xs">
+                    {categories.find(c => c.id === transaction.categoryId)?.name || 'Unknown'}
+                  </Badge>
+                  <Badge variant="outline" className="text-xs">
+                    {accounts.find(a => a.id === transaction.accountId)?.name || 'Unknown'}
+                  </Badge>
+                  {transaction.tags.map((tag, index) => (
+                    <Badge key={index} variant="outline" className="text-xs">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
 
       {/* Add Transaction Dialog */}
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="w-[95vw] max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add Transaction</DialogTitle>
           </DialogHeader>
@@ -611,7 +673,7 @@ const Transactions: React.FC<TransactionsProps> = ({ autoOpenAddDialog = false }
 
       {/* Edit Transaction Dialog */}
       <Dialog open={!!editingTransaction} onOpenChange={() => setEditingTransaction(null)}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="w-[95vw] max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Transaction</DialogTitle>
           </DialogHeader>
