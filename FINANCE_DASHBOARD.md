@@ -176,7 +176,7 @@ The dashboard automatically saves:
 - Theme selection
 - Recent searches
 
-All data is stored locally in the browser's localStorage and can be exported as CSV for backup.
+Financial data is stored in the PostgreSQL database. User preferences and settings are saved locally in the browser's localStorage. Data can be exported as CSV for backup.
 
 ## Contributing
 

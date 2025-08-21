@@ -159,34 +159,34 @@ const FinanceDashboard: React.FC = () => {
         ]);
 
         // Calculate total balance from all accounts
-        const totalBalance = accountsData.reduce((sum, account) => sum + parseFloat(account.balance), 0);
+        const totalBalance = accountsData.reduce((sum: number, account: any) => sum + parseFloat(account.balance), 0);
 
         // Calculate this month's transactions
         const currentMonth = new Date().getMonth();
         const currentYear = new Date().getFullYear();
         
-        const thisMonthTransactions = transactionsData.filter(t => {
+        const thisMonthTransactions = transactionsData.filter((t: any) => {
           const transactionDate = new Date(t.date);
           return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
         });
 
         // Calculate income and expenses
         const thisMonthIncome = thisMonthTransactions
-          .filter(t => t.type === 'income')
-          .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+          .filter((t: any) => t.type === 'income')
+          .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0);
 
         const thisMonthExpenses = thisMonthTransactions
-          .filter(t => t.type === 'expense')
-          .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+          .filter((t: any) => t.type === 'expense')
+          .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0);
 
         const netChange = thisMonthIncome - thisMonthExpenses;
 
         // Calculate runway (months of expenses covered by current balance)
         const allExpenses = transactionsData
-          .filter(t => t.type === 'expense')
-          .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+          .filter((t: any) => t.type === 'expense')
+          .reduce((sum: number, t: any) => sum + parseFloat(t.amount), 0);
         
-        const averageMonthlyExpenses = allExpenses / Math.max(1, transactionsData.filter(t => t.type === 'expense').length);
+        const averageMonthlyExpenses = allExpenses / Math.max(1, transactionsData.filter((t: any) => t.type === 'expense').length);
         const runway = averageMonthlyExpenses > 0 ? Math.floor(totalBalance / averageMonthlyExpenses) : 0;
 
         setStats({
