@@ -216,8 +216,8 @@ const Budgets: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Budgets</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h2 className="text-xl lg:text-2xl font-bold">Budgets</h2>
         <div className="flex items-center gap-2">
           <Select value={selectedPeriod} onValueChange={(value: 'monthly' | 'yearly') => setSelectedPeriod(value)}>
             <SelectTrigger className="w-32">
@@ -228,9 +228,9 @@ const Budgets: React.FC = () => {
               <SelectItem value="yearly">Yearly</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={() => setShowAddDialog(true)}>
-            <Plus className="h-4 w-4 mr-2" />
-            Add Budget
+          <Button onClick={() => setShowAddDialog(true)} className="flex-shrink-0">
+            <Plus className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Add Budget</span>
           </Button>
         </div>
       </div>
@@ -260,7 +260,7 @@ const Budgets: React.FC = () => {
       </Card>
 
       {/* Budget Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
         {filteredBudgets.map((budget) => {
           const progress = getProgressPercentage(budget.spent, budget.amount);
           const progressColor = getProgressColor(budget.spent, budget.amount);
@@ -313,8 +313,8 @@ const Budgets: React.FC = () => {
                       setShowTransactions(true);
                     }}
                   >
-                    <Eye className="h-4 w-4 mr-2" />
-                    View Transactions
+                    <Eye className="h-4 w-4 sm:mr-2" />
+                    <span className="hidden sm:inline">View Transactions</span>
                   </Button>
                   <Button variant="outline" size="sm">
                     <Edit className="h-4 w-4" />
@@ -328,11 +328,12 @@ const Budgets: React.FC = () => {
 
       {/* Add Budget Dialog */}
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="w-[95vw] max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add Budget</DialogTitle>
           </DialogHeader>
           <BudgetForm
+            categories={categories}
             onSubmit={async (budget) => {
               try {
                 await budgetsApi.create({
@@ -361,7 +362,7 @@ const Budgets: React.FC = () => {
 
       {/* Budget Transactions Dialog */}
       <Dialog open={showTransactions} onOpenChange={setShowTransactions}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="w-[95vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {selectedBudget?.category} Transactions
@@ -425,16 +426,17 @@ const Budgets: React.FC = () => {
 interface BudgetFormProps {
   onSubmit: (budget: any) => void;
   onCancel: () => void;
+  categories: any[];
 }
 
-const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit, onCancel }) => {
+const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit, onCancel, categories }) => {
   const [formData, setFormData] = useState({
     categoryId: '',
     amount: '0',
     period: 'monthly' as 'monthly' | 'yearly'
   });
 
-  const expenseCategories = categories.filter(c => c.type === 'expense');
+  const expenseCategories = categories.filter((c: any) => c.type === 'expense');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -450,7 +452,7 @@ const BudgetForm: React.FC<BudgetFormProps> = ({ onSubmit, onCancel }) => {
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
-            {expenseCategories.map(category => (
+            {expenseCategories.map((category: any) => (
               <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
             ))}
           </SelectContent>

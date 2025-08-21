@@ -218,14 +218,28 @@ const FinanceDashboard: React.FC = () => {
       <div className="min-h-screen bg-background">
         {/* Header */}
         <div className="border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50">
-          <div className="flex h-16 items-center px-4 gap-4">
-            <div className="flex items-center gap-2">
-              <Wallet className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-semibold">Company Finance Dashboard</h1>
+          <div className="flex flex-col lg:flex-row lg:h-16 gap-4 p-4">
+            {/* Top row on mobile, left side on desktop */}
+            <div className="flex items-center justify-between lg:justify-start gap-2">
+              <div className="flex items-center gap-2">
+                <Wallet className="h-6 w-6 text-primary" />
+                <h1 className="text-lg lg:text-xl font-semibold">Company Finance Dashboard</h1>
+              </div>
+              
+              {/* Mobile Add Button */}
+              <div className="lg:hidden">
+                <Button size="sm" onClick={() => {
+                  setAutoOpenAddDialog(true);
+                  setActiveTab('transactions');
+                }}>
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
             
-            <div className="flex-1 flex items-center gap-4">
-              <div className="relative flex-1 max-w-md">
+            {/* Search and desktop add button */}
+            <div className="flex flex-1 items-center gap-4">
+              <div className="relative flex-1 lg:max-w-md">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                   placeholder="Search transactions, categories..."
@@ -234,23 +248,24 @@ const FinanceDashboard: React.FC = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button size="sm" onClick={() => {
-                setAutoOpenAddDialog(true);
-                setActiveTab('transactions');
-              }}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Transaction
-              </Button>
+              
+              {/* Desktop Add Button */}
+              <div className="hidden lg:flex items-center gap-2">
+                <Button size="sm" onClick={() => {
+                  setAutoOpenAddDialog(true);
+                  setActiveTab('transactions');
+                }}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Transaction
+                </Button>
+              </div>
             </div>
           </div>
         </div>
 
       {/* Stats Cards */}
-      <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      <div className="p-4 lg:p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4 mb-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Balance</CardTitle>
@@ -329,13 +344,15 @@ const FinanceDashboard: React.FC = () => {
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="transactions">Transactions</TabsTrigger>
-            <TabsTrigger value="budgets">Budgets</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto">
+            <TabsList className="grid w-full grid-cols-5 min-w-max lg:min-w-0">
+              <TabsTrigger value="overview" className="whitespace-nowrap">Overview</TabsTrigger>
+              <TabsTrigger value="transactions" className="whitespace-nowrap">Transactions</TabsTrigger>
+              <TabsTrigger value="budgets" className="whitespace-nowrap">Budgets</TabsTrigger>
+              <TabsTrigger value="reports" className="whitespace-nowrap">Reports</TabsTrigger>
+              <TabsTrigger value="settings" className="whitespace-nowrap">Settings</TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="overview" className="space-y-4">
             <Overview onViewAllTransactions={() => setActiveTab('transactions')} />
@@ -362,7 +379,7 @@ const FinanceDashboard: React.FC = () => {
       {/* Command Palette */}
       {showCommandPalette && (
         <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
-          <div className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg">
+          <div className="fixed left-[50%] top-[50%] z-50 grid w-[95vw] max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-4 lg:p-6 shadow-lg duration-200 sm:rounded-lg">
             <Command>
               <Command.Input placeholder="Type a command or search..." />
               <Command.List>
