@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import pkg from 'pg';
 const { Pool } = pkg;
 import { drizzle } from 'drizzle-orm/node-postgres';
@@ -8,6 +9,8 @@ if (!process.env.DATABASE_URL) {
     "DATABASE_URL must be set. Did you forget to provision a database?",
   );
 }
+
+console.log('DATABASE_URL ->', JSON.stringify(process.env.DATABASE_URL));
 
 export const pool = new Pool({ 
   connectionString: process.env.DATABASE_URL,

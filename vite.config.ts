@@ -31,9 +31,12 @@ export default defineConfig({
       external: [],
     },
   },
-  assetsInclude: ["**/*.jpg", "**/*.jpeg", "**/*.JPG", "**/*.JPEG", "**/*.png", "**/*.PNG", "**/*.gif", "**/*.GIF", "**/*.svg", "**/*.SVG", "**/*.webp", "**/*.WEBP", "**/*.pdf", "**/*.PDF"],
+  assetsInclude: [
+    /\.(?:jpe?g|png|gif|svg|webp|pdf)$/i,
+  ],
+  // 👇 exclude only package names here (leave empty unless needed)
   optimizeDeps: {
-    exclude: ['**/*.jpg', '**/*.jpeg', '**/*.JPG', '**/*.JPEG', '**/*.png', '**/*.PNG', '**/*.gif', '**/*.GIF', '**/*.svg', '**/*.SVG', '**/*.webp', '**/*.WEBP', '**/*.pdf', '**/*.PDF'],
+    exclude: [],
   },
   server: {
     fs: {

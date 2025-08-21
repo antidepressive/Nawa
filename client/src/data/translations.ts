@@ -178,6 +178,49 @@ export const translations = {
     "workshop.sponsorDescription":
       "Help develop the next generation of emotionally intelligent leaders through our comprehensive workshop programs.",
     "workshop.sponsorButton": "Sponsor Workshop Programs",
+
+    // Job Application
+    "careers.title": "Join Our Team",
+    "careers.subtitle": "Help us empower Saudi youth and shape the future",
+    "careers.description": "We're looking for passionate individuals who share our mission to develop the next generation of Saudi leaders and innovators.",
+    "careers.formTitle": "Job Application Form",
+    "careers.personalInfo": "Personal Information",
+    "careers.firstName": "First Name",
+    "careers.lastName": "Last Name",
+    "careers.email": "Email Address",
+    "careers.phone": "Phone Number",
+    "careers.workExperience": "Work Experience",
+    "careers.workExperiencePlaceholder": "Please describe your relevant work experience, including job titles, companies, and key responsibilities...",
+    "careers.education": "Education",
+    "careers.educationPlaceholder": "Please list your educational background, including degrees, institutions, and graduation dates...",
+    "careers.skills": "Skills & Competencies",
+    "careers.skillsPlaceholder": "Please list your key skills, technical competencies, and areas of expertise...",
+    "careers.resume": "Resume/CV",
+    "careers.resumePlaceholder": "Upload your resume (PDF only, max 2MB)",
+    "careers.uploadResume": "Choose File",
+    "careers.noFileSelected": "No file selected",
+    "careers.fileSelected": "File selected",
+    "careers.submit": "Submit Application",
+    "careers.submitting": "Submitting...",
+    "careers.success": "Application Submitted Successfully!",
+    "careers.successMessage": "Thank you for your interest in joining our team. We have received your application and will review it carefully. You will receive a confirmation email shortly.",
+    "careers.error": "Error Submitting Application",
+    "careers.errorMessage": "There was an error submitting your application. Please try again or contact us directly.",
+    "careers.validation": {
+      "firstName": "First name is required",
+      "lastName": "Last name is required",
+      "email": "Valid email address is required",
+      "phone": "Valid phone number is required",
+      "workExperience": "Work experience is required",
+      "education": "Education is required",
+      "skills": "Skills are required",
+      "resume": "Resume is required"
+    },
+    "careers.fileValidation": {
+      "pdfOnly": "Only PDF files are allowed",
+      "fileTooLarge": "File size must be less than 2MB",
+      "fileRequired": "Please select a resume file"
+    },
   },
   ar: {
     // Navigation
@@ -353,5 +396,48 @@ export const translations = {
     "workshop.sponsorDescription":
       "ساعد في تطوير الجيل القادم من القادة ذوي الذكاء العاطفي من خلال برامج ورش العمل الشاملة.",
     "workshop.sponsorButton": "ارع برامج ورش العمل",
+
+    // Job Application
+    "careers.title": "انضم إلى فريقنا",
+    "careers.subtitle": "ساعدنا في تمكين الشباب السعودي وتشكيل المستقبل",
+    "careers.description": "نحن نبحث عن أفراد متحمسين يشاركوننا مهمتنا في تطوير الجيل القادم من القادة والمبتكرين السعوديين.",
+    "careers.formTitle": "نموذج طلب التوظيف",
+    "careers.personalInfo": "المعلومات الشخصية",
+    "careers.firstName": "الاسم الأول",
+    "careers.lastName": "اسم العائلة",
+    "careers.email": "عنوان البريد الإلكتروني",
+    "careers.phone": "رقم الهاتف",
+    "careers.workExperience": "الخبرة العملية",
+    "careers.workExperiencePlaceholder": "يرجى وصف خبرتك العملية ذات الصلة، بما في ذلك المسميات الوظيفية والشركات والمسؤوليات الرئيسية...",
+    "careers.education": "التعليم",
+    "careers.educationPlaceholder": "يرجى سرد خلفيتك التعليمية، بما في ذلك الدرجات العلمية والمؤسسات وتواريخ التخرج...",
+    "careers.skills": "المهارات والكفاءات",
+    "careers.skillsPlaceholder": "يرجى سرد مهاراتك الرئيسية والكفاءات التقنية ومجالات الخبرة...",
+    "careers.resume": "السيرة الذاتية",
+    "careers.resumePlaceholder": "ارفع سيرتك الذاتية (PDF فقط، الحد الأقصى 2 ميجابايت)",
+    "careers.uploadResume": "اختر ملف",
+    "careers.noFileSelected": "لم يتم اختيار ملف",
+    "careers.fileSelected": "تم اختيار ملف",
+    "careers.submit": "إرسال الطلب",
+    "careers.submitting": "جاري الإرسال...",
+    "careers.success": "تم إرسال الطلب بنجاح!",
+    "careers.successMessage": "شكراً لاهتمامك بالانضمام إلى فريقنا. لقد تلقينا طلبك وسنراجعه بعناية. ستتلقى رسالة تأكيد عبر البريد الإلكتروني قريباً.",
+    "careers.error": "خطأ في إرسال الطلب",
+    "careers.errorMessage": "حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة.",
+    "careers.validation": {
+      "firstName": "الاسم الأول مطلوب",
+      "lastName": "اسم العائلة مطلوب",
+      "email": "عنوان بريد إلكتروني صحيح مطلوب",
+      "phone": "رقم هاتف صحيح مطلوب",
+      "workExperience": "الخبرة العملية مطلوبة",
+      "education": "التعليم مطلوب",
+      "skills": "المهارات مطلوبة",
+      "resume": "السيرة الذاتية مطلوبة"
+    },
+    "careers.fileValidation": {
+      "pdfOnly": "يُسمح فقط بملفات PDF",
+      "fileTooLarge": "يجب أن يكون حجم الملف أقل من 2 ميجابايت",
+      "fileRequired": "يرجى اختيار ملف السيرة الذاتية"
+    },
   },
 };

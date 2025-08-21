@@ -5,6 +5,7 @@ import {
   insertContactSubmissionSchema, 
   insertNewsletterSubscriptionSchema, 
   insertWorkshopRegistrationSchema,
+  insertJobApplicationSchema,
   insertAccountSchema,
   insertCategorySchema,
   insertTransactionSchema,
@@ -15,8 +16,43 @@ import { db } from "./db";
 import { sql } from "drizzle-orm";
 import { requireDeveloperAuth, requireDeveloperAuthQuery, requireDeleteAuthQuery } from "./auth";
 import { emailService, createWorkshopConfirmationEmail } from "./email";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+
+  // Configure multer for file uploads
+  const multerStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      const uploadDir = path.join(process.cwd(), 'uploads', 'resumes');
+      // Create directory if it doesn't exist
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+      // Generate unique filename with timestamp
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, `resume-${uniqueSuffix}${path.extname(file.originalname)}`);
+    }
+  });
+
+  const upload = multer({
+    storage: multerStorage,
+    limits: {
+      fileSize: 2 * 1024 * 1024, // 2MB limit
+    },
+    fileFilter: (req, file, cb) => {
+      // Only allow PDF files
+      if (file.mimetype === 'application/pdf') {
+        cb(null, true);
+      } else {
+        cb(new Error('Only PDF files are allowed'));
+      }
+    }
+  });
 
    // Health check endpoint (developer access only)
   app.get("/api/health", requireDeveloperAuthQuery, async (req, res) => {
@@ -151,6 +187,148 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(`Error fetching workshop registrations: ${error}`);
       res.status(500).json({ error: "Failed to fetch workshop registrations" });
+    }
+  });
+
+  // Job application submission
+  app.post("/api/job-applications", async (req, res) => {
+    try {
+      const validation = insertJobApplicationSchema.safeParse(req.body);
+      
+      if (!validation.success) {
+        return res.status(400).json({ error: "Invalid form data", details: validation.error.errors });
+      }
+
+      const application = await storage.createJobApplication(validation.data);
+      console.log(`New job application from ${application.firstName} ${application.lastName} (${application.email})`);
+      
+      // Send confirmation email to applicant
+      try {
+        const emailSent = await emailService.sendJobApplicationConfirmation(application);
+        if (emailSent) {
+          console.log(`Confirmation email sent to ${application.email}`);
+        } else {
+          console.warn(`Failed to send confirmation email to ${application.email}`);
+        }
+      } catch (emailError) {
+        console.error(`Error sending confirmation email: ${emailError}`);
+        // Don't fail the application if email fails
+      }
+
+      // Send notification email to admin
+      try {
+        const adminEmailSent = await emailService.sendJobApplicationAdminNotification(application);
+        if (adminEmailSent) {
+          console.log(`Admin notification email sent for application #${application.id}`);
+        } else {
+          console.warn(`Failed to send admin notification email for application #${application.id}`);
+        }
+      } catch (emailError) {
+        console.error(`Error sending admin notification email: ${emailError}`);
+        // Don't fail the application if email fails
+      }
+      
+      res.json({ success: true, message: "Job application submitted successfully" });
+    } catch (error) {
+      console.error(`Error processing job application: ${error}`);
+      res.status(500).json({ error: "Failed to submit job application" });
+    }
+  });
+
+  // Get job applications (for admin use)
+  app.get("/api/job-applications", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const applications = await storage.getJobApplications();
+      res.json(applications);
+    } catch (error) {
+      console.error(`Error fetching job applications: ${error}`);
+      res.status(500).json({ error: "Failed to fetch job applications" });
+    }
+  });
+
+  // Delete single job application (for admin use)
+  app.delete("/api/job-applications/:id", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      const deleted = await storage.deleteJobApplication(id);
+      if (deleted) {
+        res.json({ success: true, message: "Job application deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Job application not found" });
+      }
+    } catch (error) {
+      console.error(`Error deleting job application: ${error}`);
+      res.status(500).json({ error: "Failed to delete job application" });
+    }
+  });
+
+  // Delete multiple job applications (for admin use)
+  app.delete("/api/job-applications", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "Invalid IDs array" });
+      }
+
+      const deletedCount = await storage.deleteJobApplications(ids);
+      res.json({ 
+        success: true, 
+        message: `${deletedCount} job application(s) deleted successfully`,
+        deletedCount 
+      });
+    } catch (error) {
+      console.error(`Error deleting job applications: ${error}`);
+      res.status(500).json({ error: "Failed to delete job applications" });
+    }
+  });
+
+  // Resume upload endpoint
+  app.post("/api/upload-resume", upload.single('resume'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      // Return the file path for storage in the database
+      const filePath = req.file.path.replace(process.cwd(), '').replace(/\\/g, '/');
+      
+      res.json({ 
+        success: true, 
+        filePath: filePath,
+        fileName: req.file.originalname,
+        fileSize: req.file.size
+      });
+    } catch (error) {
+      console.error(`Error uploading resume: ${error}`);
+      res.status(500).json({ error: "Failed to upload resume" });
+    }
+  });
+
+  // Serve resume files
+  app.get("/api/resume/:filename", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const filename = req.params.filename;
+      const filePath = path.join(process.cwd(), 'uploads', 'resumes', filename);
+      
+      // Check if file exists
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ error: "Resume file not found" });
+      }
+
+      // Set appropriate headers for PDF download
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+      
+      // Stream the file
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+    } catch (error) {
+      console.error(`Error serving resume file: ${error}`);
+      res.status(500).json({ error: "Failed to serve resume file" });
     }
   });
 
