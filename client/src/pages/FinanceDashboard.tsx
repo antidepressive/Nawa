@@ -221,7 +221,7 @@ const FinanceDashboard: React.FC = () => {
           <div className="flex h-16 items-center px-4 gap-4">
             <div className="flex items-center gap-2">
               <Wallet className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-semibold">Finance Dashboard</h1>
+              <h1 className="text-xl font-semibold">Company Finance Dashboard</h1>
             </div>
             
             <div className="flex-1 flex items-center gap-4">

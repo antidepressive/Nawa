@@ -26,7 +26,7 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
     }
   }, []);
 
-  const handleLogin = async () => {
+    const handleLogin = async () => {
     if (!password.trim()) {
       setError('Please enter the developer token.');
       return;
@@ -36,21 +36,23 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
     setError('');
     
     try {
-      // Test the token by making a request to a protected endpoint (like admin dashboard)
-      const response = await fetch(`/api/finance/accounts?apiKey=${encodeURIComponent(password)}`);
+      // Check against the DEVELOPER_TOKEN environment variable
+      const response = await fetch('/api/auth/validate-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: password })
+      });
       
       if (response.ok) {
-        // Store the token in sessionStorage (like admin dashboard)
+        // Store the token in sessionStorage
         sessionStorage.setItem('finance_dashboard_token', password);
         localStorage.setItem('finance_dashboard_auth', 'authenticated');
         setIsAuthenticated(true);
         
-        // Initialize default data for first-time users
-        try {
-          await initializeDefaultData();
-        } catch (error) {
-          console.error('Error initializing default data:', error);
-        }
+        // No initialization needed for company finance dashboard
+        // Data is shared across all employees and managed centrally
       } else {
         setError('Incorrect developer token. Please try again.');
         setPassword('');
@@ -101,17 +103,17 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
               <Lock className="h-8 w-8 text-primary" />
             </div>
           </div>
-          <CardTitle className="text-2xl">Finance Dashboard</CardTitle>
-          <p className="text-muted-foreground">Developer Token Required</p>
+          <CardTitle className="text-2xl">Company Finance Dashboard</CardTitle>
+          <p className="text-muted-foreground">Developer Access Required</p>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="password">Developer Token</Label>
+                         <Label htmlFor="password">Developer Token</Label>
             <div className="relative">
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Enter developer token"
+                                 placeholder="Enter developer token"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyPress={handleKeyPress}
@@ -147,10 +149,10 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
              {loading ? 'Authenticating...' : 'Access Dashboard'}
            </Button>
           
-          <div className="text-xs text-muted-foreground text-center">
-            <p>Developer token required for access</p>
-            <p className="mt-1">Contact the development team for the token</p>
-          </div>
+                     <div className="text-xs text-muted-foreground text-center">
+             <p>Developer token required for access</p>
+             <p className="mt-1">Contact the development team for the token</p>
+           </div>
         </CardContent>
       </Card>
     </div>

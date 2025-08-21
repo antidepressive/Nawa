@@ -659,12 +659,23 @@ const Settings: React.FC = () => {
                 <p className="text-sm text-muted-foreground mb-4">
                   These actions cannot be undone
                 </p>
-                <div className="space-y-2">
-                  <Button variant="destructive">
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Delete All Data
-                  </Button>
-                </div>
+                                 <div className="space-y-2">
+                   <Button 
+                     variant="destructive" 
+                     onClick={() => {
+                       if (confirm('Are you sure you want to delete all company financial data? This action cannot be undone.')) {
+                         // This would need to be implemented on the backend
+                         alert('Delete all data functionality would need to be implemented on the backend for security.');
+                       }
+                     }}
+                   >
+                     <Trash2 className="h-4 w-4 mr-2" />
+                     Delete All Data
+                   </Button>
+                   <p className="text-xs text-muted-foreground">
+                     Note: This is a company finance dashboard. All data is shared across employees and managed centrally.
+                   </p>
+                 </div>
               </div>
             </CardContent>
           </Card>
