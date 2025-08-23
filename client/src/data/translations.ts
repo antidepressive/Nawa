@@ -81,6 +81,19 @@ export const translations = {
     "newsletter.placeholder": "Enter your email address",
     "newsletter.subscribe": "Subscribe",
     "newsletter.privacy": "We respect your privacy. Unsubscribe at any time.",
+    "newsletter.pageTitle": "Subscribe to Our Newsletter",
+    "newsletter.pageDescription": "Stay updated with our latest programs, events, and partnership opportunities. Join thousands of others who are part of our community.",
+    "newsletter.emailLabel": "Email Address",
+    "newsletter.quickSubscribe": "Quick Subscribe",
+    "newsletter.qrDescription": "Scan this QR code with your phone's camera to quickly subscribe to our newsletter",
+    "newsletter.qrInstruction": "Point your camera at the QR code above to subscribe instantly",
+    "newsletter.whySubscribe": "Why Subscribe?",
+    "newsletter.benefit1Title": "Stay Updated",
+    "newsletter.benefit1Description": "Get the latest news about our programs, events, and opportunities delivered to your inbox",
+    "newsletter.benefit2Title": "Exclusive Content",
+    "newsletter.benefit2Description": "Access to exclusive insights, early event announcements, and special partnership opportunities",
+    "newsletter.benefit3Title": "Join Our Community",
+    "newsletter.benefit3Description": "Be part of a growing community of youth leaders, partners, and changemakers",
 
     // Footer
     "footer.description":
@@ -302,6 +315,19 @@ export const translations = {
     "newsletter.placeholder": "أدخل عنوان بريدك الإلكتروني",
     "newsletter.subscribe": "اشترك",
     "newsletter.privacy": "نحن نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت",
+    "newsletter.pageTitle": "اشترك في نشرتنا الإخبارية",
+    "newsletter.pageDescription": "ابق محدثاً بأحدث برامجنا وفعالياتنا وفرص الشراكة. انضم إلى آلاف الآخرين الذين هم جزء من مجتمعنا.",
+    "newsletter.emailLabel": "عنوان البريد الإلكتروني",
+    "newsletter.quickSubscribe": "اشتراك سريع",
+    "newsletter.qrDescription": "امسح رمز QR هذا بكاميرا هاتفك للاشتراك بسرعة في نشرتنا الإخبارية",
+    "newsletter.qrInstruction": "وجه كاميرتك نحو رمز QR أعلاه للاشتراك فوراً",
+    "newsletter.whySubscribe": "لماذا تشترك؟",
+    "newsletter.benefit1Title": "ابق محدثاً",
+    "newsletter.benefit1Description": "احصل على أحدث الأخبار حول برامجنا وفعالياتنا وفرصنا مباشرة إلى بريدك الإلكتروني",
+    "newsletter.benefit2Title": "محتوى حصري",
+    "newsletter.benefit2Description": "الوصول إلى رؤى حصرية وإعلانات مبكرة للفعاليات وفرص شراكة خاصة",
+    "newsletter.benefit3Title": "انضم إلى مجتمعنا",
+    "newsletter.benefit3Description": "كن جزءاً من مجتمع متنامٍ من قادة الشباب والشركاء وصانعي التغيير",
 
     // Footer
     "footer.description":
