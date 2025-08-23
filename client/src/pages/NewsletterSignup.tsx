@@ -47,12 +47,12 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-blue-600">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      ></div>
+         <div className="min-h-screen">
+              {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+        ></div>
       
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-6xl">
