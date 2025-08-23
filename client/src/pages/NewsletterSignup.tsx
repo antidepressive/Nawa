@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useToast } from '../hooks/use-toast';
-import backgroundImage from '@assets/background_1750437485135.webp';
+import backgroundImage from '@assets/nawa-background.webp';
 import qrCodeImage from '@assets/frame.png';
 
 export default function NewsletterSignup() {
@@ -112,10 +112,10 @@ export default function NewsletterSignup() {
             <div className="text-center">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/20">
                                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
-                   {t('newsletter.quickSubscribe')}
+                   Visit Our Website
                  </h3>
                  <p className="text-white/80 mb-8 text-lg">
-                   {t('newsletter.qrDescription')}
+                   Scan this QR code with your phone's camera to quickly visit our website
                  </p>
                 
                 <div className="flex justify-center mb-6">
@@ -129,41 +129,13 @@ export default function NewsletterSignup() {
                 </div>
                 
                                  <p className="text-white/60 text-sm">
-                   {t('newsletter.qrInstruction')}
+                   Point your camera at the QR code above to visit our website instantly
                  </p>
               </div>
             </div>
           </div>
 
-          {/* Benefits Section */}
-          <div className="mt-16 text-center">
-                         <h3 className="text-2xl md:text-3xl font-bold text-white mb-8">
-               {t('newsletter.whySubscribe')}
-             </h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="text-3xl mb-4">📧</div>
-                                 <h4 className="text-xl font-bold text-white mb-3">{t('newsletter.benefit1Title')}</h4>
-                 <p className="text-white/80">
-                   {t('newsletter.benefit1Description')}
-                 </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="text-3xl mb-4">🎯</div>
-                                 <h4 className="text-xl font-bold text-white mb-3">{t('newsletter.benefit2Title')}</h4>
-                 <p className="text-white/80">
-                   {t('newsletter.benefit2Description')}
-                 </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <div className="text-3xl mb-4">🚀</div>
-                                 <h4 className="text-xl font-bold text-white mb-3">{t('newsletter.benefit3Title')}</h4>
-                 <p className="text-white/80">
-                   {t('newsletter.benefit3Description')}
-                 </p>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
     </div>
