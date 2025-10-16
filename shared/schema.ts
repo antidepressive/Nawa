@@ -47,6 +47,7 @@ export const jobApplications = pgTable("job_applications", {
   lastName: text("last_name").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),
+  position: text("position").notNull(),
   workExperience: text("work_experience").notNull(),
   education: text("education").notNull(),
   skills: text("skills").notNull(),
@@ -146,11 +147,22 @@ export const insertWorkshopRegistrationSchema = createInsertSchema(workshopRegis
   friend2Phone: true,
 });
 
-export const insertJobApplicationSchema = createInsertSchema(jobApplications).pick({
+export const insertJobApplicationSchema = createInsertSchema(jobApplications, {
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Valid email is required"),
+  phone: z.string().min(1, "Phone number is required"),
+  position: z.string().min(1, "Position is required"),
+  workExperience: z.string().min(1, "Work experience is required"),
+  education: z.string().min(1, "Education is required"),
+  skills: z.string().min(1, "Skills are required"),
+  resumePath: z.string().min(1, "Resume is required"),
+}).pick({
   firstName: true,
   lastName: true,
   email: true,
   phone: true,
+  position: true,
   workExperience: true,
   education: true,
   skills: true,
