@@ -177,7 +177,7 @@ export default function JobDetail() {
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center">
                     <Users className="w-6 h-6 mr-3 text-accent" />
-                    {job.qualifications ? t('careers.qualifications') : t('careers.requirements')}
+                    {job.qualifications ? 'Qualifications' : t('careers.requirements')}
                   </h2>
                   <ul className="space-y-3">
                     {(job.qualifications || job.requirements)?.map((item, index) => (
