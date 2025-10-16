@@ -6,7 +6,8 @@ export interface Job {
   employmentType: string;
   summary: string;
   responsibilities: string[];
-  requirements: string[];
+  requirements?: string[];
+  qualifications?: string[];
   lang?: 'en' | 'ar';
 }
 
@@ -25,7 +26,7 @@ export const jobs: Job[] = [
       'Draft speeches, social media captions, and thought-leadership articles aligned with NAWA\'s vision.',
       'Edit and proofread all content to ensure clarity, accuracy, and consistency.'
     ],
-    requirements: [
+    qualifications: [
       'Excellent writing skills in both English and Arabic.',
       'Strong storytelling and presentation building ability.',
       'Experience with content creation for professional organizations, NGOs, or startups is a plus.',
@@ -40,26 +41,20 @@ export const jobs: Job[] = [
     department: 'Creative',
     location: 'Riyadh, Saudi Arabia',
     employmentType: 'Remote',
-    summary: 'We are looking for a talented Graphic Designer to create visually stunning designs that communicate our mission and engage our audience. The role involves working on diverse projects from digital campaigns to print materials.',
+    summary: 'As a Designer at NAWA, you will play a vital role in shaping our visual identity and ensuring that all communications, programs, and events reflect a world-class standard. You will collaborate with the PR and Copywriting teams to produce designs that inspire, engage, and embody NAWA\'s mission of empowering youth and building community.',
     responsibilities: [
-      'Create visually appealing designs for digital and print materials',
-      'Develop brand-consistent visual identities and style guides',
-      'Design marketing collateral including brochures, flyers, and banners',
-      'Create engaging social media graphics and digital advertisements',
-      'Collaborate with copywriters and marketing teams on campaign concepts',
-      'Prepare final artwork for production and digital publishing',
-      'Maintain organized design files and asset libraries',
-      'Present design concepts and incorporate feedback from stakeholders'
+      'Develop visual designs for reports, presentations, and sponsorship decks.',
+      'Create graphics for NAWA programs, conferences, workshops, and social media.',
+      'Ensure consistent branding across all NAWA materials (logos, templates, certificates, merchandise).',
+      'Collaborate with the media team to design event visuals (posters, banners, slides).',
+      'Support creative projects with fresh design concepts aligned with NAWA\'s style guide.'
     ],
-    requirements: [
-      'Bachelor\'s degree in Graphic Design, Visual Arts, or related field',
-      'Minimum 2-3 years of professional design experience',
-      'Proficiency in Adobe Creative Suite (Photoshop, Illustrator, InDesign)',
-      'Strong portfolio demonstrating creative and technical skills',
-      'Understanding of design principles, typography, and color theory',
-      'Experience with both print and digital design workflows',
-      'Excellent communication and collaboration skills',
-      'Ability to work under pressure and meet tight deadlines'
+    qualifications: [
+      'Strong proficiency in design tools (Adobe Creative Suite, Canva, or equivalent).',
+      'Portfolio of past design work (academic, freelance, or organizational).',
+      'Ability to deliver creative work under tight deadlines.',
+      'Knowledge of branding and visual storytelling.',
+      'Attention to detail and a passion for design in youth and community projects.'
     ],
     lang: 'en'
   },
@@ -79,7 +74,7 @@ export const jobs: Job[] = [
       'Develop financial forecasts and sustainability models for long-term growth.',
       'Support sponsorship and partnership negotiations with financial planning.'
     ],
-    requirements: [
+    qualifications: [
       'Experience in Accounting, Finance, Economics, or related field.',
       'Strong knowledge of financial management, budgeting, and reporting.',
       'Familiarity with Saudi corporate financial regulations (VAT, Zakat, compliance).',
@@ -104,7 +99,7 @@ export const jobs: Job[] = [
       'Maintain a consistent visual identity across all platforms and outputs.',
       'Mentor junior creatives, interns, and volunteers within the media unit.'
     ],
-    requirements: [
+    qualifications: [
       'Proven leadership experience in media, communications, or creative direction.',
       'Strong portfolio of work (video production, design, campaigns).',
       'Proficiency in creative software (Adobe Creative Suite, Premiere Pro, Final Cut, DaVinci Resolve, Canva).',
@@ -186,7 +181,7 @@ export const jobs: Job[] = [
       'Maintain organized archives of video projects and footage for future use.',
       'Stay updated on editing trends to keep NAWA content modern and engaging.'
     ],
-    requirements: [
+    qualifications: [
       'Proficiency in video editing software (Adobe Premiere Pro, Final Cut, DaVinci Resolve, or equivalent).',
       'Strong portfolio of video editing work (academic, freelance, or professional).',
       'Knowledge of color grading, sound editing, and motion graphics is a plus.',

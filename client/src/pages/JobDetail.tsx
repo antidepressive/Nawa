@@ -51,7 +51,7 @@ export default function JobDetail() {
           "jobLocationType": "TELECOMMUTE",
           "datePosted": new Date().toISOString(),
           "responsibilities": foundJob.responsibilities,
-          "qualifications": foundJob.requirements
+          "qualifications": foundJob.qualifications || foundJob.requirements
         };
         
         // Remove existing JSON-LD if any
@@ -173,17 +173,17 @@ export default function JobDetail() {
                   </ul>
                 </div>
 
-                {/* Requirements */}
+                {/* Requirements / Qualifications */}
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center">
                     <Users className="w-6 h-6 mr-3 text-accent" />
-                    {t('careers.requirements')}
+                    {job.qualifications ? t('careers.qualifications') : t('careers.requirements')}
                   </h2>
                   <ul className="space-y-3">
-                    {job.requirements.map((requirement, index) => (
+                    {(job.qualifications || job.requirements)?.map((item, index) => (
                       <li key={index} className="flex items-start">
                         <span className="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-gray-700">{requirement}</span>
+                        <span className="text-gray-700">{item}</span>
                       </li>
                     ))}
                   </ul>
