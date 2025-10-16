@@ -7,8 +7,6 @@ export interface Job {
   summary: string;
   responsibilities: string[];
   requirements: string[];
-  niceToHave?: string[];
-  benefits?: string[];
   pdf?: string;
   lang?: 'en' | 'ar';
 }
@@ -41,21 +39,6 @@ export const jobs: Job[] = [
       'Creative thinking and problem-solving abilities',
       'Portfolio demonstrating diverse writing styles and successful campaigns'
     ],
-    niceToHave: [
-      'Experience in the nonprofit or education sector',
-      'Knowledge of SEO best practices',
-      'Social media management experience',
-      'Graphic design or video scripting experience',
-      'Certification in digital marketing or content strategy'
-    ],
-    benefits: [
-      'Competitive salary package',
-      'Health insurance coverage',
-      'Professional development opportunities',
-      'Flexible working arrangements',
-      'Collaborative and innovative work environment',
-      'Opportunity to make a meaningful impact on Saudi youth'
-    ],
     pdf: 'attached_assets/jobDescriptions/Job Description- Copywriter.pdf',
     lang: 'en'
   },
@@ -85,21 +68,6 @@ export const jobs: Job[] = [
       'Experience with both print and digital design workflows',
       'Excellent communication and collaboration skills',
       'Ability to work under pressure and meet tight deadlines'
-    ],
-    niceToHave: [
-      'Experience with motion graphics or video editing',
-      'Web design and UI/UX knowledge',
-      'Photography skills',
-      'Experience in nonprofit or education sector',
-      'Knowledge of Arabic typography and RTL design principles'
-    ],
-    benefits: [
-      'Competitive salary package',
-      'Health insurance coverage',
-      'Professional development opportunities',
-      'Flexible working arrangements',
-      'Access to latest design tools and software',
-      'Creative freedom and collaborative environment'
     ],
     pdf: 'attached_assets/jobDescriptions/Job Description- Designer.pdf',
     lang: 'en'
@@ -131,21 +99,6 @@ export const jobs: Job[] = [
       'Knowledge of Saudi financial regulations and tax laws',
       'Advanced Excel skills and financial modeling experience'
     ],
-    niceToHave: [
-      'Experience in nonprofit or education sector',
-      'Experience with grant management and reporting',
-      'Knowledge of international accounting standards',
-      'Arabic language proficiency',
-      'Experience with ERP systems'
-    ],
-    benefits: [
-      'Competitive salary package',
-      'Health insurance coverage',
-      'Professional development opportunities',
-      'Flexible working arrangements',
-      'Opportunity to contribute to meaningful social impact',
-      'Collaborative work environment'
-    ],
     pdf: 'attached_assets/jobDescriptions/Job Description- Financial Officer.pdf',
     lang: 'en'
   },
@@ -175,21 +128,6 @@ export const jobs: Job[] = [
       'Experience with digital media platforms and social media management',
       'Knowledge of media monitoring and analytics tools',
       'Ability to work under pressure and manage multiple priorities'
-    ],
-    niceToHave: [
-      'Master\'s degree in Communications or related field',
-      'Experience in nonprofit or education sector',
-      'Video production or broadcast media experience',
-      'Crisis communications certification',
-      'International media relations experience'
-    ],
-    benefits: [
-      'Competitive salary package',
-      'Health insurance coverage',
-      'Professional development opportunities',
-      'Flexible working arrangements',
-      'Leadership role with significant impact',
-      'Opportunity to shape organizational communications'
     ],
     pdf: 'attached_assets/jobDescriptions/Job Description- Head of Media.pdf',
     lang: 'en'
@@ -221,21 +159,6 @@ export const jobs: Job[] = [
       'Experience with budget management and resource allocation',
       'Ability to work with diverse teams and stakeholders'
     ],
-    niceToHave: [
-      'Experience in nonprofit or education sector',
-      'Agile or Scrum methodology experience',
-      'International project management experience',
-      'Arabic language proficiency',
-      'Experience with grant-funded projects'
-    ],
-    benefits: [
-      'Competitive salary package',
-      'Health insurance coverage',
-      'Professional development opportunities',
-      'Flexible working arrangements',
-      'Opportunity to lead impactful projects',
-      'Collaborative and dynamic work environment'
-    ],
     pdf: 'attached_assets/jobDescriptions/Job Description- Project Mangment.pdf',
     lang: 'en'
   },
@@ -266,21 +189,6 @@ export const jobs: Job[] = [
       'Good communication and training skills',
       'Knowledge of auditing principles and practices'
     ],
-    niceToHave: [
-      'Experience in nonprofit or education sector',
-      'Experience with program evaluation methodologies',
-      'Arabic language proficiency',
-      'Experience with international quality standards',
-      'Data analysis and reporting skills'
-    ],
-    benefits: [
-      'Competitive salary package',
-      'Health insurance coverage',
-      'Professional development opportunities',
-      'Flexible working arrangements',
-      'Opportunity to ensure program excellence',
-      'Collaborative work environment'
-    ],
     pdf: 'attached_assets/jobDescriptions/Job Description- Quality Assurance Officer.pdf',
     lang: 'en'
   },
@@ -310,21 +218,6 @@ export const jobs: Job[] = [
       'Knowledge of video formats, codecs, and compression techniques',
       'Excellent attention to detail and creative vision',
       'Ability to work under tight deadlines and manage multiple projects'
-    ],
-    niceToHave: [
-      'Experience with After Effects and motion graphics',
-      'Color grading and audio editing skills',
-      'Experience with live streaming and broadcast production',
-      'Knowledge of Arabic typography and RTL video editing',
-      'Experience in nonprofit or education sector'
-    ],
-    benefits: [
-      'Competitive salary package',
-      'Health insurance coverage',
-      'Professional development opportunities',
-      'Flexible working arrangements',
-      'Access to professional video equipment and software',
-      'Creative freedom and collaborative environment'
     ],
     pdf: 'attached_assets/jobDescriptions/Job Description- Video Editor.pdf',
     lang: 'en'

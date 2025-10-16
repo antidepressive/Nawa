@@ -5,7 +5,7 @@ import { Navigation } from '../components/sections/Navigation';
 import { Footer } from '../components/sections/Footer';
 import { ScrollToTop } from '../components/ui/ScrollToTop';
 import { Button } from '../components/ui/button';
-import { Briefcase, Clock, ArrowLeft, CheckCircle, Users, Star } from 'lucide-react';
+import { Briefcase, Clock, ArrowLeft, CheckCircle, Users } from 'lucide-react';
 import nawaBackground from '@assets/nawa-background.webp';
 import { getJobBySlug, jobs } from '../data/jobs';
 import { Link } from 'wouter';
@@ -188,24 +188,6 @@ export default function JobDetail() {
                     ))}
                   </ul>
                 </div>
-
-                {/* Nice to Have */}
-                {job.niceToHave && job.niceToHave.length > 0 && (
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center">
-                      <Star className="w-6 h-6 mr-3 text-accent" />
-                      {t('careers.niceToHave')}
-                    </h2>
-                    <ul className="space-y-3">
-                      {job.niceToHave.map((item, index) => (
-                        <li key={index} className="flex items-start">
-                          <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="text-gray-700">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
               </div>
 
               {/* Sidebar */}
@@ -238,27 +220,6 @@ export default function JobDetail() {
           </div>
         </div>
       </section>
-
-      {/* Benefits Section */}
-      {job.benefits && job.benefits.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold text-gray-900 mb-8 font-montserrat text-center">
-                {t('careers.benefits')}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {job.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-accent mr-3 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       <Footer />
       <ScrollToTop />
