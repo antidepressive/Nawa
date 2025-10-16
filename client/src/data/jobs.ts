@@ -19,7 +19,7 @@ export const jobs: Job[] = [
     title: 'Copywriter',
     department: 'Marketing',
     location: 'Riyadh, Saudi Arabia',
-    employmentType: 'Full-time',
+    employmentType: 'Remote',
     summary: 'We are seeking a creative and strategic Copywriter to join our marketing team. The ideal candidate will craft compelling content that resonates with our target audience and drives engagement across various platforms.',
     responsibilities: [
       'Develop compelling copy for marketing campaigns, social media, and website content',
@@ -64,7 +64,7 @@ export const jobs: Job[] = [
     title: 'Graphic Designer',
     department: 'Creative',
     location: 'Riyadh, Saudi Arabia',
-    employmentType: 'Full-time',
+    employmentType: 'Remote',
     summary: 'We are looking for a talented Graphic Designer to create visually stunning designs that communicate our mission and engage our audience. The role involves working on diverse projects from digital campaigns to print materials.',
     responsibilities: [
       'Create visually appealing designs for digital and print materials',
@@ -109,7 +109,7 @@ export const jobs: Job[] = [
     title: 'Financial Officer',
     department: 'Finance',
     location: 'Riyadh, Saudi Arabia',
-    employmentType: 'Full-time',
+    employmentType: 'Remote',
     summary: 'We are seeking a detail-oriented Financial Officer to manage our financial operations, ensure compliance, and support strategic financial planning. The role involves overseeing accounting processes, budgeting, and financial reporting.',
     responsibilities: [
       'Manage day-to-day financial operations and accounting processes',
@@ -154,7 +154,7 @@ export const jobs: Job[] = [
     title: 'Head of Media',
     department: 'Media & Communications',
     location: 'Riyadh, Saudi Arabia',
-    employmentType: 'Full-time',
+    employmentType: 'Remote',
     summary: 'We are looking for a strategic Head of Media to lead our media operations, develop content strategies, and manage our public relations efforts. This role requires strong leadership skills and media expertise.',
     responsibilities: [
       'Develop and implement comprehensive media and communications strategies',
@@ -199,7 +199,7 @@ export const jobs: Job[] = [
     title: 'Project Manager',
     department: 'Operations',
     location: 'Riyadh, Saudi Arabia',
-    employmentType: 'Full-time',
+    employmentType: 'Remote',
     summary: 'We are seeking an experienced Project Manager to oversee our various programs and initiatives. The role involves planning, executing, and monitoring projects to ensure successful delivery and impact.',
     responsibilities: [
       'Plan, execute, and monitor multiple projects simultaneously',
@@ -244,7 +244,7 @@ export const jobs: Job[] = [
     title: 'Quality Assurance Officer',
     department: 'Operations',
     location: 'Riyadh, Saudi Arabia',
-    employmentType: 'Full-time',
+    employmentType: 'Remote',
     summary: 'We are looking for a detail-oriented Quality Assurance Officer to ensure our programs and services meet the highest standards. The role involves developing quality frameworks, conducting audits, and implementing improvement processes.',
     responsibilities: [
       'Develop and implement quality assurance frameworks and standards',
@@ -289,7 +289,7 @@ export const jobs: Job[] = [
     title: 'Video Editor',
     department: 'Creative',
     location: 'Riyadh, Saudi Arabia',
-    employmentType: 'Full-time',
+    employmentType: 'Remote',
     summary: 'We are seeking a creative Video Editor to produce engaging video content that tells our story and connects with our audience. The role involves editing, post-production, and creating compelling visual narratives.',
     responsibilities: [
       'Edit and produce high-quality video content for various platforms',

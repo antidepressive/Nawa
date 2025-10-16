@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { FinanceProvider } from "./contexts/FinanceContext";
-import { useEffect, lazy } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { initGA } from "./lib/analytics";
 import { useAnalytics } from "./hooks/use-analytics";
 import Home from "./pages/Home";
@@ -80,7 +80,9 @@ function App() {
       <TooltipProvider>
         <LanguageProvider>
           <FinanceProvider>
-            <Router />
+            <Suspense fallback={<div className="min-h-screen bg-white" />}>
+              <Router />
+            </Suspense>
             <Toaster />
           </FinanceProvider>
         </LanguageProvider>
