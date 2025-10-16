@@ -5,7 +5,8 @@ import { Navigation } from '../components/sections/Navigation';
 import { Footer } from '../components/sections/Footer';
 import { ScrollToTop } from '../components/ui/ScrollToTop';
 import { Button } from '../components/ui/button';
-import { MapPin, Briefcase, Clock, ArrowLeft, CheckCircle, Users, Star } from 'lucide-react';
+import { Briefcase, Clock, ArrowLeft, CheckCircle, Users, Star } from 'lucide-react';
+import nawaBackground from '@assets/nawa-background.webp';
 import { getJobBySlug, jobs } from '../data/jobs';
 import { Link } from 'wouter';
 
@@ -46,15 +47,8 @@ export default function JobDetail() {
             "name": "NAWA",
             "url": "https://nawa.sa"
           },
-          "jobLocation": {
-            "@type": "Place",
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Riyadh",
-              "addressCountry": "SA"
-            }
-          },
           "employmentType": foundJob.employmentType,
+          "jobLocationType": "TELECOMMUTE",
           "datePosted": new Date().toISOString(),
           "responsibilities": foundJob.responsibilities,
           "qualifications": foundJob.requirements
@@ -116,13 +110,18 @@ export default function JobDetail() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700">
-        <div className="absolute inset-0 bg-black/20"></div>
+      <section className="relative py-20 overflow-hidden" style={{
+        backgroundImage: `url(${nawaBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
+        <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="mb-6">
               <Link href="/careers">
-                <Button variant="outline" className="text-white border-white hover:bg-white hover:text-blue-900">
+                <Button variant="outline" className="text-white border-white hover:bg-white hover:text-gray-900">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   {t('careers.backToCareers')}
                 </Button>
@@ -137,10 +136,6 @@ export default function JobDetail() {
               <div className="flex items-center">
                 <Briefcase className="w-5 h-5 mr-2" />
                 <span className="text-lg">{job.department}</span>
-              </div>
-              <div className="flex items-center">
-                <MapPin className="w-5 h-5 mr-2" />
-                <span className="text-lg">{job.location}</span>
               </div>
               <div className="flex items-center">
                 <Clock className="w-5 h-5 mr-2" />
@@ -226,10 +221,6 @@ export default function JobDetail() {
                       <p className="text-gray-900">{job.department}</p>
                     </div>
                     <div>
-                      <span className="text-sm font-medium text-gray-600">Location</span>
-                      <p className="text-gray-900">{job.location}</p>
-                    </div>
-                    <div>
                       <span className="text-sm font-medium text-gray-600">Employment Type</span>
                       <p className="text-gray-900">{job.employmentType}</p>
                     </div>
@@ -241,19 +232,6 @@ export default function JobDetail() {
                   >
                     {t('careers.applyNow')}
                   </Button>
-
-                  {job.pdf && (
-                    <div className="mt-6 pt-6 border-t border-gray-200">
-                      <a 
-                        href={`/${job.pdf}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-accent hover:text-yellow-600 text-sm font-medium"
-                      >
-                        Download Job Description PDF
-                      </a>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

@@ -9,7 +9,7 @@ import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { useToast } from '../hooks/use-toast';
-import { Upload, FileText, CheckCircle, AlertCircle, MapPin, Briefcase, Clock } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, Briefcase, Clock } from 'lucide-react';
 import nawaBackground from '@assets/nawa-background.webp';
 import { jobs } from '../data/jobs';
 import { Link } from 'wouter';
@@ -287,10 +287,6 @@ export default function Careers() {
                     <div className="flex items-center text-sm text-gray-600 mb-2">
                       <Briefcase className="w-4 h-4 mr-2" />
                       {job.department}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600 mb-2">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      {job.location}
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
                       <Clock className="w-4 h-4 mr-2" />
