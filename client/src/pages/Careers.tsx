@@ -9,14 +9,17 @@ import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { useToast } from '../hooks/use-toast';
-import { Upload, FileText, CheckCircle, AlertCircle } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, MapPin, Briefcase, Clock } from 'lucide-react';
 import nawaBackground from '@assets/nawa-background.webp';
+import { jobs } from '../data/jobs';
+import { Link } from 'wouter';
 
 interface FormData {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
+  position: string;
   workExperience: string;
   education: string;
   skills: string;
@@ -31,6 +34,7 @@ export default function Careers() {
     lastName: '',
     email: '',
     phone: '966',
+    position: '',
     workExperience: '',
     education: '',
     skills: '',
@@ -43,6 +47,13 @@ export default function Careers() {
 
   useEffect(() => {
     document.title = language === 'ar' ? 'انضم إلى فريقنا - نواة' : 'Join Our Team - NAWA';
+    
+    // Check for preselected position from job detail page
+    const preselectedPosition = localStorage.getItem('selectedPosition');
+    if (preselectedPosition) {
+      setFormData(prev => ({ ...prev, position: preselectedPosition }));
+      localStorage.removeItem('selectedPosition');
+    }
   }, [language]);
 
   const validateEmail = (email: string): boolean => {
@@ -159,6 +170,10 @@ export default function Careers() {
       newErrors.skills = t('careers.validation.skills');
     }
 
+    if (!formData.position.trim()) {
+      newErrors.position = t('careers.validation.position');
+    }
+
     if (!selectedFile) {
       setFileError(t('careers.fileValidation.fileRequired'));
     }
@@ -203,6 +218,7 @@ export default function Careers() {
         lastName: '',
         email: '',
         phone: '966',
+        position: '',
         workExperience: '',
         education: '',
         skills: '',
@@ -251,6 +267,69 @@ export default function Careers() {
         </div>
       </section>
 
+      {/* Open Positions Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <SectionHeading
+              title={t('careers.openPositions')}
+              subtitle={t('careers.openPositionsSubtitle')}
+              className="text-center mb-12"
+            />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {jobs.map((job) => (
+                <div key={job.slug} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-accent">
+                  <div className="mb-4">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
+                      {job.title}
+                    </h3>
+                    <div className="flex items-center text-sm text-gray-600 mb-2">
+                      <Briefcase className="w-4 h-4 mr-2" />
+                      {job.department}
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600 mb-2">
+                      <MapPin className="w-4 h-4 mr-2" />
+                      {job.location}
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <Clock className="w-4 h-4 mr-2" />
+                      {job.employmentType}
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-700 text-sm mb-4 line-clamp-3">
+                    {job.summary}
+                  </p>
+                  
+                  <div className="flex justify-between items-center">
+                    <Link href={`/careers/${job.slug}`}>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="text-accent border-accent hover:bg-accent hover:text-text-dark"
+                      >
+                        {t('careers.viewDetails')}
+                      </Button>
+                    </Link>
+                    <Button 
+                      size="sm"
+                      className="bg-accent text-text-dark hover:bg-yellow-400"
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, position: job.title }));
+                        document.getElementById('application-form')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      {t('careers.applyNow')}
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Application Form Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -261,7 +340,7 @@ export default function Careers() {
               className="text-center mb-12"
             />
             
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div id="application-form" className="bg-white rounded-2xl shadow-xl p-8">
               <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Personal Information */}
                 <div>
@@ -338,6 +417,30 @@ export default function Careers() {
                       )}
                     </div>
                   </div>
+                </div>
+
+                {/* Position Selection */}
+                <div>
+                  <Label htmlFor="position" className="text-sm font-medium text-gray-700">
+                    {t('careers.position')} *
+                  </Label>
+                  <select
+                    id="position"
+                    value={formData.position}
+                    onChange={(e) => handleInputChange('position', e.target.value)}
+                    className={`mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent ${errors.position ? 'border-red-500' : ''}`}
+                    dir={language === 'ar' ? 'rtl' : 'ltr'}
+                  >
+                    <option value="">{t('careers.selectPosition')}</option>
+                    {jobs.map((job) => (
+                      <option key={job.slug} value={job.title}>
+                        {job.title} - {job.department}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.position && (
+                    <p className="mt-1 text-sm text-red-600">{errors.position}</p>
+                  )}
                 </div>
 
                 {/* Work Experience */}

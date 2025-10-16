@@ -109,6 +109,7 @@ async function ensureTablesExist() {
           last_name TEXT NOT NULL,
           email TEXT NOT NULL,
           phone TEXT NOT NULL,
+          position TEXT NOT NULL DEFAULT '',
           work_experience TEXT NOT NULL,
           education TEXT NOT NULL,
           skills TEXT NOT NULL,
@@ -117,6 +118,9 @@ async function ensureTablesExist() {
           created_at TIMESTAMP DEFAULT NOW() NOT NULL
         )
       `);
+      
+      // Add position column if it doesn't exist (for existing tables)
+      await db.execute(sql`ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS position TEXT NOT NULL DEFAULT ''`);
       
       // Create finance dashboard tables
       await db.execute(sql`

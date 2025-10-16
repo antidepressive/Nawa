@@ -368,6 +368,7 @@ export const createJobApplicationConfirmationEmail = (application: JobApplicatio
               <h3>Application Details:</h3>
               <p><strong>Application ID:</strong> <span class="application-id">#${application.id}</span></p>
               <p><strong>Name:</strong> ${application.firstName} ${application.lastName}</p>
+              <p><strong>Position:</strong> ${application.position}</p>
               <p><strong>Email:</strong> ${application.email}</p>
               <p><strong>Phone:</strong> ${application.phone}</p>
               <p><strong>Date Submitted:</strong> ${new Date(application.createdAt).toLocaleDateString()}</p>
@@ -403,6 +404,7 @@ Thank you for your interest in joining the NAWA team! We have successfully recei
 Application Details:
 - Application ID: #${application.id}
 - Name: ${application.firstName} ${application.lastName}
+- Position: ${application.position}
 - Email: ${application.email}
 - Phone: ${application.phone}
 - Date Submitted: ${new Date(application.createdAt).toLocaleDateString()}
@@ -531,6 +533,7 @@ export const createJobApplicationAdminNotification = (application: JobApplicatio
               <h3>Applicant Details:</h3>
               <p><strong>Application ID:</strong> <span class="application-id">#${application.id}</span></p>
               <p><strong>Name:</strong> ${application.firstName} ${application.lastName}</p>
+              <p><strong>Position:</strong> ${application.position}</p>
               <p><strong>Email:</strong> ${application.email}</p>
               <p><strong>Phone:</strong> ${application.phone}</p>
               <p><strong>Date Submitted:</strong> ${new Date(application.createdAt).toLocaleDateString()}</p>
@@ -561,6 +564,7 @@ A new job application has been submitted to NAWA.
 Applicant Details:
 - Application ID: #${application.id}
 - Name: ${application.firstName} ${application.lastName}
+- Position: ${application.position}
 - Email: ${application.email}
 - Phone: ${application.phone}
 - Date Submitted: ${new Date(application.createdAt).toLocaleDateString()}

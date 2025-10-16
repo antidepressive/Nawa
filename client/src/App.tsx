@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { FinanceProvider } from "./contexts/FinanceContext";
-import { useEffect } from "react";
+import { useEffect, lazy } from "react";
 import { initGA } from "./lib/analytics";
 import { useAnalytics } from "./hooks/use-analytics";
 import Home from "./pages/Home";
@@ -22,6 +22,9 @@ import AdminLogin from "./pages/AdminLogin";
 import FinanceDashboard from "./pages/FinanceDashboard";
 import Careers from "./pages/Careers";
 import NewsletterSignup from "./pages/NewsletterSignup";
+
+// Lazy load JobDetail page
+const JobDetail = lazy(() => import("./pages/JobDetail"));
 
 // Protected Admin Route Component
 function ProtectedAdminRoute() {
@@ -54,6 +57,7 @@ function Router() {
       <Route path="/admin" component={ProtectedAdminRoute} />
       <Route path="/finance" component={FinanceDashboard} />
       <Route path="/careers" component={Careers} />
+      <Route path="/careers/:slug" component={JobDetail} />
       <Route path="/newsletter-signup" component={NewsletterSignup} />
       <Route component={NotFound} />
     </Switch>
