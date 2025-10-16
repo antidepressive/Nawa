@@ -124,16 +124,6 @@ export const jobs: Job[] = [
       'Impact Reporting: Collect data, measure outcomes, and prepare final project reports with insights for improvement.',
       'Profile Development: Build their own professional portfolio under NAWA, including certificates, project reports, and leadership recognition.'
     ],
-    requirements: [
-      'Bachelor\'s degree in Business Administration, Project Management, or related field',
-      'Minimum 4-5 years of project management experience',
-      'Project Management Professional (PMP) certification preferred',
-      'Proficiency in project management software and tools',
-      'Strong organizational and time management skills',
-      'Excellent communication and interpersonal abilities',
-      'Experience with budget management and resource allocation',
-      'Ability to work with diverse teams and stakeholders'
-    ],
     lang: 'en'
   },
   {
@@ -153,16 +143,6 @@ export const jobs: Job[] = [
       'Maintain a dashboard of key quality indicators (engagement, satisfaction, delivery).',
       'Identify systemic issues and propose solutions to improve NAWA workflows.',
       'Facilitate internal review meetings to discuss strengths and areas for improvement.'
-    ],
-    requirements: [
-      'Bachelor\'s degree in Quality Management, Business Administration, or related field',
-      'Minimum 3-4 years of quality assurance experience',
-      'Quality management certification (ISO 9001, Six Sigma, or equivalent)',
-      'Strong analytical and problem-solving skills',
-      'Excellent attention to detail and organizational abilities',
-      'Experience with quality management systems and tools',
-      'Good communication and training skills',
-      'Knowledge of auditing principles and practices'
     ],
     lang: 'en'
   },
