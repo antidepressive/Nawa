@@ -7,7 +7,6 @@ export interface Job {
   summary: string;
   responsibilities: string[];
   requirements: string[];
-  pdf?: string;
   lang?: 'en' | 'ar';
 }
 
@@ -18,28 +17,21 @@ export const jobs: Job[] = [
     department: 'Marketing',
     location: 'Riyadh, Saudi Arabia',
     employmentType: 'Remote',
-    summary: 'We are seeking a creative and strategic Copywriter to join our marketing team. The ideal candidate will craft compelling content that resonates with our target audience and drives engagement across various platforms.',
+    summary: 'As a Copywriter at NAWA, you will be responsible for shaping the voice and message of our organization. You will create compelling written content for presentations, reports, websites, and marketing materials that represent NAWA\'s values of leadership, community, and career empowerment. This role requires creativity, precision, and the ability to translate ideas into clear, professional, and inspiring language.',
     responsibilities: [
-      'Develop compelling copy for marketing campaigns, social media, and website content',
-      'Create engaging content for email marketing campaigns and newsletters',
-      'Write persuasive copy for advertisements, brochures, and promotional materials',
-      'Collaborate with design teams to ensure copy complements visual elements',
-      'Maintain brand voice and tone consistency across all communications',
-      'Conduct research on target audience preferences and industry trends',
-      'Edit and proofread content for accuracy, clarity, and brand alignment',
-      'Work with cross-functional teams to develop content strategies'
+      'Develop high-quality written content for NAWA\'s reports, proposals, and official documents.',
+      'Create professional slide decks for programs, conferences, and sponsorship pitches.',
+      'Collaborate with designers and the media team to ensure content matches NAWA\'s brand identity.',
+      'Draft speeches, social media captions, and thought-leadership articles aligned with NAWA\'s vision.',
+      'Edit and proofread all content to ensure clarity, accuracy, and consistency.'
     ],
     requirements: [
-      'Bachelor\'s degree in Marketing, Communications, Journalism, or related field',
-      'Minimum 2-3 years of copywriting experience',
-      'Excellent written and verbal communication skills in Arabic and English',
-      'Strong understanding of marketing principles and consumer psychology',
-      'Experience with content management systems and digital marketing tools',
-      'Ability to work under tight deadlines and manage multiple projects',
-      'Creative thinking and problem-solving abilities',
-      'Portfolio demonstrating diverse writing styles and successful campaigns'
+      'Excellent writing skills in both English and Arabic.',
+      'Strong storytelling and presentation building ability.',
+      'Experience with content creation for professional organizations, NGOs, or startups is a plus.',
+      'Familiarity with PowerPoint/Google Slides, Canva, or similar tools.',
+      'Ability to work under tight deadlines with attention to detail.'
     ],
-    pdf: 'attached_assets/jobDescriptions/Job Description- Copywriter.pdf',
     lang: 'en'
   },
   {
@@ -69,7 +61,6 @@ export const jobs: Job[] = [
       'Excellent communication and collaboration skills',
       'Ability to work under pressure and meet tight deadlines'
     ],
-    pdf: 'attached_assets/jobDescriptions/Job Description- Designer.pdf',
     lang: 'en'
   },
   {
@@ -78,28 +69,24 @@ export const jobs: Job[] = [
     department: 'Finance',
     location: 'Riyadh, Saudi Arabia',
     employmentType: 'Remote',
-    summary: 'We are seeking a detail-oriented Financial Officer to manage our financial operations, ensure compliance, and support strategic financial planning. The role involves overseeing accounting processes, budgeting, and financial reporting.',
+    summary: 'The Financial Officer at NAWA is responsible for overseeing the financial health of the organization. This includes managing budgets, tracking program profitability, ensuring compliance with Saudi regulations, and producing reports that guide the leadership team in decision-making. This role is critical to building NAWA\'s sustainability as it grows into one of the Kingdom\'s leading youth empowerment platforms.',
     responsibilities: [
-      'Manage day-to-day financial operations and accounting processes',
-      'Prepare and analyze financial statements and reports',
-      'Develop and monitor annual budgets and financial forecasts',
-      'Ensure compliance with local financial regulations and standards',
-      'Process invoices, payments, and expense reimbursements',
-      'Maintain accurate financial records and documentation',
-      'Coordinate with external auditors and tax consultants',
-      'Provide financial analysis and recommendations to management'
+      'Prepare and monitor budgets for all NAWA programs, conferences, and academies.',
+      'Produce monthly and quarterly financial reports for the Board.',
+      'Track revenue streams, expenses, and program profitability.',
+      'Ensure compliance with Saudi financial regulations, Zakat & VAT requirements.',
+      'Maintain relationships with auditors, accountants, and banks.',
+      'Develop financial forecasts and sustainability models for long-term growth.',
+      'Support sponsorship and partnership negotiations with financial planning.'
     ],
     requirements: [
-      'Bachelor\'s degree in Accounting, Finance, or related field',
-      'Minimum 3-4 years of financial management experience',
-      'Professional accounting certification (CPA, CMA, or equivalent)',
-      'Proficiency in accounting software and financial systems',
-      'Strong analytical and problem-solving skills',
-      'Excellent attention to detail and organizational abilities',
-      'Knowledge of Saudi financial regulations and tax laws',
-      'Advanced Excel skills and financial modeling experience'
+      'Experience in Accounting, Finance, Economics, or related field.',
+      'Strong knowledge of financial management, budgeting, and reporting.',
+      'Familiarity with Saudi corporate financial regulations (VAT, Zakat, compliance).',
+      'Proficiency in Excel, financial modeling, and reporting tools.',
+      'Prior experience in NGOs, startups, or youth organizations is a plus.',
+      'High integrity, attention to detail, and confidentiality.'
     ],
-    pdf: 'attached_assets/jobDescriptions/Job Description- Financial Officer.pdf',
     lang: 'en'
   },
   {
@@ -108,28 +95,22 @@ export const jobs: Job[] = [
     department: 'Media & Communications',
     location: 'Riyadh, Saudi Arabia',
     employmentType: 'Remote',
-    summary: 'We are looking for a strategic Head of Media to lead our media operations, develop content strategies, and manage our public relations efforts. This role requires strong leadership skills and media expertise.',
+    summary: 'The Head of Media at NAWA is responsible for leading all media production and creative storytelling. This role oversees designers, video editors, photographers, and social media producers to ensure NAWA\'s brand is consistently presented at the highest level. The Head of Media plays a strategic role in amplifying NAWA\'s message, capturing its programs, and showcasing its impact to the community, sponsors, and partners. This is both a creative leadership role and a strategic growth role within NAWA, with clear opportunities for advancement into executive leadership.',
     responsibilities: [
-      'Develop and implement comprehensive media and communications strategies',
-      'Lead media relations and public relations activities',
-      'Manage content creation across multiple platforms and channels',
-      'Oversee social media strategy and community management',
-      'Coordinate press releases, media interviews, and public appearances',
-      'Monitor media coverage and manage crisis communications',
-      'Collaborate with internal teams on integrated marketing campaigns',
-      'Manage media partnerships and stakeholder relationships'
+      'Lead and manage the entire Media Department (design, video, photography, social media).',
+      'Set creative direction for NAWA\'s programs, conferences, academies, and campaigns.',
+      'Ensure professional coverage of all NAWA events, creating highlight reels, recaps, and sponsorship deliverables.',
+      'Collaborate with PR and Communications teams to maximize sponsor visibility and NAWA brand presence.',
+      'Maintain a consistent visual identity across all platforms and outputs.',
+      'Mentor junior creatives, interns, and volunteers within the media unit.'
     ],
     requirements: [
-      'Bachelor\'s degree in Media, Communications, Journalism, or related field',
-      'Minimum 5-6 years of media and communications experience',
-      'Proven track record in media relations and public relations',
-      'Strong leadership and team management skills',
-      'Excellent written and verbal communication skills in Arabic and English',
-      'Experience with digital media platforms and social media management',
-      'Knowledge of media monitoring and analytics tools',
-      'Ability to work under pressure and manage multiple priorities'
+      'Proven leadership experience in media, communications, or creative direction.',
+      'Strong portfolio of work (video production, design, campaigns).',
+      'Proficiency in creative software (Adobe Creative Suite, Premiere Pro, Final Cut, DaVinci Resolve, Canva).',
+      'Ability to manage a team and deliver high-quality outputs under deadlines.',
+      'Strong understanding of branding, storytelling, and audience engagement.'
     ],
-    pdf: 'attached_assets/jobDescriptions/Job Description- Head of Media.pdf',
     lang: 'en'
   },
   {
@@ -138,16 +119,15 @@ export const jobs: Job[] = [
     department: 'Operations',
     location: 'Riyadh, Saudi Arabia',
     employmentType: 'Remote',
-    summary: 'We are seeking an experienced Project Manager to oversee our various programs and initiatives. The role involves planning, executing, and monitoring projects to ensure successful delivery and impact.',
+    summary: 'At NAWA, Project Managers are mini-consultants: they are entrusted with leading entire projects and programs from concept to execution. Each Project Manager is assigned their own portfolio project (conference, academy, training, or special initiative), and is responsible for managing its strategy, operations, partners, and delivery. They are the face of NAWA for their project, building credibility for themselves and the organization while ensuring high-quality outcomes that align with NAWA\'s vision.',
     responsibilities: [
-      'Plan, execute, and monitor multiple projects simultaneously',
-      'Develop project timelines, budgets, and resource allocation plans',
-      'Coordinate with cross-functional teams and external stakeholders',
-      'Monitor project progress and identify potential risks or issues',
-      'Prepare regular project status reports and presentations',
-      'Ensure projects meet quality standards and deliver expected outcomes',
-      'Manage project documentation and maintain organized records',
-      'Facilitate team meetings and stakeholder communications'
+      'Program Ownership: Lead a full NAWA program (or major project) independently.',
+      'Strategic Planning: Develop project scope, objectives, timelines, and KPIs.',
+      'Team Leadership: Coordinate with NAWA\'s functional units (Media, PR, Finance, QA, Career, Conferences, SMA) to deliver tasks on schedule.',
+      'Partner & Sponsor Management: Manage relationships with universities, ministries, corporates, and NGOs as the official NAWA representative.',
+      'Operations: Handle budgeting, logistics, documentation, and on the ground execution.',
+      'Impact Reporting: Collect data, measure outcomes, and prepare final project reports with insights for improvement.',
+      'Profile Development: Build their own professional portfolio under NAWA, including certificates, project reports, and leadership recognition.'
     ],
     requirements: [
       'Bachelor\'s degree in Business Administration, Project Management, or related field',
@@ -159,7 +139,6 @@ export const jobs: Job[] = [
       'Experience with budget management and resource allocation',
       'Ability to work with diverse teams and stakeholders'
     ],
-    pdf: 'attached_assets/jobDescriptions/Job Description- Project Mangment.pdf',
     lang: 'en'
   },
   {
@@ -168,16 +147,17 @@ export const jobs: Job[] = [
     department: 'Operations',
     location: 'Riyadh, Saudi Arabia',
     employmentType: 'Remote',
-    summary: 'We are looking for a detail-oriented Quality Assurance Officer to ensure our programs and services meet the highest standards. The role involves developing quality frameworks, conducting audits, and implementing improvement processes.',
+    summary: 'The Quality Assurance Officer (QA Officer) at NAWA ensures that all departments and team members deliver their responsibilities on time, to standard, and in alignment with NAWA\'s mission. This role tracks team accountability, organizes structured feedback after events, and generates data-driven reports that help leadership assess performance and improve overall quality.',
     responsibilities: [
-      'Develop and implement quality assurance frameworks and standards',
-      'Conduct regular audits and assessments of programs and processes',
-      'Monitor compliance with organizational policies and procedures',
-      'Identify areas for improvement and recommend corrective actions',
-      'Prepare quality reports and documentation for stakeholders',
-      'Train staff on quality standards and best practices',
-      'Coordinate with external auditors and certification bodies',
-      'Maintain quality management systems and documentation'
+      'Track assignments, deadlines, and deliverables across all NAWA branches (Career, Conferences, SMA, Operations, Media).',
+      'Follow up with team members to ensure accountability for tasks.',
+      'Report non-compliance or missed deadlines to leadership with recommendations.',
+      'Design and distribute post-event surveys to participants, sponsors, and staff.',
+      'Collect and analyze feedback data to assess program effectiveness.',
+      'Provide written quality reports with actionable recommendations for improvement.',
+      'Maintain a dashboard of key quality indicators (engagement, satisfaction, delivery).',
+      'Identify systemic issues and propose solutions to improve NAWA workflows.',
+      'Facilitate internal review meetings to discuss strengths and areas for improvement.'
     ],
     requirements: [
       'Bachelor\'s degree in Quality Management, Business Administration, or related field',
@@ -189,7 +169,6 @@ export const jobs: Job[] = [
       'Good communication and training skills',
       'Knowledge of auditing principles and practices'
     ],
-    pdf: 'attached_assets/jobDescriptions/Job Description- Quality Assurance Officer.pdf',
     lang: 'en'
   },
   {
@@ -198,28 +177,22 @@ export const jobs: Job[] = [
     department: 'Creative',
     location: 'Riyadh, Saudi Arabia',
     employmentType: 'Remote',
-    summary: 'We are seeking a creative Video Editor to produce engaging video content that tells our story and connects with our audience. The role involves editing, post-production, and creating compelling visual narratives.',
+    summary: 'As a Video Editor at NAWA, you will be responsible for transforming raw footage into compelling, professional, and impactful videos that showcase NAWA\'s programs, conferences, and community initiatives. You will bring NAWA\'s story to life, ensuring every video reflects our values of leadership, belonging, and youth empowerment.',
     responsibilities: [
-      'Edit and produce high-quality video content for various platforms',
-      'Create engaging video content for social media, website, and presentations',
-      'Collaborate with content creators and marketing teams on video concepts',
-      'Manage video production workflows from raw footage to final delivery',
-      'Ensure video content aligns with brand guidelines and messaging',
-      'Optimize videos for different platforms and viewing contexts',
-      'Maintain organized video libraries and asset management systems',
-      'Stay updated with video editing trends and technologies'
+      'Edit event coverage, highlight reels, and program recaps for NAWA activities.',
+      'Create promotional videos for upcoming workshops, academies, and conferences.',
+      'Ensure brand consistency across all media outputs (intro/outro templates, colors, fonts, logos).',
+      'Collaborate with designers, copywriters, and the media team to deliver integrated campaigns.',
+      'Maintain organized archives of video projects and footage for future use.',
+      'Stay updated on editing trends to keep NAWA content modern and engaging.'
     ],
     requirements: [
-      'Bachelor\'s degree in Film, Media Production, or related field',
-      'Minimum 2-3 years of professional video editing experience',
-      'Proficiency in video editing software (Adobe Premiere Pro, Final Cut Pro, etc.)',
-      'Strong portfolio demonstrating creative and technical video editing skills',
-      'Experience with motion graphics and visual effects',
-      'Knowledge of video formats, codecs, and compression techniques',
-      'Excellent attention to detail and creative vision',
-      'Ability to work under tight deadlines and manage multiple projects'
+      'Proficiency in video editing software (Adobe Premiere Pro, Final Cut, DaVinci Resolve, or equivalent).',
+      'Strong portfolio of video editing work (academic, freelance, or professional).',
+      'Knowledge of color grading, sound editing, and motion graphics is a plus.',
+      'Ability to meet deadlines and work efficiently under time pressure.',
+      'Passion for storytelling and creating content that inspires youth.'
     ],
-    pdf: 'attached_assets/jobDescriptions/Job Description- Video Editor.pdf',
     lang: 'en'
   }
 ];

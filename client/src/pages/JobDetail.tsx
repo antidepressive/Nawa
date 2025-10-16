@@ -121,7 +121,7 @@ export default function JobDetail() {
           <div className="max-w-4xl mx-auto">
             <div className="mb-6">
               <Link href="/careers">
-                <Button variant="outline" className="text-white border-white hover:bg-white hover:text-gray-900">
+                <Button variant="outline" className="bg-transparent text-white border-white hover:bg-white hover:text-gray-900">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   {t('careers.backToCareers')}
                 </Button>
