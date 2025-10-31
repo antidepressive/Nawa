@@ -9,6 +9,7 @@ export interface Job {
   requirements?: string[];
   qualifications?: string[];
   lang?: 'en' | 'ar';
+  documentUrl?: string;
 }
 
 export const jobs: Job[] = [
@@ -33,7 +34,8 @@ export const jobs: Job[] = [
       'Familiarity with PowerPoint/Google Slides, Canva, or similar tools.',
       'Ability to work under tight deadlines with attention to detail.'
     ],
-    lang: 'en'
+    lang: 'en',
+    documentUrl: '/job-descriptions/copywriter.pdf'
   },
   {
     slug: 'designer',
@@ -56,7 +58,8 @@ export const jobs: Job[] = [
       'Knowledge of branding and visual storytelling.',
       'Attention to detail and a passion for design in youth and community projects.'
     ],
-    lang: 'en'
+    lang: 'en',
+    documentUrl: '/job-descriptions/designer.pdf'
   },
   {
     slug: 'financial-officer',
@@ -82,7 +85,8 @@ export const jobs: Job[] = [
       'Prior experience in NGOs, startups, or youth organizations is a plus.',
       'High integrity, attention to detail, and confidentiality.'
     ],
-    lang: 'en'
+    lang: 'en',
+    documentUrl: '/job-descriptions/financial-officer.pdf'
   },
   {
     slug: 'head-of-media',
@@ -106,7 +110,8 @@ export const jobs: Job[] = [
       'Ability to manage a team and deliver high-quality outputs under deadlines.',
       'Strong understanding of branding, storytelling, and audience engagement.'
     ],
-    lang: 'en'
+    lang: 'en',
+    documentUrl: '/job-descriptions/head-of-media.pdf'
   },
   {
     slug: 'project-manager',
@@ -124,7 +129,8 @@ export const jobs: Job[] = [
       'Impact Reporting: Collect data, measure outcomes, and prepare final project reports with insights for improvement.',
       'Profile Development: Build their own professional portfolio under NAWA, including certificates, project reports, and leadership recognition.'
     ],
-    lang: 'en'
+    lang: 'en',
+    documentUrl: '/job-descriptions/project-manager.pdf'
   },
   {
     slug: 'quality-assurance-officer',
@@ -144,7 +150,8 @@ export const jobs: Job[] = [
       'Identify systemic issues and propose solutions to improve NAWA workflows.',
       'Facilitate internal review meetings to discuss strengths and areas for improvement.'
     ],
-    lang: 'en'
+    lang: 'en',
+    documentUrl: '/job-descriptions/quality-assurance-officer.pdf'
   },
   {
     slug: 'video-editor',
@@ -168,7 +175,8 @@ export const jobs: Job[] = [
       'Ability to meet deadlines and work efficiently under time pressure.',
       'Passion for storytelling and creating content that inspires youth.'
     ],
-    lang: 'en'
+    lang: 'en',
+    documentUrl: '/job-descriptions/video-editor.pdf'
   }
 ];
 

@@ -56,6 +56,15 @@ export default function Careers() {
     }
   }, [language]);
 
+  useEffect(() => {
+    if (window.location.hash === '#application-form') {
+      // Defer to next paint to ensure DOM is ready
+      requestAnimationFrame(() => {
+        document.getElementById('application-form')?.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  }, []);
+
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);

@@ -214,6 +214,17 @@ export default function JobDetail() {
                   >
                     {t('careers.applyNow')}
                   </Button>
+
+                  {job.documentUrl && (
+                    <a
+                      href={job.documentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 hover:bg-gray-100 transition"
+                    >
+                      View more information (PDF)
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
