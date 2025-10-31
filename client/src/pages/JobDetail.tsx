@@ -98,6 +98,9 @@ export default function JobDetail() {
     );
   }
 
+  const requirementItems = (job.qualifications ?? job.requirements) ?? [];
+  const hasRequirementItems = requirementItems.length > 0;
+
   const handleApplyClick = () => {
     // Store the selected position in localStorage for the form
     localStorage.setItem('selectedPosition', job.title);
@@ -174,20 +177,22 @@ export default function JobDetail() {
                 </div>
 
                 {/* Requirements / Qualifications */}
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center">
-                    <Users className="w-6 h-6 mr-3 text-accent" />
-                    {job.qualifications ? 'Qualifications' : t('careers.requirements')}
-                  </h2>
-                  <ul className="space-y-3">
-                    {(job.qualifications || job.requirements)?.map((item, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span className="text-gray-700">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {hasRequirementItems && (
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center">
+                      <Users className="w-6 h-6 mr-3 text-accent" />
+                      {job.qualifications ? 'Qualifications' : t('careers.requirements')}
+                    </h2>
+                    <ul className="space-y-3">
+                      {requirementItems.map((item, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          <span className="text-gray-700">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
 
               {/* Sidebar */}
@@ -220,9 +225,9 @@ export default function JobDetail() {
                       href={job.documentUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 hover:bg-gray-100 transition"
+                      className="mt-3 inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 hover:bg-gray-100 transition whitespace-nowrap"
                     >
-                      View more information (PDF)
+                      View more information
                     </a>
                   )}
                 </div>
