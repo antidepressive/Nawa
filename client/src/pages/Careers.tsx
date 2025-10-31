@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Navigation } from '../components/sections/Navigation';
 import { Footer } from '../components/sections/Footer';
 import { ScrollToTop } from '../components/ui/ScrollToTop';
 import { SectionHeading } from '../components/ui/SectionHeading';
@@ -9,7 +8,7 @@ import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { useToast } from '../hooks/use-toast';
-import { Upload, FileText, CheckCircle, AlertCircle, Briefcase, Clock } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, Briefcase, Clock, ArrowLeft } from 'lucide-react';
 import nawaBackground from '@assets/nawa-background.webp';
 import { jobs } from '../data/jobs';
 import { Link } from 'wouter';
@@ -251,7 +250,15 @@ export default function Careers() {
 
   return (
     <>
-      <Navigation />
+      {/* Back to Home Button */}
+      <div className={`fixed top-4 z-20 ${language === 'ar' ? 'right-4 left-auto' : 'left-4'}`}>
+        <Link href="/">
+          <Button variant="outline" className="bg-white/90 backdrop-blur px-3 py-2">
+            <ArrowLeft className={`w-4 h-4 ${language === 'ar' ? 'ml-2 rotate-180' : 'mr-2'}`} />
+            {t('nav.home')}
+          </Button>
+        </Link>
+      </div>
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{
@@ -260,7 +267,7 @@ export default function Careers() {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
       }}>
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 font-montserrat">
