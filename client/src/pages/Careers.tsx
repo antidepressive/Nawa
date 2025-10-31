@@ -8,7 +8,7 @@ import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { useToast } from '../hooks/use-toast';
-import { Upload, FileText, CheckCircle, AlertCircle, Briefcase, Clock, ArrowLeft } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, Briefcase, Clock, ArrowLeft, Globe } from 'lucide-react';
 import nawaBackground from '@assets/nawa-background.webp';
 import { jobs } from '../data/jobs';
 import { Link } from 'wouter';
@@ -26,7 +26,7 @@ interface FormData {
 }
 
 export default function Careers() {
-  const { t, language } = useLanguage();
+  const { t, language, toggleLanguage } = useLanguage();
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
@@ -250,16 +250,6 @@ export default function Careers() {
 
   return (
     <>
-      {/* Back to Home Button */}
-      <div className={`fixed top-4 z-20 ${language === 'ar' ? 'right-4 left-auto' : 'left-4'}`}>
-        <Link href="/">
-          <Button variant="outline" className="bg-white/90 backdrop-blur px-3 py-2">
-            <ArrowLeft className={`w-4 h-4 ${language === 'ar' ? 'ml-2 rotate-180' : 'mr-2'}`} />
-            {t('nav.home')}
-          </Button>
-        </Link>
-      </div>
-      
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{
         backgroundImage: `url(${nawaBackground})`,
@@ -269,6 +259,22 @@ export default function Careers() {
       }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mb-8 flex justify-between items-center">
+            <Link href="/">
+              <Button variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                {language === 'ar' ? 'العودة إلى الرئيسية' : 'Back to Home'}
+              </Button>
+            </Link>
+            <Button 
+              variant="outline" 
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+              onClick={toggleLanguage}
+            >
+              <Globe className="w-4 h-4 mr-2" />
+              {language === 'ar' ? 'EN' : 'العربية'}
+            </Button>
+          </div>
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 font-montserrat">
               {t('careers.title')}
@@ -279,12 +285,19 @@ export default function Careers() {
             <p className="text-lg text-white/80 max-w-2xl mx-auto">
               {t('careers.description')}
             </p>
+            <Button
+              variant="outline"
+              className="mt-8 bg-white/10 border-white/30 text-white hover:bg-white/20"
+              onClick={() => document.getElementById('open-positions')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              {language === 'ar' ? 'عرض الوظائف المتاحة' : 'View Open Positions'}
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Open Positions Section */}
-      <section className="py-16 bg-white">
+      <section id="open-positions" className="py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
             <SectionHeading
