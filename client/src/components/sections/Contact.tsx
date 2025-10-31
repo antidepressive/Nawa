@@ -50,18 +50,16 @@ export const Contact = () => {
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     if (field === "phone") {
-      // Ensure phone always starts with 966 and only accept digits after
-      let phoneValue = value;
-      // Remove any non-digit characters and spaces
-      phoneValue = phoneValue.replace(/[^\d]/g, "");
-      
-      if (!phoneValue.startsWith("966")) {
-        phoneValue = "966" + phoneValue.replace(/^966/, "");
-      } else {
-        // Keep 966 and only allow digits after it
-        phoneValue = "966" + phoneValue.substring(3);
+      // Keep '966' prefix; prevent going below it; allow only digits and cap total length
+      const digits = value.replace(/\D/g, "");
+      if (digits.length <= 3) {
+        setFormData((prev) => ({ ...prev, phone: "966" }));
+        return;
       }
-      setFormData((prev) => ({ ...prev, [field]: phoneValue }));
+
+      const rest = digits.startsWith("966") ? digits.slice(3) : digits;
+      const next = ("966" + rest).slice(0, 12);
+      setFormData((prev) => ({ ...prev, phone: next }));
     } else {
       setFormData((prev) => ({ ...prev, [field]: value }));
     }
