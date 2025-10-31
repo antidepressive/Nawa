@@ -117,8 +117,8 @@ export const jobs: Job[] = [
     slug: 'project-manager',
     title: 'Project Manager',
     department: 'Operations',
-    location: 'Riyadh, Saudi Arabia',
-    employmentType: 'Remote',
+    location: 'Hybrid',
+    employmentType: 'Hybrid',
     summary: 'At NAWA, Project Managers are mini-consultants: they are entrusted with leading entire projects and programs from concept to execution. Each Project Manager is assigned their own portfolio project (conference, academy, training, or special initiative), and is responsible for managing its strategy, operations, partners, and delivery. They are the face of NAWA for their project, building credibility for themselves and the organization while ensuring high-quality outcomes that align with NAWA\'s vision.',
     responsibilities: [
       'Program Ownership: Lead a full NAWA program (or major project) independently.',
