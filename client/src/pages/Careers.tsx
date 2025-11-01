@@ -8,7 +8,7 @@ import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { useToast } from '../hooks/use-toast';
-import { Upload, FileText, CheckCircle, AlertCircle, Briefcase, Clock, ArrowLeft, Globe } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, ArrowLeft, Globe } from 'lucide-react';
 import nawaBackground from '@assets/nawa-background.webp';
 import { jobs } from '../data/jobs';
 import { Link } from 'wouter';
@@ -258,8 +258,9 @@ export default function Careers() {
         backgroundRepeat: 'no-repeat'
       }}>
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-8 flex justify-between items-center">
+        {/* Top header row (absolute) */}
+        <div className="absolute z-10 top-6 inset-x-0">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <Link href="/">
               <Button variant="outline" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -275,7 +276,9 @@ export default function Careers() {
               {language === 'ar' ? 'EN' : 'العربية'}
             </Button>
           </div>
-          <div className="max-w-4xl mx-auto">
+        </div>
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="max-w-4xl mx-auto md:-mt-6 lg:-mt-10">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 font-montserrat">
               {t('careers.title')}
             </h1>
@@ -306,20 +309,20 @@ export default function Careers() {
               className="text-center mb-12"
             />
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {jobs.map((job) => (
-                <div key={job.slug} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-accent">
+                <div key={job.slug} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 hover:border-accent focus-within:ring-2 focus-within:ring-accent/50">
                   <div className="mb-4">
                     <h3 className="text-xl font-semibold text-gray-900 mb-2 font-montserrat">
                       {job.title}
                     </h3>
-                    <div className="flex items-center text-sm text-gray-600 mb-2">
-                      <Briefcase className="w-4 h-4 mr-2" />
-                      {job.department}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Clock className="w-4 h-4 mr-2" />
-                      {job.employmentType}
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      <span className="inline-flex items-center rounded-full bg-gray-100 text-gray-700 text-xs px-2.5 py-1">
+                        {job.department}
+                      </span>
+                      <span className="inline-flex items-center rounded-full bg-accent/20 text-text-dark text-xs px-2.5 py-1">
+                        {job.employmentType}
+                      </span>
                     </div>
                   </div>
                   
@@ -327,7 +330,7 @@ export default function Careers() {
                     {job.summary}
                   </p>
                   
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between gap-3 flex-wrap">
                     <Link href={`/careers/${job.slug}`}>
                       <Button 
                         variant="outline" 
