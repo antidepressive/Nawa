@@ -32,7 +32,7 @@ export default function Careers() {
     firstName: '',
     lastName: '',
     email: '',
-    phone: '966',
+    phone: '+966',
     position: '',
     workExperience: '',
     education: '',
@@ -70,21 +70,21 @@ export default function Careers() {
   };
 
   const validatePhone = (phone: string): boolean => {
-    const phoneRegex = /^966[5-9]\d{8}$/;
+    const phoneRegex = /^\+966[5-9]\d{8}$/;
     return phoneRegex.test(phone);
   };
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     if (field === 'phone') {
-      // Keep '966' prefix; prevent going below it; allow only digits and cap total length
+      // Keep '+966' prefix; prevent going below it; allow only digits and cap total length
       const digits = value.replace(/\D/g, '');
       if (digits.length <= 3) {
-        setFormData((prev) => ({ ...prev, phone: '966' }));
+        setFormData((prev) => ({ ...prev, phone: '+966' }));
         return;
       }
 
       const rest = digits.startsWith('966') ? digits.slice(3) : digits;
-      const next = ('966' + rest).slice(0, 12);
+      const next = ('+966' + rest).slice(0, 13);
       setFormData((prev) => ({ ...prev, phone: next }));
     } else {
       setFormData((prev) => ({ ...prev, [field]: value }));
@@ -225,7 +225,7 @@ export default function Careers() {
         firstName: '',
         lastName: '',
         email: '',
-        phone: '966',
+        phone: '+966',
         position: '',
         workExperience: '',
         education: '',
@@ -438,7 +438,7 @@ export default function Careers() {
                         onChange={(e) => handleInputChange('phone', e.target.value)}
                         className={`mt-1 ${errors.phone ? 'border-red-500' : ''}`}
                         dir={language === 'ar' ? 'rtl' : 'ltr'}
-                        placeholder="966xxxxxxxxx"
+                        placeholder="+966xxxxxxxxx"
                       />
                       {errors.phone && (
                         <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
