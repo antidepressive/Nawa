@@ -5,6 +5,7 @@ import {
   insertContactSubmissionSchema, 
   insertNewsletterSubscriptionSchema, 
   insertWorkshopRegistrationSchema,
+  insertLeadershipWorkshopRegistrationSchema,
   insertJobApplicationSchema,
   insertAccountSchema,
   insertCategorySchema,
@@ -15,7 +16,7 @@ import {
 import { db } from "./db";
 import { sql } from "drizzle-orm";
 import { requireDeveloperAuth, requireDeveloperAuthQuery, requireDeleteAuthQuery } from "./auth";
-import { emailService, createWorkshopConfirmationEmail } from "./email";
+import { emailService, createWorkshopConfirmationEmail, createLeadershipWorkshopConfirmationEmail } from "./email";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -187,6 +188,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(`Error fetching workshop registrations: ${error}`);
       res.status(500).json({ error: "Failed to fetch workshop registrations" });
+    }
+  });
+
+  // Leadership workshop registration
+  app.post("/api/leadership-workshop", async (req, res) => {
+    try {
+      const validation = insertLeadershipWorkshopRegistrationSchema.safeParse(req.body);
+      
+      if (!validation.success) {
+        return res.status(400).json({ error: "Invalid form data", details: validation.error.errors });
+      }
+
+      const registration = await storage.createLeadershipWorkshopRegistration(validation.data);
+      console.log(`New leadership workshop registration from ${registration.name} (${registration.email})`);
+      
+      // Send confirmation email
+      try {
+        const emailSent = await emailService.sendLeadershipWorkshopConfirmation(registration);
+        if (emailSent) {
+          console.log(`Confirmation email sent to ${registration.email}`);
+        } else {
+          console.warn(`Failed to send confirmation email to ${registration.email}`);
+        }
+      } catch (emailError) {
+        console.error(`Error sending confirmation email: ${emailError}`);
+        // Don't fail the registration if email fails
+      }
+      
+      res.json({ success: true, message: "Leadership workshop registration submitted successfully" });
+    } catch (error) {
+      console.error(`Error processing leadership workshop registration: ${error}`);
+      res.status(500).json({ error: "Failed to submit leadership workshop registration" });
+    }
+  });
+
+  // Get leadership workshop registrations (for admin use)
+  app.get("/api/leadership-workshop", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const registrations = await storage.getLeadershipWorkshopRegistrations();
+      res.json(registrations);
+    } catch (error) {
+      console.error(`Error fetching leadership workshop registrations: ${error}`);
+      res.status(500).json({ error: "Failed to fetch leadership workshop registrations" });
     }
   });
 
@@ -449,6 +493,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(`Error deleting workshop registrations: ${error}`);
       res.status(500).json({ error: "Failed to delete workshop registrations" });
+    }
+  });
+
+  // Delete single leadership workshop registration (for admin use)
+  app.delete("/api/leadership-workshop/:id", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      const deleted = await storage.deleteLeadershipWorkshopRegistration(id);
+      if (deleted) {
+        res.json({ success: true, message: "Leadership workshop registration deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Leadership workshop registration not found" });
+      }
+    } catch (error) {
+      console.error(`Error deleting leadership workshop registration: ${error}`);
+      res.status(500).json({ error: "Failed to delete leadership workshop registration" });
+    }
+  });
+
+  // Delete multiple leadership workshop registrations (for admin use)
+  app.delete("/api/leadership-workshop", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "Invalid IDs array" });
+      }
+
+      const deletedCount = await storage.deleteLeadershipWorkshopRegistrations(ids);
+      res.json({ 
+        success: true, 
+        message: `${deletedCount} leadership workshop registration(s) deleted successfully`,
+        deletedCount 
+      });
+    } catch (error) {
+      console.error(`Error deleting leadership workshop registrations: ${error}`);
+      res.status(500).json({ error: "Failed to delete leadership workshop registrations" });
     }
   });
 

@@ -41,6 +41,15 @@ export const workshopRegistrations = pgTable("workshop_registrations", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const leadershipWorkshopRegistrations = pgTable("leadership_workshop_registrations", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  payment: text("payment").notNull(), // 'venue' only
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const jobApplications = pgTable("job_applications", {
   id: serial("id").primaryKey(),
   firstName: text("first_name").notNull(),
@@ -147,6 +156,13 @@ export const insertWorkshopRegistrationSchema = createInsertSchema(workshopRegis
   friend2Phone: true,
 });
 
+export const insertLeadershipWorkshopRegistrationSchema = createInsertSchema(leadershipWorkshopRegistrations).pick({
+  name: true,
+  email: true,
+  phone: true,
+  payment: true,
+});
+
 export const insertJobApplicationSchema = createInsertSchema(jobApplications, {
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
@@ -219,6 +235,8 @@ export type InsertNewsletterSubscription = z.infer<typeof insertNewsletterSubscr
 export type NewsletterSubscription = typeof newsletterSubscriptions.$inferSelect;
 export type InsertWorkshopRegistration = z.infer<typeof insertWorkshopRegistrationSchema>;
 export type WorkshopRegistration = typeof workshopRegistrations.$inferSelect;
+export type InsertLeadershipWorkshopRegistration = z.infer<typeof insertLeadershipWorkshopRegistrationSchema>;
+export type LeadershipWorkshopRegistration = typeof leadershipWorkshopRegistrations.$inferSelect;
 export type InsertJobApplication = z.infer<typeof insertJobApplicationSchema>;
 export type JobApplication = typeof jobApplications.$inferSelect;
 export type Account = typeof accounts.$inferSelect;

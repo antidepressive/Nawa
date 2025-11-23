@@ -3,6 +3,7 @@ import {
   contactSubmissions, 
   newsletterSubscriptions,
   workshopRegistrations,
+  leadershipWorkshopRegistrations,
   jobApplications,
   accounts,
   categories,
@@ -17,6 +18,8 @@ import {
   type InsertNewsletterSubscription,
   type WorkshopRegistration,
   type InsertWorkshopRegistration,
+  type LeadershipWorkshopRegistration,
+  type InsertLeadershipWorkshopRegistration,
   type JobApplication,
   type InsertJobApplication,
   type Account,
@@ -40,20 +43,24 @@ export interface IStorage {
   createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
   createNewsletterSubscription(subscription: InsertNewsletterSubscription): Promise<NewsletterSubscription>;
   createWorkshopRegistration(registration: InsertWorkshopRegistration): Promise<WorkshopRegistration>;
+  createLeadershipWorkshopRegistration(registration: InsertLeadershipWorkshopRegistration): Promise<LeadershipWorkshopRegistration>;
   createJobApplication(application: InsertJobApplication): Promise<JobApplication>;
   getContactSubmissions(): Promise<ContactSubmission[]>;
   getNewsletterSubmissions(): Promise<NewsletterSubscription[]>;
   getWorkshopRegistrations(): Promise<WorkshopRegistration[]>;
+  getLeadershipWorkshopRegistrations(): Promise<LeadershipWorkshopRegistration[]>;
   getJobApplications(): Promise<JobApplication[]>;
   // Delete methods
   deleteContactSubmission(id: number): Promise<boolean>;
   deleteNewsletterSubscription(id: number): Promise<boolean>;
   deleteWorkshopRegistration(id: number): Promise<boolean>;
+  deleteLeadershipWorkshopRegistration(id: number): Promise<boolean>;
   deleteJobApplication(id: number): Promise<boolean>;
   // Bulk delete methods
   deleteContactSubmissions(ids: number[]): Promise<number>;
   deleteNewsletterSubscriptions(ids: number[]): Promise<number>;
   deleteWorkshopRegistrations(ids: number[]): Promise<number>;
+  deleteLeadershipWorkshopRegistrations(ids: number[]): Promise<number>;
   deleteJobApplications(ids: number[]): Promise<number>;
   // Finance methods
   getAccounts(): Promise<Account[]>;
@@ -133,6 +140,18 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(workshopRegistrations).orderBy(workshopRegistrations.createdAt);
   }
 
+  async createLeadershipWorkshopRegistration(registration: InsertLeadershipWorkshopRegistration): Promise<LeadershipWorkshopRegistration> {
+    const [leadershipWorkshopRegistration] = await db
+      .insert(leadershipWorkshopRegistrations)
+      .values(registration)
+      .returning();
+    return leadershipWorkshopRegistration;
+  }
+
+  async getLeadershipWorkshopRegistrations(): Promise<LeadershipWorkshopRegistration[]> {
+    return await db.select().from(leadershipWorkshopRegistrations).orderBy(leadershipWorkshopRegistrations.createdAt);
+  }
+
   async createJobApplication(application: InsertJobApplication): Promise<JobApplication> {
     const [jobApplication] = await db
       .insert(jobApplications)
@@ -167,6 +186,13 @@ export class DatabaseStorage implements IStorage {
     return result.rowCount > 0;
   }
 
+  async deleteLeadershipWorkshopRegistration(id: number): Promise<boolean> {
+    const result = await db
+      .delete(leadershipWorkshopRegistrations)
+      .where(eq(leadershipWorkshopRegistrations.id, id));
+    return result.rowCount > 0;
+  }
+
   async deleteJobApplication(id: number): Promise<boolean> {
     const result = await db
       .delete(jobApplications)
@@ -196,6 +222,14 @@ export class DatabaseStorage implements IStorage {
     const result = await db
       .delete(workshopRegistrations)
       .where(sql`${workshopRegistrations.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
+    return result.rowCount || 0;
+  }
+
+  async deleteLeadershipWorkshopRegistrations(ids: number[]): Promise<number> {
+    if (ids.length === 0) return 0;
+    const result = await db
+      .delete(leadershipWorkshopRegistrations)
+      .where(sql`${leadershipWorkshopRegistrations.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
     return result.rowCount || 0;
   }
 
