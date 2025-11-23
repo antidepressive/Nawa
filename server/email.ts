@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import type { WorkshopRegistration, JobApplication } from '@shared/schema';
+import type { WorkshopRegistration, LeadershipWorkshopRegistration, JobApplication } from '@shared/schema';
 
 // Email configuration for Brevo SMTP
 const emailConfig = {
@@ -583,6 +583,227 @@ This is an automated notification from the NAWA application system.
   };
 };
 
+// Leadership Workshop Confirmation Email
+export const createLeadershipWorkshopConfirmationEmail = (registration: LeadershipWorkshopRegistration) => {
+  const paymentText = registration.payment === 'venue' ? 'Venue Payment' : 'Online Payment';
+
+  return {
+    subject: 'How to Speak Like a Leader Workshop Confirmation – November 29, 2025',
+    html: `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>How to Speak Like a Leader Workshop Confirmation</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <style>
+          body { 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6; 
+            color: #000000; 
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+            margin: 0;
+            padding: 20px;
+          }
+          .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+          }
+          .header { 
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+            padding: 30px 20px; 
+            text-align: center; 
+            color: white;
+          }
+          .header h1 { 
+            margin: 0; 
+            font-size: 28px; 
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+          }
+          .content { 
+            padding: 20px; 
+            background: white;
+            color: #000000;
+            font-family: 'Inter', sans-serif;
+          }
+          .content p {
+            color: #000000;
+            margin-bottom: 15px;
+            font-family: 'Inter', sans-serif;
+          }
+          .content h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #000000;
+            margin-top: 20px;
+            margin-bottom: 10px;
+          }
+          .details { 
+            background-color: #f8f9fa; 
+            padding: 15px; 
+            margin: 20px 0; 
+            border-radius: 5px; 
+            color: #000000;
+            font-family: 'Inter', sans-serif;
+          }
+          .details h3 {
+            color: #000000;
+            margin-top: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+          }
+          .footer { 
+            text-align: center; 
+            padding: 20px; 
+            color: #000000; 
+            font-size: 14px; 
+            background: white;
+            font-family: 'Inter', sans-serif;
+          }
+          .highlight { 
+            color: #000000; 
+            font-weight: bold; 
+            font-family: 'Inter', sans-serif;
+          }
+          .whatsapp-link { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+            color: white !important; 
+            padding: 10px 20px; 
+            text-decoration: none !important; 
+            border-radius: 25px; 
+            font-weight: bold;
+            font-family: 'Inter', sans-serif;
+            margin-top: 10px;
+          }
+          .whatsapp-link:hover { 
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white !important;
+          }
+          .whatsapp-link:visited {
+            color: white !important;
+          }
+          .whatsapp-link:active {
+            color: white !important;
+          }
+          .location-link { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+            color: white !important; 
+            padding: 10px 20px; 
+            text-decoration: none !important; 
+            border-radius: 25px; 
+            font-weight: bold;
+            font-family: 'Inter', sans-serif;
+            margin-top: 10px;
+          }
+          .location-link:hover { 
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white !important;
+          }
+          .location-link:visited {
+            color: white !important;
+          }
+          .location-link:active {
+            color: white !important;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>🎉 How to Speak Like a Leader Workshop Confirmation</h1>
+          </div>
+          
+          <div class="content">
+            <p>Dear <span class="highlight">${registration.name}</span>,</p>
+            
+            <p>Thank you for registering for our upcoming "How to Speak Like a Leader" workshop! We're excited to have you join us.</p>
+            
+            <div class="details">
+              <h3>Registration Details:</h3>
+              <ul>
+                <li><strong>Name:</strong> ${registration.name}</li>
+                <li><strong>Email:</strong> ${registration.email}</li>
+                <li><strong>Phone:</strong> ${registration.phone}</li>
+                <li><strong>Payment Method:</strong> ${paymentText}</li>
+                <li><strong>Fee:</strong> 165 SAR</li>
+              </ul>
+            </div>
+            
+            <h3>Workshop Details:</h3>
+            <p><strong>Date:</strong> November 29, 2025</p>
+            <p><strong>Time:</strong> 2:00 PM – 9:00 PM</p>
+            <p><strong>Location:</strong> J-Hub</p>
+            
+            <h3>What to Expect:</h3>
+            <p>This intensive workshop features 3 rotating sessions covering:</p>
+            <ul>
+              <li><strong>Body Language of a Leader</strong> - Master the non-verbal communication skills that command respect</li>
+              <li><strong>Articulation & Tone</strong> - Develop your voice to inspire and influence</li>
+              <li><strong>Storytelling</strong> - Learn to craft compelling narratives that connect and persuade</li>
+            </ul>
+            
+            <p>The day concludes with a practical session and competition where you'll apply what you've learned in a Toastmasters-style format. Topics will be provided, and participants will present in front of the entire cohort and a judge panel. The winner will receive a prize!</p>
+            
+            <p>If you have any questions or need further information, feel free to reach out to us at <a href="mailto:info@nawa.sa" style="color: #000000;">info@nawa.sa</a></p>
+            
+            <p>Looking forward to seeing you there!</p>
+          </div>
+          
+          <div class="footer">
+            <p>Best regards,<br>The NAWA Team</p>
+            <p><small>This is an automated confirmation email. Please do not reply to this address.</small></p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `,
+    text: `
+How to Speak Like a Leader Workshop Confirmation – November 29, 2025
+
+Dear ${registration.name},
+
+Thank you for registering for our upcoming "How to Speak Like a Leader" workshop! We're excited to have you join us.
+
+Registration Details:
+- Name: ${registration.name}
+- Email: ${registration.email}
+- Phone: ${registration.phone}
+- Payment Method: ${paymentText}
+- Fee: 165 SAR
+
+Workshop Details:
+Date: November 29, 2025
+Time: 2:00 PM – 9:00 PM
+Location: J-Hub
+
+What to Expect:
+This intensive workshop features 3 rotating sessions covering:
+- Body Language of a Leader - Master the non-verbal communication skills that command respect
+- Articulation & Tone - Develop your voice to inspire and influence
+- Storytelling - Learn to craft compelling narratives that connect and persuade
+
+The day concludes with a practical session and competition where you'll apply what you've learned in a Toastmasters-style format. Topics will be provided, and participants will present in front of the entire cohort and a judge panel. The winner will receive a prize!
+
+If you have any questions or need further information, feel free to reach out to us at info@nawa.sa
+
+Looking forward to seeing you there!
+
+Best regards,
+The NAWA Team
+    `
+  };
+};
+
 // Email service functions
 export const emailService = {
   async sendWorkshopConfirmation(registration: WorkshopRegistration): Promise<boolean> {
@@ -602,6 +823,27 @@ export const emailService = {
       return true;
     } catch (error) {
       console.error('Error sending confirmation email:', error);
+      return false;
+    }
+  },
+
+  async sendLeadershipWorkshopConfirmation(registration: LeadershipWorkshopRegistration): Promise<boolean> {
+    try {
+      const emailContent = createLeadershipWorkshopConfirmationEmail(registration);
+      
+      const mailOptions = {
+        from: 'support@saudimunassociation.com',
+        to: registration.email,
+        subject: emailContent.subject,
+        html: emailContent.html,
+        text: emailContent.text,
+      };
+
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`Leadership workshop confirmation email sent to ${registration.email}: ${info.messageId}`);
+      return true;
+    } catch (error) {
+      console.error('Error sending leadership workshop confirmation email:', error);
       return false;
     }
   },

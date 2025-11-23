@@ -101,6 +101,18 @@ async function ensureTablesExist() {
         )
       `);
       
+      // Create leadership_workshop_registrations table if it doesn't exist
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS leadership_workshop_registrations (
+          id SERIAL PRIMARY KEY,
+          name TEXT NOT NULL,
+          email TEXT NOT NULL,
+          phone TEXT NOT NULL,
+          payment TEXT NOT NULL,
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
       // Create job_applications table if it doesn't exist
       await db.execute(sql`
         CREATE TABLE IF NOT EXISTS job_applications (

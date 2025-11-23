@@ -192,6 +192,33 @@ export const translations = {
       "Help develop the next generation of emotionally intelligent leaders through our comprehensive workshop programs.",
     "workshop.sponsorButton": "Sponsor Workshop Programs",
 
+    // Program Pages - Leadership Workshop
+    "leadershipWorkshop.heroTitle": "How to Speak Like a Leader",
+    "leadershipWorkshop.heroDescription":
+      "Master the art of leadership communication through an intensive one-day workshop featuring three rotating sessions on body language, articulation, and storytelling. Apply your skills in a practical competition where you'll present in front of the entire cohort and a judge panel. The winner receives a prize!",
+    "leadershipWorkshop.outcomesTitle": "Workshop Features",
+    "leadershipWorkshop.outcome1": "Body Language of a Leader - Master non-verbal communication skills",
+    "leadershipWorkshop.outcome2": "Articulation & Tone - Develop your voice to inspire and influence",
+    "leadershipWorkshop.outcome3": "Storytelling - Craft compelling narratives that connect and persuade",
+    "leadershipWorkshop.outcome4": "Practical Session & Competition - Apply skills in Toastmasters-style format",
+    "leadershipWorkshop.classesLabel": "Sessions",
+    "leadershipWorkshop.classesValue": "3 rotating sessions + practical competition",
+    "leadershipWorkshop.dateTimeLabel": "Date & Time",
+    "leadershipWorkshop.dateTimeValue": "November 29, 2025, 2PM - 9PM",
+    "leadershipWorkshop.session1Title": "Body Language of a Leader",
+    "leadershipWorkshop.session1Description": "Master the non-verbal communication skills that command respect and convey confidence",
+    "leadershipWorkshop.session2Title": "Articulation & Tone",
+    "leadershipWorkshop.session2Description": "Develop your voice to inspire and influence others through effective speech patterns",
+    "leadershipWorkshop.session3Title": "Storytelling",
+    "leadershipWorkshop.session3Description": "Learn to craft compelling narratives that connect with audiences and persuade effectively",
+    "leadershipWorkshop.competitionTitle": "Practical Session & Competition",
+    "leadershipWorkshop.competitionDescription": "Apply what you've learned in a Toastmasters-style format. Topics will be provided, and participants will present in front of the entire cohort and a judge panel. The winner will receive a prize!",
+    "leadershipWorkshop.fee": "165 SAR",
+    "leadershipWorkshop.sponsorTitle": "Support Leadership Development",
+    "leadershipWorkshop.sponsorDescription":
+      "Help develop the next generation of effective communicators and leaders through our comprehensive workshop programs.",
+    "leadershipWorkshop.sponsorButton": "Sponsor Workshop Programs",
+
     // Job Application
     "careers.title": "Join Our Team",
     "careers.subtitle": "Help us empower Saudi youth and shape the future",
@@ -434,6 +461,33 @@ export const translations = {
     "workshop.sponsorDescription":
       "ساعد في تطوير الجيل القادم من القادة ذوي الذكاء العاطفي من خلال برامج ورش العمل الشاملة.",
     "workshop.sponsorButton": "ارع برامج ورش العمل",
+
+    // Program Pages - Leadership Workshop
+    "leadershipWorkshop.heroTitle": "كيف تتحدث كقائد",
+    "leadershipWorkshop.heroDescription":
+      "أتقن فن التواصل القيادي من خلال ورشة عمل مكثفة ليوم واحد تتضمن ثلاث جلسات دوارة حول لغة الجسد، والتعبير والنبرة، وسرد القصص. طبق مهاراتك في جلسة عملية ومسابقة حيث ستقدم أمام الفوج بأكمله ولجنة تحكيم. الفائز سيحصل على جائزة!",
+    "leadershipWorkshop.outcomesTitle": "مميزات الورشة",
+    "leadershipWorkshop.outcome1": "لغة جسد القائد - أتقن مهارات التواصل غير اللفظي",
+    "leadershipWorkshop.outcome2": "التعبير والنبرة - طور صوتك لإلهام الآخرين والتأثير فيهم",
+    "leadershipWorkshop.outcome3": "سرد القصص - صمم سرداً مقنعاً يربط ويؤثر",
+    "leadershipWorkshop.outcome4": "جلسة عملية ومسابقة - طبق المهارات في نمط مشابه لـ Toastmasters",
+    "leadershipWorkshop.classesLabel": "الجلسات",
+    "leadershipWorkshop.classesValue": "3 جلسات دوارة + جلسة عملية ومسابقة",
+    "leadershipWorkshop.dateTimeLabel": "التاريخ والوقت",
+    "leadershipWorkshop.dateTimeValue": "29 نوفمبر 2025، 2 مساءً - 9 مساءً",
+    "leadershipWorkshop.session1Title": "لغة جسد القائد",
+    "leadershipWorkshop.session1Description": "أتقن مهارات التواصل غير اللفظي التي تفرض الاحترام وتنقل الثقة",
+    "leadershipWorkshop.session2Title": "التعبير والنبرة",
+    "leadershipWorkshop.session2Description": "طور صوتك لإلهام الآخرين والتأثير فيهم من خلال أنماط الكلام الفعالة",
+    "leadershipWorkshop.session3Title": "سرد القصص",
+    "leadershipWorkshop.session3Description": "تعلم صياغة سرد مقنع يربط مع الجماهير ويؤثر بفعالية",
+    "leadershipWorkshop.competitionTitle": "جلسة عملية ومسابقة",
+    "leadershipWorkshop.competitionDescription": "طبق ما تعلمته في نمط مشابه لـ Toastmasters. سيتم توفير المواضيع، وسيقدم المشاركون أمام الفوج بأكمله ولجنة تحكيم. الفائز سيحصل على جائزة!",
+    "leadershipWorkshop.fee": "165 ريال",
+    "leadershipWorkshop.sponsorTitle": "دعم تطوير القيادة",
+    "leadershipWorkshop.sponsorDescription":
+      "ساعد في تطوير الجيل القادم من المتواصلين والقادة الفعالين من خلال برامج ورش العمل الشاملة.",
+    "leadershipWorkshop.sponsorButton": "ارع برامج ورش العمل",
 
     // Job Application
     "careers.title": "انضم إلى فريقنا",

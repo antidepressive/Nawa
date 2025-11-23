@@ -17,6 +17,7 @@ import NawaConferences from "./pages/programs/NawaConferences";
 import SaudiMunAssociation from "./pages/programs/SaudiMunAssociation";
 import ConsultingTrainingProgram from "./pages/programs/ConsultingTrainingProgram";
 import NawaWorkshop from "./pages/programs/NawaWorkshop";
+import LeadershipWorkshop from "./pages/programs/LeadershipWorkshop";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
 import FinanceDashboard from "./pages/FinanceDashboard";
@@ -53,6 +54,7 @@ function Router() {
       <Route path="/programs/saudi-mun-association" component={SaudiMunAssociation} />
       <Route path="/programs/consulting-training-program" component={ConsultingTrainingProgram} />
       <Route path="/programs/nawa-workshop" component={NawaWorkshop} />
+      <Route path="/programs/leadership-workshop" component={LeadershipWorkshop} />
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin" component={ProtectedAdminRoute} />
       <Route path="/finance" component={FinanceDashboard} />
