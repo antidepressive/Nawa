@@ -585,16 +585,16 @@ This is an automated notification from the NAWA application system.
 
 // Leadership Workshop Confirmation Email
 export const createLeadershipWorkshopConfirmationEmail = (registration: LeadershipWorkshopRegistration) => {
-  const paymentText = registration.payment === 'venue' ? 'Venue Payment' : 'Online Payment';
+  const paymentText = registration.payment === 'venue' ? 'Pay at Venue' : 'Bank Transfer (IBAN)';
 
   return {
-    subject: 'How to Speak Like a Leader Workshop Confirmation – November 29, 2025',
+    subject: 'Public Speaking Workshop Confirmation',
     html: `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="utf-8">
-        <title>How to Speak Like a Leader Workshop Confirmation</title>
+        <title>Public Speaking Workshop Confirmation</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -720,13 +720,13 @@ export const createLeadershipWorkshopConfirmationEmail = (registration: Leadersh
       <body>
         <div class="container">
           <div class="header">
-            <h1>🎉 How to Speak Like a Leader Workshop Confirmation</h1>
+            <h1>🎉 Public Speaking Workshop Confirmation</h1>
           </div>
           
           <div class="content">
             <p>Dear <span class="highlight">${registration.name}</span>,</p>
             
-            <p>Thank you for registering for our upcoming "How to Speak Like a Leader" workshop! We're excited to have you join us.</p>
+            <p>Thank you for registering for our upcoming Public Speaking Workshop! We're excited to have you join us for this comprehensive day of learning and practice.</p>
             
             <div class="details">
               <h3>Registration Details:</h3>
@@ -740,19 +740,34 @@ export const createLeadershipWorkshopConfirmationEmail = (registration: Leadersh
             </div>
             
             <h3>Workshop Details:</h3>
-            <p><strong>Date:</strong> November 29, 2025</p>
-            <p><strong>Time:</strong> 2:00 PM – 9:00 PM</p>
+            <p><strong>Time:</strong> 2:00 PM – 8:00 PM</p>
             <p><strong>Location:</strong> J-Hub</p>
             
-            <h3>What to Expect:</h3>
-            <p>This intensive workshop features 3 rotating sessions covering:</p>
-            <ul>
-              <li><strong>Body Language of a Leader</strong> - Master the non-verbal communication skills that command respect</li>
-              <li><strong>Articulation & Tone</strong> - Develop your voice to inspire and influence</li>
-              <li><strong>Storytelling</strong> - Learn to craft compelling narratives that connect and persuade</li>
-            </ul>
+            <h3>Workshop Schedule:</h3>
+            <div class="details">
+              <p><strong>2:00 PM - 2:20 PM:</strong> Check-in</p>
+              <p><strong>2:20 PM - 3:20 PM:</strong> <strong>Presence (Own the Room)</strong> - Learn how to speak with confidence, make your audience comfortable, and introduce yourself effectively. Master the key elements of presence through 60-second elevator pitches and group activities.</p>
+              <p><strong>3:20 PM - 3:40 PM:</strong> Salah Break</p>
+              <p><strong>3:40 PM - 4:20 PM:</strong> <strong>Crystal Clear</strong> - Develop crystal-clear communication skills to ensure your message is understood by every member of your audience.</p>
+              <p><strong>4:20 PM - 4:30 PM:</strong> Break</p>
+              <p><strong>4:30 PM - 5:10 PM:</strong> <strong>Connection (Touch the Hearts)</strong> - Learn to read the room, know your audience, use metaphors effectively, and connect with them emotionally. Participate in the "Save the Kingdom" group challenge crafting compelling 3-act stories.</p>
+              <p><strong>5:10 PM - 5:50 PM:</strong> <strong>Interactive Session</strong> - Engage in hands-on activities and interactive exercises to practice your newly acquired skills.</p>
+              <p><strong>5:50 PM - 6:20 PM:</strong> Maghrib Salah Break</p>
+              <p><strong>6:20 PM - 7:00 PM:</strong> <strong>Adaptation</strong> - Master the "bridge & land" technique in hot-seat rounds. Learn to navigate scrutiny and handle objections with confidence under pressure.</p>
+              <p><strong>7:00 PM - 7:50 PM:</strong> <strong>Engagement</strong> - Learn to engage your audience effectively using red/green card feedback system. Gamify clarity under pressure and master audience interaction.</p>
+              <p><strong>7:50 PM - 8:00 PM:</strong> Closing Remarks</p>
+            </div>
             
-            <p>The day concludes with a practical session and competition where you'll apply what you've learned in a Toastmasters-style format. Topics will be provided, and participants will present in front of the entire cohort and a judge panel. The winner will receive a prize!</p>
+            <h3>What to Expect:</h3>
+            <p>This intensive one-day workshop will help you master the art of public speaking through six comprehensive sessions. You'll learn how to own the room, speak with confidence, connect with your audience, and navigate scrutiny with ease.</p>
+            
+            <p>Each session includes hands-on challenges, interactive activities, and practical exercises designed to build your confidence and skills in real-time.</p>
+            
+            ${registration.payment === 'iban' ? `
+            <div class="details" style="background-color: #fff3cd; border: 1px solid #ffc107;">
+              <p><strong>Payment Reminder:</strong> If you selected bank transfer, please ensure you have completed the transfer to the provided IBAN. Your seat is confirmed once the transfer is completed.</p>
+            </div>
+            ` : ''}
             
             <p>If you have any questions or need further information, feel free to reach out to us at <a href="mailto:info@nawa.sa" style="color: #000000;">info@nawa.sa</a></p>
             
@@ -768,11 +783,11 @@ export const createLeadershipWorkshopConfirmationEmail = (registration: Leadersh
       </html>
     `,
     text: `
-How to Speak Like a Leader Workshop Confirmation – November 29, 2025
+Public Speaking Workshop Confirmation
 
 Dear ${registration.name},
 
-Thank you for registering for our upcoming "How to Speak Like a Leader" workshop! We're excited to have you join us.
+Thank you for registering for our upcoming Public Speaking Workshop! We're excited to have you join us for this comprehensive day of learning and practice.
 
 Registration Details:
 - Name: ${registration.name}
@@ -782,17 +797,30 @@ Registration Details:
 - Fee: 165 SAR
 
 Workshop Details:
-Date: November 29, 2025
-Time: 2:00 PM – 9:00 PM
+Time: 2:00 PM – 8:00 PM
 Location: J-Hub
 
-What to Expect:
-This intensive workshop features 3 rotating sessions covering:
-- Body Language of a Leader - Master the non-verbal communication skills that command respect
-- Articulation & Tone - Develop your voice to inspire and influence
-- Storytelling - Learn to craft compelling narratives that connect and persuade
+Workshop Schedule:
+2:00 PM - 2:20 PM: Check-in
+2:20 PM - 3:20 PM: Presence (Own the Room) - Learn how to speak with confidence, make your audience comfortable, and introduce yourself effectively. Master the key elements of presence through 60-second elevator pitches and group activities.
+3:20 PM - 3:40 PM: Salah Break
+3:40 PM - 4:20 PM: Crystal Clear - Develop crystal-clear communication skills to ensure your message is understood by every member of your audience.
+4:20 PM - 4:30 PM: Break
+4:30 PM - 5:10 PM: Connection (Touch the Hearts) - Learn to read the room, know your audience, use metaphors effectively, and connect with them emotionally. Participate in the "Save the Kingdom" group challenge crafting compelling 3-act stories.
+5:10 PM - 5:50 PM: Interactive Session - Engage in hands-on activities and interactive exercises to practice your newly acquired skills.
+5:50 PM - 6:20 PM: Maghrib Salah Break
+6:20 PM - 7:00 PM: Adaptation - Master the "bridge & land" technique in hot-seat rounds. Learn to navigate scrutiny and handle objections with confidence under pressure.
+7:00 PM - 7:50 PM: Engagement - Learn to engage your audience effectively using red/green card feedback system. Gamify clarity under pressure and master audience interaction.
+7:50 PM - 8:00 PM: Closing Remarks
 
-The day concludes with a practical session and competition where you'll apply what you've learned in a Toastmasters-style format. Topics will be provided, and participants will present in front of the entire cohort and a judge panel. The winner will receive a prize!
+What to Expect:
+This intensive one-day workshop will help you master the art of public speaking through six comprehensive sessions. You'll learn how to own the room, speak with confidence, connect with your audience, and navigate scrutiny with ease.
+
+Each session includes hands-on challenges, interactive activities, and practical exercises designed to build your confidence and skills in real-time.
+
+${registration.payment === 'iban' ? `
+Payment Reminder: If you selected bank transfer, please ensure you have completed the transfer to the provided IBAN. Your seat is confirmed once the transfer is completed.
+` : ''}
 
 If you have any questions or need further information, feel free to reach out to us at info@nawa.sa
 
