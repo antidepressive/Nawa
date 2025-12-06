@@ -157,7 +157,9 @@ export const insertWorkshopRegistrationSchema = createInsertSchema(workshopRegis
   friend2Phone: true,
 });
 
-export const insertLeadershipWorkshopRegistrationSchema = createInsertSchema(leadershipWorkshopRegistrations).pick({
+export const insertLeadershipWorkshopRegistrationSchema = createInsertSchema(leadershipWorkshopRegistrations, {
+  transactionProof: z.string().nullable().optional(),
+}).pick({
   name: true,
   email: true,
   phone: true,
