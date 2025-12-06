@@ -58,6 +58,15 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
             text-align: center; 
             color: white;
           }
+          .header-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            display: block;
+            border-radius: 8px;
+            background: white;
+            padding: 8px;
+          }
           .header h1 { 
             margin: 0; 
             font-size: 28px; 
@@ -172,6 +181,7 @@ export const createWorkshopConfirmationEmail = (registration: WorkshopRegistrati
       <body>
         <div class="container">
           <div class="header">
+            <img src="https://nawa.sa/assets/nawa-logo.png" alt="Nawa Logo" class="header-logo" />
             <h1>🎉 EQ in the Lab Workshop Confirmation</h1>
           </div>
           
@@ -262,7 +272,7 @@ The NAWA Team
 // Job Application Confirmation Email
 export const createJobApplicationConfirmationEmail = (application: JobApplication) => {
   return {
-    subject: 'Job Application Received - NAWA Team',
+    subject: 'Job Application Received - Nawa Team',
     html: `
       <!DOCTYPE html>
       <html>
@@ -294,6 +304,15 @@ export const createJobApplicationConfirmationEmail = (application: JobApplicatio
             padding: 30px 20px; 
             text-align: center; 
             color: white;
+          }
+          .header-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            display: block;
+            border-radius: 8px;
+            background: white;
+            padding: 8px;
           }
           .header h1 { 
             margin: 0; 
@@ -356,6 +375,7 @@ export const createJobApplicationConfirmationEmail = (application: JobApplicatio
       <body>
         <div class="container">
           <div class="header">
+            <img src="https://nawa.sa/assets/nawa-logo.png" alt="Nawa Logo" class="header-logo" />
             <h1>Application Received!</h1>
           </div>
           
@@ -462,6 +482,15 @@ export const createJobApplicationAdminNotification = (application: JobApplicatio
             text-align: center; 
             color: white;
           }
+          .header-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            display: block;
+            border-radius: 8px;
+            background: white;
+            padding: 8px;
+          }
           .header h1 { 
             margin: 0; 
             font-size: 28px; 
@@ -523,6 +552,7 @@ export const createJobApplicationAdminNotification = (application: JobApplicatio
       <body>
         <div class="container">
           <div class="header">
+            <img src="https://nawa.sa/assets/nawa-logo.png" alt="Nawa Logo" class="header-logo" />
             <h1>New Job Application</h1>
           </div>
           
@@ -620,6 +650,15 @@ export const createLeadershipWorkshopConfirmationEmail = (registration: Leadersh
             padding: 30px 20px; 
             text-align: center; 
             color: white;
+          }
+          .header-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            display: block;
+            border-radius: 8px;
+            background: white;
+            padding: 8px;
           }
           .header h1 { 
             margin: 0; 
@@ -720,6 +759,7 @@ export const createLeadershipWorkshopConfirmationEmail = (registration: Leadersh
       <body>
         <div class="container">
           <div class="header">
+            <img src="https://nawa.sa/assets/nawa-logo.png" alt="Nawa Logo" class="header-logo" />
             <h1>🎉 Public Speaking Workshop Confirmation</h1>
           </div>
           
@@ -839,7 +879,7 @@ export const emailService = {
       const emailContent = createWorkshopConfirmationEmail(registration);
       
       const mailOptions = {
-        from: 'NAWA Team <support@saudimunassociation.com>',
+        from: 'Nawa Team <support@saudimunassociation.com>',
         replyTo: 'support@saudimunassociation.com',
         to: registration.email,
         subject: emailContent.subject,
@@ -861,7 +901,7 @@ export const emailService = {
       const emailContent = createLeadershipWorkshopConfirmationEmail(registration);
       
       const mailOptions = {
-        from: 'NAWA Team <support@saudimunassociation.com>',
+        from: 'Nawa Team <support@saudimunassociation.com>',
         replyTo: 'support@saudimunassociation.com',
         to: registration.email,
         subject: emailContent.subject,
