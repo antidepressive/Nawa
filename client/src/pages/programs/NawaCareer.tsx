@@ -77,7 +77,7 @@ export default function NawaCareer() {
       {/* Program Overview */}
       <section className="py-16">
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                     <div className="mb-8 bg-white/95 backdrop-blur-sm rounded-xl p-8">
+          <div className="mb-8 bg-white/95 backdrop-blur-sm rounded-xl p-8">
              <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
                {t('career.heroTitle')}
              </h2>
@@ -86,8 +86,8 @@ export default function NawaCareer() {
              </p>
            </div>
 
-                     {/* Current Programs */}
-           <div className="mb-8">
+          {/* Current Programs */}
+          <div className="mb-8">
              <h3 className={`font-bold text-2xl text-white mb-6 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
                {language === 'ar' ? 'البرامج الحالية' : 'Current Programs'}
              </h3>
@@ -151,8 +151,8 @@ export default function NawaCareer() {
              </div>
            </div>
 
-           {/* Past Programs */}
-           <div className="mb-12">
+          {/* Past Programs */}
+          <div className="mb-12">
              <h3 className={`font-bold text-2xl text-white mb-8 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
                {language === 'ar' ? 'البرامج السابقة' : 'Past Programs'}
              </h3>
@@ -275,7 +275,7 @@ export default function NawaCareer() {
            </div>
 
           {/* Sponsor CTA */}
-          <div className={`bg-white/95 backdrop-blur-sm rounded-xl p-8 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
+          <div className={`bg-white/95 backdrop-blur-sm rounded-xl p-8 text-center`}>
             <h3 className={`font-bold text-2xl text-primary mb-4 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
               {t('career.sponsorTitle')}
             </h3>
