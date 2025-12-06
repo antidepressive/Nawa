@@ -5,7 +5,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
-import { ArrowLeft, Globe, Clock, Users, MapPin, Star, Mic, MessageSquare, Presentation } from 'lucide-react';
+import { ArrowLeft, Globe, Clock, Users, MapPin, Star, Mic, MessageSquare, Presentation, Upload, FileText } from 'lucide-react';
 import { Link } from 'wouter';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -79,7 +79,14 @@ const leadershipWorkshopRegistrationSchema = z.object({
     (phone) => phone.startsWith('966') && phone.length >= 12,
     'Phone number must start with 966 and be at least 9 digits after the prefix'
   ),
-  payment: z.literal('venue'),
+  payment: z.enum(['venue', 'iban']),
+  transactionProof: z.instanceof(File).optional().refine(
+    (file) => !file || file.size <= 2 * 1024 * 1024,
+    'File size must be less than 2MB'
+  ).refine(
+    (file) => !file || file.type === 'application/pdf',
+    'Only PDF files are allowed'
+  ),
 });
 
 type LeadershipWorkshopRegistrationForm = z.infer<typeof leadershipWorkshopRegistrationSchema>;
@@ -87,9 +94,10 @@ type LeadershipWorkshopRegistrationForm = z.infer<typeof leadershipWorkshopRegis
 export default function LeadershipWorkshop() {
   const { t, language, toggleLanguage } = useLanguage();
   const { toast } = useToast();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useEffect(() => {
-    document.title = 'How to Speak Like a Leader Workshop - نَوَاة';
+    document.title = 'Public Speaking Workshop - نَوَاة';
     window.scrollTo(0, 0);
   }, []);
 
@@ -99,13 +107,72 @@ export default function LeadershipWorkshop() {
       name: '',
       email: '',
       phone: '',
-      payment: 'venue',
+      payment: 'venue' as 'venue' | 'iban',
+      transactionProof: undefined,
     }
   });
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.type !== 'application/pdf') {
+        toast({
+          title: language === 'ar' ? 'خطأ في نوع الملف' : 'Invalid File Type',
+          description: language === 'ar' ? 'يجب أن يكون الملف بصيغة PDF فقط' : 'Only PDF files are allowed',
+          variant: 'destructive',
+        });
+        return;
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        toast({
+          title: language === 'ar' ? 'حجم الملف كبير جداً' : 'File Too Large',
+          description: language === 'ar' ? 'يجب أن يكون حجم الملف أقل من 2 ميجابايت' : 'File size must be less than 2MB',
+          variant: 'destructive',
+        });
+        return;
+      }
+      setSelectedFile(file);
+      form.setValue('transactionProof', file);
+    }
+  };
+
+  const uploadTransactionProof = async (file: File): Promise<string | null> => {
+    const formData = new FormData();
+    formData.append('resume', file); // Using same endpoint as resume upload
+
+    const response = await fetch('/api/upload-resume', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to upload transaction proof');
+    }
+
+    const result = await response.json();
+    return result.filePath;
+  };
+
   const registrationMutation = useMutation({
-    mutationFn: (data: LeadershipWorkshopRegistrationForm) => 
-      apiRequest('POST', '/api/leadership-workshop', data),
+    mutationFn: async (data: LeadershipWorkshopRegistrationForm) => {
+      let transactionProofPath: string | null = null;
+      
+      // Upload transaction proof if provided
+      if (data.transactionProof && form.watch('payment') === 'iban') {
+        transactionProofPath = await uploadTransactionProof(data.transactionProof);
+      }
+
+      // Prepare submission data
+      const submissionData = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        payment: data.payment,
+        transactionProof: transactionProofPath,
+      };
+
+      return apiRequest('POST', '/api/leadership-workshop', submissionData);
+    },
     onSuccess: () => {
       toast({
         title: language === 'ar' ? 'تم التسجيل بنجاح!' : 'Registration Successful!',
@@ -115,6 +182,7 @@ export default function LeadershipWorkshop() {
         duration: Infinity,
       });
       form.reset();
+      setSelectedFile(null);
     },
     onError: (error: any) => {
       toast({
@@ -133,17 +201,38 @@ export default function LeadershipWorkshop() {
     {
       icon: Presentation,
       title: t('leadershipWorkshop.session1Title'),
+      time: t('leadershipWorkshop.session1Time'),
       description: t('leadershipWorkshop.session1Description')
     },
     {
       icon: Mic,
       title: t('leadershipWorkshop.session2Title'),
+      time: t('leadershipWorkshop.session2Time'),
       description: t('leadershipWorkshop.session2Description')
     },
     {
       icon: MessageSquare,
       title: t('leadershipWorkshop.session3Title'),
+      time: t('leadershipWorkshop.session3Time'),
       description: t('leadershipWorkshop.session3Description')
+    },
+    {
+      icon: Users,
+      title: t('leadershipWorkshop.session4Title'),
+      time: t('leadershipWorkshop.session4Time'),
+      description: t('leadershipWorkshop.session4Description')
+    },
+    {
+      icon: Presentation,
+      title: t('leadershipWorkshop.session5Title'),
+      time: t('leadershipWorkshop.session5Time'),
+      description: t('leadershipWorkshop.session5Description')
+    },
+    {
+      icon: MessageSquare,
+      title: t('leadershipWorkshop.session6Title'),
+      time: t('leadershipWorkshop.session6Time'),
+      description: t('leadershipWorkshop.session6Description')
     }
   ];
 
@@ -257,7 +346,7 @@ export default function LeadershipWorkshop() {
           </div>
 
           {/* Sessions */}
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {sessions.map((session, index) => (
               <Card key={index} className="border-gray-200 hover:shadow-lg transition-shadow">
                 <CardHeader className="text-center">
@@ -267,6 +356,11 @@ export default function LeadershipWorkshop() {
                   <CardTitle className={`text-xl ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
                     {session.title}
                   </CardTitle>
+                  {session.time && (
+                    <p className="text-sm text-primary font-medium mt-2">
+                      {session.time}
+                    </p>
+                  )}
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-center">
@@ -277,12 +371,58 @@ export default function LeadershipWorkshop() {
             ))}
           </div>
 
-          {/* Competition Section */}
+          {/* Schedule Section */}
           <div className="bg-white/95 backdrop-blur-sm rounded-xl p-8 mb-6">
-            <h3 className={`font-bold text-2xl text-primary mb-4 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
+            <h3 className={`font-bold text-2xl text-primary mb-6 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
               {t('leadershipWorkshop.competitionTitle')}
             </h3>
-            <p className={`text-lg text-gray-700 leading-relaxed text-center ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+            <div className="space-y-3">
+              <div className={`flex justify-between items-center p-3 bg-gray-50 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-700">{language === 'ar' ? 'التسجيل' : 'Check-in'}</span>
+                <span className="text-gray-600">2:00 PM - 2:20 PM</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-primary/5 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-900">{t('leadershipWorkshop.session1Title')}</span>
+                <span className="text-primary font-semibold">{t('leadershipWorkshop.session1Time')}</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-gray-50 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-700">{language === 'ar' ? 'استراحة الصلاة' : 'Salah Break'}</span>
+                <span className="text-gray-600">3:20 PM - 3:40 PM</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-primary/5 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-900">{t('leadershipWorkshop.session2Title')}</span>
+                <span className="text-primary font-semibold">{t('leadershipWorkshop.session2Time')}</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-gray-50 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-700">{language === 'ar' ? 'استراحة' : 'Break'}</span>
+                <span className="text-gray-600">4:20 PM - 4:30 PM</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-primary/5 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-900">{t('leadershipWorkshop.session3Title')}</span>
+                <span className="text-primary font-semibold">{t('leadershipWorkshop.session3Time')}</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-primary/5 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-900">{t('leadershipWorkshop.session4Title')}</span>
+                <span className="text-primary font-semibold">{t('leadershipWorkshop.session4Time')}</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-gray-50 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-700">{language === 'ar' ? 'استراحة صلاة المغرب' : 'Maghrib Salah Break'}</span>
+                <span className="text-gray-600">5:50 PM - 6:20 PM</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-primary/5 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-900">{t('leadershipWorkshop.session5Title')}</span>
+                <span className="text-primary font-semibold">{t('leadershipWorkshop.session5Time')}</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-primary/5 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-900">{t('leadershipWorkshop.session6Title')}</span>
+                <span className="text-primary font-semibold">{t('leadershipWorkshop.session6Time')}</span>
+              </div>
+              <div className={`flex justify-between items-center p-3 bg-gray-50 rounded-lg ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span className="font-medium text-gray-700">{language === 'ar' ? 'كلمة ختامية' : 'Closing Remarks'}</span>
+                <span className="text-gray-600">7:50 PM - 8:00 PM</span>
+              </div>
+            </div>
+            <p className={`text-sm text-gray-600 mt-4 text-center ${language === 'ar' ? 'text-right' : 'text-left'}`}>
               {t('leadershipWorkshop.competitionDescription')}
             </p>
           </div>
@@ -415,16 +555,110 @@ export default function LeadershipWorkshop() {
                   />
                 </div>
 
-                <div>
-                  <Label className={language === 'ar' ? 'text-right' : 'text-left'}>
-                    {language === 'ar' ? 'طريقة الدفع' : 'Payment'}
-                  </Label>
-                  <div className="mt-1 p-3 bg-gray-50 border border-gray-200 rounded-md">
-                    <span className="text-gray-700 font-medium">
-                      {language === 'ar' ? 'في المكان' : 'At Venue'}
-                    </span>
+                {/* IBAN Display Section */}
+                <div className="p-4 bg-blue-50 border-2 border-blue-200 rounded-lg mb-6">
+                  <h4 className={`font-semibold text-lg text-blue-900 mb-3 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                    {t('leadershipWorkshop.paymentIbanLabel')}
+                  </h4>
+                  <div className="bg-white p-4 rounded-lg border border-blue-300 mb-3">
+                    <p className="text-sm text-gray-600 mb-1">
+                      {t('leadershipWorkshop.paymentIban')}:
+                    </p>
+                    <p className="text-xl text-gray-900 font-mono font-bold">
+                      SA0880000538608016217482
+                    </p>
+                  </div>
+                  <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
+                    <p className="text-sm text-yellow-800 font-medium">
+                      ⚠️ {t('leadershipWorkshop.paymentIbanNote')}
+                    </p>
                   </div>
                 </div>
+
+                <div>
+                  <Label className={language === 'ar' ? 'text-right' : 'text-left'}>
+                    {t('leadershipWorkshop.paymentMethod')} *
+                  </Label>
+                  <div className="mt-1 space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        id="payment-venue"
+                        value="venue"
+                        {...form.register('payment')}
+                        className="w-4 h-4 text-primary"
+                      />
+                      <Label htmlFor="payment-venue" className="font-normal cursor-pointer">
+                        {t('leadershipWorkshop.paymentAtVenue')}
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        id="payment-iban"
+                        value="iban"
+                        {...form.register('payment')}
+                        className="w-4 h-4 text-primary"
+                      />
+                      <Label htmlFor="payment-iban" className="font-normal cursor-pointer">
+                        {t('leadershipWorkshop.paymentIbanLabel')}
+                      </Label>
+                    </div>
+                  </div>
+                  {form.formState.errors.payment && (
+                    <p className="text-red-500 text-sm mt-1">{form.formState.errors.payment.message}</p>
+                  )}
+                </div>
+
+                {/* Transaction Proof Upload (only show if IBAN is selected) */}
+                {form.watch('payment') === 'iban' && (
+                  <div>
+                    <Label htmlFor="transactionProof" className={language === 'ar' ? 'text-right' : 'text-left'}>
+                      {t('leadershipWorkshop.transactionProof')}
+                    </Label>
+                    <p className={`text-sm text-gray-500 mb-2 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {t('leadershipWorkshop.transactionProofDescription')}
+                    </p>
+                    <div className="mt-1">
+                      <div className="flex items-center justify-center w-full">
+                        <label
+                          htmlFor="transactionProof"
+                          className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
+                        >
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                            <p className="mb-2 text-sm text-gray-500">
+                              <span className="font-semibold">{t('leadershipWorkshop.uploadProof')}</span>
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {t('leadershipWorkshop.proofPlaceholder')}
+                            </p>
+                          </div>
+                          <input
+                            id="transactionProof"
+                            type="file"
+                            accept=".pdf"
+                            onChange={handleFileChange}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                      
+                      {selectedFile && (
+                        <div className="mt-3 flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                          <FileText className="w-5 h-5 text-green-600 mr-2" />
+                          <span className="text-sm text-green-800">
+                            {t('leadershipWorkshop.fileSelected')}: {selectedFile.name}
+                          </span>
+                        </div>
+                      )}
+                      
+                      {form.formState.errors.transactionProof && (
+                        <p className="text-red-500 text-sm mt-1">{form.formState.errors.transactionProof.message}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 <Button 
                   type="submit" 
@@ -444,4 +678,6 @@ export default function LeadershipWorkshop() {
     </div>
   );
 }
+
+
 
