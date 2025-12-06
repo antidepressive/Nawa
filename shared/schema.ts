@@ -46,7 +46,8 @@ export const leadershipWorkshopRegistrations = pgTable("leadership_workshop_regi
   name: text("name").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),
-  payment: text("payment").notNull(), // 'venue' only
+  payment: text("payment").notNull(), // 'venue' or 'iban'
+  transactionProof: text("transaction_proof"), // Optional path to transaction proof PDF
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -161,6 +162,7 @@ export const insertLeadershipWorkshopRegistrationSchema = createInsertSchema(lea
   email: true,
   phone: true,
   payment: true,
+  transactionProof: true,
 });
 
 export const insertJobApplicationSchema = createInsertSchema(jobApplications, {
