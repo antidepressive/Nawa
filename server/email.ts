@@ -839,7 +839,8 @@ export const emailService = {
       const emailContent = createWorkshopConfirmationEmail(registration);
       
       const mailOptions = {
-        from: 'support@saudimunassociation.com',
+        from: 'NAWA Team <support@saudimunassociation.com>',
+        replyTo: 'support@saudimunassociation.com',
         to: registration.email,
         subject: emailContent.subject,
         html: emailContent.html,
@@ -860,7 +861,8 @@ export const emailService = {
       const emailContent = createLeadershipWorkshopConfirmationEmail(registration);
       
       const mailOptions = {
-        from: 'support@saudimunassociation.com',
+        from: 'NAWA Team <support@saudimunassociation.com>',
+        replyTo: 'support@saudimunassociation.com',
         to: registration.email,
         subject: emailContent.subject,
         html: emailContent.html,
@@ -881,7 +883,8 @@ export const emailService = {
       const emailContent = createJobApplicationConfirmationEmail(application);
       
       const mailOptions = {
-        from: 'support@saudimunassociation.com',
+        from: 'NAWA Team <support@saudimunassociation.com>',
+        replyTo: 'support@saudimunassociation.com',
         to: application.email,
         subject: emailContent.subject,
         html: emailContent.html,
@@ -902,7 +905,8 @@ export const emailService = {
       const emailContent = createJobApplicationAdminNotification(application);
       
       const mailOptions = {
-        from: 'support@saudimunassociation.com',
+        from: 'NAWA Team <support@saudimunassociation.com>',
+        replyTo: 'support@saudimunassociation.com',
         to: 'info@nawa.sa', // Admin email
         subject: emailContent.subject,
         html: emailContent.html,
