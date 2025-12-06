@@ -1,7 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
-import { ArrowLeft, Calendar, Users, Target, BookOpen, Globe, Heart, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, Users, Target, BookOpen, Globe, Heart, Clock, Mic } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { useEffect } from 'react';
 import backgroundImage from '@assets/nawa-background.webp';
@@ -77,7 +77,7 @@ export default function NawaCareer() {
       {/* Program Overview */}
       <section className="py-16">
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                     <div className="mb-8 bg-white/95 backdrop-blur-sm rounded-xl p-8">
+          <div className="mb-8 bg-white/95 backdrop-blur-sm rounded-xl p-8">
              <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
                {t('career.heroTitle')}
              </h2>
@@ -86,28 +86,88 @@ export default function NawaCareer() {
              </p>
            </div>
 
-                     {/* Current Programs */}
-           <div className="mb-8">
+          {/* Current Programs */}
+          <div className="mb-8">
              <h3 className={`font-bold text-2xl text-white mb-6 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
                {language === 'ar' ? 'البرامج الحالية' : 'Current Programs'}
              </h3>
              
-             {/* Workshop Card */}
-             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+             {/* Public Speaking Workshop Card */}
+             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-6">
+               <div className="flex items-start gap-6">
+                 <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                   <Mic className="w-8 h-8 text-primary" />
+                 </div>
+                 
+                 <div className="flex-1">
+                   <div className="flex items-center gap-3 mb-3">
+                     <h4 className={`font-bold text-xl text-gray-900 ${language === 'ar' ? 'font-cairo text-right' : 'font-montserrat'}`}>
+                       {t('leadershipWorkshop.heroTitle')}
+                     </h4>
+                     <Badge className="bg-primary/10 text-primary hover:bg-primary/10">
+                       {language === 'ar' ? 'جديد' : 'New'}
+                     </Badge>
+                   </div>
+                   
+                   <p className={`text-gray-600 mb-4 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                     {t('leadershipWorkshop.heroDescription')}
+                   </p>
+                   
+                   <div className={`flex flex-wrap gap-4 mb-6 ${language === 'ar' ? 'justify-end' : 'justify-start'}`}>
+                     <div className="flex items-center gap-2 text-primary">
+                       <Clock className="w-4 h-4" />
+                       <span className="text-sm font-medium">
+                         {t('leadershipWorkshop.dateTimeValue')}
+                       </span>
+                     </div>
+                     <div className="flex items-center gap-2 text-primary">
+                       <Users className="w-4 h-4" />
+                       <span className="text-sm font-medium">
+                         {t('leadershipWorkshop.classesValue')}
+                       </span>
+                     </div>
+                     <div className="flex items-center gap-2 text-primary">
+                       <Target className="w-4 h-4" />
+                       <span className="text-sm font-medium">
+                         J-Hub
+                       </span>
+                     </div>
+                   </div>
+                   
+                   <div className={`flex flex-col sm:flex-row gap-3 ${language === 'ar' ? 'sm:justify-end' : 'sm:justify-start'}`}>
+                     <Link href="/programs/leadership-workshop">
+                       <Button className="bg-primary hover:bg-blue-700 text-white">
+                         {language === 'ar' ? 'تعرف على المزيد' : 'Learn More'}
+                       </Button>
+                     </Link>
+                     <Link href="/programs/leadership-workshop#registration-form">
+                       <Button className="bg-accent hover:bg-yellow-400 text-text-dark">
+                         {language === 'ar' ? 'سجل الآن' : 'Register Now!'}
+                       </Button>
+                     </Link>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+
+          {/* Past Programs */}
+          <div className="mb-12">
+             <h3 className={`font-bold text-2xl text-white mb-8 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
+               {language === 'ar' ? 'البرامج السابقة' : 'Past Programs'}
+             </h3>
+             
+             {/* EQ Workshop Card */}
+             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-6">
                <div className="flex items-start gap-6">
                  <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
                    <Heart className="w-8 h-8 text-green-600" />
                  </div>
                  
                  <div className="flex-1">
-                   <div className="flex items-center gap-3 mb-3">
-                     <h4 className={`font-bold text-xl text-gray-900 ${language === 'ar' ? 'font-cairo text-right' : 'font-montserrat'}`}>
-                       {t('workshop.heroTitle')}
-                     </h4>
-                     <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                       {language === 'ar' ? 'جديد' : 'New'}
-                     </Badge>
-                   </div>
+                   <h4 className={`font-bold text-xl text-gray-900 mb-3 ${language === 'ar' ? 'font-cairo text-right' : 'font-montserrat'}`}>
+                     {t('workshop.heroTitle')}
+                   </h4>
                    
                    <p className={`text-gray-600 mb-4 leading-relaxed ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                      {language === 'ar' 
@@ -154,13 +214,6 @@ export default function NawaCareer() {
                  </div>
                </div>
              </div>
-           </div>
-
-           {/* Past Programs */}
-           <div className="mb-12">
-             <h3 className={`font-bold text-2xl text-white mb-8 ${language === 'ar' ? 'font-cairo text-center' : 'font-montserrat text-center'}`}>
-               {language === 'ar' ? 'البرامج السابقة' : 'Past Programs'}
-             </h3>
              
              {/* CTP Card */}
              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
@@ -222,7 +275,7 @@ export default function NawaCareer() {
            </div>
 
           {/* Sponsor CTA */}
-          <div className={`bg-white/95 backdrop-blur-sm rounded-xl p-8 ${language === 'ar' ? 'text-center' : 'text-center'}`}>
+          <div className={`bg-white/95 backdrop-blur-sm rounded-xl p-8 text-center`}>
             <h3 className={`font-bold text-2xl text-primary mb-4 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
               {t('career.sponsorTitle')}
             </h3>
