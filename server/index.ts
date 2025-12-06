@@ -109,8 +109,24 @@ async function ensureTablesExist() {
           email TEXT NOT NULL,
           phone TEXT NOT NULL,
           payment TEXT NOT NULL,
+          transaction_proof TEXT,
           created_at TIMESTAMP DEFAULT NOW() NOT NULL
         )
+      `);
+      
+      // Add transaction_proof column if it doesn't exist (for existing tables)
+      await db.execute(sql`
+        DO $$ 
+        BEGIN
+          IF NOT EXISTS (
+            SELECT 1 FROM information_schema.columns 
+            WHERE table_name = 'leadership_workshop_registrations' 
+            AND column_name = 'transaction_proof'
+          ) THEN
+            ALTER TABLE leadership_workshop_registrations 
+            ADD COLUMN transaction_proof TEXT;
+          END IF;
+        END $$;
       `);
       
       // Create job_applications table if it doesn't exist

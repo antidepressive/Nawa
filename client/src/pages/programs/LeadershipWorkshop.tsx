@@ -168,7 +168,7 @@ export default function LeadershipWorkshop() {
         email: data.email,
         phone: data.phone,
         payment: data.payment,
-        transactionProof: transactionProofPath,
+        transactionProof: transactionProofPath || null,
       };
 
       return apiRequest('POST', '/api/leadership-workshop', submissionData);
