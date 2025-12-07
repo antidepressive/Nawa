@@ -81,41 +81,35 @@ const leadershipWorkshopRegistrationSchema = z.object({
   ),
   payment: z.enum(['venue', 'iban']),
   transactionProof: z.instanceof(File).optional(),
-}).refine(
-  (data) => {
-    // If payment is IBAN, transaction proof is required
-    if (data.payment === 'iban') {
-      return data.transactionProof !== undefined;
+}).superRefine((data, ctx) => {
+  // If payment is IBAN, transaction proof is required
+  if (data.payment === 'iban') {
+    if (!data.transactionProof) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Transaction proof is required when selecting bank transfer',
+        path: ['transactionProof'],
+      });
+      return;
     }
-    return true;
-  },
-  {
-    message: 'Transaction proof is required when selecting bank transfer',
-    path: ['transactionProof'],
-  }
-).refine(
-  (data) => {
+    
     // File size validation
-    if (data.transactionProof) {
-      return data.transactionProof.size <= 2 * 1024 * 1024;
+    if (data.transactionProof.size > 2 * 1024 * 1024) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'File size must be less than 2MB',
+        path: ['transactionProof'],
+      });
     }
-    return true;
-  },
-  {
-    message: 'File size must be less than 2MB',
-    path: ['transactionProof'],
-  }
-).refine(
-  (data) => {
+    
     // File type validation
-    if (data.transactionProof) {
-      return data.transactionProof.type === 'application/pdf';
+    if (data.transactionProof.type !== 'application/pdf') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Only PDF files are allowed',
+        path: ['transactionProof'],
+      });
     }
-    return true;
-  },
-  {
-    message: 'Only PDF files are allowed',
-    path: ['transactionProof'],
   }
 });
 
