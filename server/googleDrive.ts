@@ -1,52 +1,91 @@
-// Lazy import to avoid loading googleapis if not needed
-let google: any = null;
-let Readable: any = null;
+import { google } from "googleapis";
+import { Readable } from "stream";
 
-// Initialize Google Drive API
-let drive: any = null;
+// Cached Drive client instance
+let drive: ReturnType<typeof google.drive> | null = null;
+let driveReady = false;
 
 /**
- * Initialize Google Drive client using OAuth with service account impersonation
- * This method works when service account key creation is disabled by the organization
+ * Helper to check if we have the minimum env vars to talk to Google Drive.
  */
-export async function initializeGoogleDrive() {
-  try {
-    const clientId = process.env.GOOGLE_CLIENT_ID;
-    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-    const serviceAccountEmail = process.env.GOOGLE_IMPERSONATE_SERVICE_ACCOUNT;
-    
-    // Early return if credentials are not configured - don't load googleapis at all
-    if (!clientId || !clientSecret || !serviceAccountEmail) {
-      console.warn('Google Drive OAuth credentials not configured. File uploads will use local storage.');
-      return null;
-    }
+function hasDriveEnv(): boolean {
+  return !!(
+    process.env.GOOGLE_CLIENT_ID &&
+    process.env.GOOGLE_CLIENT_SECRET &&
+    process.env.GOOGLE_DRIVE_REFRESH_TOKEN &&
+    process.env.GOOGLE_DRIVE_FOLDER_ID
+  );
+}
 
-    // For server-to-server authentication with OAuth and service account impersonation,
-    // we need to use the IAM Credentials API. However, this requires authenticating to IAM API first.
-    // 
-    // The challenge: We need credentials to call IAM API, but we can't use ADC (Application Default Credentials)
-    // because there are no service account keys.
-    //
-    // Solution: Use OAuth2Client with a refresh token, OR use the IAM API with a token
-    // obtained through the OAuth flow. Since this is server-to-server without user interaction,
-    // we need to handle this carefully.
-    //
-    // For now, we'll disable Google Drive initialization and fall back to local storage.
-    // The proper setup requires either:
-    // 1. A refresh token obtained through an initial OAuth flow
-    // 2. Or using Workload Identity Federation (more complex setup)
-    
-    console.warn('Google Drive service account impersonation requires additional OAuth setup.');
-    console.warn('For server-to-server authentication without user interaction, you need:');
-    console.warn('1. A refresh token (obtained through initial OAuth flow)');
-    console.warn('2. Or Workload Identity Federation setup');
-    console.warn('Google Drive will not be available. Files will be stored locally.');
-    console.warn('Note: Local files may be lost on server restart on platforms like Render.');
-    
-    return null;
+/**
+ * Lazily create (or return) an authenticated Google Drive client using
+ * OAuth2 + refresh token. This avoids Application Default Credentials and
+ * does not require JSON service account keys.
+ */
+async function getDriveClient() {
+  if (drive) return drive;
+
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_DRIVE_REFRESH_TOKEN;
+
+  if (!clientId || !clientSecret || !refreshToken) {
+    throw new Error(
+      "Missing Google Drive configuration. Expected GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_DRIVE_REFRESH_TOKEN."
+    );
+  }
+
+  // Redirect URI is not actually used at runtime when we already have a refresh token,
+  // but OAuth2 client expects one. This just needs to match what was used when
+  // the refresh token was originally created.
+  const redirectUri =
+    process.env.GOOGLE_DRIVE_REDIRECT_URI || "urn:ietf:wg:oauth:2.0:oob";
+
+  const oauth2Client = new google.auth.OAuth2(
+    clientId,
+    clientSecret,
+    redirectUri
+  );
+
+  oauth2Client.setCredentials({
+    refresh_token: refreshToken,
+  });
+
+  drive = google.drive({
+    version: "v3",
+    auth: oauth2Client,
+  });
+
+  return drive;
+}
+
+/**
+ * Initialize Google Drive client once at server startup.
+ * If this fails, we log the reason and continue with local storage.
+ */
+export async function initializeGoogleDrive(): Promise<boolean> {
+  if (!hasDriveEnv()) {
+    console.warn(
+      "Google Drive env vars not fully set. Files will be stored locally."
+    );
+    driveReady = false;
+    return false;
+  }
+
+  try {
+    await getDriveClient();
+    driveReady = true;
+    console.log(
+      "Google Drive initialized successfully. New uploads will be stored in Google Drive."
+    );
+    return true;
   } catch (error: any) {
-    console.error('Failed to initialize Google Drive:', error?.message || error);
-    return null;
+    driveReady = false;
+    console.error(
+      "Failed to initialize Google Drive. Files will be stored locally instead:",
+      error?.message || error
+    );
+    return false;
   }
 }
 
@@ -60,52 +99,39 @@ export async function initializeGoogleDrive() {
 export async function uploadFileToDrive(
   fileBuffer: Buffer,
   fileName: string,
-  mimeType: string = 'application/pdf'
+  mimeType: string = "application/pdf"
 ): Promise<string> {
-  if (!drive) {
-    throw new Error('Google Drive not initialized. Please configure GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_IMPERSONATE_SERVICE_ACCOUNT');
-  }
-
-  // Lazy load if not already loaded
-  if (!google) {
-    google = (await import('googleapis')).google;
-  }
-  if (!Readable) {
-    Readable = (await import('stream')).Readable;
-  }
+  const client = await getDriveClient();
 
   const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
   if (!folderId) {
-    throw new Error('GOOGLE_DRIVE_FOLDER_ID environment variable is required');
+    throw new Error("GOOGLE_DRIVE_FOLDER_ID environment variable is required");
   }
 
-  try {
-    const fileMetadata = {
-      name: fileName,
-      parents: [folderId],
-    };
+  const fileMetadata = {
+    name: fileName,
+    parents: [folderId],
+  };
 
-    const media = {
-      mimeType,
-      body: Readable.from(fileBuffer),
-    };
+  const media = {
+    mimeType,
+    body: Readable.from(fileBuffer),
+  };
 
-    const response = await drive.files.create({
-      requestBody: fileMetadata,
-      media: media,
-      fields: 'id, name, webViewLink',
-    });
+  const response = await client.files.create({
+    requestBody: fileMetadata,
+    media,
+    fields: "id, name, webViewLink",
+  });
 
-    if (!response.data.id) {
-      throw new Error('Failed to upload file to Google Drive: No file ID returned');
-    }
-
-    console.log(`File uploaded to Google Drive: ${response.data.name} (ID: ${response.data.id})`);
-    return response.data.id;
-  } catch (error) {
-    console.error('Error uploading file to Google Drive:', error);
-    throw error;
+  if (!response.data.id) {
+    throw new Error("Failed to upload file to Google Drive: No file ID returned");
   }
+
+  console.log(
+    `File uploaded to Google Drive: ${response.data.name} (ID: ${response.data.id})`
+  );
+  return response.data.id;
 }
 
 /**
@@ -113,27 +139,17 @@ export async function uploadFileToDrive(
  * @param fileId - The Google Drive file ID
  * @returns The file buffer
  */
-export async function downloadFileFromDrive(fileId: string): Promise<Buffer> {
-  if (!drive) {
-    throw new Error('Google Drive not initialized');
-  }
+export async function downloadFileFromDrive(
+  fileId: string
+): Promise<Buffer> {
+  const client = await getDriveClient();
 
-  // Lazy load if not already loaded
-  if (!google) {
-    google = (await import('googleapis')).google;
-  }
+  const response = await client.files.get(
+    { fileId, alt: "media" },
+    { responseType: "arraybuffer" }
+  );
 
-  try {
-    const response = await drive.files.get(
-      { fileId, alt: 'media' },
-      { responseType: 'arraybuffer' }
-    );
-
-    return Buffer.from(response.data as ArrayBuffer);
-  } catch (error) {
-    console.error(`Error downloading file from Google Drive (ID: ${fileId}):`, error);
-    throw error;
-  }
+  return Buffer.from(response.data as ArrayBuffer);
 }
 
 /**
@@ -142,32 +158,20 @@ export async function downloadFileFromDrive(fileId: string): Promise<Buffer> {
  * @returns The download URL
  */
 export async function getFileDownloadUrl(fileId: string): Promise<string> {
-  if (!drive) {
-    throw new Error('Google Drive not initialized');
-  }
+  const client = await getDriveClient();
 
-  // Lazy load if not already loaded
-  if (!google) {
-    google = (await import('googleapis')).google;
-  }
+  const response = await client.files.get({
+    fileId,
+    fields: "webViewLink, webContentLink",
+  });
 
-  try {
-    const response = await drive.files.get({
-      fileId,
-      fields: 'webViewLink, webContentLink',
-    });
-
-    // Prefer webContentLink for direct download, fallback to webViewLink
-    return (response.data.webContentLink || response.data.webViewLink) as string;
-  } catch (error) {
-    console.error(`Error getting file URL from Google Drive (ID: ${fileId}):`, error);
-    throw error;
-  }
+  // Prefer webContentLink for direct download, fallback to webViewLink
+  return (response.data.webContentLink || response.data.webViewLink) as string;
 }
 
 /**
  * Check if Google Drive is configured and available
  */
 export function isGoogleDriveConfigured(): boolean {
-  return drive !== null;
+  return driveReady;
 }
