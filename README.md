@@ -1,4 +1,3 @@
-# NAWA - Empowering Saudi Youth
 
 A comprehensive web application for NAWA, an organization dedicated to empowering Saudi youth through various programs and initiatives.
 
