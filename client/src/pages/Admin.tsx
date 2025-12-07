@@ -55,6 +55,16 @@ interface JobApplication {
   createdAt: string;
 }
 
+interface LeadershipWorkshopRegistration {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  payment: string;
+  transactionProof: string | null;
+  createdAt: string;
+}
+
 // Helper function to make authenticated API requests
 const apiRequest = async (method: string, endpoint: string, data?: any, token?: string) => {
   const authToken = token || sessionStorage.getItem('adminToken');
@@ -95,13 +105,15 @@ export default function Admin() {
   const [newsletterSubscriptions, setNewsletterSubscriptions] = useState<NewsletterSubscription[]>([]);
   const [workshopRegistrations, setWorkshopRegistrations] = useState<WorkshopRegistration[]>([]);
   const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
+  const [leadershipWorkshopRegistrations, setLeadershipWorkshopRegistrations] = useState<LeadershipWorkshopRegistration[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState<{
     contacts: number[];
     newsletters: number[];
     workshops: number[];
     applications: number[];
-  }>({ contacts: [], newsletters: [], workshops: [], applications: [] });
+    leadershipWorkshops: number[];
+  }>({ contacts: [], newsletters: [], workshops: [], applications: [], leadershipWorkshops: [] });
 
   // Sorting state
   const [sortOrder, setSortOrder] = useState<{
@@ -109,16 +121,18 @@ export default function Admin() {
     newsletters: 'newest' | 'oldest';
     workshops: 'newest' | 'oldest';
     applications: 'newest' | 'oldest';
+    leadershipWorkshops: 'newest' | 'oldest';
   }>({
     contacts: 'newest',
     newsletters: 'newest',
     workshops: 'newest',
-    applications: 'newest'
+    applications: 'newest',
+    leadershipWorkshops: 'newest'
   });
 
   // Delete confirmation dialog state
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [deleteType, setDeleteType] = useState<'contacts' | 'newsletters' | 'workshops' | 'applications' | null>(null);
+  const [deleteType, setDeleteType] = useState<'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops' | null>(null);
   const [deleteIds, setDeleteIds] = useState<number[]>([]);
   const [deleteToken, setDeleteToken] = useState('');
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -147,17 +161,19 @@ export default function Admin() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [contacts, newsletters, workshops, applications] = await Promise.all([
+      const [contacts, newsletters, workshops, applications, leadershipWorkshops] = await Promise.all([
         apiRequest('GET', '/api/contact'),
         apiRequest('GET', '/api/newsletter'),
         apiRequest('GET', '/api/workshop'),
-        apiRequest('GET', '/api/job-applications')
+        apiRequest('GET', '/api/job-applications'),
+        apiRequest('GET', '/api/leadership-workshop')
       ]);
       
       setContactSubmissions(contacts);
       setNewsletterSubscriptions(newsletters);
       setWorkshopRegistrations(workshops);
       setJobApplications(applications);
+      setLeadershipWorkshopRegistrations(leadershipWorkshops);
     } catch (error) {
       console.error('Error fetching data:', error);
       if (error instanceof Error && error.message === 'Authentication failed') {
@@ -173,7 +189,7 @@ export default function Admin() {
     }
   };
 
-  const handleDeleteClick = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications', ids: number[]) => {
+  const handleDeleteClick = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops', ids: number[]) => {
     if (ids.length === 0) return;
     
     setDeleteType(type);
@@ -197,7 +213,8 @@ export default function Admin() {
     try {
       const endpoint = deleteType === 'contacts' ? '/api/contact' : 
                       deleteType === 'newsletters' ? '/api/newsletter' : 
-                      deleteType === 'workshops' ? '/api/workshop' : '/api/job-applications';
+                      deleteType === 'workshops' ? '/api/workshop' : 
+                      deleteType === 'leadershipWorkshops' ? '/api/leadership-workshop' : '/api/job-applications';
       
       const response = await apiRequest('DELETE', endpoint, { ids: deleteIds }, deleteToken);
       
@@ -234,7 +251,7 @@ export default function Admin() {
     }
   };
 
-  const handleSelectItem = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications', id: number) => {
+  const handleSelectItem = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops', id: number) => {
     setSelectedItems(prev => {
       const current = prev[type];
       const newSelection = current.includes(id) 
@@ -244,15 +261,16 @@ export default function Admin() {
     });
   };
 
-  const handleSelectAll = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications') => {
+  const handleSelectAll = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops') => {
     const items = type === 'contacts' ? contactSubmissions : 
                   type === 'newsletters' ? newsletterSubscriptions : 
-                  type === 'workshops' ? workshopRegistrations : jobApplications;
+                  type === 'workshops' ? workshopRegistrations : 
+                  type === 'leadershipWorkshops' ? leadershipWorkshopRegistrations : jobApplications;
     const allIds = items.map(item => item.id);
     setSelectedItems(prev => ({ ...prev, [type]: allIds }));
   };
 
-  const handleClearSelection = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications') => {
+  const handleClearSelection = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops') => {
     setSelectedItems(prev => ({ ...prev, [type]: [] }));
   };
 
@@ -274,12 +292,13 @@ export default function Admin() {
     window.URL.revokeObjectURL(url);
   };
 
-  const getDeleteTypeLabel = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications') => {
+  const getDeleteTypeLabel = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops') => {
     switch (type) {
       case 'contacts': return language === 'ar' ? 'طلبات الاتصال' : 'Contact submissions';
       case 'newsletters': return language === 'ar' ? 'اشتراكات النشرة الإخبارية' : 'Newsletter subscriptions';
       case 'workshops': return language === 'ar' ? 'تسجيلات ورش العمل' : 'Workshop registrations';
       case 'applications': return language === 'ar' ? 'طلبات التوظيف' : 'Job applications';
+      case 'leadershipWorkshops': return language === 'ar' ? 'تسجيلات ورشة القيادة' : 'Leadership workshop registrations';
       default: return '';
     }
   };
@@ -298,9 +317,10 @@ export default function Admin() {
   const getSortedNewsletters = () => sortData(newsletterSubscriptions, sortOrder.newsletters);
   const getSortedWorkshops = () => sortData(workshopRegistrations, sortOrder.workshops);
   const getSortedApplications = () => sortData(jobApplications, sortOrder.applications);
+  const getSortedLeadershipWorkshops = () => sortData(leadershipWorkshopRegistrations, sortOrder.leadershipWorkshops);
 
   // Handle sort change
-  const handleSortChange = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications') => {
+  const handleSortChange = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops') => {
     setSortOrder((prev: typeof sortOrder) => ({
       ...prev,
       [type]: prev[type] === 'newest' ? 'oldest' : 'newest'
@@ -343,7 +363,7 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="contacts" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="contacts">
               {language === 'ar' ? 'طلبات الاتصال' : 'Contact'} ({contactSubmissions.length})
             </TabsTrigger>
@@ -352,6 +372,9 @@ export default function Admin() {
             </TabsTrigger>
             <TabsTrigger value="workshops">
               {language === 'ar' ? 'ورش العمل' : 'Workshops'} ({workshopRegistrations.length})
+            </TabsTrigger>
+            <TabsTrigger value="leadershipWorkshops">
+              {language === 'ar' ? 'ورشة القيادة' : 'Leadership Workshop'} ({leadershipWorkshopRegistrations.length})
             </TabsTrigger>
             <TabsTrigger value="applications">
               {language === 'ar' ? 'طلبات التوظيف' : 'Job Applications'} ({jobApplications.length})
@@ -588,6 +611,123 @@ export default function Admin() {
                           <p>Payment: {registration.payment}</p>
                           {registration.friend1Name && (
                             <p>Friends: {registration.friend1Name}, {registration.friend2Name}</p>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          {new Date(registration.createdAt).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="leadershipWorkshops" className="space-y-4">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSelectAll('leadershipWorkshops')}
+                >
+                  {language === 'ar' ? 'تحديد الكل' : 'Select All'}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleClearSelection('leadershipWorkshops')}
+                >
+                  {language === 'ar' ? 'إلغاء التحديد' : 'Clear'}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSortChange('leadershipWorkshops')}
+                  className="flex items-center gap-1"
+                >
+                  {sortOrder.leadershipWorkshops === 'newest' ? <ArrowDown className="w-4 h-4" /> : <ArrowUp className="w-4 h-4" />}
+                  {language === 'ar' 
+                    ? (sortOrder.leadershipWorkshops === 'newest' ? 'الأحدث' : 'الأقدم')
+                    : (sortOrder.leadershipWorkshops === 'newest' ? 'Newest' : 'Oldest')
+                  }
+                </Button>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => exportToCSV(leadershipWorkshopRegistrations, 'leadership-workshop-registrations.csv')}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  {language === 'ar' ? 'تصدير' : 'Export'}
+                </Button>
+                {selectedItems.leadershipWorkshops.length > 0 && (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleDeleteClick('leadershipWorkshops', selectedItems.leadershipWorkshops)}
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    {language === 'ar' ? `حذف (${selectedItems.leadershipWorkshops.length})` : `Delete (${selectedItems.leadershipWorkshops.length})`}
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            <div className="grid gap-4">
+              {getSortedLeadershipWorkshops().map((registration) => (
+                <Card key={registration.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <input
+                            type="checkbox"
+                            checked={selectedItems.leadershipWorkshops.includes(registration.id)}
+                            onChange={() => handleSelectItem('leadershipWorkshops', registration.id)}
+                            className="rounded"
+                          />
+                          <h3 className="font-semibold">{registration.name}</h3>
+                          <Badge variant="secondary">{registration.email}</Badge>
+                          <Badge variant={registration.payment === 'iban' ? 'default' : 'outline'}>
+                            {registration.payment === 'iban' 
+                              ? (language === 'ar' ? 'تحويل بنكي' : 'Bank Transfer')
+                              : (language === 'ar' ? 'دفع في المكان' : 'Pay at Venue')
+                            }
+                          </Badge>
+                        </div>
+                        <div className="text-sm text-gray-600 mb-2">
+                          <p>{language === 'ar' ? 'الهاتف' : 'Phone'}: {registration.phone}</p>
+                          <p>{language === 'ar' ? 'طريقة الدفع' : 'Payment Method'}: {registration.payment === 'iban' 
+                            ? (language === 'ar' ? 'تحويل بنكي (IBAN)' : 'Bank Transfer (IBAN)')
+                            : (language === 'ar' ? 'الدفع في المكان' : 'Pay at Venue')
+                          }</p>
+                          {registration.transactionProof && (
+                            <div className="flex items-center gap-2 mt-2">
+                              <span>{language === 'ar' ? 'إثبات الدفع:' : 'Payment Proof:'}</span>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const token = sessionStorage.getItem('adminToken');
+                                  const filename = registration.transactionProof?.split('/').pop();
+                                  if (filename) {
+                                    window.open(`/api/resume/${filename}?apiKey=${encodeURIComponent(token || '')}`, '_blank');
+                                  }
+                                }}
+                                className="h-6 px-2 text-xs"
+                              >
+                                <Download className="w-3 h-3 mr-1" />
+                                {language === 'ar' ? 'عرض إثبات الدفع' : 'View Proof'}
+                              </Button>
+                            </div>
+                          )}
+                          {!registration.transactionProof && registration.payment === 'iban' && (
+                            <p className="text-yellow-600 text-xs mt-1">
+                              {language === 'ar' ? '⚠️ لم يتم رفع إثبات الدفع' : '⚠️ Payment proof not uploaded'}
+                            </p>
                           )}
                         </div>
                         <p className="text-xs text-gray-500">
