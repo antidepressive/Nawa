@@ -363,6 +363,19 @@ export default function LeadershipWorkshop() {
                     </span>
                   </div>
                 </div>
+                <div className={`${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                  <Button
+                    onClick={() => {
+                      const form = document.getElementById('registration-form');
+                      if (form) {
+                        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                    className="bg-primary hover:bg-blue-700 text-white px-6 py-2 font-semibold"
+                  >
+                    {language === 'ar' ? 'سجل الآن' : 'Register Now'}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
