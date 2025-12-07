@@ -100,10 +100,32 @@ A comprehensive web application for NAWA, an organization dedicated to empowerin
    
    # Google Analytics
    VITE_GA_MEASUREMENT_ID=your-ga-measurement-id
+   
+   # Google Drive (Optional - for persistent file storage)
+   # Uses OAuth with service account impersonation (works when key creation is disabled)
+   GOOGLE_CLIENT_ID=your-oauth-client-id.apps.googleusercontent.com
+   GOOGLE_CLIENT_SECRET=your-oauth-client-secret
+   GOOGLE_IMPERSONATE_SERVICE_ACCOUNT=service-account@project.iam.gserviceaccount.com
+   GOOGLE_DRIVE_FOLDER_ID=your-google-drive-folder-id
    ```
 
 4. **Set up the database**
    The application will automatically create necessary tables on startup.
+
+5. **Set up Google Drive (Optional but Recommended)**
+   For persistent file storage (resumes and transaction proofs), set up Google Drive using OAuth with service account impersonation. This method works even when your organization has disabled service account key creation.
+   
+   **See `GOOGLE_DRIVE_SETUP.md` for detailed step-by-step instructions.**
+   
+   Quick summary:
+   - Create a Google Cloud project and enable Google Drive API
+   - Create a service account (no keys needed)
+   - Grant yourself "Service Account Token Creator" role
+   - Create OAuth Client ID/Secret
+   - Create a Google Drive folder and share it with the service account
+   - Set environment variables: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_IMPERSONATE_SERVICE_ACCOUNT`, `GOOGLE_DRIVE_FOLDER_ID`
+   
+   **Note:** If Google Drive is not configured, files will be stored locally (but may be lost on server restarts on platforms like Render).
 
 5. **Start the development server**
    ```bash

@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
+import { initializeGoogleDrive } from "./googleDrive";
 
 const app = express();
 app.use(express.json());
@@ -238,6 +239,9 @@ async function ensureTablesExist() {
 }
 
 (async () => {
+  // Initialize Google Drive if configured (async)
+  await initializeGoogleDrive();
+  
   // Try to ensure database tables exist, but don't fail if it doesn't work
   try {
     await ensureTablesExist();

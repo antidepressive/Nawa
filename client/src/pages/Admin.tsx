@@ -712,18 +712,25 @@ export default function Admin() {
                                 size="sm"
                                 onClick={() => {
                                   const token = sessionStorage.getItem('adminToken');
-                                  // Extract filename from path - handle both /uploads/resumes/filename.pdf and filename.pdf formats
-                                  let filename = registration.transactionProof || '';
-                                  // Remove leading slash if present
-                                  if (filename.startsWith('/')) {
-                                    filename = filename.substring(1);
-                                  }
-                                  // Extract just the filename part
-                                  const pathParts = filename.split('/');
-                                  filename = pathParts[pathParts.length - 1];
+                                  // Handle both Google Drive file IDs (gdrive:fileId) and local file paths
+                                  let fileIdentifier = registration.transactionProof || '';
                                   
-                                  if (filename) {
-                                    window.open(`/api/resume/${filename}?apiKey=${encodeURIComponent(token || '')}`, '_blank');
+                                  if (fileIdentifier.startsWith('gdrive:')) {
+                                    // Google Drive file - use the full identifier
+                                    fileIdentifier = fileIdentifier;
+                                  } else {
+                                    // Local file - extract filename from path
+                                    // Remove leading slash if present
+                                    if (fileIdentifier.startsWith('/')) {
+                                      fileIdentifier = fileIdentifier.substring(1);
+                                    }
+                                    // Extract just the filename part
+                                    const pathParts = fileIdentifier.split('/');
+                                    fileIdentifier = pathParts[pathParts.length - 1];
+                                  }
+                                  
+                                  if (fileIdentifier) {
+                                    window.open(`/api/resume/${fileIdentifier}?apiKey=${encodeURIComponent(token || '')}`, '_blank');
                                   }
                                 }}
                                 className="h-6 px-2 text-xs"
@@ -831,9 +838,25 @@ export default function Admin() {
                               size="sm"
                               onClick={() => {
                                 const token = sessionStorage.getItem('adminToken');
-                                const filename = application.resumePath.split('/').pop();
-                                if (filename) {
-                                  window.open(`/api/resume/${filename}?apiKey=${encodeURIComponent(token || '')}`, '_blank');
+                                // Handle both Google Drive file IDs (gdrive:fileId) and local file paths
+                                let fileIdentifier = application.resumePath || '';
+                                
+                                if (fileIdentifier.startsWith('gdrive:')) {
+                                  // Google Drive file - use the full identifier
+                                  fileIdentifier = fileIdentifier;
+                                } else {
+                                  // Local file - extract filename from path
+                                  // Remove leading slash if present
+                                  if (fileIdentifier.startsWith('/')) {
+                                    fileIdentifier = fileIdentifier.substring(1);
+                                  }
+                                  // Extract just the filename part
+                                  const pathParts = fileIdentifier.split('/');
+                                  fileIdentifier = pathParts[pathParts.length - 1];
+                                }
+                                
+                                if (fileIdentifier) {
+                                  window.open(`/api/resume/${fileIdentifier}?apiKey=${encodeURIComponent(token || '')}`, '_blank');
                                 }
                               }}
                               className="h-6 px-2 text-xs"
