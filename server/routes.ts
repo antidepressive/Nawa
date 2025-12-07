@@ -20,6 +20,7 @@ import { emailService, createWorkshopConfirmationEmail, createLeadershipWorkshop
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { uploadFileToDrive, downloadFileFromDrive, isGoogleDriveConfigured } from "./googleDrive";
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
@@ -330,15 +331,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Resume upload endpoint
+  // Resume upload endpoint (also used for transaction proof files)
   app.post("/api/upload-resume", upload.single('resume'), async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
       }
 
-      // Return the file path for storage in the database
-      const filePath = req.file.path.replace(process.cwd(), '').replace(/\\/g, '/');
+      let filePath: string;
+      
+      // Try to upload to Google Drive if configured
+      if (isGoogleDriveConfigured()) {
+        try {
+          const fileBuffer = fs.readFileSync(req.file.path);
+          const fileName = req.file.filename;
+          const driveFileId = await uploadFileToDrive(fileBuffer, fileName, req.file.mimetype);
+          
+          // Store Google Drive file ID with prefix for identification
+          filePath = `gdrive:${driveFileId}`;
+          
+          // Clean up local file after successful upload
+          fs.unlinkSync(req.file.path);
+        } catch (driveError) {
+          console.error('Google Drive upload failed, falling back to local storage:', driveError);
+          // Fall back to local storage
+          filePath = req.file.path.replace(process.cwd(), '').replace(/\\/g, '/');
+        }
+      } else {
+        // Use local storage
+        filePath = req.file.path.replace(process.cwd(), '').replace(/\\/g, '/');
+      }
       
       res.json({ 
         success: true, 
@@ -353,17 +375,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Serve resume files (also used for transaction proof files)
-  app.get("/api/resume/:filename", requireDeveloperAuthQuery, async (req, res) => {
+  // Accepts either filename (for local files) or gdrive:fileId (for Google Drive files)
+  app.get("/api/resume/:fileIdentifier", requireDeveloperAuthQuery, async (req, res) => {
     try {
-      const filename = req.params.filename;
-      // Sanitize filename to prevent directory traversal
-      const sanitizedFilename = path.basename(filename);
-      const filePath = path.join(process.cwd(), 'uploads', 'resumes', sanitizedFilename);
+      const fileIdentifier = req.params.fileIdentifier;
+      
+      // Check if this is a Google Drive file ID
+      if (fileIdentifier.startsWith('gdrive:')) {
+        const driveFileId = fileIdentifier.replace('gdrive:', '');
+        try {
+          const fileBuffer = await downloadFileFromDrive(driveFileId);
+          
+          // Set appropriate headers for PDF download
+          res.setHeader('Content-Type', 'application/pdf');
+          res.setHeader('Content-Disposition', `inline; filename="file.pdf"`);
+          
+          // Send the file buffer
+          res.send(fileBuffer);
+          return;
+        } catch (driveError) {
+          console.error(`Error downloading from Google Drive: ${driveError}`);
+          return res.status(404).json({ 
+            error: "File not found",
+            message: "File not found in Google Drive"
+          });
+        }
+      }
+      
+      // Fall back to local file system
+      const sanitizedFilename = path.basename(fileIdentifier);
+      const uploadsDir = path.join(process.cwd(), 'uploads', 'resumes');
+      const filePath = path.join(uploadsDir, sanitizedFilename);
+      
+      // Check if uploads directory exists
+      if (!fs.existsSync(uploadsDir)) {
+        console.error(`Uploads directory not found: ${uploadsDir}`);
+        return res.status(404).json({ 
+          error: "Resume file not found",
+          message: "Uploads directory does not exist. Files may have been lost due to server restart (ephemeral filesystem)."
+        });
+      }
       
       // Check if file exists
       if (!fs.existsSync(filePath)) {
-        console.error(`File not found: ${filePath} (requested filename: ${filename})`);
-        return res.status(404).json({ error: "Resume file not found" });
+        console.error(`File not found: ${filePath} (requested filename: ${fileIdentifier})`);
+        // List available files for debugging
+        try {
+          const files = fs.readdirSync(uploadsDir);
+          console.error(`Available files in uploads/resumes: ${files.slice(0, 10).join(', ')}${files.length > 10 ? '...' : ''}`);
+        } catch (err) {
+          console.error(`Could not list files in uploads directory: ${err}`);
+        }
+        return res.status(404).json({ 
+          error: "Resume file not found",
+          message: "The file may have been lost due to server restart or redeployment (ephemeral filesystem on hosting platforms like Render)."
+        });
       }
 
       // Set appropriate headers for PDF download
