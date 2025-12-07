@@ -352,20 +352,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Serve resume files
+  // Serve resume files (also used for transaction proof files)
   app.get("/api/resume/:filename", requireDeveloperAuthQuery, async (req, res) => {
     try {
       const filename = req.params.filename;
-      const filePath = path.join(process.cwd(), 'uploads', 'resumes', filename);
+      // Sanitize filename to prevent directory traversal
+      const sanitizedFilename = path.basename(filename);
+      const filePath = path.join(process.cwd(), 'uploads', 'resumes', sanitizedFilename);
       
       // Check if file exists
       if (!fs.existsSync(filePath)) {
+        console.error(`File not found: ${filePath} (requested filename: ${filename})`);
         return res.status(404).json({ error: "Resume file not found" });
       }
 
       // Set appropriate headers for PDF download
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+      res.setHeader('Content-Disposition', `inline; filename="${sanitizedFilename}"`);
       
       // Stream the file
       const fileStream = fs.createReadStream(filePath);
