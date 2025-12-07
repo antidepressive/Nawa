@@ -301,9 +301,21 @@ export default function LeadershipWorkshop() {
             <h1 className="font-montserrat font-bold text-4xl md:text-5xl mb-6">
               {t('leadershipWorkshop.heroTitle')}
             </h1>
-            <p className="text-xl max-w-3xl mx-auto">
+            <p className="text-xl max-w-3xl mx-auto mb-8">
               {t('leadershipWorkshop.heroDescription')}
             </p>
+            <Button
+              onClick={() => {
+                const form = document.getElementById('registration-form');
+                if (form) {
+                  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
+              className="bg-white text-primary hover:bg-gray-100 text-lg px-8 py-6 font-semibold"
+              size="lg"
+            >
+              {language === 'ar' ? 'سجل الآن' : 'Register Now'}
+            </Button>
           </div>
         </div>
       </section>
