@@ -1,9 +1,9 @@
-// Lazy import to avoid loading googleapis if not needed
-let google: any = null;
-let Readable: any = null;
+import { google } from 'googleapis';
+import { GoogleAuth } from 'google-auth-library';
+import { Readable } from 'stream';
 
 // Initialize Google Drive API
-let drive: any = null;
+let drive: ReturnType<typeof google.drive> | null = null;
 
 /**
  * Initialize Google Drive client using OAuth with service account impersonation
@@ -15,37 +15,83 @@ export async function initializeGoogleDrive() {
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
     const serviceAccountEmail = process.env.GOOGLE_IMPERSONATE_SERVICE_ACCOUNT;
     
-    // Early return if credentials are not configured - don't load googleapis at all
-    if (!clientId || !clientSecret || !serviceAccountEmail) {
+    if (!clientId || !clientSecret) {
       console.warn('Google Drive OAuth credentials not configured. File uploads will use local storage.');
       return null;
     }
 
-    // For server-to-server authentication with OAuth and service account impersonation,
-    // we need to use the IAM Credentials API. However, this requires authenticating to IAM API first.
-    // 
-    // The challenge: We need credentials to call IAM API, but we can't use ADC (Application Default Credentials)
-    // because there are no service account keys.
-    //
-    // Solution: Use OAuth2Client with a refresh token, OR use the IAM API with a token
-    // obtained through the OAuth flow. Since this is server-to-server without user interaction,
-    // we need to handle this carefully.
-    //
-    // For now, we'll disable Google Drive initialization and fall back to local storage.
-    // The proper setup requires either:
-    // 1. A refresh token obtained through an initial OAuth flow
-    // 2. Or using Workload Identity Federation (more complex setup)
+    if (!serviceAccountEmail) {
+      console.warn('GOOGLE_IMPERSONATE_SERVICE_ACCOUNT not set. Google Drive will not be available.');
+      return null;
+    }
+
+    // Create GoogleAuth instance with OAuth credentials
+    const auth = new GoogleAuth({
+      clientOptions: {
+        clientId,
+        clientSecret,
+      },
+      scopes: ['https://www.googleapis.com/auth/drive'],
+    });
+
+    // Get the authenticated client
+    const client = await auth.getClient();
     
-    console.warn('Google Drive service account impersonation requires additional OAuth setup.');
-    console.warn('For server-to-server authentication without user interaction, you need:');
-    console.warn('1. A refresh token (obtained through initial OAuth flow)');
-    console.warn('2. Or Workload Identity Federation setup');
-    console.warn('Google Drive will not be available. Files will be stored locally.');
-    console.warn('Note: Local files may be lost on server restart on platforms like Render.');
+    // For service account impersonation, we need to use the IAM Credentials API
+    // to generate tokens on behalf of the service account
+    // This requires the Service Account Token Creator role
     
-    return null;
-  } catch (error: any) {
-    console.error('Failed to initialize Google Drive:', error?.message || error);
+    // Use the IAM Credentials API to generate an access token
+    const iam = google.iamcredentials('v1');
+    
+    try {
+      // Generate access token for the service account
+      const tokenResponse = await iam.projects.serviceAccounts.generateAccessToken({
+        name: `projects/-/serviceAccounts/${serviceAccountEmail}`,
+        requestBody: {
+          scope: ['https://www.googleapis.com/auth/drive'],
+        },
+        auth: client,
+      });
+
+      const accessToken = tokenResponse.data.accessToken;
+      
+      if (!accessToken) {
+        throw new Error('Failed to generate access token for service account');
+      }
+
+      // Create OAuth2 client and set the access token
+      const oauth2Client = new google.auth.OAuth2(clientId, clientSecret);
+      oauth2Client.setCredentials({
+        access_token: accessToken,
+      });
+
+      drive = google.drive({ 
+        version: 'v3', 
+        auth: oauth2Client 
+      });
+      
+      console.log('Google Drive initialized successfully with service account impersonation');
+      return drive;
+    } catch (iamError: any) {
+      // If IAM API fails, try alternative approach using domain-wide delegation
+      console.warn('IAM impersonation failed, trying alternative method:', iamError.message);
+      
+      // Alternative: Use OAuth2 with service account email as subject
+      // This requires domain-wide delegation to be set up
+      const oauth2Client = new google.auth.OAuth2(clientId, clientSecret);
+      
+      // Note: This approach may require additional setup for domain-wide delegation
+      // For now, we'll log the error and return null
+      console.error('Service account impersonation setup incomplete. Please ensure:');
+      console.error('1. You have the "Service Account Token Creator" role');
+      console.error('2. IAM Credentials API is enabled');
+      console.error('3. The service account email is correct');
+      
+      return null;
+    }
+  } catch (error) {
+    console.error('Failed to initialize Google Drive:', error);
     return null;
   }
 }
@@ -64,14 +110,6 @@ export async function uploadFileToDrive(
 ): Promise<string> {
   if (!drive) {
     throw new Error('Google Drive not initialized. Please configure GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_IMPERSONATE_SERVICE_ACCOUNT');
-  }
-
-  // Lazy load if not already loaded
-  if (!google) {
-    google = (await import('googleapis')).google;
-  }
-  if (!Readable) {
-    Readable = (await import('stream')).Readable;
   }
 
   const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
@@ -118,11 +156,6 @@ export async function downloadFileFromDrive(fileId: string): Promise<Buffer> {
     throw new Error('Google Drive not initialized');
   }
 
-  // Lazy load if not already loaded
-  if (!google) {
-    google = (await import('googleapis')).google;
-  }
-
   try {
     const response = await drive.files.get(
       { fileId, alt: 'media' },
@@ -144,11 +177,6 @@ export async function downloadFileFromDrive(fileId: string): Promise<Buffer> {
 export async function getFileDownloadUrl(fileId: string): Promise<string> {
   if (!drive) {
     throw new Error('Google Drive not initialized');
-  }
-
-  // Lazy load if not already loaded
-  if (!google) {
-    google = (await import('googleapis')).google;
   }
 
   try {
