@@ -5,7 +5,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
-import { ArrowLeft, Globe, Clock, Users, MapPin, Star, Mic, MessageSquare, Presentation, Upload, FileText } from 'lucide-react';
+import { ArrowLeft, Globe, Clock, Users, MapPin, Star, Mic, MessageSquare, Presentation, Upload, FileText, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { Link } from 'wouter';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -80,13 +80,43 @@ const leadershipWorkshopRegistrationSchema = z.object({
     'Phone number must start with 966 and be at least 9 digits after the prefix'
   ),
   payment: z.enum(['venue', 'iban']),
-  transactionProof: z.instanceof(File).optional().refine(
-    (file) => !file || file.size <= 2 * 1024 * 1024,
-    'File size must be less than 2MB'
-  ).refine(
-    (file) => !file || file.type === 'application/pdf',
-    'Only PDF files are allowed'
-  ),
+  transactionProof: z.instanceof(File).optional(),
+}).refine(
+  (data) => {
+    // If payment is IBAN, transaction proof is required
+    if (data.payment === 'iban') {
+      return data.transactionProof !== undefined;
+    }
+    return true;
+  },
+  {
+    message: 'Transaction proof is required when selecting bank transfer',
+    path: ['transactionProof'],
+  }
+).refine(
+  (data) => {
+    // File size validation
+    if (data.transactionProof) {
+      return data.transactionProof.size <= 2 * 1024 * 1024;
+    }
+    return true;
+  },
+  {
+    message: 'File size must be less than 2MB',
+    path: ['transactionProof'],
+  }
+).refine(
+  (data) => {
+    // File type validation
+    if (data.transactionProof) {
+      return data.transactionProof.type === 'application/pdf';
+    }
+    return true;
+  },
+  {
+    message: 'Only PDF files are allowed',
+    path: ['transactionProof'],
+  }
 });
 
 type LeadershipWorkshopRegistrationForm = z.infer<typeof leadershipWorkshopRegistrationSchema>;
@@ -107,7 +137,7 @@ export default function LeadershipWorkshop() {
       name: '',
       email: '',
       phone: '',
-      payment: 'venue' as 'venue' | 'iban',
+      payment: 'iban' as 'venue' | 'iban',
       transactionProof: undefined,
     }
   });
@@ -580,7 +610,20 @@ export default function LeadershipWorkshop() {
                     {t('leadershipWorkshop.paymentMethod')} *
                   </Label>
                   <div className="mt-1 space-y-3">
-                    <div className="flex items-center space-x-2">
+                    <div className={`flex items-center space-x-2 p-3 rounded-lg border-2 ${form.watch('payment') === 'iban' ? 'border-primary bg-primary/5' : 'border-gray-200 bg-white'}`}>
+                      <input
+                        type="radio"
+                        id="payment-iban"
+                        value="iban"
+                        {...form.register('payment')}
+                        className="w-4 h-4 text-primary"
+                      />
+                      <Label htmlFor="payment-iban" className="font-normal cursor-pointer flex-1 flex items-center gap-2">
+                        <span>{t('leadershipWorkshop.paymentIbanLabel')}</span>
+                        <Badge className="bg-primary text-white text-xs">{t('leadershipWorkshop.recommended')}</Badge>
+                      </Label>
+                    </div>
+                    <div className={`flex items-center space-x-2 p-3 rounded-lg border-2 ${form.watch('payment') === 'venue' ? 'border-gray-300 bg-gray-50' : 'border-gray-200 bg-white'}`}>
                       <input
                         type="radio"
                         id="payment-venue"
@@ -592,18 +635,14 @@ export default function LeadershipWorkshop() {
                         {t('leadershipWorkshop.paymentAtVenue')}
                       </Label>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        id="payment-iban"
-                        value="iban"
-                        {...form.register('payment')}
-                        className="w-4 h-4 text-primary"
-                      />
-                      <Label htmlFor="payment-iban" className="font-normal cursor-pointer">
-                        {t('leadershipWorkshop.paymentIbanLabel')}
-                      </Label>
-                    </div>
+                    {form.watch('payment') === 'venue' && (
+                      <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg flex items-start gap-2">
+                        <AlertTriangle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-yellow-800">
+                          {t('leadershipWorkshop.venuePaymentWarning')}
+                        </p>
+                      </div>
+                    )}
                   </div>
                   {form.formState.errors.payment && (
                     <p className="text-red-500 text-sm mt-1">{form.formState.errors.payment.message}</p>
@@ -614,7 +653,7 @@ export default function LeadershipWorkshop() {
                 {form.watch('payment') === 'iban' && (
                   <div>
                     <Label htmlFor="transactionProof" className={language === 'ar' ? 'text-right' : 'text-left'}>
-                      {t('leadershipWorkshop.transactionProof')}
+                      {t('leadershipWorkshop.transactionProofRequired')} *
                     </Label>
                     <p className={`text-sm text-gray-500 mb-2 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                       {t('leadershipWorkshop.transactionProofDescription')}
