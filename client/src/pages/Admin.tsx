@@ -712,7 +712,16 @@ export default function Admin() {
                                 size="sm"
                                 onClick={() => {
                                   const token = sessionStorage.getItem('adminToken');
-                                  const filename = registration.transactionProof?.split('/').pop();
+                                  // Extract filename from path - handle both /uploads/resumes/filename.pdf and filename.pdf formats
+                                  let filename = registration.transactionProof || '';
+                                  // Remove leading slash if present
+                                  if (filename.startsWith('/')) {
+                                    filename = filename.substring(1);
+                                  }
+                                  // Extract just the filename part
+                                  const pathParts = filename.split('/');
+                                  filename = pathParts[pathParts.length - 1];
+                                  
                                   if (filename) {
                                     window.open(`/api/resume/${filename}?apiKey=${encodeURIComponent(token || '')}`, '_blank');
                                   }
