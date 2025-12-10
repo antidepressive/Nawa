@@ -1,26 +1,18 @@
-import nodemailer from 'nodemailer';
+/// <reference path="../types/resend.d.ts" />
+import { Resend } from 'resend';
 import type { WorkshopRegistration, LeadershipWorkshopRegistration, JobApplication } from '@shared/schema';
 
-// Email configuration for Brevo SMTP
-const emailConfig = {
-  host: 'smtp-relay.brevo.com',
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: '78501d002@smtp-brevo.com',
-    pass: 'VnvyzIaJN5TdcbMf',
-  },
-};
-
-// Create transporter
-const transporter = nodemailer.createTransport(emailConfig);
+const resendApiKey = (globalThis as { process?: { env?: { RESEND_API_KEY?: string } } }).process?.env?.RESEND_API_KEY;
+const resend = new Resend(resendApiKey);
+const DEFAULT_FROM = 'Nawa Team <support@saudimunassociation.com>';
+const DEFAULT_REPLY_TO = 'support@saudimunassociation.com';
 
 // Email templates
 export const createWorkshopConfirmationEmail = (registration: WorkshopRegistration) => {
-  const bundleText = {
-    '89': 'Regular Bundle (89 SAR)',
-    '199': 'Three Friends Bundle (199 SAR)'
-  }[registration.bundle] || registration.bundle;
+  const bundleText =
+    ({ '89': 'Regular Bundle (89 SAR)', '199': 'Three Friends Bundle (199 SAR)' } as Record<string, string>)[
+      String(registration.bundle)
+    ] || registration.bundle;
 
   const paymentText = registration.payment === 'venue' ? 'Venue Payment' : 'Online Payment';
 
@@ -840,17 +832,21 @@ export const emailService = {
     try {
       const emailContent = createWorkshopConfirmationEmail(registration);
       
-      const mailOptions = {
-        from: 'Nawa Team <support@saudimunassociation.com>',
-        replyTo: 'support@saudimunassociation.com',
+      const { data, error } = await resend.emails.send({
+        from: DEFAULT_FROM,
+        reply_to: DEFAULT_REPLY_TO,
         to: registration.email,
         subject: emailContent.subject,
         html: emailContent.html,
         text: emailContent.text,
-      };
+      });
 
-      const info = await transporter.sendMail(mailOptions);
-      console.log(`Confirmation email sent to ${registration.email}: ${info.messageId}`);
+      if (error) {
+        console.error('Error sending confirmation email:', error);
+        return false;
+      }
+
+      console.log(`Confirmation email sent to ${registration.email}: ${data?.id ?? 'no-id'}`);
       return true;
     } catch (error) {
       console.error('Error sending confirmation email:', error);
@@ -862,17 +858,21 @@ export const emailService = {
     try {
       const emailContent = createLeadershipWorkshopConfirmationEmail(registration);
       
-      const mailOptions = {
-        from: 'Nawa Team <support@saudimunassociation.com>',
-        replyTo: 'support@saudimunassociation.com',
+      const { data, error } = await resend.emails.send({
+        from: DEFAULT_FROM,
+        reply_to: DEFAULT_REPLY_TO,
         to: registration.email,
         subject: emailContent.subject,
         html: emailContent.html,
         text: emailContent.text,
-      };
+      });
 
-      const info = await transporter.sendMail(mailOptions);
-      console.log(`Leadership workshop confirmation email sent to ${registration.email}: ${info.messageId}`);
+      if (error) {
+        console.error('Error sending leadership workshop confirmation email:', error);
+        return false;
+      }
+
+      console.log(`Leadership workshop confirmation email sent to ${registration.email}: ${data?.id ?? 'no-id'}`);
       return true;
     } catch (error) {
       console.error('Error sending leadership workshop confirmation email:', error);
@@ -884,17 +884,21 @@ export const emailService = {
     try {
       const emailContent = createJobApplicationConfirmationEmail(application);
       
-      const mailOptions = {
-        from: 'Nawa Team <support@saudimunassociation.com>',
-        replyTo: 'support@saudimunassociation.com',
+      const { data, error } = await resend.emails.send({
+        from: DEFAULT_FROM,
+        reply_to: DEFAULT_REPLY_TO,
         to: application.email,
         subject: emailContent.subject,
         html: emailContent.html,
         text: emailContent.text,
-      };
+      });
 
-      const info = await transporter.sendMail(mailOptions);
-      console.log(`Job application confirmation email sent to ${application.email}: ${info.messageId}`);
+      if (error) {
+        console.error('Error sending job application confirmation email:', error);
+        return false;
+      }
+
+      console.log(`Job application confirmation email sent to ${application.email}: ${data?.id ?? 'no-id'}`);
       return true;
     } catch (error) {
       console.error('Error sending job application confirmation email:', error);
@@ -906,17 +910,21 @@ export const emailService = {
     try {
       const emailContent = createJobApplicationAdminNotification(application);
       
-      const mailOptions = {
-        from: 'Nawa Team <support@saudimunassociation.com>',
-        replyTo: 'support@saudimunassociation.com',
+      const { data, error } = await resend.emails.send({
+        from: DEFAULT_FROM,
+        reply_to: DEFAULT_REPLY_TO,
         to: 'info@nawa.sa', // Admin email
         subject: emailContent.subject,
         html: emailContent.html,
         text: emailContent.text,
-      };
+      });
 
-      const info = await transporter.sendMail(mailOptions);
-      console.log(`Job application admin notification sent: ${info.messageId}`);
+      if (error) {
+        console.error('Error sending job application admin notification:', error);
+        return false;
+      }
+
+      console.log(`Job application admin notification sent: ${data?.id ?? 'no-id'}`);
       return true;
     } catch (error) {
       console.error('Error sending job application admin notification:', error);
@@ -926,11 +934,11 @@ export const emailService = {
 
   async testConnection(): Promise<boolean> {
     try {
-      await transporter.verify();
-      console.log('Brevo SMTP connection verified successfully');
+      const domains = await resend.domains.list();
+      console.log(`Resend connection verified. Domains found: ${domains?.data?.length ?? 0}`);
       return true;
     } catch (error) {
-      console.error('Brevo SMTP connection failed:', error);
+      console.error('Resend connection failed:', error);
       return false;
     }
   }
