@@ -4,8 +4,8 @@ import type { WorkshopRegistration, LeadershipWorkshopRegistration, JobApplicati
 
 const resendApiKey = (globalThis as { process?: { env?: { RESEND_API_KEY?: string } } }).process?.env?.RESEND_API_KEY;
 const resend = new Resend(resendApiKey);
-const DEFAULT_FROM = 'Nawa Team <support@saudimunassociation.com>';
-const DEFAULT_REPLY_TO = 'support@saudimunassociation.com';
+const DEFAULT_FROM = 'Nawa Team <info@nawa.sa>';
+const DEFAULT_REPLY_TO = 'info@nawa.sa';
 
 // Email templates
 export const createWorkshopConfirmationEmail = (registration: WorkshopRegistration) => {
