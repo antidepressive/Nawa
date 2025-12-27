@@ -4,7 +4,7 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Trash2, Download, RefreshCw, AlertTriangle, LogOut, Shield, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { Trash2, Download, RefreshCw, AlertTriangle, LogOut, Shield, ArrowUpDown, ArrowUp, ArrowDown, Plus, Edit, Tag } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import { useLocation } from 'wouter';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
@@ -65,6 +65,19 @@ interface LeadershipWorkshopRegistration {
   createdAt: string;
 }
 
+interface PromoCode {
+  id: number;
+  code: string;
+  discountType: 'percentage' | 'fixed';
+  discountValue: string;
+  expiresAt: string | null;
+  usageLimit: number | null;
+  usedCount: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // Helper function to make authenticated API requests
 const apiRequest = async (method: string, endpoint: string, data?: any, token?: string) => {
   const authToken = token || sessionStorage.getItem('adminToken');
@@ -106,6 +119,7 @@ export default function Admin() {
   const [workshopRegistrations, setWorkshopRegistrations] = useState<WorkshopRegistration[]>([]);
   const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
   const [leadershipWorkshopRegistrations, setLeadershipWorkshopRegistrations] = useState<LeadershipWorkshopRegistration[]>([]);
+  const [promoCodes, setPromoCodes] = useState<PromoCode[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState<{
     contacts: number[];
@@ -113,7 +127,8 @@ export default function Admin() {
     workshops: number[];
     applications: number[];
     leadershipWorkshops: number[];
-  }>({ contacts: [], newsletters: [], workshops: [], applications: [], leadershipWorkshops: [] });
+    promoCodes: number[];
+  }>({ contacts: [], newsletters: [], workshops: [], applications: [], leadershipWorkshops: [], promoCodes: [] });
 
   // Sorting state
   const [sortOrder, setSortOrder] = useState<{
@@ -122,20 +137,35 @@ export default function Admin() {
     workshops: 'newest' | 'oldest';
     applications: 'newest' | 'oldest';
     leadershipWorkshops: 'newest' | 'oldest';
+    promoCodes: 'newest' | 'oldest';
   }>({
     contacts: 'newest',
     newsletters: 'newest',
     workshops: 'newest',
     applications: 'newest',
-    leadershipWorkshops: 'newest'
+    leadershipWorkshops: 'newest',
+    promoCodes: 'newest'
   });
 
   // Delete confirmation dialog state
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [deleteType, setDeleteType] = useState<'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops' | null>(null);
+  const [deleteType, setDeleteType] = useState<'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops' | 'promoCodes' | null>(null);
   const [deleteIds, setDeleteIds] = useState<number[]>([]);
   const [deleteToken, setDeleteToken] = useState('');
   const [deleteLoading, setDeleteLoading] = useState(false);
+
+  // Promo code dialog state
+  const [showPromoCodeDialog, setShowPromoCodeDialog] = useState(false);
+  const [editingPromoCode, setEditingPromoCode] = useState<PromoCode | null>(null);
+  const [promoCodeForm, setPromoCodeForm] = useState({
+    code: '',
+    discountType: 'percentage' as 'percentage' | 'fixed',
+    discountValue: '',
+    expiresAt: '',
+    usageLimit: '',
+    isActive: true
+  });
+  const [promoCodeLoading, setPromoCodeLoading] = useState(false);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -161,12 +191,13 @@ export default function Admin() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [contacts, newsletters, workshops, applications, leadershipWorkshops] = await Promise.all([
+      const [contacts, newsletters, workshops, applications, leadershipWorkshops, codes] = await Promise.all([
         apiRequest('GET', '/api/contact'),
         apiRequest('GET', '/api/newsletter'),
         apiRequest('GET', '/api/workshop'),
         apiRequest('GET', '/api/job-applications'),
-        apiRequest('GET', '/api/leadership-workshop')
+        apiRequest('GET', '/api/leadership-workshop'),
+        apiRequest('GET', '/api/promo-codes')
       ]);
       
       setContactSubmissions(contacts);
@@ -174,6 +205,7 @@ export default function Admin() {
       setWorkshopRegistrations(workshops);
       setJobApplications(applications);
       setLeadershipWorkshopRegistrations(leadershipWorkshops);
+      setPromoCodes(codes);
     } catch (error) {
       console.error('Error fetching data:', error);
       if (error instanceof Error && error.message === 'Authentication failed') {
@@ -189,7 +221,7 @@ export default function Admin() {
     }
   };
 
-  const handleDeleteClick = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops', ids: number[]) => {
+  const handleDeleteClick = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops' | 'promoCodes', ids: number[]) => {
     if (ids.length === 0) return;
     
     setDeleteType(type);
@@ -214,7 +246,8 @@ export default function Admin() {
       const endpoint = deleteType === 'contacts' ? '/api/contact' : 
                       deleteType === 'newsletters' ? '/api/newsletter' : 
                       deleteType === 'workshops' ? '/api/workshop' : 
-                      deleteType === 'leadershipWorkshops' ? '/api/leadership-workshop' : '/api/job-applications';
+                      deleteType === 'leadershipWorkshops' ? '/api/leadership-workshop' :
+                      deleteType === 'promoCodes' ? '/api/promo-codes' : '/api/job-applications';
       
       const response = await apiRequest('DELETE', endpoint, { ids: deleteIds }, deleteToken);
       
@@ -251,7 +284,7 @@ export default function Admin() {
     }
   };
 
-  const handleSelectItem = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops', id: number) => {
+  const handleSelectItem = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops' | 'promoCodes', id: number) => {
     setSelectedItems(prev => {
       const current = prev[type];
       const newSelection = current.includes(id) 
@@ -261,16 +294,17 @@ export default function Admin() {
     });
   };
 
-  const handleSelectAll = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops') => {
+  const handleSelectAll = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops' | 'promoCodes') => {
     const items = type === 'contacts' ? contactSubmissions : 
                   type === 'newsletters' ? newsletterSubscriptions : 
                   type === 'workshops' ? workshopRegistrations : 
-                  type === 'leadershipWorkshops' ? leadershipWorkshopRegistrations : jobApplications;
+                  type === 'leadershipWorkshops' ? leadershipWorkshopRegistrations :
+                  type === 'promoCodes' ? promoCodes : jobApplications;
     const allIds = items.map(item => item.id);
     setSelectedItems(prev => ({ ...prev, [type]: allIds }));
   };
 
-  const handleClearSelection = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops') => {
+  const handleClearSelection = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops' | 'promoCodes') => {
     setSelectedItems(prev => ({ ...prev, [type]: [] }));
   };
 
@@ -292,13 +326,14 @@ export default function Admin() {
     window.URL.revokeObjectURL(url);
   };
 
-  const getDeleteTypeLabel = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops') => {
+  const getDeleteTypeLabel = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops' | 'promoCodes') => {
     switch (type) {
       case 'contacts': return language === 'ar' ? 'طلبات الاتصال' : 'Contact submissions';
       case 'newsletters': return language === 'ar' ? 'اشتراكات النشرة الإخبارية' : 'Newsletter subscriptions';
       case 'workshops': return language === 'ar' ? 'تسجيلات ورش العمل' : 'Workshop registrations';
       case 'applications': return language === 'ar' ? 'طلبات التوظيف' : 'Job applications';
       case 'leadershipWorkshops': return language === 'ar' ? 'تسجيلات ورشة القيادة' : 'Leadership workshop registrations';
+      case 'promoCodes': return language === 'ar' ? 'رموز الترويج' : 'Promo codes';
       default: return '';
     }
   };
@@ -318,13 +353,122 @@ export default function Admin() {
   const getSortedWorkshops = () => sortData(workshopRegistrations, sortOrder.workshops);
   const getSortedApplications = () => sortData(jobApplications, sortOrder.applications);
   const getSortedLeadershipWorkshops = () => sortData(leadershipWorkshopRegistrations, sortOrder.leadershipWorkshops);
+  const getSortedPromoCodes = () => sortData(promoCodes, sortOrder.promoCodes);
 
   // Handle sort change
-  const handleSortChange = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops') => {
+  const handleSortChange = (type: 'contacts' | 'newsletters' | 'workshops' | 'applications' | 'leadershipWorkshops' | 'promoCodes') => {
     setSortOrder((prev: typeof sortOrder) => ({
       ...prev,
       [type]: prev[type] === 'newest' ? 'oldest' : 'newest'
     }));
+  };
+
+  // Promo code handlers
+  const handleCreatePromoCode = () => {
+    setEditingPromoCode(null);
+    setPromoCodeForm({
+      code: '',
+      discountType: 'percentage',
+      discountValue: '',
+      expiresAt: '',
+      usageLimit: '',
+      isActive: true
+    });
+    setShowPromoCodeDialog(true);
+  };
+
+  const handleEditPromoCode = (promoCode: PromoCode) => {
+    setEditingPromoCode(promoCode);
+    setPromoCodeForm({
+      code: promoCode.code,
+      discountType: promoCode.discountType,
+      discountValue: promoCode.discountValue,
+      expiresAt: promoCode.expiresAt ? new Date(promoCode.expiresAt).toISOString().split('T')[0] : '',
+      usageLimit: promoCode.usageLimit?.toString() || '',
+      isActive: promoCode.isActive
+    });
+    setShowPromoCodeDialog(true);
+  };
+
+  const handleSavePromoCode = async () => {
+    if (!promoCodeForm.code.trim()) {
+      toast({
+        title: language === 'ar' ? 'خطأ' : 'Error',
+        description: language === 'ar' ? 'رمز الترويج مطلوب' : 'Promo code is required',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!promoCodeForm.discountValue || parseFloat(promoCodeForm.discountValue) <= 0) {
+      toast({
+        title: language === 'ar' ? 'خطأ' : 'Error',
+        description: language === 'ar' ? 'قيمة الخصم يجب أن تكون أكبر من صفر' : 'Discount value must be greater than zero',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (promoCodeForm.discountType === 'percentage' && parseFloat(promoCodeForm.discountValue) > 100) {
+      toast({
+        title: language === 'ar' ? 'خطأ' : 'Error',
+        description: language === 'ar' ? 'نسبة الخصم يجب ألا تتجاوز 100%' : 'Discount percentage cannot exceed 100%',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setPromoCodeLoading(true);
+    try {
+      const payload: any = {
+        code: promoCodeForm.code.trim(),
+        discountType: promoCodeForm.discountType,
+        discountValue: parseFloat(promoCodeForm.discountValue),
+        isActive: promoCodeForm.isActive
+      };
+
+      if (promoCodeForm.expiresAt) {
+        payload.expiresAt = new Date(promoCodeForm.expiresAt).toISOString();
+      } else {
+        payload.expiresAt = null;
+      }
+
+      if (promoCodeForm.usageLimit) {
+        payload.usageLimit = parseInt(promoCodeForm.usageLimit);
+      } else {
+        payload.usageLimit = null;
+      }
+
+      if (editingPromoCode) {
+        await apiRequest('PUT', `/api/promo-codes/${editingPromoCode.id}`, payload);
+        toast({
+          title: language === 'ar' ? 'تم التحديث' : 'Updated',
+          description: language === 'ar' ? 'تم تحديث رمز الترويج بنجاح' : 'Promo code updated successfully',
+        });
+      } else {
+        await apiRequest('POST', '/api/promo-codes', payload);
+        toast({
+          title: language === 'ar' ? 'تم الإنشاء' : 'Created',
+          description: language === 'ar' ? 'تم إنشاء رمز الترويج بنجاح' : 'Promo code created successfully',
+        });
+      }
+
+      setShowPromoCodeDialog(false);
+      fetchData();
+    } catch (error) {
+      console.error('Error saving promo code:', error);
+      toast({
+        title: language === 'ar' ? 'خطأ' : 'Error',
+        description: error instanceof Error ? error.message : (language === 'ar' ? 'فشل في حفظ رمز الترويج' : 'Failed to save promo code'),
+        variant: 'destructive',
+      });
+    } finally {
+      setPromoCodeLoading(false);
+    }
+  };
+
+  const handleDeletePromoCode = (id: number) => {
+    handleDeleteClick('promoCodes', [id]);
   };
 
   if (loading) {
@@ -363,7 +507,7 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="contacts" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="contacts">
               {language === 'ar' ? 'طلبات الاتصال' : 'Contact'} ({contactSubmissions.length})
             </TabsTrigger>
@@ -378,6 +522,9 @@ export default function Admin() {
             </TabsTrigger>
             <TabsTrigger value="applications">
               {language === 'ar' ? 'طلبات التوظيف' : 'Job Applications'} ({jobApplications.length})
+            </TabsTrigger>
+            <TabsTrigger value="promoCodes">
+              {language === 'ar' ? 'رموز الترويج' : 'Promo Codes'} ({promoCodes.length})
             </TabsTrigger>
           </TabsList>
 
@@ -876,7 +1023,276 @@ export default function Admin() {
               ))}
             </div>
           </TabsContent>
+
+          <TabsContent value="promoCodes" className="space-y-4">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSelectAll('promoCodes')}
+                >
+                  {language === 'ar' ? 'تحديد الكل' : 'Select All'}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleClearSelection('promoCodes')}
+                >
+                  {language === 'ar' ? 'إلغاء التحديد' : 'Clear'}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleSortChange('promoCodes')}
+                  className="flex items-center gap-1"
+                >
+                  {sortOrder.promoCodes === 'newest' ? <ArrowDown className="w-4 h-4" /> : <ArrowUp className="w-4 h-4" />}
+                  {language === 'ar' 
+                    ? (sortOrder.promoCodes === 'newest' ? 'الأحدث' : 'الأقدم')
+                    : (sortOrder.promoCodes === 'newest' ? 'Newest' : 'Oldest')
+                  }
+                </Button>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={handleCreatePromoCode}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {language === 'ar' ? 'إنشاء رمز ترويج' : 'Create Promo Code'}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => exportToCSV(promoCodes, 'promo-codes.csv')}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  {language === 'ar' ? 'تصدير' : 'Export'}
+                </Button>
+                {selectedItems.promoCodes.length > 0 && (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleDeleteClick('promoCodes', selectedItems.promoCodes)}
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    {language === 'ar' ? 'حذف المحدد' : 'Delete Selected'} ({selectedItems.promoCodes.length})
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            <div className="grid gap-4">
+              {getSortedPromoCodes().map((promoCode) => (
+                <Card key={promoCode.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <input
+                            type="checkbox"
+                            checked={selectedItems.promoCodes.includes(promoCode.id)}
+                            onChange={() => handleSelectItem('promoCodes', promoCode.id)}
+                            className="rounded"
+                          />
+                          <Tag className="w-4 h-4 text-primary" />
+                          <h3 className="font-semibold font-mono">{promoCode.code}</h3>
+                          <Badge variant={promoCode.isActive ? 'default' : 'secondary'}>
+                            {promoCode.isActive ? (language === 'ar' ? 'نشط' : 'Active') : (language === 'ar' ? 'غير نشط' : 'Inactive')}
+                          </Badge>
+                          <Badge variant="outline">
+                            {promoCode.discountType === 'percentage' 
+                              ? `${promoCode.discountValue}%`
+                              : `${promoCode.discountValue} SAR`
+                            }
+                          </Badge>
+                        </div>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>
+                            {language === 'ar' ? 'النوع' : 'Type'}: {promoCode.discountType === 'percentage' ? (language === 'ar' ? 'نسبة مئوية' : 'Percentage') : (language === 'ar' ? 'مبلغ ثابت' : 'Fixed Amount')}
+                          </p>
+                          {promoCode.expiresAt && (
+                            <p>
+                              {language === 'ar' ? 'ينتهي في' : 'Expires'}: {new Date(promoCode.expiresAt).toLocaleDateString()}
+                            </p>
+                          )}
+                          {promoCode.usageLimit && (
+                            <p>
+                              {language === 'ar' ? 'الحد الأقصى للاستخدام' : 'Usage Limit'}: {promoCode.usedCount} / {promoCode.usageLimit}
+                            </p>
+                          )}
+                          {!promoCode.usageLimit && (
+                            <p>
+                              {language === 'ar' ? 'مرات الاستخدام' : 'Times Used'}: {promoCode.usedCount}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEditPromoCode(promoCode)}
+                        >
+                          <Edit className="w-4 h-4 mr-1" />
+                          {language === 'ar' ? 'تعديل' : 'Edit'}
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => handleDeletePromoCode(promoCode.id)}
+                        >
+                          <Trash2 className="w-4 h-4 mr-1" />
+                          {language === 'ar' ? 'حذف' : 'Delete'}
+                        </Button>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">
+                      {new Date(promoCode.createdAt).toLocaleString()}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+              {promoCodes.length === 0 && (
+                <Card>
+                  <CardContent className="p-8 text-center">
+                    <p className="text-gray-500">
+                      {language === 'ar' ? 'لا توجد رموز ترويجية' : 'No promo codes yet'}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </TabsContent>
         </Tabs>
+
+        {/* Promo Code Dialog */}
+        <Dialog open={showPromoCodeDialog} onOpenChange={setShowPromoCodeDialog}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>
+                {editingPromoCode 
+                  ? (language === 'ar' ? 'تعديل رمز الترويج' : 'Edit Promo Code')
+                  : (language === 'ar' ? 'إنشاء رمز ترويج جديد' : 'Create New Promo Code')
+                }
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="promo-code" className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  {language === 'ar' ? 'رمز الترويج' : 'Promo Code'} *
+                </Label>
+                <Input
+                  id="promo-code"
+                  value={promoCodeForm.code}
+                  onChange={(e) => setPromoCodeForm({ ...promoCodeForm, code: e.target.value.toUpperCase() })}
+                  placeholder={language === 'ar' ? 'مثال: SUMMER2024' : 'e.g., SUMMER2024'}
+                  className={`mt-1 font-mono ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                  disabled={!!editingPromoCode}
+                />
+              </div>
+              <div>
+                <Label className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  {language === 'ar' ? 'نوع الخصم' : 'Discount Type'} *
+                </Label>
+                <div className="mt-1 space-y-2">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      checked={promoCodeForm.discountType === 'percentage'}
+                      onChange={() => setPromoCodeForm({ ...promoCodeForm, discountType: 'percentage' })}
+                      className="w-4 h-4"
+                    />
+                    <span>{language === 'ar' ? 'نسبة مئوية' : 'Percentage'}</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      checked={promoCodeForm.discountType === 'fixed'}
+                      onChange={() => setPromoCodeForm({ ...promoCodeForm, discountType: 'fixed' })}
+                      className="w-4 h-4"
+                    />
+                    <span>{language === 'ar' ? 'مبلغ ثابت' : 'Fixed Amount'}</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="discount-value" className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  {language === 'ar' ? 'قيمة الخصم' : 'Discount Value'} * 
+                  {promoCodeForm.discountType === 'percentage' && ' (0-100)'}
+                </Label>
+                <Input
+                  id="discount-value"
+                  type="number"
+                  value={promoCodeForm.discountValue}
+                  onChange={(e) => setPromoCodeForm({ ...promoCodeForm, discountValue: e.target.value })}
+                  placeholder={promoCodeForm.discountType === 'percentage' ? '10' : '20'}
+                  className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                  min="0"
+                  max={promoCodeForm.discountType === 'percentage' ? '100' : undefined}
+                />
+              </div>
+              <div>
+                <Label htmlFor="expires-at" className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  {language === 'ar' ? 'تاريخ الانتهاء (اختياري)' : 'Expiration Date (Optional)'}
+                </Label>
+                <Input
+                  id="expires-at"
+                  type="date"
+                  value={promoCodeForm.expiresAt}
+                  onChange={(e) => setPromoCodeForm({ ...promoCodeForm, expiresAt: e.target.value })}
+                  className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                />
+              </div>
+              <div>
+                <Label htmlFor="usage-limit" className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  {language === 'ar' ? 'الحد الأقصى للاستخدام (اختياري)' : 'Usage Limit (Optional)'}
+                </Label>
+                <Input
+                  id="usage-limit"
+                  type="number"
+                  value={promoCodeForm.usageLimit}
+                  onChange={(e) => setPromoCodeForm({ ...promoCodeForm, usageLimit: e.target.value })}
+                  placeholder={language === 'ar' ? 'مثال: 100' : 'e.g., 100'}
+                  className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                  min="1"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="is-active"
+                  checked={promoCodeForm.isActive}
+                  onChange={(e) => setPromoCodeForm({ ...promoCodeForm, isActive: e.target.checked })}
+                  className="w-4 h-4"
+                />
+                <Label htmlFor="is-active" className="cursor-pointer">
+                  {language === 'ar' ? 'نشط' : 'Active'}
+                </Label>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setShowPromoCodeDialog(false)}
+                disabled={promoCodeLoading}
+              >
+                {language === 'ar' ? 'إلغاء' : 'Cancel'}
+              </Button>
+              <Button
+                onClick={handleSavePromoCode}
+                disabled={promoCodeLoading}
+              >
+                {promoCodeLoading
+                  ? (language === 'ar' ? 'جاري الحفظ...' : 'Saving...')
+                  : (language === 'ar' ? 'حفظ' : 'Save')
+                }
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Delete Confirmation Dialog */}
         <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>

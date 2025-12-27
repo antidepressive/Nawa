@@ -5,7 +5,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
-import { ArrowLeft, Globe, Clock, Users, MapPin, Star, Mic, MessageSquare, Presentation, Upload, FileText, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Globe, Clock, Users, MapPin, Star, Mic, MessageSquare, Presentation, Upload, FileText, AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
 import { Link } from 'wouter';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -81,6 +81,7 @@ const leadershipWorkshopRegistrationSchema = z.object({
   ),
   payment: z.enum(['venue', 'iban']),
   transactionProof: z.instanceof(File).optional(),
+  promoCode: z.string().optional(),
 }).superRefine((data, ctx) => {
   // If payment is IBAN, transaction proof is required
   if (data.payment === 'iban') {
@@ -119,6 +120,18 @@ export default function LeadershipWorkshop() {
   const { t, language, toggleLanguage } = useLanguage();
   const { toast } = useToast();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [promoCodeValidation, setPromoCodeValidation] = useState<{
+    valid: boolean;
+    discountAmount: number;
+    finalPrice: number;
+    loading: boolean;
+    error?: string;
+  }>({
+    valid: false,
+    discountAmount: 0,
+    finalPrice: 99,
+    loading: false,
+  });
 
   useEffect(() => {
     document.title = 'Public Speaking Workshop - نَوَاة';
@@ -133,8 +146,60 @@ export default function LeadershipWorkshop() {
       phone: '',
       payment: 'iban' as 'venue' | 'iban',
       transactionProof: undefined,
+      promoCode: '',
     }
   });
+
+  // Validate promo code with debounce
+  useEffect(() => {
+    const promoCode = form.watch('promoCode')?.trim();
+    
+    if (!promoCode) {
+      setPromoCodeValidation({
+        valid: false,
+        discountAmount: 0,
+        finalPrice: 99,
+        loading: false,
+      });
+      return;
+    }
+
+    setPromoCodeValidation(prev => ({ ...prev, loading: true }));
+
+    const timeoutId = setTimeout(async () => {
+      try {
+        const response = await fetch('/api/promo-codes/validate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            code: promoCode.toUpperCase(),
+            originalPrice: 99,
+          }),
+        });
+
+        const data = await response.json();
+        setPromoCodeValidation({
+          valid: data.valid,
+          discountAmount: data.discountAmount || 0,
+          finalPrice: data.finalPrice || 99,
+          loading: false,
+          error: data.error,
+        });
+      } catch (error) {
+        setPromoCodeValidation({
+          valid: false,
+          discountAmount: 0,
+          finalPrice: 99,
+          loading: false,
+          error: language === 'ar' ? 'فشل التحقق من رمز الترويج' : 'Failed to validate promo code',
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [form.watch('promoCode'), language, form]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -193,6 +258,7 @@ export default function LeadershipWorkshop() {
         phone: data.phone,
         payment: data.payment,
         transactionProof: transactionProofPath || null,
+        promoCode: (data.promoCode && promoCodeValidation.valid) ? data.promoCode.trim().toUpperCase() : null,
       };
 
       return apiRequest('POST', '/api/leadership-workshop', submissionData);
@@ -207,6 +273,12 @@ export default function LeadershipWorkshop() {
       });
       form.reset();
       setSelectedFile(null);
+      setPromoCodeValidation({
+        valid: false,
+        discountAmount: 0,
+        finalPrice: 99,
+        loading: false,
+      });
     },
     onError: (error: any) => {
       toast({
@@ -548,12 +620,29 @@ export default function LeadershipWorkshop() {
                 <h2 className={`font-bold text-3xl text-primary mb-6 ${language === 'ar' ? 'font-cairo' : 'font-montserrat'}`}>
                   {language === 'ar' ? 'التسجيل في الورشة' : 'Workshop Registration'}
                 </h2>
-                <p className="text-lg text-gray-600 mb-4">
-                  {language === 'ar' 
-                    ? `رسوم الورشة: ${t('leadershipWorkshop.fee')}`
-                    : `Workshop Fee: ${t('leadershipWorkshop.fee')}`
-                  }
-                </p>
+                <div className="text-lg text-gray-600 mb-4 space-y-1">
+                  <div className="flex items-center justify-center gap-2">
+                    <span>{language === 'ar' ? 'رسوم الورشة:' : 'Workshop Fee:'}</span>
+                    {promoCodeValidation.valid ? (
+                      <>
+                        <span className="line-through text-gray-400">99 SAR</span>
+                        <span className="font-bold text-primary">
+                          {promoCodeValidation.finalPrice.toFixed(2)} SAR
+                        </span>
+                      </>
+                    ) : (
+                      <span className="font-semibold">99 SAR</span>
+                    )}
+                  </div>
+                  {promoCodeValidation.valid && (
+                    <p className="text-sm text-green-600 font-medium">
+                      {language === 'ar' 
+                        ? `خصم: ${promoCodeValidation.discountAmount.toFixed(2)} ريال`
+                        : `Discount: ${promoCodeValidation.discountAmount.toFixed(2)} SAR`
+                      }
+                    </p>
+                  )}
+                </div>
               </div>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
@@ -602,6 +691,43 @@ export default function LeadershipWorkshop() {
                     error={form.formState.errors.phone?.message}
                     placeholder={language === 'ar' ? '+966xxxxxxxxx' : '+966xxxxxxxxx'}
                   />
+                </div>
+
+                <div>
+                  <Label htmlFor="promoCode" className={language === 'ar' ? 'text-right' : 'text-left'}>
+                    {t('leadershipWorkshop.promoCode')}
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="promoCode"
+                      {...form.register('promoCode')}
+                      onChange={(e) => {
+                        form.setValue('promoCode', e.target.value.toUpperCase());
+                      }}
+                      className={`mt-1 font-mono ${language === 'ar' ? 'text-right' : 'text-left'} ${promoCodeValidation.valid ? 'border-green-500' : promoCodeValidation.error ? 'border-red-500' : ''}`}
+                      placeholder={language === 'ar' ? 'رمز الترويجي (اختياري)' : 'Promo Code (Optional)'}
+                    />
+                    {promoCodeValidation.loading && (
+                      <Loader2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 animate-spin text-gray-400" />
+                    )}
+                    {promoCodeValidation.valid && !promoCodeValidation.loading && (
+                      <CheckCircle2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500" />
+                    )}
+                  </div>
+                  {promoCodeValidation.error && (
+                    <p className="text-red-500 text-sm mt-1">{promoCodeValidation.error}</p>
+                  )}
+                  {promoCodeValidation.valid && (
+                    <p className="text-green-600 text-sm mt-1 font-medium">
+                      {language === 'ar' 
+                        ? `✓ رمز الترويج صالح! خصم ${promoCodeValidation.discountAmount.toFixed(2)} ريال`
+                        : `✓ Valid promo code! ${promoCodeValidation.discountAmount.toFixed(2)} SAR discount`
+                      }
+                    </p>
+                  )}
+                  {form.formState.errors.promoCode && (
+                    <p className="text-red-500 text-sm mt-1">{form.formState.errors.promoCode.message}</p>
+                  )}
                 </div>
 
                 {/* IBAN Display Section */}

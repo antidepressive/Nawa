@@ -31,7 +31,10 @@ import {
   type Budget,
   type InsertBudget,
   type UserSettings,
-  type InsertUserSettings
+  type InsertUserSettings,
+  promoCodes,
+  type PromoCode,
+  type InsertPromoCode
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, sql } from "drizzle-orm";
@@ -83,6 +86,14 @@ export interface IStorage {
   getUserSettings(userId: number): Promise<UserSettings | undefined>;
   createUserSettings(settings: InsertUserSettings): Promise<UserSettings>;
   updateUserSettings(userId: number, settings: Partial<InsertUserSettings>): Promise<UserSettings | undefined>;
+  // Promo code methods
+  createPromoCode(data: InsertPromoCode): Promise<PromoCode>;
+  getPromoCode(code: string): Promise<PromoCode | undefined>;
+  getPromoCodes(): Promise<PromoCode[]>;
+  updatePromoCode(id: number, data: Partial<InsertPromoCode>): Promise<PromoCode | undefined>;
+  deletePromoCode(id: number): Promise<boolean>;
+  incrementPromoCodeUsage(code: string): Promise<boolean>;
+  validatePromoCode(code: string, originalPrice: number): Promise<{ valid: boolean; discountAmount: number; finalPrice: number; error?: string }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -382,6 +393,139 @@ export class DatabaseStorage implements IStorage {
       .where(eq(userSettings.userId, userId))
       .returning();
     return updatedSettings || undefined;
+  }
+
+  // Promo code methods
+  async createPromoCode(data: InsertPromoCode): Promise<PromoCode> {
+    // Normalize code to uppercase
+    const normalizedData = {
+      ...data,
+      code: data.code.toUpperCase().trim(),
+      discountValue: typeof data.discountValue === 'number' ? data.discountValue.toString() : data.discountValue,
+      updatedAt: new Date(),
+    };
+    const [promoCode] = await db
+      .insert(promoCodes)
+      .values(normalizedData as any)
+      .returning();
+    return promoCode;
+  }
+
+  async getPromoCode(code: string): Promise<PromoCode | undefined> {
+    const normalizedCode = code.toUpperCase().trim();
+    const [promoCode] = await db
+      .select()
+      .from(promoCodes)
+      .where(eq(promoCodes.code, normalizedCode));
+    return promoCode || undefined;
+  }
+
+  async getPromoCodes(): Promise<PromoCode[]> {
+    return await db.select().from(promoCodes).orderBy(promoCodes.createdAt);
+  }
+
+  async updatePromoCode(id: number, data: Partial<InsertPromoCode>): Promise<PromoCode | undefined> {
+    const updateData: any = { ...data, updatedAt: new Date() };
+    if (updateData.code) {
+      updateData.code = updateData.code.toUpperCase().trim();
+    }
+    if (updateData.discountValue !== undefined && typeof updateData.discountValue === 'number') {
+      updateData.discountValue = updateData.discountValue.toString();
+    }
+    const [updatedPromoCode] = await db
+      .update(promoCodes)
+      .set(updateData)
+      .where(eq(promoCodes.id, id))
+      .returning();
+    return updatedPromoCode || undefined;
+  }
+
+  async deletePromoCode(id: number): Promise<boolean> {
+    const result = await db
+      .delete(promoCodes)
+      .where(eq(promoCodes.id, id));
+    return result.rowCount ? result.rowCount > 0 : false;
+  }
+
+  async incrementPromoCodeUsage(code: string): Promise<boolean> {
+    const normalizedCode = code.toUpperCase().trim();
+    const result = await db
+      .update(promoCodes)
+      .set({ 
+        usedCount: sql`${promoCodes.usedCount} + 1`,
+        updatedAt: new Date()
+      })
+      .where(eq(promoCodes.code, normalizedCode));
+    return result.rowCount ? result.rowCount > 0 : false;
+  }
+
+  async validatePromoCode(code: string, originalPrice: number): Promise<{ valid: boolean; discountAmount: number; finalPrice: number; error?: string }> {
+    const promoCode = await this.getPromoCode(code);
+    
+    if (!promoCode) {
+      return {
+        valid: false,
+        discountAmount: 0,
+        finalPrice: originalPrice,
+        error: 'Invalid promo code'
+      };
+    }
+
+    if (!promoCode.isActive) {
+      return {
+        valid: false,
+        discountAmount: 0,
+        finalPrice: originalPrice,
+        error: 'This promo code is not active'
+      };
+    }
+
+    if (promoCode.expiresAt && new Date(promoCode.expiresAt) < new Date()) {
+      return {
+        valid: false,
+        discountAmount: 0,
+        finalPrice: originalPrice,
+        error: 'This promo code has expired'
+      };
+    }
+
+    if (promoCode.usageLimit && promoCode.usedCount >= promoCode.usageLimit) {
+      return {
+        valid: false,
+        discountAmount: 0,
+        finalPrice: originalPrice,
+        error: 'This promo code has reached its usage limit'
+      };
+    }
+
+    // Calculate discount
+    const discountValue = parseFloat(promoCode.discountValue.toString());
+    let discountAmount = 0;
+    
+    if (promoCode.discountType === 'percentage') {
+      if (discountValue < 0 || discountValue > 100) {
+        return {
+          valid: false,
+          discountAmount: 0,
+          finalPrice: originalPrice,
+          error: 'Invalid discount percentage'
+        };
+      }
+      discountAmount = (originalPrice * discountValue) / 100;
+    } else if (promoCode.discountType === 'fixed') {
+      discountAmount = discountValue;
+      if (discountAmount > originalPrice) {
+        discountAmount = originalPrice; // Don't allow negative prices
+      }
+    }
+
+    const finalPrice = Math.max(0, originalPrice - discountAmount);
+
+    return {
+      valid: true,
+      discountAmount: Math.round(discountAmount * 100) / 100, // Round to 2 decimal places
+      finalPrice: Math.round(finalPrice * 100) / 100
+    };
   }
 }
 
