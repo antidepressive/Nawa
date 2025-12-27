@@ -48,6 +48,7 @@ export const leadershipWorkshopRegistrations = pgTable("leadership_workshop_regi
   phone: text("phone").notNull(),
   payment: text("payment").notNull(), // 'venue' or 'iban'
   transactionProof: text("transaction_proof"), // Optional path to transaction proof PDF
+  promoCode: text("promo_code"), // Optional promo code
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -125,6 +126,19 @@ export const userSettings = pgTable("user_settings", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const promoCodes = pgTable("promo_codes", {
+  id: serial("id").primaryKey(),
+  code: text("code").notNull().unique(),
+  discountType: text("discount_type").notNull(), // 'percentage' or 'fixed'
+  discountValue: decimal("discount_value", { precision: 10, scale: 2 }).notNull(),
+  expiresAt: timestamp("expires_at"),
+  usageLimit: integer("usage_limit"),
+  usedCount: integer("used_count").notNull().default(0),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -159,12 +173,14 @@ export const insertWorkshopRegistrationSchema = createInsertSchema(workshopRegis
 
 export const insertLeadershipWorkshopRegistrationSchema = createInsertSchema(leadershipWorkshopRegistrations, {
   transactionProof: z.string().nullable().optional(),
+  promoCode: z.string().nullable().optional(),
 }).pick({
   name: true,
   email: true,
   phone: true,
   payment: true,
   transactionProof: true,
+  promoCode: true,
 });
 
 export const insertJobApplicationSchema = createInsertSchema(jobApplications, {
@@ -231,6 +247,21 @@ export const insertUserSettingsSchema = createInsertSchema(userSettings).pick({
   dateFormat: true,
 });
 
+export const insertPromoCodeSchema = createInsertSchema(promoCodes, {
+  code: z.string().min(1, "Code is required"),
+  discountType: z.enum(['percentage', 'fixed']),
+  expiresAt: z.string().nullable().optional(),
+  usageLimit: z.number().int().min(1).nullable().optional(),
+  isActive: z.boolean().optional(),
+}).pick({
+  code: true,
+  discountType: true,
+  discountValue: true,
+  expiresAt: true,
+  usageLimit: true,
+  isActive: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
@@ -253,3 +284,5 @@ export type Budget = typeof budgets.$inferSelect;
 export type InsertBudget = z.infer<typeof insertBudgetSchema>;
 export type UserSettings = typeof userSettings.$inferSelect;
 export type InsertUserSettings = z.infer<typeof insertUserSettingsSchema>;
+export type PromoCode = typeof promoCodes.$inferSelect;
+export type InsertPromoCode = z.infer<typeof insertPromoCodeSchema>;

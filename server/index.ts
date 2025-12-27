@@ -130,6 +130,37 @@ async function ensureTablesExist() {
         END $$;
       `);
       
+      // Add promo_code column if it doesn't exist (for existing tables)
+      await db.execute(sql`
+        DO $$ 
+        BEGIN
+          IF NOT EXISTS (
+            SELECT 1 FROM information_schema.columns 
+            WHERE table_name = 'leadership_workshop_registrations' 
+            AND column_name = 'promo_code'
+          ) THEN
+            ALTER TABLE leadership_workshop_registrations 
+            ADD COLUMN promo_code TEXT;
+          END IF;
+        END $$;
+      `);
+      
+      // Create promo_codes table if it doesn't exist
+      await db.execute(sql`
+        CREATE TABLE IF NOT EXISTS promo_codes (
+          id SERIAL PRIMARY KEY,
+          code TEXT NOT NULL UNIQUE,
+          discount_type TEXT NOT NULL,
+          discount_value DECIMAL(10, 2) NOT NULL,
+          expires_at TIMESTAMP,
+          usage_limit INTEGER,
+          used_count INTEGER NOT NULL DEFAULT 0,
+          is_active BOOLEAN NOT NULL DEFAULT true,
+          created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+          updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+        )
+      `);
+      
       // Create job_applications table if it doesn't exist
       await db.execute(sql`
         CREATE TABLE IF NOT EXISTS job_applications (

@@ -11,7 +11,8 @@ import {
   insertCategorySchema,
   insertTransactionSchema,
   insertBudgetSchema,
-  insertUserSettingsSchema
+  insertUserSettingsSchema,
+  insertPromoCodeSchema
 } from "@shared/schema";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
@@ -203,6 +204,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const registration = await storage.createLeadershipWorkshopRegistration(validation.data);
       console.log(`New leadership workshop registration from ${registration.name} (${registration.email})`);
+      
+      // Increment promo code usage if provided
+      if (validation.data.promoCode) {
+        try {
+          await storage.incrementPromoCodeUsage(validation.data.promoCode);
+        } catch (promoError) {
+          console.error(`Error incrementing promo code usage: ${promoError}`);
+          // Don't fail the registration if promo code increment fails
+        }
+      }
       
       // Send confirmation email
       try {
@@ -988,6 +999,113 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(`Error updating user settings: ${error}`);
       res.status(500).json({ error: "Failed to update user settings" });
+    }
+  });
+
+  // Promo Codes - Public validation endpoint
+  app.post("/api/promo-codes/validate", async (req, res) => {
+    try {
+      const { code, originalPrice } = req.body;
+      
+      if (!code || typeof code !== 'string') {
+        return res.status(400).json({ error: "Promo code is required" });
+      }
+      
+      if (typeof originalPrice !== 'number' || originalPrice <= 0) {
+        return res.status(400).json({ error: "Valid original price is required" });
+      }
+
+      const validation = await storage.validatePromoCode(code, originalPrice);
+      res.json(validation);
+    } catch (error) {
+      console.error(`Error validating promo code: ${error}`);
+      res.status(500).json({ error: "Failed to validate promo code" });
+    }
+  });
+
+  // Promo Codes - Admin endpoints
+  app.post("/api/promo-codes", requireDeveloperAuth, async (req, res) => {
+    try {
+      // Convert discountValue to string if it's a number (for decimal field)
+      const body = {
+        ...req.body,
+        discountValue: typeof req.body.discountValue === 'number' 
+          ? req.body.discountValue.toString() 
+          : req.body.discountValue
+      };
+      
+      const validation = insertPromoCodeSchema.safeParse(body);
+      if (!validation.success) {
+        return res.status(400).json({ error: "Invalid promo code data", details: validation.error.errors });
+      }
+
+      const promoCode = await storage.createPromoCode(validation.data);
+      res.json(promoCode);
+    } catch (error: any) {
+      console.error(`Error creating promo code: ${error}`);
+      if (error.code === '23505') { // Unique constraint violation
+        return res.status(400).json({ error: "A promo code with this code already exists" });
+      }
+      res.status(500).json({ error: "Failed to create promo code" });
+    }
+  });
+
+  app.get("/api/promo-codes", requireDeveloperAuthQuery, async (req, res) => {
+    try {
+      const codes = await storage.getPromoCodes();
+      res.json(codes);
+    } catch (error) {
+      console.error(`Error fetching promo codes: ${error}`);
+      res.status(500).json({ error: "Failed to fetch promo codes" });
+    }
+  });
+
+  app.put("/api/promo-codes/:id", requireDeveloperAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid promo code ID" });
+      }
+
+      // Convert discountValue to string if it's a number
+      const body = {
+        ...req.body,
+        discountValue: req.body.discountValue !== undefined && typeof req.body.discountValue === 'number'
+          ? req.body.discountValue.toString()
+          : req.body.discountValue
+      };
+
+      const promoCode = await storage.updatePromoCode(id, body);
+      if (promoCode) {
+        res.json(promoCode);
+      } else {
+        res.status(404).json({ error: "Promo code not found" });
+      }
+    } catch (error: any) {
+      console.error(`Error updating promo code: ${error}`);
+      if (error.code === '23505') { // Unique constraint violation
+        return res.status(400).json({ error: "A promo code with this code already exists" });
+      }
+      res.status(500).json({ error: "Failed to update promo code" });
+    }
+  });
+
+  app.delete("/api/promo-codes/:id", requireDeveloperAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid promo code ID" });
+      }
+
+      const deleted = await storage.deletePromoCode(id);
+      if (deleted) {
+        res.json({ success: true, message: "Promo code deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Promo code not found" });
+      }
+    } catch (error) {
+      console.error(`Error deleting promo code: ${error}`);
+      res.status(500).json({ error: "Failed to delete promo code" });
     }
   });
 

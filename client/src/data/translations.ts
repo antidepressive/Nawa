@@ -239,6 +239,10 @@ export const translations = {
     "leadershipWorkshop.uploadProof": "Upload Transaction Proof",
     "leadershipWorkshop.fileSelected": "File selected",
     "leadershipWorkshop.proofPlaceholder": "PDF only, max 2MB",
+    "leadershipWorkshop.promoCode": "Promo Code",
+    "leadershipWorkshop.discount": "Discount",
+    "leadershipWorkshop.finalPrice": "Final Price",
+    "leadershipWorkshop.originalPrice": "Original Price",
     "leadershipWorkshop.sponsorTitle": "Support Leadership Development",
     "leadershipWorkshop.sponsorDescription":
       "Help develop the next generation of effective communicators and leaders through our comprehensive workshop programs.",
@@ -534,6 +538,10 @@ export const translations = {
     "leadershipWorkshop.uploadProof": "رفع إثبات المعاملة",
     "leadershipWorkshop.fileSelected": "تم اختيار الملف",
     "leadershipWorkshop.proofPlaceholder": "PDF فقط، الحد الأقصى 2 ميجابايت",
+    "leadershipWorkshop.promoCode": "رمز الترويجي",
+    "leadershipWorkshop.discount": "الخصم",
+    "leadershipWorkshop.finalPrice": "السعر النهائي",
+    "leadershipWorkshop.originalPrice": "السعر الأصلي",
     "leadershipWorkshop.sponsorTitle": "دعم تطوير القيادة",
     "leadershipWorkshop.sponsorDescription":
       "ساعد في تطوير الجيل القادم من المتواصلين والقادة الفعالين من خلال برامج ورش العمل الشاملة.",
