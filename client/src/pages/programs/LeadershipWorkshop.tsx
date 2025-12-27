@@ -129,7 +129,7 @@ export default function LeadershipWorkshop() {
   }>({
     valid: false,
     discountAmount: 0,
-    finalPrice: 99,
+    finalPrice: 165,
     loading: false,
   });
 
@@ -158,7 +158,7 @@ export default function LeadershipWorkshop() {
       setPromoCodeValidation({
         valid: false,
         discountAmount: 0,
-        finalPrice: 99,
+        finalPrice: 165,
         loading: false,
       });
       return;
@@ -175,7 +175,7 @@ export default function LeadershipWorkshop() {
           },
           body: JSON.stringify({
             code: promoCode.toUpperCase(),
-            originalPrice: 99,
+            originalPrice: 165,
           }),
         });
 
@@ -183,7 +183,7 @@ export default function LeadershipWorkshop() {
         setPromoCodeValidation({
           valid: data.valid,
           discountAmount: data.discountAmount || 0,
-          finalPrice: data.finalPrice || 99,
+          finalPrice: data.finalPrice || 165,
           loading: false,
           error: data.error,
         });
@@ -191,7 +191,7 @@ export default function LeadershipWorkshop() {
         setPromoCodeValidation({
           valid: false,
           discountAmount: 0,
-          finalPrice: 99,
+          finalPrice: 165,
           loading: false,
           error: language === 'ar' ? 'فشل التحقق من رمز الترويج' : 'Failed to validate promo code',
         });
@@ -276,7 +276,7 @@ export default function LeadershipWorkshop() {
       setPromoCodeValidation({
         valid: false,
         discountAmount: 0,
-        finalPrice: 99,
+        finalPrice: 165,
         loading: false,
       });
     },
@@ -625,13 +625,13 @@ export default function LeadershipWorkshop() {
                     <span>{language === 'ar' ? 'رسوم الورشة:' : 'Workshop Fee:'}</span>
                     {promoCodeValidation.valid ? (
                       <>
-                        <span className="line-through text-gray-400">99 SAR</span>
+                        <span className="line-through text-gray-400">165 SAR</span>
                         <span className="font-bold text-primary">
                           {promoCodeValidation.finalPrice.toFixed(2)} SAR
                         </span>
                       </>
                     ) : (
-                      <span className="font-semibold">99 SAR</span>
+                      <span className="font-semibold">165 SAR</span>
                     )}
                   </div>
                   {promoCodeValidation.valid && (
