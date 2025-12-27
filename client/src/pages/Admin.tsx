@@ -163,7 +163,8 @@ export default function Admin() {
     discountValue: '',
     expiresAt: '',
     usageLimit: '',
-    isActive: true
+    isActive: true,
+    developerToken: ''
   });
   const [promoCodeLoading, setPromoCodeLoading] = useState(false);
 
@@ -372,7 +373,8 @@ export default function Admin() {
       discountValue: '',
       expiresAt: '',
       usageLimit: '',
-      isActive: true
+      isActive: true,
+      developerToken: ''
     });
     setShowPromoCodeDialog(true);
   };
@@ -385,7 +387,8 @@ export default function Admin() {
       discountValue: promoCode.discountValue,
       expiresAt: promoCode.expiresAt ? new Date(promoCode.expiresAt).toISOString().split('T')[0] : '',
       usageLimit: promoCode.usageLimit?.toString() || '',
-      isActive: promoCode.isActive
+      isActive: promoCode.isActive,
+      developerToken: ''
     });
     setShowPromoCodeDialog(true);
   };
@@ -418,6 +421,15 @@ export default function Admin() {
       return;
     }
 
+    if (!promoCodeForm.developerToken.trim()) {
+      toast({
+        title: language === 'ar' ? 'خطأ' : 'Error',
+        description: language === 'ar' ? 'رمز المطور مطلوب' : 'Developer token is required',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setPromoCodeLoading(true);
     try {
       const payload: any = {
@@ -439,19 +451,37 @@ export default function Admin() {
         payload.usageLimit = null;
       }
 
-      if (editingPromoCode) {
-        await apiRequest('PUT', `/api/promo-codes/${editingPromoCode.id}`, payload);
-        toast({
-          title: language === 'ar' ? 'تم التحديث' : 'Updated',
-          description: language === 'ar' ? 'تم تحديث رمز الترويج بنجاح' : 'Promo code updated successfully',
-        });
-      } else {
-        await apiRequest('POST', '/api/promo-codes', payload);
-        toast({
-          title: language === 'ar' ? 'تم الإنشاء' : 'Created',
-          description: language === 'ar' ? 'تم إنشاء رمز الترويج بنجاح' : 'Promo code created successfully',
-        });
+      // Use Bearer token authentication for promo code endpoints
+      const token = promoCodeForm.developerToken.trim();
+      const url = editingPromoCode 
+        ? `/api/promo-codes/${editingPromoCode.id}`
+        : '/api/promo-codes';
+      
+      const response = await fetch(url, {
+        method: editingPromoCode ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          throw new Error(language === 'ar' ? 'رمز المطور غير صحيح' : 'Invalid developer token');
+        }
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || errorData.error || `HTTP error! status: ${response.status}`);
       }
+
+      await response.json();
+
+      toast({
+        title: language === 'ar' ? 'تم التحديث' : editingPromoCode ? 'Updated' : 'Created',
+        description: language === 'ar' 
+          ? (editingPromoCode ? 'تم تحديث رمز الترويج بنجاح' : 'تم إنشاء رمز الترويج بنجاح')
+          : (editingPromoCode ? 'Promo code updated successfully' : 'Promo code created successfully'),
+      });
 
       setShowPromoCodeDialog(false);
       fetchData();
@@ -1271,6 +1301,25 @@ export default function Admin() {
                 <Label htmlFor="is-active" className="cursor-pointer">
                   {language === 'ar' ? 'نشط' : 'Active'}
                 </Label>
+              </div>
+              <div>
+                <Label htmlFor="developer-token-promo" className={language === 'ar' ? 'text-right' : 'text-left'}>
+                  {language === 'ar' ? 'رمز المطور' : 'Developer Token'} *
+                </Label>
+                <Input
+                  id="developer-token-promo"
+                  type="password"
+                  value={promoCodeForm.developerToken}
+                  onChange={(e) => setPromoCodeForm({ ...promoCodeForm, developerToken: e.target.value })}
+                  placeholder={language === 'ar' ? 'أدخل رمز المطور' : 'Enter developer token'}
+                  className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {language === 'ar' 
+                    ? 'أدخل رمز المطور (DEVELOPER_TOKEN) المطلوب لإنشاء أو تعديل رموز الترويج'
+                    : 'Enter the developer token (DEVELOPER_TOKEN) required to create or edit promo codes'
+                  }
+                </p>
               </div>
             </div>
             <DialogFooter>
