@@ -398,6 +398,9 @@ export class DatabaseStorage implements IStorage {
 
   // Promo code methods
   async createPromoCode(data: InsertPromoCode): Promise<PromoCode> {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.ts:401',message:'Storage: data received',data:{expiresAt:data.expiresAt,expiresAtType:typeof data.expiresAt,isString:typeof data.expiresAt==='string',isNull:data.expiresAt===null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H3'})}).catch(()=>{});
+    // #endregion
     // Normalize code to uppercase
     const normalizedData = {
       ...data,
@@ -405,6 +408,9 @@ export class DatabaseStorage implements IStorage {
       discountValue: typeof data.discountValue === 'number' ? data.discountValue.toString() : data.discountValue,
       updatedAt: new Date(),
     };
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.ts:408',message:'Storage: normalizedData before insert',data:{expiresAt:normalizedData.expiresAt,expiresAtType:typeof normalizedData.expiresAt,isString:typeof normalizedData.expiresAt==='string'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H3'})}).catch(()=>{});
+    // #endregion
     const [promoCode] = await db
       .insert(promoCodes)
       .values(normalizedData as any)

@@ -1026,6 +1026,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Promo Codes - Admin endpoints
   app.post("/api/promo-codes", requireDeveloperAuth, async (req, res) => {
     try {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'routes.ts:1028',message:'Server: req.body received',data:{expiresAt:req.body.expiresAt,expiresAtType:typeof req.body.expiresAt,hasExpiresAt:'expiresAt' in req.body},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H3'})}).catch(()=>{});
+      // #endregion
       // Convert discountValue to string if it's a number (for decimal field)
       const body = {
         ...req.body,
@@ -1033,15 +1036,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
           ? req.body.discountValue.toString() 
           : req.body.discountValue
       };
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'routes.ts:1036',message:'Server: body before validation',data:{expiresAt:body.expiresAt,expiresAtType:typeof body.expiresAt},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H3'})}).catch(()=>{});
+      // #endregion
       
       const validation = insertPromoCodeSchema.safeParse(body);
       if (!validation.success) {
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'routes.ts:1040',message:'Server: validation failed',data:{errors:validation.error.errors},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H5'})}).catch(()=>{});
+        // #endregion
         return res.status(400).json({ error: "Invalid promo code data", details: validation.error.errors });
       }
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'routes.ts:1043',message:'Server: validation.data before storage',data:{expiresAt:validation.data.expiresAt,expiresAtType:typeof validation.data.expiresAt,isString:typeof validation.data.expiresAt==='string'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H3'})}).catch(()=>{});
+      // #endregion
 
       const promoCode = await storage.createPromoCode(validation.data);
       res.json(promoCode);
     } catch (error: any) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'routes.ts:1046',message:'Server: error caught',data:{errorMessage:error.message,errorStack:error.stack,errorName:error.name},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H3'})}).catch(()=>{});
+      // #endregion
       console.error(`Error creating promo code: ${error}`);
       if (error.code === '23505') { // Unique constraint violation
         return res.status(400).json({ error: "A promo code with this code already exists" });

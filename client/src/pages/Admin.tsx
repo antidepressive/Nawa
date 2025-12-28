@@ -439,8 +439,17 @@ export default function Admin() {
         isActive: promoCodeForm.isActive
       };
 
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Admin.tsx:442',message:'Client: expiresAt check entry',data:{expiresAt:promoCodeForm.expiresAt,expiresAtType:typeof promoCodeForm.expiresAt,isTruthy:!!promoCodeForm.expiresAt,isEmpty:promoCodeForm.expiresAt===''},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H1'})}).catch(()=>{});
+      // #endregion
       if (promoCodeForm.expiresAt) {
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Admin.tsx:445',message:'Client: before Date creation',data:{expiresAtValue:promoCodeForm.expiresAt,expiresAtType:typeof promoCodeForm.expiresAt},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H1'})}).catch(()=>{});
+        // #endregion
         const date = new Date(promoCodeForm.expiresAt);
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Admin.tsx:448',message:'Client: after Date creation',data:{dateValue:date,dateType:typeof date,isDate:date instanceof Date,isValid:!isNaN(date.getTime()),dateString:date.toString()},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H1'})}).catch(()=>{});
+        // #endregion
         if (isNaN(date.getTime())) {
           toast({
             title: language === 'ar' ? 'خطأ' : 'Error',
@@ -450,9 +459,18 @@ export default function Admin() {
           setPromoCodeLoading(false);
           return;
         }
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Admin.tsx:456',message:'Client: before toISOString',data:{dateValue:date,hasToISOString:typeof date.toISOString==='function'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H2'})}).catch(()=>{});
+        // #endregion
         payload.expiresAt = date.toISOString();
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Admin.tsx:458',message:'Client: after toISOString',data:{expiresAt:payload.expiresAt,expiresAtType:typeof payload.expiresAt},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H1'})}).catch(()=>{});
+        // #endregion
       } else {
         payload.expiresAt = null;
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Admin.tsx:461',message:'Client: expiresAt is null',data:{expiresAt:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H4'})}).catch(()=>{});
+        // #endregion
       }
 
       if (promoCodeForm.usageLimit) {
@@ -461,6 +479,9 @@ export default function Admin() {
         payload.usageLimit = null;
       }
 
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Admin.tsx:475',message:'Client: payload before fetch',data:{expiresAt:payload.expiresAt,expiresAtType:typeof payload.expiresAt,payloadKeys:Object.keys(payload)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H1'})}).catch(()=>{});
+      // #endregion
       // Use Bearer token authentication for promo code endpoints
       const token = promoCodeForm.developerToken.trim();
       const url = editingPromoCode 
@@ -1282,7 +1303,12 @@ export default function Admin() {
                   id="expires-at"
                   type="date"
                   value={promoCodeForm.expiresAt}
-                  onChange={(e) => setPromoCodeForm({ ...promoCodeForm, expiresAt: e.target.value })}
+                  onChange={(e) => {
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Admin.tsx:1285',message:'Client: date input onChange',data:{value:e.target.value,valueType:typeof e.target.value},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H1'})}).catch(()=>{});
+                    // #endregion
+                    setPromoCodeForm({ ...promoCodeForm, expiresAt: e.target.value });
+                  }}
                   className={`mt-1 ${language === 'ar' ? 'text-right' : 'text-left'}`}
                 />
               </div>
