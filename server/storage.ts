@@ -92,6 +92,7 @@ export interface IStorage {
   getPromoCodes(): Promise<PromoCode[]>;
   updatePromoCode(id: number, data: Partial<InsertPromoCode>): Promise<PromoCode | undefined>;
   deletePromoCode(id: number): Promise<boolean>;
+  deletePromoCodes(ids: number[]): Promise<number>;
   incrementPromoCodeUsage(code: string): Promise<boolean>;
   validatePromoCode(code: string, originalPrice: number): Promise<{ valid: boolean; discountAmount: number; finalPrice: number; error?: string }>;
 }
@@ -445,6 +446,14 @@ export class DatabaseStorage implements IStorage {
       .delete(promoCodes)
       .where(eq(promoCodes.id, id));
     return result.rowCount ? result.rowCount > 0 : false;
+  }
+
+  async deletePromoCodes(ids: number[]): Promise<number> {
+    if (ids.length === 0) return 0;
+    const result = await db
+      .delete(promoCodes)
+      .where(sql`${promoCodes.id} = ANY(ARRAY[${sql.join(ids.map(id => sql`${id}::int`), sql`, `)}])`);
+    return result.rowCount || 0;
   }
 
   async incrementPromoCodeUsage(code: string): Promise<boolean> {

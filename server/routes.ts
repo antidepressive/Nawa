@@ -1090,6 +1090,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Delete multiple promo codes (for admin use)
+  app.delete("/api/promo-codes", requireDeleteAuthQuery, async (req, res) => {
+    try {
+      const { ids } = req.body;
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: "Invalid IDs array" });
+      }
+
+      const deletedCount = await storage.deletePromoCodes(ids);
+      res.json({ 
+        success: true, 
+        message: `${deletedCount} promo code(s) deleted successfully`,
+        deletedCount 
+      });
+    } catch (error) {
+      console.error(`Error deleting promo codes: ${error}`);
+      res.status(500).json({ error: "Failed to delete promo codes" });
+    }
+  });
+
   app.delete("/api/promo-codes/:id", requireDeveloperAuth, async (req, res) => {
     try {
       const id = parseInt(req.params.id);

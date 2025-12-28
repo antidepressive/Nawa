@@ -440,7 +440,17 @@ export default function Admin() {
       };
 
       if (promoCodeForm.expiresAt) {
-        payload.expiresAt = new Date(promoCodeForm.expiresAt).toISOString();
+        const date = new Date(promoCodeForm.expiresAt);
+        if (isNaN(date.getTime())) {
+          toast({
+            title: language === 'ar' ? 'خطأ' : 'Error',
+            description: language === 'ar' ? 'تاريخ انتهاء غير صحيح' : 'Invalid expiration date',
+            variant: 'destructive',
+          });
+          setPromoCodeLoading(false);
+          return;
+        }
+        payload.expiresAt = date.toISOString();
       } else {
         payload.expiresAt = null;
       }
