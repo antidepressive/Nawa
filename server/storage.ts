@@ -401,11 +401,12 @@ export class DatabaseStorage implements IStorage {
     // #region agent log
     fetch('http://127.0.0.1:7242/ingest/b9183271-28f2-492d-be3d-6d4b5598cbd0',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.ts:401',message:'Storage: data received',data:{expiresAt:data.expiresAt,expiresAtType:typeof data.expiresAt,isString:typeof data.expiresAt==='string',isNull:data.expiresAt===null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H3'})}).catch(()=>{});
     // #endregion
-    // Normalize code to uppercase
+    // Normalize code to uppercase and convert expiresAt string to Date object
     const normalizedData = {
       ...data,
       code: data.code.toUpperCase().trim(),
       discountValue: typeof data.discountValue === 'number' ? data.discountValue.toString() : data.discountValue,
+      expiresAt: data.expiresAt ? (typeof data.expiresAt === 'string' ? new Date(data.expiresAt) : data.expiresAt) : null,
       updatedAt: new Date(),
     };
     // #region agent log
@@ -438,6 +439,10 @@ export class DatabaseStorage implements IStorage {
     }
     if (updateData.discountValue !== undefined && typeof updateData.discountValue === 'number') {
       updateData.discountValue = updateData.discountValue.toString();
+    }
+    // Convert expiresAt string to Date object if provided
+    if (updateData.expiresAt !== undefined) {
+      updateData.expiresAt = updateData.expiresAt ? (typeof updateData.expiresAt === 'string' ? new Date(updateData.expiresAt) : updateData.expiresAt) : null;
     }
     const [updatedPromoCode] = await db
       .update(promoCodes)
