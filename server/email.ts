@@ -732,7 +732,7 @@ export const createLeadershipWorkshopConfirmationEmail = (registration: Leadersh
             </div>
             
             <h3>Workshop Details:</h3>
-            <p><strong>Date:</strong> December 13th, 2025</p>
+            <p><strong>Date:</strong> January 3rd, 2025</p>
             <p><strong>Time:</strong> 2:00 PM – 8:00 PM</p>
             <p><strong>Location:</strong> J-Hub</p>
             
@@ -790,7 +790,7 @@ Registration Details:
 - Fee: 165 SAR
 
 Workshop Details:
-Date: December 13th, 2025
+Date: January 3rd, 2025
 Time: 2:00 PM – 8:00 PM
 Location: J-Hub
 
